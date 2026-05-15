@@ -167,7 +167,7 @@ Para renderizar solo los informes Quarto, suponiendo que las tablas y figuras ya
 El orquestador escribe un log por script en `outputs/logs/` y una tabla de tiempos en:
 
 ```text
-outputs/tables/pipeline_timings_v2.csv
+outputs/tables/pipeline_timings.csv
 ```
 
 Si una fase falla, el orquestador se detiene. Para continuar y revisar todos los fallos al final:
@@ -220,8 +220,8 @@ Los artefactos principales quedan en estas rutas:
 data/parquet/year=*/
 data/parquet/daily_consumption.parquet
 data/parquet/features/daily_with_climate.parquet
-data/parquet/features/user_features_v2.parquet
-data/parquet/features/user_clusters_v2.parquet
+data/parquet/features/user_features.parquet
+data/parquet/features/user_clusters.parquet
 outputs/tables/
 outputs/figures/
 outputs/models/

@@ -5,8 +5,8 @@
 # Lectura post-hoc socioeconomica de los clusters. CNAE descriptiva, p1_kw,
 # contexto provincial e indicador compuesto de pobreza energetica.
 # Outputs:
-#   outputs/tables/cluster_socioeconomic_v2.csv
-#   outputs/tables/cluster_poverty_proxy_v2.csv
+#   outputs/tables/cluster_socioeconomic.csv
+#   outputs/tables/cluster_poverty_proxy.csv
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -19,7 +19,7 @@ source(here::here("R", "_lib", "io.R"))
 log_section("PASO 06g: Lectura socioeconomica post-hoc")
 t0 <- proc.time(); set.seed(SEED)
 
-clusters <- read_parquet_safe(USER_CLUSTERS_V2_PARQUET, "clusters_v2")
+clusters <- read_parquet_safe(USER_CLUSTERS_PARQUET, "clusters")
 pool <- read_parquet_safe(path(FEATURES_DIR, "cluster_pool.parquet"), "pool")
 nh_path <- path(FEATURES_DIR, "cluster_no_habitual.parquet")
 if (file_exists(nh_path)) {
@@ -92,8 +92,8 @@ poverty_summary <- df_pe |>
   ) |>
   arrange(desc(pct_high_risk))
 
-write_csv_audit(contextual, "cluster_socioeconomic_v2.csv")
-write_csv_audit(poverty_summary, "cluster_poverty_proxy_v2.csv")
+write_csv_audit(contextual, "cluster_socioeconomic.csv")
+write_csv_audit(poverty_summary, "cluster_poverty_proxy.csv")
 # Persist user-level proxy for forecasting/business use.
 arrow::write_parquet(
   df_pe |> select(user_id, cluster, cluster_label, pe_proxy_score, pe_high_risk),

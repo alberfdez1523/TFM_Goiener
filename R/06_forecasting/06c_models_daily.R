@@ -2,7 +2,7 @@
 # ==============================================================================
 # R/06_forecasting/06c_models_daily.R
 #
-# Daily portfolio. Mejoras V2.1:
+# Daily portfolio. Ajustes del modelo final:
 #   - Target en log1p para estabilizar la varianza estacional.
 #   - Hiperparametros tuneados con early stopping sobre validacion.
 #   - LightGBM + XGBoost + RF + ARIMAX + ETS + baselines.
@@ -24,9 +24,9 @@ t0 <- proc.time(); set.seed(SEED)
 pd <- read_parquet_safe(path(FEATURES_DIR, "portfolio_daily_fe.parquet"),
                         "portfolio_daily_fe")
 
-train <- pd |> filter(date <= TRAIN_END_V2)
-val   <- pd |> filter(date >= VAL_START_V2 & date <= VAL_END_V2)
-test  <- pd |> filter(date >= TEST_START_V2 & date <= TEST_END_V2)
+train <- pd |> filter(date <= TRAIN_END)
+val   <- pd |> filter(date >= VAL_START & date <= VAL_END)
+test  <- pd |> filter(date >= TEST_START & date <= TEST_END)
 
 message(sprintf("  splits: train=%s, val=%s, test=%s",
                 fmt_int(nrow(train)), fmt_int(nrow(val)), fmt_int(nrow(test))))

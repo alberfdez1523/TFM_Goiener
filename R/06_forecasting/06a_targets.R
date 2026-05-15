@@ -2,7 +2,7 @@
 # ==============================================================================
 # R/06_forecasting/06a_targets.R
 #
-# Construye 3 series objetivo agregadas sobre el pool clusterizado V2:
+# Construye 3 series objetivo agregadas sobre el pool clusterizado:
 #   - portfolio_daily.parquet    (date, kWh_total, n_users)
 #   - portfolio_hourly.parquet   (datetime, kWh_total, n_users)
 #   - cluster_daily.parquet      (date, cluster, kWh_total)
@@ -22,11 +22,11 @@ t0 <- proc.time(); set.seed(SEED)
 
 stopifnot(
   "Falta cluster_pool.parquet" = file_exists(path(FEATURES_DIR, "cluster_pool.parquet")),
-  "Falta user_clusters_v2.parquet" = file_exists(USER_CLUSTERS_V2_PARQUET),
+  "Falta user_clusters.parquet" = file_exists(USER_CLUSTERS_PARQUET),
   "Falta daily_with_climate.parquet" = file_exists(DAILY_WITH_CLIMATE)
 )
 
-clusters <- read_parquet_safe(USER_CLUSTERS_V2_PARQUET, "clusters")
+clusters <- read_parquet_safe(USER_CLUSTERS_PARQUET, "clusters")
 pool_ids <- clusters$user_id
 
 con <- connect_duckdb()

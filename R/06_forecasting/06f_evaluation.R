@@ -5,7 +5,7 @@
 # Consolidacion: leaderboards unificados + slices de error + impacto.
 # Outputs:
 #   outputs/tables/forecast_master_leaderboard.csv
-#   outputs/tables/forecast_error_slices_v2.csv
+#   outputs/tables/forecast_error_slices.csv
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -65,7 +65,7 @@ if (!is.null(preds)) {
                   WAPE = 100 * sum(abs_err) / sum(actual), .groups = "drop")
     ) |> mutate(across(where(is.numeric), \(x) round(x, 3))) |>
       mutate(best_model = best_model)
-    write_csv_audit(slices, "forecast_error_slices_v2.csv")
+    write_csv_audit(slices, "forecast_error_slices.csv")
   }
 }
 

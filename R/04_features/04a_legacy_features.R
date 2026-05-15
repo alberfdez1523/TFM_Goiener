@@ -757,8 +757,8 @@ message(sprintf("  Features finales: %d usuarios x %d columnas",
                 nrow(user_features), ncol(user_features)))
 
 # Guardar
-arrow::write_parquet(user_features, USER_FEATURES_PARQUET)
-message(sprintf("  Guardado en: %s", USER_FEATURES_PARQUET))
+arrow::write_parquet(user_features, USER_FEATURES_BASE_PARQUET)
+message(sprintf("  Guardado en: %s", USER_FEATURES_BASE_PARQUET))
 
 # Exportar resumen para la memoria
 feature_dictionary <- build_feature_family_dictionary(names(user_features))

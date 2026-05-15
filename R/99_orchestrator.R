@@ -191,7 +191,7 @@ timings_df <- if (length(timings)) {
 
 write.csv(
   timings_df,
-  here::here("outputs", "tables", "pipeline_timings_v2.csv"),
+  here::here("outputs", "tables", "pipeline_timings.csv"),
   row.names = FALSE
 )
 

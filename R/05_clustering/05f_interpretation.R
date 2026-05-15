@@ -4,8 +4,8 @@
 #
 # Perfiles agregados (horario, escalar) + separadores naturales por cluster.
 # Outputs:
-#   outputs/tables/cluster_profiles_v2.csv
-#   outputs/tables/cluster_top_separators_v2.csv
+#   outputs/tables/cluster_profiles.csv
+#   outputs/tables/cluster_top_separators.csv
 #   outputs/figures/06_profiles_hourly.png
 #   outputs/figures/06_pca_scatter.png
 # ==============================================================================
@@ -22,7 +22,7 @@ source(here::here("R", "_lib", "plots.R"))
 log_section("PASO 06f: Interpretacion")
 t0 <- proc.time(); set.seed(SEED)
 
-clusters <- read_parquet_safe(USER_CLUSTERS_V2_PARQUET, "clusters_v2")
+clusters <- read_parquet_safe(USER_CLUSTERS_PARQUET, "clusters")
 pool <- read_parquet_safe(path(FEATURES_DIR, "cluster_pool.parquet"), "pool")
 nh_path <- path(FEATURES_DIR, "cluster_no_habitual.parquet")
 if (file_exists(nh_path)) {
@@ -59,7 +59,7 @@ profiles <- df |>
             .groups = "drop") |>
   mutate(pct = round(100 * n / sum(n), 2), .after = n)
 
-write_csv_audit(profiles, "cluster_profiles_v2.csv")
+write_csv_audit(profiles, "cluster_profiles.csv")
 print(head(profiles))
 
 # Top separators: standardized difference between cluster mean and global mean.
@@ -81,7 +81,7 @@ sep_list <- df |>
   ungroup() |>
   mutate(across(where(is.numeric), \(x) round(x, 3)))
 
-write_csv_audit(sep_list, "cluster_top_separators_v2.csv")
+write_csv_audit(sep_list, "cluster_top_separators.csv")
 
 # Figure: hourly profiles per cluster.
 hour_cols <- grep("^norm_h\\d{2}$", names(df), value = TRUE)

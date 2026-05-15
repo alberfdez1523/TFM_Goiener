@@ -128,8 +128,8 @@ ix_df <- ix_df |>
   mutate(
     passes_silhouette = !is.na(silhouette) & silhouette >= CLUSTER_MIN_SILHOUETTE,
     passes_jaccard    = !is.na(mean_jaccard) & mean_jaccard >= CLUSTER_MIN_JACCARD,
-    passes_min_pct    = !is.na(min_pct) & min_pct >= CLUSTER_MIN_PCT_V2,
-    passes_max_pct    = !is.na(max_pct) & max_pct <= CLUSTER_MAX_PCT_V2,
+    passes_min_pct    = !is.na(min_pct) & min_pct >= CLUSTER_MIN_PCT_SELECTED,
+    passes_max_pct    = !is.na(max_pct) & max_pct <= CLUSTER_MAX_PCT_SELECTED,
     passes_all = passes_silhouette & passes_jaccard & passes_min_pct & passes_max_pct,
     # Composite score final: combina calidad geometrica, estabilidad y balance.
     # Normalizado para que cada componente aporte ~1/3 del valor.

@@ -2,7 +2,7 @@
 # ==============================================================================
 # R/05_clustering/05a_pool.R
 #
-# Embudo residencial estricto + matriz de features para clustering V2.
+# Embudo residencial estricto + matriz de features para clustering.
 # Escribe data/parquet/features/cluster_pool.parquet y
 # outputs/tables/cluster_pool_audit.csv.
 # ==============================================================================
@@ -17,8 +17,8 @@ source(here::here("R", "_lib", "io.R"))
 log_section("PASO 05a: Pool residencial y matriz de features")
 t0 <- proc.time(); set.seed(SEED)
 
-features <- read_parquet_safe(USER_FEATURES_V2_PARQUET,
-                              "user_features_v2.parquet")
+features <- read_parquet_safe(USER_FEATURES_PARQUET,
+                              "user_features.parquet")
 
 is_true <- function(x) { y <- as.logical(x); y[is.na(y)] <- FALSE; y }
 
@@ -41,7 +41,7 @@ audit <- tibble::tibble(
            "Residencial 2.0TD", "Sin outlier sostenido",
            sprintf(">= %d dias activos", MIN_ACTIVE_DAYS),
            sprintf("Vivienda habitual (>= %.1f kWh/dia)", MIN_DAILY_KWH_CLUSTER),
-           "Pool clustering V2",
+           "Pool clustering",
            "Segmento no_habitual (separado)"),
   n_usuarios = c(
     nrow(features),

@@ -6,7 +6,7 @@
 # todos los umbrales, registra el motivo y elige la mejor por silhouette
 # entre las que cumplen Jaccard y tamano.
 # Escribe outputs/tables/cluster_selection_decision.csv y guarda etiquetas
-# en data/parquet/features/user_clusters_v2.parquet.
+# en data/parquet/features/user_clusters.parquet.
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -79,7 +79,7 @@ if (file_exists(nh_path)) {
   }
 }
 
-arrow::write_parquet(clusters_df, USER_CLUSTERS_V2_PARQUET)
+arrow::write_parquet(clusters_df, USER_CLUSTERS_PARQUET)
 message(sprintf("Etiquetas guardadas: %s (%s usuarios totales)",
-                USER_CLUSTERS_V2_PARQUET, fmt_int(nrow(clusters_df))))
+                USER_CLUSTERS_PARQUET, fmt_int(nrow(clusters_df))))
 message(sprintf("06e en %.1f s", (proc.time() - t0)[["elapsed"]]))

@@ -157,10 +157,10 @@ get_cached <- function(key, loader) {
 load_all <- function() {
   trim_forecast_tail(list(
     eda               = load_eda(),
-    cluster_profiles  = read_tbl("cluster_profiles_v2"),
-    cluster_socio     = read_tbl("cluster_socioeconomic_v2"),
-    cluster_business  = read_tbl("cluster_business_mapping_v2"),
-    cluster_top_sep   = read_tbl("cluster_top_separators_v2"),
+    cluster_profiles  = read_tbl("cluster_profiles"),
+    cluster_socio     = read_tbl("cluster_socioeconomic"),
+    cluster_business  = read_tbl("cluster_business_mapping"),
+    cluster_top_sep   = read_tbl("cluster_top_separators"),
     cluster_leader    = read_tbl("cluster_leaderboard"),
     fc_daily          = read_tbl("forecast_daily_predictions"),
     fc_daily_intv     = read_tbl("forecast_daily_intervals"),
@@ -171,13 +171,13 @@ load_all <- function() {
     fc_leader_daily   = read_tbl("forecast_leaderboard_daily"),
     fc_leader_hourly  = read_tbl("forecast_leaderboard_hourly"),
     fc_leader_cluster = read_tbl("forecast_leaderboard_cluster"),
-    fc_slices         = read_tbl("forecast_error_slices_v2"),
+    fc_slices         = read_tbl("forecast_error_slices"),
     fc_business       = read_tbl("forecast_hourly_business_impact"),
     feat_climate      = read_tbl("feature_climate_sensitivity_summary"),
     benchmark_results = read_tbl("benchmark_results"),
     benchmark_disk    = read_tbl("benchmark_disk_size"),
     benchmark_env     = read_tbl("benchmark_environment"),
-    user_clusters     = if (file_exists(USER_CLUSTERS_V2_PARQUET)) arrow::read_parquet(USER_CLUSTERS_V2_PARQUET) else NULL
+    user_clusters     = if (file_exists(USER_CLUSTERS_PARQUET)) arrow::read_parquet(USER_CLUSTERS_PARQUET) else NULL
   ))
 }
 
@@ -427,7 +427,7 @@ ui <- page_navbar(
             nav_panel(
               tagList(fa_i("table"), " Tabla completa"),
               br(),
-              card(card_header("Perfiles de cluster (cluster_profiles_v2)"),
+              card(card_header("Perfiles de cluster (cluster_profiles)"),
                    withSpinner(DTOutput("cluster_table"), color = "#00B894", type = 8))
             )
           )
@@ -860,7 +860,7 @@ server <- function(input, output, session) {
     df <- D$cluster_profiles; req(df)
     needed <- c("cluster_label", "morning_kWh_share", "afternoon_kWh_share",
                 "evening_kWh_share", "night_kWh_share")
-    validate(need(all(needed %in% names(df)), "Faltan shares horarios en cluster_profiles_v2."))
+    validate(need(all(needed %in% names(df)), "Faltan shares horarios en cluster_profiles."))
     shares <- df |>
       select(all_of(needed)) |>
       pivot_longer(-cluster_label, names_to = "franja", values_to = "share") |>
@@ -1417,7 +1417,7 @@ server <- function(input, output, session) {
           bullets = list(
             "Estabilidad alta (Jaccard medio ≈0,92): los segmentos resisten remuestreo, así que no son artefactos del split concreto.",
             "Las variables más discriminantes son ratio_night_day, peak_share, amplitud estacional y β_CDD/HDD: los clusters se defienden por patrón, no por etiqueta sociodemográfica.",
-            "Cada cluster tiene una acción operativa asociada (revisión de potencia, tarifa indexada valle, campaña de invierno, etc.) trazada en cluster_business_mapping_v2."
+            "Cada cluster tiene una acción operativa asociada (revisión de potencia, tarifa indexada valle, campaña de invierno, etc.) trazada en cluster_business_mapping."
           ),
           footer = "Implicación: la segmentación es la base de las recomendaciones de tarifa, eficiencia y forecasting por cluster."
         ),

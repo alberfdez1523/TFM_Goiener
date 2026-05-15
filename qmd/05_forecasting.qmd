@@ -228,7 +228,7 @@ if (!is.null(hp)) {
 ```{r cluster-lb}
 cb <- read_table("forecast_leaderboard_cluster.csv")
 if (!is.null(cb)) cb |> kable(digits = 3, caption = "Forecast diario por cluster")
-rec <- read_table("forecast_reconciliation_v2.csv")
+rec <- read_table("forecast_reconciliation.csv")
 if (!is.null(rec)) rec |> kable(digits = 3, caption = "Reconciliación bottom-up vs top-down")
 ```
 
@@ -289,7 +289,7 @@ if (!is.null(imp_d)) {
 # 10. Errores por estación y día de la semana
 
 ```{r slices}
-sl <- read_table("forecast_error_slices_v2.csv")
+sl <- read_table("forecast_error_slices.csv")
 if (!is.null(sl)) sl |> kable(digits = 3,
                                 caption = "WAPE por slice (estación × dow)")
 ```

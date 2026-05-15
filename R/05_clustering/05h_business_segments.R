@@ -4,7 +4,7 @@
 #
 # Mapping cluster -> finalidad de negocio Goiener + tabla resumen ejecutiva.
 # Outputs:
-#   outputs/tables/cluster_business_mapping_v2.csv
+#   outputs/tables/cluster_business_mapping.csv
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -17,9 +17,9 @@ source(here::here("R", "_lib", "io.R"))
 log_section("PASO 05h: Mapping a finalidades de negocio")
 t0 <- proc.time()
 
-profiles <- read.csv(path(TABLE_DIR, "cluster_profiles_v2.csv"))
-poverty  <- read.csv(path(TABLE_DIR, "cluster_poverty_proxy_v2.csv"))
-context  <- read.csv(path(TABLE_DIR, "cluster_socioeconomic_v2.csv"))
+profiles <- read.csv(path(TABLE_DIR, "cluster_profiles.csv"))
+poverty  <- read.csv(path(TABLE_DIR, "cluster_poverty_proxy.csv"))
+context  <- read.csv(path(TABLE_DIR, "cluster_socioeconomic.csv"))
 
 joined <- profiles |>
   left_join(poverty,  by = c("cluster_label", "n")) |>
@@ -178,7 +178,7 @@ mapping <- bind_cols(joined, classification) |>
          low_day_rate, zero_day_rate,
          median_p1_kw, pct_goiener_core, pct_coastal)
 
-write_csv_audit(mapping, "cluster_business_mapping_v2.csv")
+write_csv_audit(mapping, "cluster_business_mapping.csv")
 print(mapping)
 
 message(sprintf("05h en %.1f s", (proc.time() - t0)[["elapsed"]]))

@@ -8,7 +8,7 @@
 # Outputs:
 #   outputs/tables/forecast_leaderboard_cluster.csv
 #   outputs/tables/forecast_cluster_predictions.csv
-#   outputs/tables/forecast_reconciliation_v2.csv
+#   outputs/tables/forecast_reconciliation.csv
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -39,9 +39,9 @@ feature_cols <- intersect(c(
 
 for (cl in clusters) {
   sub <- cd |> filter(cluster == cl) |> arrange(date)
-  train <- sub |> filter(date <= TRAIN_END_V2)
-  val   <- sub |> filter(date >= VAL_START_V2 & date <= VAL_END_V2)
-  test  <- sub |> filter(date >= TEST_START_V2 & date <= TEST_END_V2)
+  train <- sub |> filter(date <= TRAIN_END)
+  val   <- sub |> filter(date >= VAL_START & date <= VAL_END)
+  test  <- sub |> filter(date >= TEST_START & date <= TEST_END)
   if (nrow(test) < 30) next
 
   trainv <- bind_rows(train, val) |>
@@ -116,7 +116,7 @@ recon_metrics <- data.frame(
                                                        recon$pred_td) else NULL)
 ) |> mutate(across(where(is.numeric), \(x) round(x, 3)))
 
-write_csv_audit(recon_metrics, "forecast_reconciliation_v2.csv")
+write_csv_audit(recon_metrics, "forecast_reconciliation.csv")
 print(recon_metrics)
 
 message(sprintf("07e en %.1f s", (proc.time() - t0)[["elapsed"]]))

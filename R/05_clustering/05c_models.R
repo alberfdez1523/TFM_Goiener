@@ -31,7 +31,7 @@ fit_kmeans <- function(M, k) {
 }
 
 message("[1/6] K-Means sobre PCA...")
-for (k in CLUSTER_K_RANGE_V2) {
+for (k in CLUSTER_K_RANGE_SEARCH) {
   results[[sprintf("kmeans_pca_k%d", k)]] <- list(
     algo = "kmeans_pca", k = k,
     labels = fit_kmeans(X_pca, k)
@@ -39,7 +39,7 @@ for (k in CLUSTER_K_RANGE_V2) {
 }
 
 message("[2/6] PAM/CLARA sobre PCA (Manhattan)...")
-for (k in CLUSTER_K_RANGE_V2) {
+for (k in CLUSTER_K_RANGE_SEARCH) {
   set.seed(SEED + 100 + k)
   fit <- if (nrow(X_pca) > 8000) {
     clara(X_pca, k = k, sampsize = min(4000, nrow(X_pca)),
@@ -58,7 +58,7 @@ set.seed(SEED + 200)
 samp_idx <- sample(seq_len(nrow(X_pca)), sample_n)
 d_samp <- dist(X_pca[samp_idx, , drop = FALSE])
 hc <- hclust(d_samp, method = "ward.D2")
-for (k in CLUSTER_K_RANGE_V2) {
+for (k in CLUSTER_K_RANGE_SEARCH) {
   cl_samp <- cutree(hc, k = k)
   # Assign rest by nearest centroid of sample clusters.
   centroids <- t(sapply(seq_len(k), function(c) {
@@ -78,7 +78,7 @@ for (k in CLUSTER_K_RANGE_V2) {
 
 message("[4/6] GMM (mclust) sobre PCA reducido...")
 if (requireNamespace("mclust", quietly = TRUE)) {
-  for (k in CLUSTER_K_RANGE_V2) {
+  for (k in CLUSTER_K_RANGE_SEARCH) {
     set.seed(SEED + 300 + k)
     fit <- tryCatch(
       mclust::Mclust(X_pca[samp_idx, , drop = FALSE], G = k,
@@ -119,7 +119,7 @@ if (requireNamespace("dbscan", quietly = TRUE)) {
 }
 
 message("[6/6] FPCA + K-Means sobre curva horaria...")
-for (k in CLUSTER_K_RANGE_V2) {
+for (k in CLUSTER_K_RANGE_SEARCH) {
   set.seed(SEED + 500 + k)
   results[[sprintf("fpca_kmeans_k%d", k)]] <- list(
     algo = "fpca_kmeans", k = k,

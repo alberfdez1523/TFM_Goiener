@@ -147,20 +147,20 @@ quality_files <- c(
   "feature_climate_sensitivity_summary.csv",
   "cluster_pool_audit.csv",
   "cluster_selection_decision.csv",
-  "cluster_profiles_v2.csv",
-  "cluster_socioeconomic_v2.csv",
-  "cluster_poverty_proxy_v2.csv",
-  "cluster_business_mapping_v2.csv",
-  "cluster_top_separators_v2.csv",
+  "cluster_profiles.csv",
+  "cluster_socioeconomic.csv",
+  "cluster_poverty_proxy.csv",
+  "cluster_business_mapping.csv",
+  "cluster_top_separators.csv",
   "forecast_master_leaderboard.csv",
   "forecast_leaderboard_daily.csv",
   "forecast_leaderboard_hourly.csv",
   "forecast_leaderboard_cluster.csv",
   "forecast_daily_interval_metrics.csv",
-  "forecast_reconciliation_v2.csv",
-  "forecast_error_slices_v2.csv",
+  "forecast_reconciliation.csv",
+  "forecast_error_slices.csv",
   "forecast_hourly_business_impact.csv",
-  "pipeline_timings_v2.csv",
+  "pipeline_timings.csv",
   "benchmark_results.csv",
   "benchmark_disk_size.csv",
   "benchmark_environment.csv"
@@ -203,7 +203,7 @@ Los clusters sirven para explicar patrones agregados: nocturno/valle, variable/i
 ```{r}
 #| label: tbl-cluster-ethics
 
-profiles_path <- path(TABLE_DIR, "cluster_profiles_v2.csv")
+profiles_path <- path(TABLE_DIR, "cluster_profiles.csv")
 selection_path <- path(TABLE_DIR, "cluster_selection_decision.csv")
 
 if (file_exists(profiles_path)) {
@@ -235,8 +235,8 @@ Un buen resultado de forecasting no se define solo por "que la curva se parezca"
 
 metrics_path <- path(TABLE_DIR, "forecast_master_leaderboard.csv")
 daily_interval_path <- path(TABLE_DIR, "forecast_daily_interval_metrics.csv")
-reconciliation_path <- path(TABLE_DIR, "forecast_reconciliation_v2.csv")
-slice_path <- path(TABLE_DIR, "forecast_error_slices_v2.csv")
+reconciliation_path <- path(TABLE_DIR, "forecast_reconciliation.csv")
+slice_path <- path(TABLE_DIR, "forecast_error_slices.csv")
 
 if (file_exists(metrics_path)) {
   metrics <- read.csv(metrics_path)
@@ -288,7 +288,7 @@ bench_files <- c(
   "benchmark_results.csv",
   "benchmark_disk_size.csv",
   "benchmark_environment.csv",
-  "pipeline_timings_v2.csv"
+  "pipeline_timings.csv"
 )
 
 bench_index <- tibble::tibble(
@@ -301,7 +301,7 @@ report_table(
   caption = "Evidencia de reproducibilidad: benchmark, entorno y tiempos del orquestador."
 )
 
-timings_path <- path(TABLE_DIR, "pipeline_timings_v2.csv")
+timings_path <- path(TABLE_DIR, "pipeline_timings.csv")
 if (file_exists(timings_path)) {
   timings <- read.csv(timings_path)
   timings_display <- if (all(c("type", "phase", "artifact") %in% names(timings))) {

@@ -19,6 +19,6 @@ PASO 05b: Sensibilidad climatica por usuario
     chunk 5 / 13
     chunk 10 / 13
 [3/3] Uniendo con user_features.parquet y guardando v2...
-  Escrito: C:/Users/alber/Desktop/TFM/data/parquet/features/user_features_v2.parquet (26.146 usuarios, 103 columnas)
+  Escrito: C:/Users/alber/Desktop/TFM/data/parquet/features/user_features.parquet (26.146 usuarios, 103 columnas)
 
 Paso 05b completado en 59.1 s.

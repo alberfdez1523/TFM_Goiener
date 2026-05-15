@@ -4,9 +4,9 @@
 #
 # Enriquece user_features.parquet con coeficientes de regresion por usuario
 # (beta_HDD, beta_CDD, R2) usando daily_with_climate.parquet. La salida es
-# user_features_v2.parquet, consumida por R/05_clustering/.
+# user_features.parquet, consumida por R/05_clustering/.
 #
-# Idempotente: si user_features_v2.parquet existe y es mas reciente que las
+# Idempotente: si user_features.parquet existe y es mas reciente que las
 # entradas, no hace nada salvo que se invoque con --force.
 # ==============================================================================
 
@@ -29,7 +29,7 @@ t0 <- proc.time()
 set.seed(SEED)
 
 stopifnot(
-  "Falta user_features.parquet" = file_exists(USER_FEATURES_PARQUET),
+  "Falta user_features_base.parquet" = file_exists(USER_FEATURES_BASE_PARQUET),
   "Falta daily_with_climate.parquet" = file_exists(DAILY_WITH_CLIMATE)
 )
 
@@ -70,7 +70,7 @@ message(sprintf("  Usuarios con regresion climatica valida: %s",
 
 # 2. Joint OLS via in-memory chunking only for users in scope.
 message("[2/3] Calculando regresion conjunta (kWh ~ HDD + CDD) por usuario...")
-features_legacy <- read_parquet_safe(USER_FEATURES_PARQUET, "user_features.parquet")
+features_legacy <- read_parquet_safe(USER_FEATURES_BASE_PARQUET, "user_features_base.parquet")
 ids_scope <- features_legacy$user_id
 
 # Limit to those in scope.
@@ -116,8 +116,8 @@ joint_df <- bind_rows(joint_list)
 
 betas_full <- betas |> left_join(joint_df, by = "user_id")
 
-# 3. Merge into user_features and write v2.
-message("[3/3] Uniendo con user_features.parquet y guardando v2...")
+# 3. Merge into user_features and write final table.
+message("[3/3] Uniendo con user_features_base.parquet y guardando user_features.parquet...")
 
 # Normalise per-kWh elasticities (relative to mean consumption).
 betas_full <- betas_full |>
@@ -130,13 +130,13 @@ betas_full <- betas_full |>
   select(user_id, n_obs_climate, beta_hdd, beta_cdd, r2_joint,
          beta_hdd_norm, beta_cdd_norm)
 
-features_v2 <- features_legacy |>
+features_final <- features_legacy |>
   left_join(betas_full, by = "user_id")
 
-arrow::write_parquet(features_v2, USER_FEATURES_V2_PARQUET)
+arrow::write_parquet(features_final, USER_FEATURES_PARQUET)
 message(sprintf("  Escrito: %s (%s usuarios, %d columnas)",
-                USER_FEATURES_V2_PARQUET,
-                fmt_int(nrow(features_v2)), ncol(features_v2)))
+                USER_FEATURES_PARQUET,
+                fmt_int(nrow(features_final)), ncol(features_final)))
 
 # Summary table for the qmd.
 summary_df <- data.frame(
@@ -144,12 +144,12 @@ summary_df <- data.frame(
                "beta_cdd_mediana", "r2_joint_mediana",
                "beta_hdd_p90", "beta_cdd_p90"),
   value = c(
-    sum(!is.na(features_v2$beta_hdd)),
-    median(features_v2$beta_hdd, na.rm = TRUE),
-    median(features_v2$beta_cdd, na.rm = TRUE),
-    median(features_v2$r2_joint, na.rm = TRUE),
-    quantile(features_v2$beta_hdd, 0.90, na.rm = TRUE),
-    quantile(features_v2$beta_cdd, 0.90, na.rm = TRUE)
+    sum(!is.na(features_final$beta_hdd)),
+    median(features_final$beta_hdd, na.rm = TRUE),
+    median(features_final$beta_cdd, na.rm = TRUE),
+    median(features_final$r2_joint, na.rm = TRUE),
+    quantile(features_final$beta_hdd, 0.90, na.rm = TRUE),
+    quantile(features_final$beta_cdd, 0.90, na.rm = TRUE)
   )
 )
 write_csv_audit(summary_df, "feature_climate_sensitivity_summary.csv")

@@ -131,7 +131,7 @@ if (!is.null(lb)) {
 # 5. Distribución y tamaño de los clusters
 
 ```{r tamanos, fig.height=3.8}
-prof <- read_table("cluster_profiles_v2.csv")
+prof <- read_table("cluster_profiles.csv")
 if (!is.null(prof)) {
   prof_plot <- prof |>
     mutate(cluster_label = factor(cluster_label,
@@ -153,8 +153,8 @@ if (!is.null(prof)) {
 # 6. Perfiles horarios — la firma de cada cluster
 
 ```{r perfiles-horarios, fig.height=5.5}
-feat <- arrow::read_parquet(USER_FEATURES_V2_PARQUET)
-clust <- arrow::read_parquet(USER_CLUSTERS_V2_PARQUET) |>
+feat <- arrow::read_parquet(USER_FEATURES_PARQUET)
+clust <- arrow::read_parquet(USER_CLUSTERS_PARQUET) |>
   select(user_id, cluster)
 df <- feat |> inner_join(clust, by = "user_id")
 
@@ -238,10 +238,10 @@ if (!is.null(prof)) {
 # 8. Lectura socio-económica
 
 ```{r socio}
-soc <- read_table("cluster_socioeconomic_v2.csv")
+soc <- read_table("cluster_socioeconomic.csv")
 if (!is.null(soc)) kable(soc, digits = 2,
                           caption = "Cobertura territorial y potencia contratada")
-pov <- read_table("cluster_poverty_proxy_v2.csv")
+pov <- read_table("cluster_poverty_proxy.csv")
 if (!is.null(pov)) kable(pov, digits = 2,
                           caption = "Proxy pobreza energética por cluster")
 ```
@@ -272,9 +272,9 @@ if (!is.null(pov) && "poverty_score" %in% names(pov)) {
 Esta tabla traduce los clusters a decisiones. La columna `finalidad` define para qué usar el segmento; `accion_recomendada` convierte esa finalidad en una actuación concreta; `evidencia_clave` deja claro qué dato sostiene la propuesta. El mapeo no pretende etiquetar hogares individuales. Sirve para que la cooperativa priorice campañas, auditorías y modelos agregados con una base cuantitativa.
 
 ```{r negocio}
-biz <- read_table("cluster_business_mapping_v2.csv")
+biz <- read_table("cluster_business_mapping.csv")
 if (!is.null(biz)) kable(biz, caption = "Acción operativa por cluster")
-sep <- read_table("cluster_top_separators_v2.csv")
+sep <- read_table("cluster_top_separators.csv")
 if (!is.null(sep)) {
   sep |> head(15) |> kable(digits = 3,
                              caption = "Variables que mejor separan los clusters (top 15)")

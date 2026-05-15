@@ -61,14 +61,13 @@ DAILY_CLIMATE_PARQUET    <- path(CLIMATE_DIR, "daily_climate.parquet")
 DAILY_CLIMATE_IMPUTED_PARQUET <- path(CLIMATE_DIR, "daily_climate_imputed.parquet")
 AEMET_CACHE_DIR          <- path(CLIMATE_DIR, "aemet_cache")
 DAILY_WITH_CLIMATE       <- path(FEATURES_DIR, "daily_with_climate.parquet")
+USER_FEATURES_BASE_PARQUET <- path(FEATURES_DIR, "user_features_base.parquet")
 USER_FEATURES_PARQUET    <- path(FEATURES_DIR, "user_features.parquet")
 USER_CLUSTERS_PARQUET    <- path(FEATURES_DIR, "user_clusters.parquet")
 CLIMATE_IMPUTATION_SUMMARY_CSV <- path(TABLE_DIR, "climate_imputation_summary.csv")
 CLIMATE_IMPUTATION_BY_DATE_CSV <- path(TABLE_DIR, "climate_imputation_by_province_date.csv")
 
-# Salidas V2 (nuevo pipeline modular)
-USER_FEATURES_V2_PARQUET <- path(FEATURES_DIR, "user_features_v2.parquet")
-USER_CLUSTERS_V2_PARQUET <- path(FEATURES_DIR, "user_clusters_v2.parquet")
+# Salidas del pipeline modular
 PORTFOLIO_HOURLY_PARQUET <- path(FEATURES_DIR, "portfolio_hourly.parquet")
 PORTFOLIO_DAILY_PARQUET  <- path(FEATURES_DIR, "portfolio_daily.parquet")
 CLUSTER_DAILY_PARQUET    <- path(FEATURES_DIR, "cluster_daily.parquet")
@@ -88,11 +87,14 @@ HDD_BASE <- 15.0
 CDD_BASE <- 22.0
 
 # Split temporal para forecasting
-TRAIN_END   <- as.Date("2021-12-31")
-VAL_START   <- as.Date("2022-01-01")
-VAL_END     <- as.Date("2022-12-31")
-TEST_START  <- as.Date("2023-01-01")
-TEST_END    <- as.Date("2023-12-31")
+# Datos disponibles 2015-12-31 -> 2024-01-31 (1 mes solo de 2024).
+# Splits ajustados para tener un test set de ~7 meses con estacionalidad
+# completa (verano 2023, invierno 2023/24, enero 2024).
+TRAIN_END   <- as.Date("2022-12-31")
+VAL_START   <- as.Date("2023-01-01")
+VAL_END     <- as.Date("2023-06-30")
+TEST_START  <- as.Date("2023-07-01")
+TEST_END    <- as.Date("2024-01-31")
 
 # Clustering
 MAX_K <- 10L  # Maximo numero de clusters a evaluar
@@ -113,31 +115,21 @@ CLUSTER_SCORE_WEIGHTS <- c(
 CLUSTER_ENABLE_HOME_DAY_OPTIONAL <- FALSE
 CLUSTER_CNAE_MIN_N <- 20L
 
-# === Clustering V2 (R/05_clustering/*) ===
+# === Clustering (R/05_clustering/*) ===
 # Criterios de seleccion basados en calidad real, no en balance forzado.
 CLUSTER_MIN_SILHOUETTE <- 0.15
 CLUSTER_MIN_JACCARD    <- 0.75
-CLUSTER_MIN_PCT_V2     <- 3.0
-CLUSTER_MAX_PCT_V2     <- 55.0
+CLUSTER_MIN_PCT_SELECTED <- 3.0
+CLUSTER_MAX_PCT_SELECTED <- 55.0
 CLUSTER_BOOTSTRAP_B    <- 30L
 CLUSTER_ALGORITHMS     <- c("kmeans", "pam", "ward", "gmm", "hdbscan",
                             "fpca_kmeans")
-CLUSTER_K_RANGE_V2     <- 2:7
+CLUSTER_K_RANGE_SEARCH <- 2:7
 CLUSTER_HDBSCAN_MINPTS <- c(50L, 100L, 200L)
 # Umbral para segmentar vivienda habitual vs no habitual (segunda residencia /
 # autoconsumo). Por debajo de este consumo medio diario los usuarios se
 # tratan como segmento descriptivo "no_habitual" en lugar de clusterizarse.
 MIN_DAILY_KWH_CLUSTER  <- 1.5
-
-# === Forecasting V2 (R/06_forecasting/*) ===
-# Datos disponibles 2015-12-31 -> 2024-01-31 (1 mes solo de 2024).
-# Splits ajustados para tener un test set de ~7 meses con estacionalidad
-# completa (verano 2023, invierno 2023/24, enero 2024).
-TEST_END_V2   <- as.Date("2024-01-31")
-TRAIN_END_V2  <- as.Date("2022-12-31")
-VAL_START_V2  <- as.Date("2023-01-01")
-VAL_END_V2    <- as.Date("2023-06-30")
-TEST_START_V2 <- as.Date("2023-07-01")
 
 # Precio medio OMIE EUR/MWh para metrica de impacto (configurable).
 OMIE_AVG_PRICE_EUR_MWH <- 95

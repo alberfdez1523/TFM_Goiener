@@ -22,5 +22,5 @@ Decision:
                                                                            rationale
 1 Cumple todos los umbrales; mejor composite_score (silhouette + Jaccard + balance).
   Anadidos 2.198 usuarios no_habitual (cluster=-1).
-Etiquetas guardadas: C:/Users/alber/Desktop/TFM/data/parquet/features/user_clusters_v2.parquet (23.494 usuarios totales)
+Etiquetas guardadas: C:/Users/alber/Desktop/TFM/data/parquet/features/user_clusters.parquet (23.494 usuarios totales)
 06e en 0.6 s

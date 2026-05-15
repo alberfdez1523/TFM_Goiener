@@ -26,11 +26,11 @@ ph <- read_parquet_safe(path(FEATURES_DIR, "portfolio_hourly_fe.parquet"),
                         "portfolio_hourly_fe")
 
 # Strict cutoffs by date.
-train <- ph |> filter(as.Date(datetime) <= TRAIN_END_V2)
-val   <- ph |> filter(as.Date(datetime) >= VAL_START_V2 &
-                       as.Date(datetime) <= VAL_END_V2)
-test  <- ph |> filter(as.Date(datetime) >= TEST_START_V2 &
-                       as.Date(datetime) <= TEST_END_V2)
+train <- ph |> filter(as.Date(datetime) <= TRAIN_END)
+val   <- ph |> filter(as.Date(datetime) >= VAL_START &
+                       as.Date(datetime) <= VAL_END)
+test  <- ph |> filter(as.Date(datetime) >= TEST_START &
+                       as.Date(datetime) <= TEST_END)
 
 message(sprintf("  splits horarios: train=%s val=%s test=%s",
                 fmt_int(nrow(train)), fmt_int(nrow(val)), fmt_int(nrow(test))))
