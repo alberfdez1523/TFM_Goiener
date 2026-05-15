@@ -1,0 +1,1277 @@
+"cod_provincia","provincia","indicativo","station_name","fecha","climate_row_imputed","climate_any_imputed","n_climate_values_imputed","variables_imputed","tmed","tmax","tmin","prec","hrMedia","sol","velmedia","hdd","cdd"
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-01-06,FALSE,TRUE,1,"prec",13,15,11,0.110238053673409,61,2.5,6.1,2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-02-05,FALSE,TRUE,1,"prec",8.4,10.8,6,2.08988881564965,61,7.2,7.8,6.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-02-12,FALSE,TRUE,1,"prec",4.9,10,-0.2,3.13304763002636,78,4.4,1.9,10.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-02-14,FALSE,TRUE,1,"prec",15.2,20.3,10.2,0,55,5.4,8.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-03-07,FALSE,TRUE,1,"prec",9.1,17.6,0.6,1.98754341554916,77,10,1.7,5.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-03-18,FALSE,TRUE,1,"prec",8.2,11.2,5.2,0,88,0,2.8,6.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-04-04,FALSE,TRUE,1,"prec",10.6,16,5.2,0.00560618418845837,69,7.3,3.9,4.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-04-22,FALSE,TRUE,1,"prec",10.8,16.5,5.2,12.6650799618687,85,5.9,0.8,4.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-05-03,FALSE,TRUE,1,"prec",10.2,15,5.4,0.0737159458513837,81,5.8,3.6,4.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-06-04,FALSE,TRUE,1,"prec",10.4,13.3,7.6,0,78,0,3.9,4.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-06-15,FALSE,TRUE,1,"prec",17.3,22.8,11.8,0,62,12.1,6.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-06-24,FALSE,TRUE,1,"prec",18.6,22.8,14.4,3.84583112077737,78,1.3,2.8,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-07-02,FALSE,TRUE,1,"prec",16.4,20.1,12.6,5.23887733609056,82,1.3,4.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-08-08,FALSE,TRUE,1,"prec",23,30.5,15.4,0,68,8.5,5,0,1
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-08-11,FALSE,TRUE,1,"prec",18.6,21.6,15.5,1.42619022766851,81,2.1,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-08-26,FALSE,TRUE,1,"prec",21.6,32.1,11,0,66,7.6,4.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-08-29,FALSE,TRUE,1,"prec",18.3,23.2,13.4,0.0194308161844206,75,3.7,5.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-09-13,FALSE,TRUE,1,"prec",18.8,28.9,8.7,2.13817876088351,63,7.1,1.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-10-04,FALSE,TRUE,1,"prec",15,22.5,7.4,0,82,5.2,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-10-10,FALSE,TRUE,1,"prec",15.7,20.8,10.6,1.88146061013552,79,3.8,1.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-10-14,FALSE,TRUE,1,"prec",13.6,19.9,7.4,2.74906463703204,81,8.8,1.4,1.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-11-01,FALSE,TRUE,1,"prec",14.2,19.6,8.8,3.88657483369034,81,3.6,2.2,0.800000000000001,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-11-21,FALSE,TRUE,1,"prec",10.8,16.5,5,3.27921765508054,83,8.1,1.9,4.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-11-22,FALSE,TRUE,1,"prec",12.9,17.5,8.3,0,77,3.5,1.9,2.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2014-11-27,FALSE,TRUE,1,"prec",9.4,14.3,4.6,0.830027813964612,80,5,5,5.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-02-08,FALSE,TRUE,1,"prec",0.7,2.6,-1.2,0.0535479310213353,87,4.1,6.4,14.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-03-12,FALSE,TRUE,1,"prec",12,18.8,5.2,4.09832355362547,81,6.2,2.5,3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-04-03,FALSE,TRUE,1,"prec",9.9,18,1.8,1.39985947513003,73,9.6,4.4,5.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-04-04,FALSE,TRUE,1,"prec",8.8,11.2,6.5,0,81,0.6,2.8,6.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-05-02,FALSE,TRUE,1,"prec",17.5,23,12,1.66620063626735,72,0,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-05-04,FALSE,TRUE,1,"prec",20.1,26.8,13.4,0.0786714453708922,49,6,6.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-05-16,FALSE,TRUE,1,"prec",12.5,16.4,8.6,0.611688461895965,76,2.8,5,2.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-06-19,FALSE,TRUE,1,"prec",14.4,20.5,8.4,0,87,2.9,4.4,0.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-07-17,FALSE,TRUE,1,"prec",24,33.3,14.6,2.50887513238315,62,7.4,2.2,0,2
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-07-22,FALSE,TRUE,1,"prec",19.8,22.7,17,0.116722629096862,82,0.1,2.8,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-07-31,FALSE,TRUE,1,"prec",16.8,20.6,13,2.89913051516534,88,3.7,5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-08-07,FALSE,TRUE,1,"prec",18.7,22.2,15.2,0,79,0.2,5.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-08-08,FALSE,TRUE,1,"prec",15.4,18.7,12,0,78,1.1,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-08-12,FALSE,TRUE,1,"prec",24.4,32.7,16.2,0.91259549726663,59,6.7,1.7,0,2.4
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-08-23,FALSE,TRUE,1,"prec",19.5,24.8,14.2,7.04945748803196,55,9.4,6.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-09-13,FALSE,TRUE,1,"prec",17.4,20.3,14.4,0,57,1.2,6.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-10-03,FALSE,TRUE,1,"prec",11.4,18.6,4.1,2.65483473241816,74,9.4,1.7,3.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-10-11,FALSE,TRUE,1,"prec",15.5,19.5,11.5,1.87372567707015,82,0.3,1.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-10-21,FALSE,TRUE,1,"prec",10.7,13.2,8.2,0.149212284435028,79,4.3,3.9,4.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-10-28,FALSE,TRUE,1,"prec",13.6,16.5,10.6,0.877487847658216,66,5.2,5,1.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-10-29,FALSE,TRUE,1,"prec",15.8,19,12.6,0.420706650373286,75,4,5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-11-04,FALSE,TRUE,1,"prec",12.5,15.7,9.3,0,86,3,2.8,2.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-11-05,FALSE,TRUE,1,"prec",13.5,16.8,10.2,0,78,1,4.2,1.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-11-11,FALSE,TRUE,1,"prec",11.2,17.2,5.2,0.0695119352848678,85,4.8,0.8,3.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-11-12,FALSE,TRUE,1,"prec",9.4,11.9,7,0.0658006913511786,92,4.5,3.9,5.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-11-13,FALSE,TRUE,1,"prec",9.3,13.8,4.8,0.0660024745268092,94,0.1,0.6,5.7,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-11-30,FALSE,TRUE,1,"prec",5.4,12.2,-1.3,0.553886252216975,91,4.3,0.3,9.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-12-15,FALSE,TRUE,1,"prec",9.4,13.5,5.4,0,73,0.7,4.2,5.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2015-12-20,FALSE,TRUE,1,"prec",8.7,14.2,3.2,0.0195835690601968,78,3,2.5,6.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-01-25,FALSE,TRUE,1,"prec",9,11,7,0.0976958197872222,93,3,5.6,6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-01-26,FALSE,TRUE,1,"prec",7.9,10,5.8,0.127946258116326,90,2.5,2.5,7.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-01-29,FALSE,TRUE,1,"prec",4.9,9.3,0.5,4.0689208784226,83,0.2,1.7,10.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-01-31,FALSE,TRUE,1,"prec",9.8,12.8,6.7,3.6428497224992,85,0.4,2.2,5.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-03-11,FALSE,TRUE,1,"prec",5.2,7.9,2.5,14.1466546500812,78,2.8,3.9,9.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-03-24,FALSE,TRUE,1,"prec",7.6,14.4,0.8,0.12728143248446,72,8.5,2.5,7.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-05-11,FALSE,TRUE,1,"prec",12.9,18.8,7,2.90642387135007,63,10.5,5,2.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-05-14,FALSE,TRUE,1,"prec",13.8,17.1,10.5,0.222742352243389,83,0.7,3.9,1.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-06-10,FALSE,TRUE,1,"prec",15.1,19.2,11,0,86,0.1,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-06-23,FALSE,TRUE,1,"prec",24.3,32.8,15.8,0,55,8.7,1.9,0,2.3
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-07-02,FALSE,TRUE,1,"prec",15.8,20.7,10.9,0.00693239427582371,85,1,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-07-05,FALSE,TRUE,1,"prec",19.7,22.8,16.6,1.748690055681,82,0.8,4.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-07-12,FALSE,TRUE,1,"prec",17.1,20.2,14,0.0111850134522575,75,2,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-08-17,FALSE,TRUE,1,"prec",24.2,30,18.4,0.0140394464725027,71,5,2.8,0,2.2
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-08-26,FALSE,TRUE,1,"prec",23.6,33,14.3,0,57,8.6,2.8,0,1.6
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-08-28,FALSE,TRUE,1,"prec",20.3,23.4,17.2,0.0222877238664499,77,0.5,5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-09-07,FALSE,TRUE,1,"prec",24.4,36.6,12.2,0.0243100066718251,61,10.9,3.1,0,2.4
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-10-01,FALSE,TRUE,1,"prec",15,17.4,12.6,1.13209037374018,90,0.2,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-10-16,FALSE,TRUE,1,"prec",13.3,17.6,9,3.22355720928614,76,0,1.7,1.7,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-10-18,FALSE,TRUE,1,"prec",12.9,18.6,7.2,3.23850090698118,83,6.4,1.7,2.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-11-11,FALSE,TRUE,1,"prec",8.4,12.2,4.5,0.748834617239964,83,0,1.7,6.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-11-14,FALSE,TRUE,1,"prec",9.1,11.6,6.6,0.557003331667523,77,4,5,5.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-11-17,FALSE,TRUE,1,"prec",9.2,15.5,3,4.02476640229535,94,3.5,0,5.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-12-07,FALSE,TRUE,1,"prec",6.6,9.9,3.2,0.21332669565311,95,1.6,2.8,8.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2016-12-25,FALSE,TRUE,1,"prec",6.6,9.2,4.1,2.68235948642212,98,0,0,8.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-01-18,FALSE,TRUE,1,"prec",-1.8,-0.5,-3,0.0554694250022917,88,0,3.3,16.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-01-22,FALSE,TRUE,1,"prec",2,8.5,-4.6,0,81,4.2,2.8,13,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-02-22,FALSE,TRUE,1,"prec",10,17.1,2.9,0.0483561312784614,84,5.5,1.7,5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-02-23,FALSE,TRUE,1,"prec",9.7,17.8,1.6,0.0319150833018746,80,5.6,1.4,5.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-02-24,FALSE,TRUE,1,"prec",6.2,10.5,2,0.0151548083174478,79,3.2,5,8.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-03-11,FALSE,TRUE,1,"prec",13.8,24.2,3.4,3.99151208368639,66,6.6,3.9,1.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-04-29,FALSE,TRUE,1,"prec",8.4,18.8,-2,2.5556859846626,58,8.7,3.1,6.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-06-15,FALSE,TRUE,1,"prec",18.4,21.4,15.5,0.00119947689634231,82,0.3,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-06-23,FALSE,TRUE,1,"prec",19.3,22,16.6,0,83,0.3,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-07-06,FALSE,TRUE,1,"prec",23,30.9,15,0.0431495688886336,57,3.4,3.1,0,1
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-07-08,FALSE,TRUE,1,"prec",19.8,24.1,15.6,10.0880657437125,81,4.6,5.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-07-25,FALSE,TRUE,1,"prec",15.8,20.6,11,0.116924576450256,74,0.6,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-07-28,FALSE,TRUE,1,"prec",23,28.9,17,0.0160801541226206,64,9,3.3,0,1
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-08-05,FALSE,TRUE,1,"prec",18.6,21.5,15.6,0.019683943285953,81,0,5.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-09-04,FALSE,TRUE,1,"prec",18.4,24.1,12.7,0.462763305882286,79,8,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-09-12,FALSE,TRUE,1,"prec",16.2,22,10.4,0.0386191410253929,73,5.7,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-09-14,FALSE,TRUE,1,"prec",11.6,16.4,6.7,0.706855085609168,75,0.7,3.6,3.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-10-06,FALSE,TRUE,1,"prec",11.5,18,5,0.0133038814906041,83,3.1,1.4,3.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-10-17,FALSE,TRUE,1,"prec",17.6,24,11.2,9.09786807620446,62,5.7,1.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-10-27,FALSE,TRUE,1,"prec",11.1,18.2,4,0.0224114785972571,84,5.3,2.5,3.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-11-03,FALSE,TRUE,1,"prec",13.2,19.7,6.8,0,75,4.8,2.8,1.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-11-17,FALSE,TRUE,1,"prec",7.2,16.2,-1.8,4.04927232818366,80,7.2,2.2,7.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-11-18,FALSE,TRUE,1,"prec",6.6,13.1,0.2,0.0351438798594665,88,3.8,1.4,8.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-11-23,FALSE,TRUE,1,"prec",14.8,19,10.5,4.14367786208896,53,5.8,2.8,0.199999999999999,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2017-12-06,FALSE,TRUE,1,"prec",1.4,5.7,-3,0.291157947607409,93,4.8,0.6,13.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-03-10,FALSE,TRUE,1,"prec",12.4,15.4,9.5,0.837731837239418,64,0.6,5.3,2.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-03-11,FALSE,TRUE,1,"prec",11,13.5,8.4,3.35523543591132,51,4,10.8,4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-04-16,FALSE,TRUE,1,"prec",9.6,14.5,4.8,5.90003886094631,73,2.4,1.7,5.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-05-27,FALSE,TRUE,1,"prec",14.8,21,8.5,1.96097084493534,88,5.3,4.4,0.199999999999999,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-06-13,FALSE,TRUE,1,"prec",13.2,17,9.4,0.400651412201403,79,2.5,4.4,1.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-06-15,FALSE,TRUE,1,"prec",14,20.9,7,0.00112980308358152,87,3.3,2.8,1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-06-20,FALSE,TRUE,1,"prec",23.4,31.4,15.5,0,77,9.4,2.5,0,1.4
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-06-29,FALSE,TRUE,1,"prec",22.6,29.9,15.4,4.02852340343908,69,8.1,1.4,0,0.600000000000001
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-07-20,FALSE,TRUE,1,"prec",18.7,23.2,14.2,0.0414543658744219,79,1.6,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-08-01,FALSE,TRUE,1,"prec",22,26,18,0.0180897660606262,77,4.3,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-08-06,FALSE,TRUE,1,"prec",24.4,35.8,13,0,51,9.5,2.2,0,2.4
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-08-16,FALSE,TRUE,1,"prec",19.4,23.9,14.8,0.0430225767514376,84,1,4.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-09-04,FALSE,TRUE,1,"prec",18.1,24.2,12,0.664780801185473,72,6.9,4.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-09-24,FALSE,TRUE,1,"prec",13.2,19.6,6.9,0.0379332256591586,70,6.5,5.8,1.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-10-08,FALSE,TRUE,1,"prec",13.7,16.7,10.7,2.73214067404566,89,2.5,3.9,1.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-10-09,FALSE,TRUE,1,"prec",14.1,19.4,8.8,1.78302958812297,74,6.5,2.8,0.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-11-17,FALSE,TRUE,1,"prec",10.2,16.5,3.8,4.33863437421249,87,7,1.9,4.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-11-30,FALSE,TRUE,1,"prec",7.3,12.5,2.1,4.72018261893705,85,4.3,3.1,7.7,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-12-07,FALSE,TRUE,1,"prec",6.7,14.2,-0.8,0.0202562845448967,84,5.8,2.2,8.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2018-12-18,FALSE,TRUE,1,"prec",5.9,9.8,2,0,86,0.6,3.9,9.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-01-07,FALSE,TRUE,1,"prec",2.5,4.5,0.5,0.0548737267003574,82,0,4.7,12.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-01-13,FALSE,TRUE,1,"prec",6.5,9,4,0.514875371908352,90,0,3.6,8.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-01-14,FALSE,TRUE,1,"prec",8.1,10.2,6,0.245772931176959,89,0.1,1.4,6.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-02-12,FALSE,TRUE,1,"prec",5.7,12.1,-0.7,0,83,5.4,1.1,9.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-03-10,FALSE,TRUE,1,"prec",9.4,16.3,2.4,0,85,1.7,3.3,5.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-03-16,FALSE,TRUE,1,"prec",12,23.6,0.5,0.758001642685866,55,7.5,1.9,3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-05-24,FALSE,TRUE,1,"prec",12.4,14.7,10.2,2.68244514637835,83,1.8,4.7,2.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-05-26,FALSE,TRUE,1,"prec",12,14.5,9.5,0.621130703531756,87,0,1.7,3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-06-09,FALSE,TRUE,1,"prec",15.3,21.2,9.4,1.20571006412391,77,6.3,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-07-04,FALSE,TRUE,1,"prec",24.6,33.6,15.6,2.30051352598002,60,10,3.9,0,2.6
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-08-11,FALSE,TRUE,1,"prec",18.4,22.5,14.4,3.66462426022592,84,4.7,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-08-19,FALSE,TRUE,1,"prec",16.8,19.2,14.4,0.0225676082648081,80,0.9,5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-09-14,FALSE,TRUE,1,"prec",20.6,27.5,13.7,6.96936847891059,66,8.5,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-10-01,FALSE,TRUE,1,"prec",16.9,23.6,10.2,0.0916645865520343,82,6.6,1.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-10-07,FALSE,TRUE,1,"velmedia",15.4,23.9,6.8,0,67,9.6,3.52420776395662,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-10-15,FALSE,TRUE,1,"prec",11.6,17,6.3,1.4096864708192,66,8.8,5,3.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-10-29,FALSE,TRUE,1,"prec",16,22.7,9.4,0.25703399181895,79,5.8,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-11-20,FALSE,TRUE,1,"prec",5.5,10.5,0.5,4.35711998668341,80,4.4,3.6,9.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-12-03,FALSE,TRUE,1,"prec",2.5,6.2,-1.2,0.705589495802763,87,0.8,2.5,12.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2019-12-17,FALSE,TRUE,1,"prec",7,10.8,3.2,0.0401185603869727,90,0.1,1.9,8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-01-01,FALSE,TRUE,1,"prec",0.7,2.8,-1.4,0.0829406701928271,100,0,0.6,14.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-01-04,FALSE,TRUE,1,"prec",5.4,9.9,0.8,0.117289292360442,90,2.1,2.5,9.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-01-27,FALSE,TRUE,1,"prec",8.2,11.4,5.1,0.185316050247683,81,0.2,7.2,6.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-01-30,FALSE,TRUE,1,"prec",12.6,14.7,10.6,6.41663967409854,73,4.8,8.1,2.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-02-04,FALSE,TRUE,1,"prec",8.2,12.5,3.8,1.10206468964882,89,1.6,3.3,6.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-02-09,FALSE,TRUE,1,"prec",8.4,12.6,4.2,1.70629754387788,87,2.4,5.6,6.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-02-27,FALSE,TRUE,1,"prec",9.5,15,4,4.08797043662844,74,3.6,3.9,5.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-02-29,FALSE,TRUE,1,"prec",11,16,6,5.56410937951121,71,1.6,6.7,4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-03-12,FALSE,TRUE,1,"prec",10.8,13.5,8.1,0,91,0,3.1,4.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-04-10,FALSE,TRUE,1,"prec",13.9,18,9.8,1.26292611370362,75,0.1,2.2,1.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-04-15,FALSE,TRUE,1,"prec",14,18,10.1,5.7503629622183,76,7.3,5.8,1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-04-25,FALSE,TRUE,1,"prec",16.1,22.5,9.7,11.495205323833,78,5.6,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-05-02,FALSE,TRUE,1,"prec",16.4,23.3,9.5,1.01440811986465,74,8.7,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-05-07,FALSE,TRUE,1,"prec",17.3,26.1,8.5,14.5854067525299,64,7.3,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-05-13,FALSE,TRUE,1,"prec",13.4,17.5,9.4,3.37700267876076,83,3.1,2.8,1.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-05-15,FALSE,TRUE,1,"prec",12,15.1,8.9,0.0377870525661152,85,0,3.9,3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-06-13,FALSE,TRUE,1,"prec",15.2,20.8,9.5,1.64984598923034,68,6.8,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-07-01,FALSE,TRUE,1,"prec",18.7,24.4,13,0.000667054418150625,77,3.9,4.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-08-02,FALSE,TRUE,1,"prec",17.2,20.5,13.9,0,76,0.8,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-08-04,FALSE,TRUE,1,"prec",17.7,24.8,10.6,0.0156604726759404,67,8.1,4.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-08-28,FALSE,TRUE,1,"prec",16.8,19.2,14.4,2.38588832672951,74,0,4.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-08-30,FALSE,TRUE,1,"prec",12.6,16.7,8.5,2.29530415732256,75,3.5,2.2,2.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-09-05,FALSE,TRUE,1,"prec",18.2,22,14.5,0,79,0.2,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-09-06,FALSE,TRUE,1,"prec",16.7,19.9,13.5,0,73,3.2,5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-09-07,FALSE,TRUE,1,"prec",15.5,20.5,10.5,0,61,8.3,5.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-11-16,FALSE,TRUE,1,"prec",9.2,15,3.4,6.40408640363619,89,2.9,1.7,5.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-11-19,FALSE,TRUE,1,"prec",8.8,13,4.5,4.31039286364735,93,0,2.5,6.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-12-04,FALSE,TRUE,1,"prec",4.1,8,0.2,8.39688330487076,79,4.1,4.4,10.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-12-19,FALSE,TRUE,1,"prec",6.2,8.7,3.8,0.650057489338996,91,1,4.2,8.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2020-12-22,FALSE,TRUE,1,"prec",10.8,14.1,7.5,1.69222328396276,87,5.5,5.3,4.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-05,FALSE,TRUE,1,"prec",0.8,2.1,-0.5,3.48133501753554,95,0,1.7,14.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-10,FALSE,TRUE,1,"prec",0.9,3,-1.2,1.83249686712598,83,0,4.2,14.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-15,FALSE,TRUE,1,"prec",7,9.6,4.5,1.93597111987698,86,4.3,3.1,8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-16,FALSE,TRUE,1,"prec",6.7,13.1,0.3,2.44686631116943,81,6.4,2.2,8.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-18,FALSE,TRUE,1,"prec",6,11.1,1,1.5206601118465,94,3.2,0.3,9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-20,FALSE,TRUE,1,"prec",7.6,13.2,2,2.01176031410527,71,1.2,5,7.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-01-29,FALSE,TRUE,1,"prec",13.6,17.6,9.5,5.07764860643774,75,5.5,3.9,1.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-02-26,FALSE,TRUE,1,"prec",9.6,14,5.1,3.23704874059955,84,1.6,3.3,5.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-03-08,FALSE,TRUE,1,"prec",6.8,10.7,3,1.59030208537186,74,0.1,2.8,8.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-03-12,FALSE,TRUE,1,"prec",7,12.9,1.1,1.96398427257833,71,8.7,3.9,8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-04-06,FALSE,TRUE,1,"prec",6.6,9.5,3.7,0.0251746668345965,75,0,4.7,8.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-05-03,FALSE,TRUE,1,"prec",9.4,16.7,2,0.162014226212747,80,6,1.4,5.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-05-18,FALSE,TRUE,1,"prec",13.5,22.5,4.5,0.0371138414173889,73,6.4,3.6,1.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-06-20,FALSE,TRUE,1,"prec",17.8,23,12.6,6.04987001230678,60,7.6,6.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-07-02,FALSE,TRUE,1,"prec",23.7,32,15.4,0,45,11,3.3,0,1.7
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-07-03,FALSE,TRUE,1,"prec",21.1,27.1,15.1,0,69,6,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-07-06,FALSE,TRUE,1,"prec",16.4,19.5,13.4,0.153288773070867,82,1.1,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-07-07,FALSE,TRUE,1,"prec",15.3,19.1,11.5,0.0597168206819899,70,4.2,2.8,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-07-14,FALSE,TRUE,1,"prec",15.2,18.6,11.9,0.0828864606551482,74,1,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-07-25,FALSE,TRUE,1,"prec",18.8,23.5,14.1,0.106216681127779,76,4.3,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-08-22,FALSE,TRUE,1,"prec",18,25.1,10.8,0,77,4.5,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-09-16,FALSE,TRUE,1,"prec",15,20.2,9.7,8.32276384229159,80,1.6,4.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-09-19,FALSE,TRUE,1,"prec",14.2,20.5,7.8,1.89275873269331,75,7,2.5,0.800000000000001,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-09-22,FALSE,TRUE,1,"prec",15.7,21.7,9.7,0.395725279035852,75,5.7,2.5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-10-06,FALSE,TRUE,1,"prec",11.6,17.7,5.6,0.395687564579886,79,6.4,2.5,3.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-10-07,FALSE,TRUE,1,"prec",12.4,21,3.8,0.18577295316563,67,7.8,2.8,2.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-10-26,FALSE,TRUE,1,"prec",11.4,18.7,4,0.0310750930313253,76,5.9,2.5,3.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-11-07,FALSE,TRUE,1,"prec",7.5,10.4,4.6,3.36738956493088,89,0.8,1.9,7.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-12-16,FALSE,TRUE,1,"prec",3.2,6.7,-0.2,0.157198645019054,96,4.5,3.3,11.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-12-23,FALSE,TRUE,1,"prec",5.8,7.9,3.6,0.000430505122112013,96,0.9,3.9,9.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2021-12-24,FALSE,TRUE,1,"prec",7.9,10.8,5,2.66208308412179,93,0.4,2.5,7.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-02-02,FALSE,TRUE,1,"prec",5.6,12,-0.9,0,92,4,0.6,9.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-02-03,FALSE,TRUE,1,"prec",5.7,12.9,-1.5,1.32197144220855,81,3.6,1.7,9.3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-02-24,FALSE,TRUE,1,"prec",5.1,10.8,-0.6,0,82,2.4,3.3,9.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-02-27,FALSE,TRUE,1,"prec",8.6,14,3.1,0,78,5.2,1.7,6.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-03-06,FALSE,TRUE,1,"prec",3.9,7.8,0,0,84,0.2,2.5,11.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-04-21,FALSE,TRUE,1,"prec",6.9,10.8,3,4.48831774924698,83,0.1,2.8,8.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-04-24,FALSE,TRUE,1,"prec",10,14.5,5.5,7.81810233447917,78,3.8,2.8,5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-04-28,FALSE,TRUE,1,"prec",10.6,14.1,7.2,5.56524444731031,88,0,3.3,4.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-05-01,FALSE,TRUE,1,"prec",11.4,20,2.7,0,69,11,4.2,3.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-05-02,FALSE,TRUE,1,"prec",11.4,14.2,8.7,0.00593993542971338,75,0.3,5.8,3.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-05-26,FALSE,TRUE,1,"prec",13.2,17.4,9,0.609397147753355,89,2.8,3.9,1.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-06-03,FALSE,TRUE,1,"prec",21,27,15,1.38707896645884,73,9.2,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-06-16,FALSE,TRUE,1,"prec",26,36.5,15.5,0,53,9.4,3.1,0,4
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-06-26,FALSE,TRUE,1,"prec",13.2,15.9,10.5,0.800742621210009,81,0.8,4.7,1.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-06-29,FALSE,TRUE,1,"prec",14.2,22.4,6,0.0281920785512228,70,7.3,3.6,0.800000000000001,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-07-19,FALSE,TRUE,1,"prec",25,34.4,15.5,0.0174878296348632,54,11.8,4.2,0,3
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-07-26,FALSE,TRUE,1,"prec",18,21.6,14.3,0,70,2,4.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-02,FALSE,TRUE,1,"prec",24.9,36.4,13.4,0,53,10.3,3.1,0,2.9
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-03,FALSE,TRUE,1,"prec",26.4,34,18.7,0.00211961123018906,64,4.7,3.1,0,4.4
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-11,FALSE,TRUE,1,"prec",27.6,36.5,18.8,0.202859852440837,60,7.5,1.9,0,5.6
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-22,FALSE,TRUE,1,"prec",19.8,23.5,16.2,0.499006409773712,76,1.8,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-23,FALSE,TRUE,1,"prec",24.2,31.5,16.9,0.99963421370297,66,9.7,3.1,0,2.2
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-25,FALSE,TRUE,1,"prec",21.7,26,17.4,0.749808403398597,81,2.5,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-08-29,FALSE,TRUE,1,"prec",22.6,29.6,15.7,0.200572719522983,58,4.5,3.6,0,0.600000000000001
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-09-12,FALSE,TRUE,1,"prec",26.8,33.5,20.2,0.312854793323147,51,4.6,5.3,0,4.8
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-10-07,FALSE,TRUE,1,"prec",17.2,25.9,8.4,0,77,8.4,1.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-10-09,FALSE,TRUE,1,"prec",17,26.8,7.1,0.848667471334817,66,8.8,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-10-12,FALSE,TRUE,1,"prec",14.3,20.4,8.2,0.0171040335328043,87,2.6,1.4,0.699999999999999,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-10-13,FALSE,TRUE,1,"prec",16.3,24.2,8.4,0.0507010110514112,77,5.1,2.5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-10-17,FALSE,TRUE,1,"prec",19,23.4,14.5,1.74061671461932,76,8.1,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-10-23,FALSE,TRUE,1,"prec",17,22.8,11.1,0.230436386738514,45,7.6,11.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-11-01,FALSE,TRUE,1,"prec",13.2,19.7,6.6,0.816131971881542,76,7.1,3.1,1.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-11-05,FALSE,TRUE,1,"prec",10,16.5,3.5,0,90,5.6,0.8,5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-11-08,FALSE,TRUE,1,"prec",15.6,19.9,11.2,0,75,3.2,3.6,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-11-13,FALSE,TRUE,1,"prec",12,19.5,4.6,0.598819839308501,75,8.2,2.5,3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-11-16,FALSE,TRUE,1,"prec",12,16.2,7.9,4.56964729633975,71,2.5,8.1,3,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-11-29,FALSE,TRUE,1,"prec",8,11.5,4.5,5.17084762732131,86,1.7,2.2,7,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-12-05,FALSE,TRUE,1,"prec",3.1,7.4,-1.2,0.0313399991264398,89,3.2,1.7,11.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-12-07,FALSE,TRUE,1,"prec",9,13.2,4.7,0.670707645465202,93,3.3,0.8,6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2022-12-28,FALSE,TRUE,1,"prec",10.4,14.5,6.2,4.22653549373812,74,6.4,6.4,4.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-01-05,FALSE,TRUE,1,"prec",3.2,7.6,-1.1,0.0759600609614839,100,1.5,0.3,11.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-01-13,FALSE,TRUE,1,"prec",8.2,13.2,3.2,0.433175986065419,84,3.5,2.8,6.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-01-29,FALSE,TRUE,1,"prec",3,5.2,0.8,3.89228995809038,82,1,4.2,12,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-02-09,FALSE,TRUE,1,"prec",2.6,9.5,-4.3,0,75,4.8,1.7,12.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-02-26,FALSE,TRUE,1,"prec",4,7,0.9,4.18407639197642,73,4.9,6.7,11,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-03-02,FALSE,TRUE,1,"prec",3.5,5.9,1.1,1.89646288077186,78,0,3.6,11.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-03-04,FALSE,TRUE,1,"prec",3.8,10,-2.5,0,76,5.3,2.8,11.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-03-09,FALSE,TRUE,1,"prec",14.1,17.8,10.4,0.665800451618662,64,6.1,7.5,0.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-03-10,FALSE,TRUE,1,"prec",11.9,18.4,5.4,2.83374329426062,68,2.3,4.2,3.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-03-26,FALSE,TRUE,1,"prec",12.4,17,7.7,0,65,10.3,5.8,2.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-04-28,FALSE,TRUE,1,"prec",17.6,26.8,8.3,0.470547088383026,72,5.4,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-03,FALSE,TRUE,1,"prec",18,29.1,7,0.0176593397958578,54,8,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-07,FALSE,TRUE,1,"prec",13.4,20,6.8,0.307178221032231,77,6.3,3.3,1.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-09,FALSE,TRUE,1,"prec",12.6,17.8,7.4,0.156006886817583,75,2.9,2.8,2.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-19,FALSE,TRUE,1,"prec",11.2,17.4,5.1,0.169296500856678,61,9.6,6.1,3.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-22,FALSE,TRUE,1,"prec",13.6,17.9,9.4,1.04985195514528,81,1,1.9,1.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-24,FALSE,TRUE,1,"prec",15.4,18.6,12.1,1.43947515390595,81,1.4,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-05-25,FALSE,TRUE,1,"prec",11.4,15.7,7,0.689162996277698,76,2.8,3.6,3.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-06-18,FALSE,TRUE,1,"prec",20.5,27.7,13.3,11.752573833969,79,6.9,4.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-06-20,FALSE,TRUE,1,"prec",19.3,26.4,12.2,9.05007659173181,80,6.9,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-06-23,FALSE,TRUE,1,"prec",20.2,28.3,12,0.0268624568493238,68,12.2,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-07-21,FALSE,TRUE,1,"prec",17.2,22.6,11.9,0.0459072181588657,71,4.9,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-07-29,FALSE,TRUE,1,"prec",20.4,28.3,12.5,0,71,10.5,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-08-03,FALSE,TRUE,1,"prec",17.8,22.3,13.2,0.0159237536948401,66,6.2,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-08-30,FALSE,TRUE,1,"prec",15.9,21.9,9.9,2.43350899159475,73,8.7,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-08-31,FALSE,TRUE,1,"prec",18.2,26.9,9.6,4.29672695545236,66,8.2,3.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-09-07,FALSE,TRUE,1,"prec",24.2,31.5,16.9,0.42233963316041,65,6.8,2.2,0,2.2
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-09-08,FALSE,TRUE,1,"prec",24.2,30.6,17.9,0.871950683527554,57,8.9,2.2,0,2.2
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-09-22,FALSE,TRUE,1,"prec",13,18.5,7.4,4.65556789431095,73,6,3.9,2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-09-23,FALSE,TRUE,1,"prec",13.6,22,5.1,2.32445694085396,70,10,2.5,1.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-09-29,FALSE,TRUE,1,"prec",19.8,30.1,9.6,0,71,9.3,1.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-09-30,FALSE,TRUE,1,"prec",22.7,32.7,12.7,0,69,7.3,1.9,0,0.699999999999999
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-03,FALSE,TRUE,1,"prec",18.2,24.3,12,0.00291784332029965,82,3.8,2.5,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-04,FALSE,TRUE,1,"prec",20.2,26.7,13.6,0.0460157535116969,77,7.6,1.4,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-05,FALSE,TRUE,1,"prec",21.4,29.8,13.1,0.0847541514264,70,7.2,1.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-13,FALSE,TRUE,1,"prec",17.6,25.7,9.5,0,58,2.8,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-24,FALSE,TRUE,1,"prec",12.1,16.6,7.6,9.53511399583504,78,3.4,3.1,2.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-27,FALSE,TRUE,1,"prec",12.6,17.5,7.7,12.7928176315575,65,3.8,6.4,2.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-10-31,FALSE,TRUE,1,"prec",11.6,16,7.2,10.3054450983726,65,8.5,4.7,3.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-11-17,FALSE,TRUE,1,"prec",10.8,16.7,4.8,0,82,5.9,1.1,4.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-12-18,FALSE,TRUE,1,"prec",2.4,5,-0.3,1.39019581029906,100,2.4,1.7,12.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-12-22,FALSE,TRUE,1,"prec",9.4,11,7.9,0.401514264224801,89,1.3,3.9,5.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-12-23,FALSE,TRUE,1,"prec",8.4,10.5,6.4,0.324330919233039,90,0.8,1.4,6.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-12-24,FALSE,TRUE,1,"prec",6.3,13.1,-0.5,2.92622979106146,87,7.1,1.1,8.7,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2023-12-25,FALSE,TRUE,1,"prec",4.2,9.5,-1.1,0.180020962684628,98,3.4,0.8,10.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-01-01,FALSE,TRUE,1,"prec",6,11,0.9,0.633760123698312,72,6.3,2.2,9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-01-26,FALSE,TRUE,1,"prec",8.4,16.9,-0.2,0.0948389127237847,84,4.3,0.3,6.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-02-01,FALSE,TRUE,1,"prec",5.6,12.4,-1.1,2.39848625134938,89,0.5,1.7,9.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-02-03,FALSE,TRUE,1,"prec",7.8,15.2,0.3,1.28579919103354,82,5.9,1.9,7.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-02-06,FALSE,TRUE,1,"prec",6.5,12.9,0.1,0.0776964938111104,92,2.7,0.8,8.5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-03-13,FALSE,TRUE,1,"prec",9.2,18.9,-0.4,0,72,9.4,1.7,5.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-03-22,FALSE,TRUE,1,"prec",16,25.7,6.3,0.000737259003947222,74,7.4,2.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-04-01,FALSE,TRUE,1,"prec",8.6,14.6,2.6,3.13496431011748,63,7.7,5.6,6.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-04-07,FALSE,TRUE,1,"prec",13.6,20,7.3,1.43521539349008,76,4.6,1.9,1.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-04-17,FALSE,TRUE,1,"prec",9.6,12.8,6.3,0.110687612300128,87,2.9,3.6,5.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-05-03,FALSE,TRUE,1,"prec",10.8,18,3.6,0.17690093053178,58,7,5.8,4.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-05-06,FALSE,TRUE,1,"prec",11.8,17,6.6,6.50990773332342,73,7.9,2.8,3.2,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-05-31,FALSE,TRUE,1,"prec",11.3,16.3,6.3,0.00292354986959087,78,3.7,3.3,3.7,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-06-02,FALSE,TRUE,1,"prec",15.2,19.8,10.6,0.465015552194174,74,5,4.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-06-06,FALSE,TRUE,1,"prec",19.2,27.3,11.1,0.850324488964742,75,7.8,2.8,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-06-11,FALSE,TRUE,1,"prec",12.4,16.9,7.9,0.00385763551138524,86,1.2,3.3,2.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-06-12,FALSE,TRUE,1,"prec",11.9,18,5.8,0.00287131665329071,76,5.8,3.3,3.1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-07-12,FALSE,TRUE,1,"prec",16.3,19.7,12.9,0.00132881739770221,80,1.2,5.3,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-08-14,FALSE,TRUE,1,"prec",18.7,22.9,14.5,0.797019639753224,77,6.3,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-08-20,FALSE,TRUE,1,"prec",17.6,28.1,7.1,0.000895624937068795,69,10.3,3.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-08-24,FALSE,TRUE,1,"prec",24,34.4,13.7,0,72,7.3,5.6,0,2
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-09-06,FALSE,TRUE,1,"prec",16.4,22.7,10,7.68599877649211,69,9.2,1.1,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-09-07,FALSE,TRUE,1,"prec",16.8,23.4,10.1,4.20609960055458,70,8.4,3.9,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-09-10,FALSE,TRUE,1,"prec",16.7,20,13.4,1.19620579020299,76,3.3,2.8,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-09-13,FALSE,TRUE,1,"prec",11,16.2,5.9,0.497181180528956,75,5.9,3.9,4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-09-23,FALSE,TRUE,1,"prec",15,20.4,9.7,3.78853919788643,78,6.9,1.7,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-09-28,FALSE,TRUE,1,"prec",10.1,15.5,4.7,1.08288895882453,83,4.6,3.3,4.9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-10-04,FALSE,TRUE,1,"prec",11.6,18.7,4.4,0.660746275920122,81,6.5,1.7,3.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-10-08,FALSE,TRUE,1,"prec",15.4,18.4,12.4,3.49875217719584,76,1.6,4.2,0,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-10-11,FALSE,TRUE,1,"prec",14.2,20.7,7.6,0.0404540511538162,65,5.2,3.9,0.800000000000001,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-10-19,FALSE,TRUE,1,"prec",14.6,19.5,9.8,0,78,3.7,2.5,0.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-10-21,FALSE,TRUE,1,"prec",14.7,21.9,7.5,0.00131086580976059,84,8.8,4.4,0.300000000000001,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-10-22,FALSE,TRUE,1,"prec",11.4,16.3,6.4,0.0335399125932636,87,2,3.1,3.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-02,FALSE,TRUE,1,"prec",14.2,20.8,7.5,0,86,5,1.1,0.800000000000001,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-06,FALSE,TRUE,1,"prec",14,20.9,7,6.22168632602182,87,4.2,0.3,1,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-07,FALSE,TRUE,1,"prec",12.4,19.1,5.7,5.70960598460799,86,7,1.1,2.6,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-13,FALSE,TRUE,1,"prec",6,10.5,1.4,2.52501335852598,83,5,3.3,9,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-15,FALSE,TRUE,1,"prec",7.2,12.5,1.9,4.0774234021799,90,0,1.7,7.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-26,FALSE,TRUE,1,"prec",6.6,11.4,1.8,5.2671284337885,89,0.3,1.7,8.4,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-29,FALSE,TRUE,1,"prec",10,18.6,1.3,0,77,6,3.6,5,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-11-30,FALSE,TRUE,1,"prec",10.2,18,2.5,0,83,4.5,2.2,4.8,0
+"01","Alava","9091O","Vitoria/Gasteiz aeropuerto",2024-12-15,FALSE,TRUE,1,"prec",7.2,9.6,4.7,0.759913438314904,89,1.3,2.2,7.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-01-01,FALSE,TRUE,1,"prec",11.6,15.2,8.1,6.16256006907913,59,0,8.1,3.4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-02-04,FALSE,TRUE,1,"prec",8.5,12.4,4.6,1.39774146459176,52,5.6,10.6,6.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-02-05,FALSE,TRUE,1,"sol",10.3,13.2,7.4,0.1,58,5.84688748332963,4.7,4.7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-03-18,FALSE,TRUE,1,"prec",9.8,10.8,8.7,0,88,0,2.8,5.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-04-02,FALSE,TRUE,1,"prec",16.8,20.2,13.4,0,46,0.4,7.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-05-09,FALSE,TRUE,1,"prec",15.2,18,12.4,2.30753920843055,84,4.8,1.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-05-26,FALSE,TRUE,1,"prec",11.8,15.2,8.5,10.4899157717785,87,6.3,4.4,3.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-07-25,FALSE,TRUE,1,"prec",20.2,22.3,18,1.56861036506574,93,6.5,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-08-25,FALSE,TRUE,1,"prec",19.8,23.1,16.5,2.98543309780289,67,12.8,1.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-09-18,FALSE,TRUE,1,"prec",22.9,27.8,18,2.28732175202442,53,10.7,3.3,0,0.899999999999999
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-09-20,FALSE,TRUE,1,"prec",22.4,26.4,18.3,0.00861239609193021,61,7,2.2,0,0.399999999999999
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-09-25,FALSE,TRUE,1,"prec",16.4,18.7,14,0.0219386282838121,83,4.3,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-09-28,FALSE,TRUE,1,"prec",20.6,23.4,17.9,4.86106725923205,75,1.1,4.7,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-10-06,FALSE,TRUE,1,"prec",17.4,24.1,10.6,0.606117579013603,64,5.3,5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2014-10-10,FALSE,TRUE,1,"prec",16.4,18.7,14.2,2.40748028963678,89,2.1,1.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-01-13,FALSE,TRUE,1,"prec",12.8,15.5,10,0.27278701475426,55,4.5,6.9,2.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-02-13,FALSE,TRUE,1,"prec",11,13.6,8.3,7.05285093182515,55,5.4,4.2,4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-03-10,FALSE,TRUE,1,"prec",10.1,13.2,7,0,92,8.6,1.4,4.9,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-03-18,FALSE,TRUE,1,"prec",11.5,13.5,9.5,0.414083519596015,59,1.2,3.3,3.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-05-02,FALSE,TRUE,1,"prec",18.4,24.2,12.6,1.02435138787391,69,2,4.7,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-05-26,FALSE,TRUE,1,"prec",13.1,15,11.2,0.852296763930223,89,0.2,5.3,1.9,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-06-28,FALSE,TRUE,1,"prec",19.2,21.3,17,0.332896932131243,90,0.1,2.5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-07-25,FALSE,TRUE,1,"prec",17.6,20.5,14.6,6.82188108707052,75,5.8,4.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-08-23,FALSE,TRUE,1,"prec",20,25.5,14.6,22.076120879753,69,9,3.3,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-09-28,FALSE,TRUE,1,"prec",15,18.6,11.5,0.113946920106964,91,9.5,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-09-30,FALSE,TRUE,1,"prec",18.5,23.8,13.2,6.29486481092724,66,6.3,3.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-10-05,FALSE,TRUE,1,"prec",23.1,26.7,19.5,7.43355210007661,57,2.3,6.1,0,1.1
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-10-26,FALSE,TRUE,1,"prec",19.2,21.9,16.5,3.83479035128817,52,5.2,11.7,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-10-28,FALSE,TRUE,1,"prec",15.2,18,12.5,3.95586232773093,65,5.7,3.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-11-03,FALSE,TRUE,1,"prec",15.4,17.4,13.4,0.687962328306241,60,0,10.6,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2015-11-16,FALSE,TRUE,1,"prec",12.3,14.7,9.9,0,85,6.9,1.7,2.7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-01-30,FALSE,TRUE,1,"prec",9.3,12,6.6,0.185075973277362,73,1.3,2.5,5.7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-03-01,FALSE,TRUE,1,"prec",8.9,10.6,7.2,12.0776674096448,73,5.5,2.5,6.1,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-04-27,FALSE,TRUE,1,"prec",10.4,12.3,8.6,0,73,1.7,3.9,4.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-06-02,FALSE,TRUE,1,"prec",15.2,17.5,13,0,89,5,2.5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-06-29,FALSE,TRUE,1,"prec",17.2,19,15.5,0,83,0.3,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-07-06,FALSE,TRUE,1,"prec",18.6,20.7,16.5,4.34980467784969,88,2.1,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-08-01,FALSE,TRUE,1,"prec",18.3,20.8,15.8,1.97319566252079,81,6.3,1.7,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-09-14,FALSE,TRUE,1,"prec",15.3,18.7,11.9,11.9833502277431,70,8.9,4.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-10-04,FALSE,TRUE,1,"prec",19.6,23.2,15.9,0.130473112676873,86,7,4.4,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-10-08,FALSE,TRUE,1,"prec",14.7,17.4,12,0.240839121931027,80,4,1.9,0.300000000000001,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-11-20,FALSE,TRUE,1,"prec",13.9,15.7,12.1,0.0869243132549825,66,2,11.9,1.1,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-12-16,FALSE,TRUE,1,"prec",11.5,12.6,10.4,6.3136074128698,81,0.1,4.7,3.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2016-12-17,FALSE,TRUE,1,"prec",10.8,12.5,9.2,0,90,3,1.9,4.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-01-08,FALSE,TRUE,1,"prec",4.5,7,2,4.0011289413791,75,3.4,0.8,10.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-01-30,FALSE,TRUE,1,"prec",14.2,16.9,11.4,0.0440548493894696,63,0,5.6,0.800000000000001,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-03-04,FALSE,TRUE,1,"sol",8,10.8,5.1,2.4,75,1.81127445299238,8.1,7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-03-23,FALSE,TRUE,1,"prec",8,12.8,3.2,9.27566371538839,60,6.7,2.8,7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-04-15,FALSE,TRUE,1,"prec",12.8,15,10.5,0.251019163598005,87,0.7,2.8,2.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-04-24,FALSE,TRUE,1,"prec",14.1,17.2,11,14.0246326190924,75,12.1,1.9,0.9,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-07-12,FALSE,TRUE,1,"prec",18,21,15,4.15634793881883,89,2.3,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-07-22,FALSE,TRUE,1,"prec",18.8,22.6,15,1.81385482573408,74,6.2,3.6,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-08-18,FALSE,TRUE,1,"prec",20.2,22.9,17.5,0.20683540141477,87,2.5,2.5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-08-24,FALSE,TRUE,1,"prec",20.5,22.8,18.2,0.504131369039302,86,1.5,3.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-09-02,FALSE,TRUE,1,"prec",16.8,19.5,14,4.77665196953956,74,4.6,3.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-09-04,FALSE,TRUE,1,"prec",19.4,22.3,16.6,5.54452810467217,87,6.4,3.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-11-22,FALSE,TRUE,1,"prec",16.2,20.3,12.2,11.3113203142905,30,8.5,11.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-11-23,FALSE,TRUE,1,"prec",18.6,20.9,16.3,5.46588135690152,45,3.9,7.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2017-12-21,FALSE,TRUE,1,"prec",8.2,10.1,6.2,2.60947273406123,83,5.4,1.4,6.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-01-15,FALSE,TRUE,1,"prec",9.2,11.9,6.4,13.0022244936964,68,2.1,3.6,5.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-01-23,FALSE,TRUE,1,"prec",12.3,14,10.6,6.47596265977306,91,0,1.4,2.7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-03-11,FALSE,TRUE,1,"prec",12.9,15.8,10,0.298028823832777,41,1,10.3,2.1,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-03-14,FALSE,TRUE,1,"prec",13.4,16.3,10.5,2.16165354868921,59,1.3,11.9,1.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-06-08,FALSE,TRUE,1,"prec",20.9,26.3,15.5,0.925664517173466,60,5.6,5.3,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-06-21,FALSE,TRUE,1,"prec",19,20.4,17.7,0.142431410078631,96,0.2,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-06-22,FALSE,TRUE,1,"prec",17.6,19.7,15.4,0.101576159766122,92,3.2,3.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-07-03,FALSE,TRUE,1,"prec",21,23,19,4.16504114111884,88,5.8,3.3,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-07-05,FALSE,TRUE,1,"prec",18.8,21.2,16.5,3.95393734195796,83,5.2,5.3,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-07-29,FALSE,TRUE,1,"prec",21,23,19,0.767550541204756,84,4.7,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-08-28,FALSE,TRUE,1,"prec",22.2,25.9,18.5,2.29338095015989,80,7.8,4.7,0,0.199999999999999
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-10-01,FALSE,TRUE,1,"prec",14.2,16.3,12.2,0.146192402026942,74,1.5,5,0.800000000000001,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-11-04,FALSE,TRUE,1,"prec",11.8,18,5.5,7.09439528435184,42,6.8,8.6,3.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-11-06,FALSE,TRUE,1,"prec",11.4,14.8,8,0,66,2.8,9.2,3.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-12-08,FALSE,TRUE,1,"prec",12.2,14.9,9.4,9.03713906468719,72,6.9,3.3,2.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2018-12-19,FALSE,TRUE,1,"prec",10.6,12.8,8.3,0.21228940861819,60,3.4,4.4,4.4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-01-12,FALSE,TRUE,1,"prec",6.4,9.4,3.5,3.48234254062497,87,0,1.4,8.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-04-13,FALSE,TRUE,1,"prec",11,16.8,5.3,7.88976786067024,70,12.3,2.8,4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-04-14,FALSE,TRUE,1,"prec",13.2,16.3,10.2,15.5493979475656,82,2.5,1.7,1.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-05-07,FALSE,TRUE,1,"prec",14.8,18.7,10.9,2.14211756282589,69,5.5,1.9,0.199999999999999,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-05-24,FALSE,TRUE,1,"prec",12.5,13.5,11.5,5.05187824388211,100,0,8.1,2.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-06-03,FALSE,TRUE,1,"prec",17.6,20.2,15,10.1424594574469,80,8.7,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-06-09,FALSE,TRUE,1,"prec",14.8,17.7,12,2.20033044412151,93,4.9,4.4,0.199999999999999,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-06-29,FALSE,TRUE,1,"prec",17.2,18,16.5,3.00703537197288,96,0,1.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-07-06,FALSE,TRUE,1,"prec",19.6,21.4,17.8,4.66759521139334,90,3.9,1.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-09-08,FALSE,TRUE,1,"prec",16,19.2,12.9,15.1630991749685,83,8.3,2.5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-11-20,FALSE,TRUE,1,"prec",9.5,12,7,0,60,1.7,9.4,5.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-12-04,FALSE,TRUE,1,"prec",6.2,9.2,3.3,0.202305288468446,88,3.8,2.8,8.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2019-12-16,FALSE,TRUE,1,"prec",14.4,16.1,12.6,8.77084505336799,47,0,14.2,0.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-02-24,FALSE,TRUE,1,"prec",9.2,13.4,5,13.0811245365128,96,6.7,1.7,5.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-04-07,FALSE,TRUE,1,"prec",15.6,20.6,10.6,3.78600601913706,73,5.9,5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-04-29,FALSE,TRUE,1,"prec",14.1,19,9.2,0.614436697465447,56,3.5,6.4,0.9,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-06-30,FALSE,TRUE,1,"prec",18,22.1,14,7.23312749594847,84,13.8,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-08-08,FALSE,TRUE,1,"prec",21.2,23.5,18.8,2.70822988112518,82,11.7,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-09-14,FALSE,TRUE,1,"prec",27,34.1,20,0.388228938219657,44,8.6,8.3,0,5
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-10-20,FALSE,TRUE,1,"prec",19.2,22,16.4,0.0891697065387991,58,0,13.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-11-27,FALSE,TRUE,1,"prec",14.8,17.5,12,8.08599698088885,58,1.5,3.3,0.199999999999999,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2020-12-16,FALSE,TRUE,1,"prec",12.4,14.6,10.3,0,66,2.7,10.3,2.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-01-18,FALSE,TRUE,1,"prec",7.5,9.5,5.5,2.7115269898757,92,2.4,1.9,7.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-03-07,FALSE,TRUE,1,"prec",7.6,9.2,5.9,5.72553185453189,83,0,1.9,7.4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-03-08,FALSE,TRUE,1,"prec",9,11,7,0.986397660258738,77,3,2.5,6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-03-09,FALSE,TRUE,1,"prec",7.5,9,6,0.662662085561858,81,0.2,2.8,7.5,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-03-15,FALSE,TRUE,1,"prec",9.3,10.6,8,1.26371216023259,86,0.3,4.7,5.7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-04-08,FALSE,TRUE,1,"prec",13.2,21.1,5.2,0.201938044245186,44,10.1,6.9,1.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-07-24,FALSE,TRUE,1,"prec",18.2,21.6,14.7,1.37266285725013,77,10.4,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-09-13,FALSE,TRUE,1,"prec",24.2,28,20.5,27.9234690238091,51,1.9,7.5,0,2.2
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-09-14,FALSE,TRUE,1,"prec",23.2,25.4,21,56.413088916273,68,0,1.4,0,1.2
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2021-12-15,FALSE,TRUE,1,"prec",6.6,8.6,4.7,6.14185314776747,98,4.8,0.3,8.4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-02-05,FALSE,TRUE,1,"prec",6.4,9.2,3.7,1.85557404448988,83,7.1,2.8,8.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-03-07,FALSE,TRUE,1,"prec",8.6,11.8,5.5,4.87864461484151,74,6.6,4.4,6.4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-03-21,FALSE,TRUE,1,"prec",15,18.1,11.9,0.141091603004195,52,3.9,10.6,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-03-22,FALSE,TRUE,1,"prec",12.2,13.7,10.8,0,49,0.4,8.9,2.8,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-04-18,FALSE,TRUE,1,"prec",12.4,14.2,10.5,11.2097606739277,91,4.1,3.1,2.6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-06-07,FALSE,TRUE,1,"prec",17.5,19.5,15.5,0.407748027162899,86,5.8,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-08-10,FALSE,TRUE,1,"prec",27.1,33,21.2,0.238223238468667,49,10.2,1.9,0,5.1
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-10-20,FALSE,TRUE,1,"prec",20.2,24.3,16,2.40162272857991,54,2.5,8.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-10-23,FALSE,TRUE,1,"prec",22.6,25.8,19.4,0,39,8.2,5.6,0,0.600000000000001
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-12-11,FALSE,TRUE,1,"prec",5.8,8.7,3,8.25419422971492,75,0,1.9,9.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2022-12-21,FALSE,TRUE,1,"prec",14.6,18.7,10.4,0,59,4.7,6.1,0.4,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-01-31,FALSE,TRUE,1,"prec",6.8,8.5,5,0,89,1,0.8,8.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-02-28,FALSE,TRUE,1,"prec",3,5.5,0.6,6.19774603589834,62,1,5,12,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-03-23,FALSE,TRUE,1,"prec",19.4,22.5,16.3,0.835295859111465,32,2,6.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-03-24,FALSE,TRUE,1,"prec",15,20,10,1.15765983893132,79,0.3,2.5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-05-14,FALSE,TRUE,1,"prec",13.1,14.2,12,8.71079375290916,96,0,7.8,1.9,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-05-21,FALSE,TRUE,1,"prec",14.2,16.4,12,1.7598629471688,88,3.8,3.9,0.800000000000001,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-06-08,FALSE,TRUE,1,"prec",23.8,28.1,19.4,0.429209627798278,50,7.4,8.3,0,1.8
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-06-30,FALSE,TRUE,1,"prec",17.4,19.7,15,5.62577389701506,67,6.9,5,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-07-06,FALSE,TRUE,1,"prec",19,21.5,16.6,0,84,5.6,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-07-14,FALSE,TRUE,1,"prec",25.8,34.3,17.3,4.09983436549345,64,13.8,3.3,0,3.8
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-07-18,FALSE,TRUE,1,"prec",20,21.6,18.3,0.0453439481564036,91,1,4.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-08-14,FALSE,TRUE,1,"prec",19.8,21.6,17.9,0.856002309811438,92,0,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-08-19,FALSE,TRUE,1,"prec",23,25.5,20.6,0,86,12.6,2.5,0,1
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-08-20,FALSE,TRUE,1,"prec",21.8,23.2,20.4,0,92,0,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-08-24,FALSE,TRUE,1,"prec",26.8,32.5,21.2,3.65590274264455,68,9,6.4,0,4.8
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-09-03,FALSE,TRUE,1,"prec",19.6,23.7,15.4,20.1456899432162,83,3.7,1.4,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-09-17,FALSE,TRUE,1,"prec",23,25.6,20.4,0.617370031373039,63,3.8,4.4,0,1
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-10-17,FALSE,TRUE,1,"prec",23.2,26.3,20,0,50,7,14.7,0,1.2
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-11-23,FALSE,TRUE,1,"prec",9,11,7.1,7.92341504942036,78,5.6,2.5,6,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2023-12-05,FALSE,TRUE,1,"prec",8.8,11.2,6.4,6.26462101268664,76,0.5,3.6,6.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-01-09,FALSE,TRUE,1,"prec",2.8,4.7,0.8,10.7353558917241,89,1.1,1.7,12.2,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-03-28,FALSE,TRUE,1,"prec",12.3,19,5.6,3.22361039720152,43,3,7.8,2.7,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-06-07,FALSE,TRUE,1,"prec",17.2,19.5,15,13.5419993314344,90,3.7,1.9,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-08-07,FALSE,TRUE,1,"prec",20.9,22.6,19.2,0.126993012681366,90,1.5,2.2,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-08-27,FALSE,TRUE,1,"prec",20.8,26.8,14.8,1.69140758842131,69,12.6,3.1,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-08-30,FALSE,TRUE,1,"prec",19.6,20.8,18.3,16.4175959885342,97,0,2.8,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-09-19,FALSE,TRUE,1,"prec",18.6,21.8,15.5,3.36283235034384,75,9.7,3.3,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-10-11,FALSE,TRUE,1,"prec",16,21.1,10.8,1.9226575680901,59,8.5,5.6,0,0
+"20","Gipuzkoa","1024E","San Sebastian/Igueldo",2024-12-12,FALSE,TRUE,1,"prec",8.2,11,5.4,2.40935220433505,62,5.3,1.7,6.8,0
+"28","Madrid","3129","Madrid/Retiro",2014-01-13,FALSE,TRUE,1,"prec",8.7,11.4,6,4.53514015344895,70,4.6,2.8,6.3,0
+"28","Madrid","3129","Madrid/Retiro",2014-01-14,FALSE,TRUE,1,"prec",9.6,13.1,6,4.26560902558077,78,1.4,7.8,5.4,0
+"28","Madrid","3129","Madrid/Retiro",2014-01-16,FALSE,TRUE,1,"prec",7.8,10.4,5.3,5.69698903359385,78,4.6,5,7.2,0
+"28","Madrid","3129","Madrid/Retiro",2014-03-18,FALSE,TRUE,1,"prec",14.6,24.8,4.3,0,46,10.9,1.1,0.4,0
+"28","Madrid","3129","Madrid/Retiro",2014-04-25,FALSE,TRUE,1,"prec",12.8,18.4,7.1,2.76644181893207,44,11.3,5.8,2.2,0
+"28","Madrid","3129","Madrid/Retiro",2014-05-31,FALSE,TRUE,1,"prec",16.1,22.6,9.6,0,38,9,5.6,0,0
+"28","Madrid","3129","Madrid/Retiro",2014-06-10,FALSE,TRUE,1,"prec",21.6,30.2,13,4.79766127699507,33,10,2.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2014-09-27,FALSE,TRUE,1,"prec",19,24.9,13.2,0.00478766850466714,60,4.3,4.7,0,0
+"28","Madrid","3129","Madrid/Retiro",2014-09-28,FALSE,TRUE,1,"prec",19.2,22.2,16.2,0,70,1.1,0,0,0
+"28","Madrid","3129","Madrid/Retiro",2014-11-09,FALSE,TRUE,1,"prec",8.2,13.5,3,5.54839948668377,71,3.5,1.7,6.8,0
+"28","Madrid","3129","Madrid/Retiro",2014-12-27,FALSE,TRUE,1,"prec",4.4,9.4,-0.6,0.244065724049017,88,4.6,1.9,10.6,0
+"28","Madrid","3129","Madrid/Retiro",2015-04-08,FALSE,TRUE,1,"prec",11.2,18.6,3.8,3.59884716364397,44,8.8,3.6,3.8,0
+"28","Madrid","3129","Madrid/Retiro",2015-04-10,FALSE,TRUE,1,"prec",12.8,17.1,8.4,4.89392804006885,65,2.1,2.2,2.2,0
+"28","Madrid","3129","Madrid/Retiro",2015-04-11,FALSE,TRUE,1,"prec",14.4,22.4,6.5,9.02106913100747,60,7.9,3.1,0.6,0
+"28","Madrid","3129","Madrid/Retiro",2015-04-14,FALSE,TRUE,1,"prec",15.6,24.7,6.4,9.6945694208523,40,4.5,5.6,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-05-03,FALSE,TRUE,1,"prec",19.7,22.7,16.7,0,49,0,4.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-05-07,FALSE,TRUE,1,"sol",17.8,29,6.7,0,36,12.5556858141067,2.5,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-05-08,FALSE,TRUE,1,"sol",19.6,25.3,13.9,0,50,11.4351540678206,5.3,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-05-09,FALSE,TRUE,1,"sol",19.4,28.7,10.2,0,43,10.2465448741388,1.9,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-05-18,FALSE,TRUE,1,"prec",21.8,31.6,11.9,0.00607111469262325,31,13.3,3.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-06-21,FALSE,TRUE,1,"prec",26,35.7,16.3,0.00249506580753264,26,12.9,2.8,0,4
+"28","Madrid","3129","Madrid/Retiro",2015-07-22,FALSE,TRUE,1,"prec",28.9,35,22.8,0,35,10.7,2.5,0,6.9
+"28","Madrid","3129","Madrid/Retiro",2015-08-07,FALSE,TRUE,1,"prec",27.2,36.6,17.9,0.00522132942775727,20,10.8,5,0,5.2
+"28","Madrid","3129","Madrid/Retiro",2015-08-23,FALSE,TRUE,1,"prec",22.8,26.5,19,0.005078578469005,41,11.8,7.8,0,0.800000000000001
+"28","Madrid","3129","Madrid/Retiro",2015-09-02,FALSE,TRUE,1,"prec",24.2,30.7,17.8,0.000288013105622903,45,10.1,3.9,0,2.2
+"28","Madrid","3129","Madrid/Retiro",2015-09-09,FALSE,TRUE,1,"prec",20.6,29.9,11.3,0.00554201213034106,33,8.4,4.4,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-10-11,FALSE,TRUE,1,"prec",17.8,21.6,14,0.99621596281504,72,1.5,3.6,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-11-03,FALSE,TRUE,1,"prec",12.4,15,9.8,6.61614224504504,84,0.2,3.6,2.6,0
+"28","Madrid","3129","Madrid/Retiro",2015-11-06,FALSE,TRUE,1,"prec",15.4,22,8.9,0.224730144801255,80,8.9,1.4,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-11-07,FALSE,TRUE,1,"prec",16,23.5,8.5,0,79,9.4,1.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-11-08,FALSE,TRUE,1,"prec",16.1,23.3,8.9,0,64,9.5,2.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2015-12-31,FALSE,TRUE,1,"prec",10,12.5,7.6,1.00409887063302,91,0,1.1,5,0
+"28","Madrid","3129","Madrid/Retiro",2016-01-15,FALSE,TRUE,1,"prec",6.9,9.8,4,0.705247866192125,59,6.9,6.1,8.1,0
+"28","Madrid","3129","Madrid/Retiro",2016-01-26,FALSE,TRUE,1,"prec",10.2,16.8,3.5,0.0488983198773766,82,7.6,1.9,4.8,0
+"28","Madrid","3129","Madrid/Retiro",2016-03-25,FALSE,TRUE,1,"prec",9.6,18,1.1,0.308155811302586,58,4.3,1.9,5.4,0
+"28","Madrid","3129","Madrid/Retiro",2016-06-30,FALSE,TRUE,4,"tmed,tmax,tmin,sol",26.4703305944647,34.7602703714123,18.4338763445114,0,32,11.1559476205634,3.3,0,4.47033059446468
+"28","Madrid","3129","Madrid/Retiro",2016-09-28,FALSE,TRUE,1,"sol",20.7,26.5,14.9,0,46,10.8146298378139,3.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2016-10-11,FALSE,TRUE,1,"prec",14.5,24.6,4.4,6.69758406958881,43,10.1,3.9,0.5,0
+"28","Madrid","3129","Madrid/Retiro",2016-10-20,FALSE,TRUE,1,"prec",16.4,19.4,13.5,6.23585314049223,85,0.8,1.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2016-10-21,FALSE,TRUE,1,"prec",14.4,19.7,9.2,8.29234910500388,79,2,1.1,0.6,0
+"28","Madrid","3129","Madrid/Retiro",2016-10-28,FALSE,TRUE,1,"prec",17.8,23.8,11.7,0.0193644286980613,77,6.8,1.7,0,0
+"28","Madrid","3129","Madrid/Retiro",2016-10-29,FALSE,TRUE,1,"prec",16.5,24.2,8.8,0.0339544947303949,63,9.8,1.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2016-12-07,FALSE,TRUE,1,"prec",8.2,14.5,1.9,0.00728211171040705,87,8.1,0.8,6.8,0
+"28","Madrid","3129","Madrid/Retiro",2016-12-08,FALSE,TRUE,1,"prec",8.4,13.5,3.4,1.54028845127461,85,5.1,1.9,6.6,0
+"28","Madrid","3129","Madrid/Retiro",2017-01-20,FALSE,TRUE,1,"prec",6.8,9.6,4,0.00230163649625109,63,2.4,5,8.2,0
+"28","Madrid","3129","Madrid/Retiro",2017-04-14,FALSE,TRUE,1,"prec",17,25.4,8.5,0.00152722454348156,39,11,3.3,0,0
+"28","Madrid","3129","Madrid/Retiro",2017-04-22,FALSE,TRUE,1,"prec",11.8,21.4,2.3,1.18950440374175,32,8.7,2.2,3.2,0
+"28","Madrid","3129","Madrid/Retiro",2017-04-25,FALSE,TRUE,1,"prec",18.2,23.9,12.4,3.34983666041227,62,6.9,6.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2017-05-28,FALSE,TRUE,1,"prec",23.6,29,18.2,1.05554759348012,34,5.5,3.6,0,1.6
+"28","Madrid","3129","Madrid/Retiro",2017-05-31,FALSE,TRUE,1,"prec",21.2,29.3,13.2,0.00589457171569796,40,9,3.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2017-06-26,FALSE,TRUE,1,"prec",24,31,17.1,1.70201469025382,45,12.7,3.9,0,2
+"28","Madrid","3129","Madrid/Retiro",2017-09-01,FALSE,TRUE,1,"prec",22.4,28.6,16.3,0,43,10.6,3.3,0,0.399999999999999
+"28","Madrid","3129","Madrid/Retiro",2017-09-09,FALSE,TRUE,1,"prec",20,24.7,15.3,0,35,1.6,6.4,0,0
+"28","Madrid","3129","Madrid/Retiro",2017-10-19,FALSE,TRUE,1,"prec",13.1,19,7.2,3.62570536963291,69,7.3,2.2,1.9,0
+"28","Madrid","3129","Madrid/Retiro",2017-11-02,FALSE,TRUE,1,"prec",15,20,9.9,2.82251552874451,65,1.5,1.7,0,0
+"28","Madrid","3129","Madrid/Retiro",2018-01-03,FALSE,TRUE,1,"prec",10.6,15,6.2,4.03312121427447,89,5.1,3.1,4.4,0
+"28","Madrid","3129","Madrid/Retiro",2018-01-04,FALSE,TRUE,1,"prec",10.6,15.1,6.2,8.06205043118987,83,3.2,3.9,4.4,0
+"28","Madrid","3129","Madrid/Retiro",2018-01-11,FALSE,TRUE,1,"prec",6.4,10.2,2.5,0.295921312565717,64,8.1,3.9,8.6,0
+"28","Madrid","3129","Madrid/Retiro",2018-02-01,FALSE,TRUE,1,"prec",5.2,10.9,-0.5,0.00416727476703213,72,1.6,4.4,9.8,0
+"28","Madrid","3129","Madrid/Retiro",2018-03-13,FALSE,TRUE,1,"prec",10.5,14.6,6.4,14.0001940841503,74,4.4,4.2,4.5,0
+"28","Madrid","3129","Madrid/Retiro",2018-04-03,FALSE,TRUE,1,"prec",13.6,17.6,9.5,1.60384108840566,64,3.3,7.5,1.4,0
+"28","Madrid","3129","Madrid/Retiro",2018-04-04,FALSE,TRUE,1,"prec",12.1,16.1,8.1,0.805707890720959,65,5.3,7.8,2.9,0
+"28","Madrid","3129","Madrid/Retiro",2018-04-22,FALSE,TRUE,1,"prec",16.8,23.6,9.9,1.29042958710324,56,6.8,3.6,0,0
+"28","Madrid","3129","Madrid/Retiro",2018-05-19,FALSE,TRUE,1,"prec",17.7,24.8,10.6,0.448813259115974,54,8.8,1.7,0,0
+"28","Madrid","3129","Madrid/Retiro",2018-06-27,FALSE,TRUE,1,"prec",27,32.5,21.5,0.496099165831654,36,9.3,4.4,0,5
+"28","Madrid","3129","Madrid/Retiro",2018-10-15,FALSE,TRUE,1,"prec",12.4,16.4,8.5,0.148660359101907,71,3.2,3.6,2.6,0
+"28","Madrid","3129","Madrid/Retiro",2018-11-23,FALSE,TRUE,1,"prec",8.5,12.4,4.6,1.31469399800159,75,6,3.1,6.5,0
+"28","Madrid","3129","Madrid/Retiro",2018-11-30,FALSE,TRUE,1,"prec",7.5,12.5,2.5,1.40391007261404,78,6.6,1.1,7.5,0
+"28","Madrid","3129","Madrid/Retiro",2018-12-22,FALSE,TRUE,1,"prec",7.2,8.5,5.9,0.157778502944606,92,0,1.7,7.8,0
+"28","Madrid","3129","Madrid/Retiro",2019-05-07,FALSE,TRUE,1,"prec",17.7,24.9,10.5,0.00208939996409563,51,9.5,6.9,0,0
+"28","Madrid","3129","Madrid/Retiro",2019-05-15,FALSE,TRUE,1,"prec",21.5,33.9,9.1,0,25,12.6,2.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2019-05-16,FALSE,TRUE,1,"prec",21.2,31,11.5,0,39,12.3,5.3,0,0
+"28","Madrid","3129","Madrid/Retiro",2019-08-03,FALSE,TRUE,1,"sol",28.2,36.9,19.6,0,21,12.8366298720527,3.1,0,6.2
+"28","Madrid","3129","Madrid/Retiro",2019-11-02,FALSE,TRUE,1,"prec",17.2,19.8,14.5,1.13446904414029,77,4.2,6.9,0,0
+"28","Madrid","3129","Madrid/Retiro",2019-11-05,FALSE,TRUE,1,"prec",12.4,15.8,8.9,2.05027719244645,61,4.2,6.1,2.6,0
+"28","Madrid","3129","Madrid/Retiro",2019-12-06,FALSE,TRUE,1,"prec",9.5,14.4,4.6,0.000250601439999637,73,5.3,0.8,5.5,0
+"28","Madrid","3129","Madrid/Retiro",2019-12-12,FALSE,TRUE,1,"prec",7.6,10.7,4.6,0.225293877642628,80,0,7.5,7.4,0
+"28","Madrid","3129","Madrid/Retiro",2020-01-19,FALSE,TRUE,1,"prec",7.3,11.6,3,0.706715080249604,45,2.3,7.2,7.7,0
+"28","Madrid","3129","Madrid/Retiro",2020-01-22,FALSE,TRUE,1,"prec",7.6,11.6,3.6,1.10175619259594,69,1.3,3.1,7.4,0
+"28","Madrid","3129","Madrid/Retiro",2020-01-25,FALSE,TRUE,1,"sol",8.2,10.4,6.1,3.7,92,2.50978434054597,2.5,6.8,0
+"28","Madrid","3129","Madrid/Retiro",2020-01-27,FALSE,TRUE,1,"prec",4.9,9.4,0.4,0.0099884874216408,89,0,3.3,10.1,0
+"28","Madrid","3129","Madrid/Retiro",2020-02-04,FALSE,TRUE,1,"prec",11.4,19.7,3.2,0.0051955566376477,73,9.1,2.2,3.6,0
+"28","Madrid","3129","Madrid/Retiro",2020-02-26,FALSE,TRUE,1,"sol",11.6,16.9,6.3,0,47,5.30468336910597,4.2,3.4,0
+"28","Madrid","3129","Madrid/Retiro",2020-03-09,FALSE,TRUE,1,"sol",11.6,18.3,5,0,50,7.53126427660012,1.7,3.4,0
+"28","Madrid","3129","Madrid/Retiro",2020-03-17,FALSE,TRUE,1,"prec",11.8,18.1,5.4,1.44805615145439,74,2.9,2.2,3.2,0
+"28","Madrid","3129","Madrid/Retiro",2020-04-25,FALSE,TRUE,1,"prec",16.6,24.1,9.2,0.00777359361153468,64,8.8,2.5,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-04-26,FALSE,TRUE,1,"prec",16,21.5,10.6,0.00342161452132581,63,4.2,4.7,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-05-04,FALSE,TRUE,1,"prec",22.2,31.9,12.5,0.0136885840741318,48,6.1,4.4,0,0.199999999999999
+"28","Madrid","3129","Madrid/Retiro",2020-05-18,FALSE,TRUE,1,"prec",18.6,28.6,8.6,0.00377107692177422,42,13.9,2.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-05-26,FALSE,TRUE,1,"prec",20.6,27,14.3,8.63502348536797,58,8.4,2.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-06-04,FALSE,TRUE,2,"prec,sol",19.6,25.1,14.1,4.8996336413791,52,12.5567126040264,6.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-06-13,FALSE,TRUE,1,"sol",17.4,24.7,10.2,0,45,10.2950176373114,3.9,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-06-23,FALSE,TRUE,1,"sol",28.4,37.8,19,0,27,8.65081444485822,1.4,0,6.4
+"28","Madrid","3129","Madrid/Retiro",2020-07-12,FALSE,TRUE,1,"sol",27.8,34.9,20.7,0,43,11.9626299401817,2.5,0,5.8
+"28","Madrid","3129","Madrid/Retiro",2020-07-16,FALSE,TRUE,1,"sol",27.2,36.5,17.9,0,27,13.1275303912174,2.2,0,5.2
+"28","Madrid","3129","Madrid/Retiro",2020-07-27,FALSE,TRUE,1,"prec",31.4,41.2,21.5,0.00129112025346817,23,12.7,3.6,0,9.4
+"28","Madrid","3129","Madrid/Retiro",2020-07-31,FALSE,TRUE,1,"sol",29.6,39.3,19.9,0,24,10.5382127499481,3.6,0,7.6
+"28","Madrid","3129","Madrid/Retiro",2020-08-01,FALSE,TRUE,1,"sol",28.8,39.1,18.6,0,18,11.4565209065968,4.4,0,6.8
+"28","Madrid","3129","Madrid/Retiro",2020-08-09,FALSE,TRUE,1,"prec",30,38.9,21.1,0.354559822628466,25,11.4,3.6,0,8
+"28","Madrid","3129","Madrid/Retiro",2020-09-22,FALSE,TRUE,1,"prec",18,24.5,11.4,5.7026416961011,60,9.7,1.9,0,0
+"28","Madrid","3129","Madrid/Retiro",2020-11-09,FALSE,TRUE,1,"prec",11.6,15.5,7.6,3.55459272836552,89,3.5,0.6,3.4,0
+"28","Madrid","3129","Madrid/Retiro",2020-11-16,FALSE,TRUE,1,"prec",13.5,17.8,9.2,0.0480657614378103,86,4.4,0.3,1.5,0
+"28","Madrid","3129","Madrid/Retiro",2020-11-18,FALSE,TRUE,1,"prec",9.9,13.1,6.7,0.0608966554445184,94,2.1,1.9,5.1,0
+"28","Madrid","3129","Madrid/Retiro",2020-11-19,FALSE,TRUE,1,"prec",12.4,20.6,4.2,1.70344218278469,73,8.7,1.9,2.6,0
+"28","Madrid","3129","Madrid/Retiro",2020-11-28,FALSE,TRUE,1,"prec",7.8,10.4,5.2,4.63610036098957,92,2.8,2.2,7.2,0
+"28","Madrid","3129","Madrid/Retiro",2021-02-02,FALSE,TRUE,1,"prec",9.9,12.8,7,0.0458904401303704,82,0,4.2,5.1,0
+"28","Madrid","3129","Madrid/Retiro",2021-02-12,FALSE,TRUE,1,"prec",10.6,14.9,6.3,0.706510149514032,69,7.2,4.7,4.4,0
+"28","Madrid","3129","Madrid/Retiro",2021-05-08,FALSE,TRUE,1,"prec",19.2,29,9.4,1.74478795454371,42,9.5,4.7,0,0
+"28","Madrid","3129","Madrid/Retiro",2021-05-26,FALSE,TRUE,1,"prec",20,28.2,11.9,0.589991459349311,46,9.9,2.5,0,0
+"28","Madrid","3129","Madrid/Retiro",2021-05-28,FALSE,TRUE,1,"prec",21.4,28.4,14.5,0.535474774888222,58,8.3,2.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2021-05-31,FALSE,TRUE,1,"velmedia",24.2,32.2,16.2,15.8,45,9,3.69053271165592,0,2.2
+"28","Madrid","3129","Madrid/Retiro",2021-06-02,FALSE,TRUE,1,"prec",19.4,27.1,11.7,0,47,11.5,2.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2021-06-14,FALSE,TRUE,1,"prec",26.1,34,18.2,4.97958684273533,32,11.1,1.4,0,4.1
+"28","Madrid","3129","Madrid/Retiro",2021-06-15,FALSE,TRUE,1,"prec",26.1,34.4,17.8,9.94324270402265,32,8.5,3.9,0,4.1
+"28","Madrid","3129","Madrid/Retiro",2021-06-24,FALSE,TRUE,1,"prec",20.6,29,12.2,0.0114347934147406,39,12.2,2.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2021-08-22,FALSE,TRUE,1,"prec",26.3,37,15.6,0,24,11.9,2.2,0,4.3
+"28","Madrid","3129","Madrid/Retiro",2021-09-02,FALSE,TRUE,1,"prec",19.8,25.2,14.5,3.08983092235985,71,5.4,2.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2021-09-07,FALSE,TRUE,1,"sol",25.6,33.2,18,0,40,5.41281432718356,3.9,0,3.6
+"28","Madrid","3129","Madrid/Retiro",2021-11-01,FALSE,TRUE,1,"prec",14.5,17.6,11.4,12.4413541525324,62,8.6,4.7,0.5,0
+"28","Madrid","3129","Madrid/Retiro",2021-12-22,FALSE,TRUE,1,"prec",9.8,14.8,4.9,2.03552987789901,82,4.2,2.2,5.2,0
+"28","Madrid","3129","Madrid/Retiro",2022-02-27,FALSE,TRUE,1,"prec",10.1,14.8,5.4,1.09773918239969,73,5.8,1.4,4.9,0
+"28","Madrid","3129","Madrid/Retiro",2022-03-13,FALSE,TRUE,1,"prec",9.4,14.3,4.5,11.1504584200498,60,10.2,2.2,5.6,0
+"28","Madrid","3129","Madrid/Retiro",2022-05-03,FALSE,TRUE,1,"prec",13.8,16.9,10.8,0.398069444204631,68,0.2,4.4,1.2,0
+"28","Madrid","3129","Madrid/Retiro",2022-06-16,FALSE,TRUE,1,"prec",32,39.2,24.8,0,21,7.9,2.5,0,10
+"28","Madrid","3129","Madrid/Retiro",2022-06-23,FALSE,TRUE,2,"prec,sol",20.2,25.1,15.2,0.592760642402671,54,10.8738904412275,5.6,0,0
+"28","Madrid","3129","Madrid/Retiro",2022-07-09,FALSE,TRUE,1,"velmedia",28.4,37.9,19,0,25,13.9,2.46329109962008,0,6.4
+"28","Madrid","3129","Madrid/Retiro",2022-08-17,FALSE,TRUE,1,"prec",21.8,28.7,14.9,0,36,9.1,2.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2022-09-17,FALSE,TRUE,1,"prec",22.1,29.3,14.9,0,42,10.6,2.2,0,0.100000000000001
+"28","Madrid","3129","Madrid/Retiro",2022-09-20,FALSE,TRUE,1,"sol",23.2,30,16.3,0,61,3.54301037886104,1.4,0,1.2
+"28","Madrid","3129","Madrid/Retiro",2022-11-17,FALSE,TRUE,1,"prec",14.3,17.7,10.9,0.504751697173675,84,1.8,7.2,0.699999999999999,0
+"28","Madrid","3129","Madrid/Retiro",2022-11-28,FALSE,TRUE,1,"prec",8.2,13.4,3,2.87877417622967,68,8.7,3.1,6.8,0
+"28","Madrid","3129","Madrid/Retiro",2022-12-06,FALSE,TRUE,1,"prec",10.1,11.6,8.6,5.14550405117706,95,0,0.6,4.9,0
+"28","Madrid","3129","Madrid/Retiro",2022-12-17,FALSE,TRUE,1,"prec",10.2,12.4,8,0.991039302154394,85,1.6,1.9,4.8,0
+"28","Madrid","3129","Madrid/Retiro",2023-01-14,FALSE,TRUE,1,"prec",5.6,12.2,-0.9,0,83,7.7,1.9,9.4,0
+"28","Madrid","3129","Madrid/Retiro",2023-06-03,FALSE,TRUE,1,"prec",19.8,26.9,12.6,1.80278450811591,63,8.9,3.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2023-06-07,FALSE,TRUE,1,"sol",18.8,21.7,15.8,6.9,85,6.50507888176823,2.5,0,0
+"28","Madrid","3129","Madrid/Retiro",2023-06-17,FALSE,TRUE,1,"prec",26.7,35.4,18,1.29958803246098,41,10.1,3.6,0,4.7
+"28","Madrid","3129","Madrid/Retiro",2023-11-16,FALSE,TRUE,1,"prec",11.9,14,9.8,0,95,0.8,0.8,3.1,0
+"28","Madrid","3129","Madrid/Retiro",2023-11-17,FALSE,TRUE,1,"prec",13.2,17.1,9.2,0,90,4.6,1.1,1.8,0
+"28","Madrid","3129","Madrid/Retiro",2023-11-18,FALSE,TRUE,1,"prec",12.5,19.5,5.5,0,81,8.9,1.1,2.5,0
+"28","Madrid","3129","Madrid/Retiro",2023-12-01,FALSE,TRUE,1,"prec",10.2,13.2,7.1,24.9367342390054,67,5,4.2,4.8,0
+"28","Madrid","3129","Madrid/Retiro",2024-03-10,FALSE,TRUE,1,"prec",9.3,13.9,4.7,0.545647210296075,72,5.9,5.8,5.7,0
+"28","Madrid","3129","Madrid/Retiro",2024-03-20,FALSE,TRUE,1,"prec",15.4,22.8,8.1,1.01437471330133,63,5.2,2.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-04-13,FALSE,TRUE,1,"prec",18.6,29.3,7.9,0,49,12,0.3,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-04-28,FALSE,TRUE,1,"prec",10.4,18.7,2.2,0.540233459146122,54,9,1.1,4.6,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-08,FALSE,TRUE,1,"prec",17,26.5,7.4,4.26815585251317e-05,35,12.5,2.2,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-10,FALSE,TRUE,1,"prec",20.1,29.9,10.3,0,40,12.3,1.1,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-12,FALSE,TRUE,1,"prec",20.2,29.3,11.1,0.238349620342481,41,9,2.5,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-14,FALSE,TRUE,1,"prec",15.7,21.1,10.3,0.338787982630929,42,7.7,5,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-15,FALSE,TRUE,1,"prec",14.4,20,8.8,0.171488775707436,39,5.7,3.9,0.6,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-20,FALSE,TRUE,1,"prec",14,22.8,5.3,1.59486217019572,48,7,3.1,1,0
+"28","Madrid","3129","Madrid/Retiro",2024-05-24,FALSE,TRUE,1,"prec",19.4,28.7,10.2,0,35,13.2,2.5,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-08-29,FALSE,TRUE,1,"prec",24.4,29.4,19.5,2.19928292284044,67,4.1,2.8,0,2.4
+"28","Madrid","3129","Madrid/Retiro",2024-09-01,FALSE,TRUE,1,"prec",25.9,31.9,19.9,3.63814474523871,55,8.7,2.5,0,3.9
+"28","Madrid","3129","Madrid/Retiro",2024-10-13,FALSE,TRUE,1,"prec",18.2,24.1,12.3,15.7505358830624,76,4.7,0.8,0,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-17,FALSE,TRUE,1,"prec",12.4,19.7,5.1,0,76,8.3,1.7,2.6,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-18,FALSE,TRUE,1,"prec",14.2,20.1,8.4,1.65317695729293,72,7.2,0.8,0.800000000000001,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-19,FALSE,TRUE,1,"prec",10.6,15.7,5.4,0.00477156407282164,87,3.3,2.2,4.4,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-20,FALSE,TRUE,1,"prec",11.4,17.4,5.3,1.56585985257105,71,6.9,3.9,3.6,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-24,FALSE,TRUE,1,"prec",11.4,16.4,6.5,3.88158197196472,83,4.4,1.7,3.6,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-26,FALSE,TRUE,1,"prec",6.8,11.9,1.6,3.58184427794569,87,1.3,0.8,8.2,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-27,FALSE,TRUE,1,"prec",7.8,15.7,-0.1,3.0662452642866,75,8.7,0.6,7.2,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-28,FALSE,TRUE,1,"prec",8,15.9,0.1,1.20043814509109,81,8.6,0.6,7,0
+"28","Madrid","3129","Madrid/Retiro",2024-11-30,FALSE,TRUE,1,"prec",10.6,18,3.2,0.0866917484759329,81,8,1.1,4.4,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-06,FALSE,TRUE,1,"prec",10.6,17.2,4.1,1.50320351725643,78,7.6,1.1,4.4,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-07,FALSE,TRUE,1,"prec",11,18.1,4,0,66,5.9,3.1,4,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-11,FALSE,TRUE,1,"prec",5.7,8.7,2.7,0.0314852873300285,66,0.3,1.7,9.3,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-14,FALSE,TRUE,1,"prec",3.9,9.2,-1.4,0.148037726519389,95,2.7,1.1,11.1,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-16,FALSE,TRUE,1,"prec",5.2,12.7,-2.2,0,72,8.1,1.9,9.8,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-21,FALSE,TRUE,1,"prec",4.8,12.7,-3.1,0,69,8.4,1.7,10.2,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-28,FALSE,TRUE,1,"prec",5.4,12.5,-1.8,0.0467431924644403,82,8.5,0.8,9.6,0
+"28","Madrid","3129","Madrid/Retiro",2024-12-30,FALSE,TRUE,1,"prec",4.9,12.7,-2.9,0.0488359087117431,78,8.5,1.1,10.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-01-03,FALSE,TRUE,1,"prec",13,16.1,9.9,4.99633060581262,90,0.6,1.1,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-01-06,FALSE,TRUE,1,"prec",8,12.5,3.4,0.944848110461025,82,0.6,1.4,7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-01-10,FALSE,TRUE,1,"sol",5,10,0.1,0,87,0,0,10,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-01-11,FALSE,TRUE,1,"sol",3.6,5.7,1.5,0,98,0,0.6,11.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-03-05,FALSE,TRUE,1,"prec",8.8,12,5.5,2.53654223790923,86,0.4,6.4,6.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-05-12,FALSE,TRUE,1,"prec",11.8,18.4,5.1,0,67,8.9,4.2,3.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-06-04,FALSE,TRUE,1,"prec",11.6,16.2,7.1,0,68,3.2,5.6,3.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-06-06,FALSE,TRUE,1,"prec",22.4,31,13.7,0,48,6.8,5.6,0,0.399999999999999
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-07-09,FALSE,TRUE,1,"prec",15.6,18.5,12.7,0,73,1.5,4.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-07-12,FALSE,TRUE,1,"prec",17.1,20.9,13.3,0.0022885352925083,74,3.9,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-07-21,FALSE,TRUE,1,"prec",18.6,22.6,14.7,0,73,5.3,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-07-27,FALSE,TRUE,1,"prec",21.2,27.5,15,0.796815953773914,63,11.6,4.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-09-28,FALSE,TRUE,1,"prec",18.4,21.3,15.6,0,73,0,1.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-09-29,FALSE,TRUE,1,"prec",17.2,20,14.3,0,88,0,0.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-10-07,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,sol",16.0612809344769,22.1943190864812,10.0550488425116,0,71.0412474867055,3.44871225189803,1.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-10-08,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,sol",16.9913949850871,21.8393035581491,12.7362560550361,12.8,76.2635662463971,3.09346980889705,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-10-15,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",18.2062240353984,23.9711492382447,12.3078848757014,0.5,71.2315569376228,0.3,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-10-29,FALSE,TRUE,3,"tmed,tmax,tmin",16.2464986758701,21.9139909263315,9.9993395254481,0,72,7.1,1.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-11-06,FALSE,TRUE,1,"prec",9.4,14.8,3.9,14.8913938018796,84,2.3,0.6,5.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-11-08,FALSE,TRUE,1,"prec",9.6,16,3.2,0,77,3.4,0.8,5.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2014-12-09,FALSE,TRUE,1,"prec",4.6,8,1.3,10.0398941410135,71,3.1,6.4,10.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-01-24,FALSE,TRUE,1,"prec",5.6,8.8,2.4,2.51953373914947,76,3.8,5.6,9.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-01-26,FALSE,TRUE,1,"prec",5.2,8.5,2,0.437944634624349,67,3.7,5.8,9.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-03-26,FALSE,TRUE,3,"tmed,tmax,tmin",6.92362599513297,10.1684297996262,3.82177411904198,1.4,87,0.6,3.6,8.07637400486703,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-04-17,FALSE,TRUE,1,"prec",13.5,19.6,7.4,2.69889203655116,76,6.7,3.1,1.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-01,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",13.4348762723856,21.7283010396565,5.68648418041098,1.6,61.1805128380974,0.1,2.5,1.5651237276144,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-02,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",12.8017418337142,21.2620944216038,5.60096399705944,0,55.4194356089406,0.5,1.4,2.19825816628581,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-03,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",13.7319558357622,22.4542035459424,6.93694448879738,0.4,58.7018544644379,0,1.7,1.26804416423775,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-04,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.2245371193946,22.499158765178,8.21747661469585,0,57.9498354022719,2.6,7.2,0.775462880605405,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-05,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",15.3066579122922,25.3541282750061,7.77346802078644,0,53.1732010671131,8.7,4.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-06,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",17.0797237863686,26.1547679176755,10.2814115666453,0,51.9912647958629,10.9,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-07,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",16.4104175173496,25.4791907056717,11.0410068796617,0,50.48898966824,7.6,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-08,FALSE,TRUE,3,"tmed,tmax,hrMedia",16.4677411654037,26.0001950604449,11.2,0,56.1430995574291,6.8,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-09,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",16.1302838798773,23.9592976180026,11.8119260662279,0,58.1299140810762,11.1,4.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-10,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",16.0810716774157,24.5842295844969,10.4298203613761,0,57.6402432362611,10.4,1.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-11,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",15.858899257767,23.4509794067369,10.7635445407626,0,60.8612557616573,11,0.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-12,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.4512243081713,22.4248750827286,8.96259774113923,0,58.5877641906629,10.4,0.8,0.548775691828689,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-13,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",13.2286511655142,19.7272149118364,8.43779410360447,0,61.2589441390543,5.5,1.4,1.7713488344858,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-14,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",13.2469854538341,20.4867867817228,7.47702978353736,0.5,59.6639731369452,3.8,5,1.75301454616593,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-15,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.104989030655,21.5009049198241,7.88224073173051,5.9,61.7574620405778,0.2,5.6,0.895010969344973,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-16,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",13.7291973930212,20.8898773663663,7.50293762071338,0,57.0187696621331,3.8,6.4,1.27080260697879,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-17,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.4556012738795,21.5953066131347,8.30406801719352,0,60.7944772555263,9.5,7.5,0.544398726120512,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-18,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.7114802222482,22.1267912044917,7.91374159867217,0,60.0610192570875,9.8,3.3,0.288519777751835,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-19,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",13.642558793542,20.3701536067257,6.76164280481883,0.1,61.9066714341478,2,7.5,1.35744120645797,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-20,FALSE,TRUE,3,"tmed,tmax,hrMedia",13.5484813931794,19.4571275912074,6.4,4.1,60.6374963855683,1.1,4.7,1.45151860682062,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-21,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.5962963323178,21.9388136796264,7.64264932700302,0,57.1091542740128,1.1,6.7,0.403703667682208,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-22,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.8993884708642,23.2961436856552,8.04783389462961,0,57.222559825635,6.5,8.6,0.100611529135758,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-23,FALSE,TRUE,3,"tmed,tmax,hrMedia",14.6752776097817,22.2201627368095,9.7,0,61.5857943886867,3.3,7.8,0.324722390218302,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-24,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.1245547843936,21.0190166697882,9.31369299295297,0,63.4792604162199,7.3,6.1,0.875445215606444,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-25,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.7774382536619,20.9990984582343,10.4409455017647,0,61.2948820505139,0.7,6.7,0.222561746338085,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-26,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",14.9489793273885,19.9188157806725,10.8180238818301,0,64.6774594180345,0.8,6.9,0.0510206726114504,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-27,FALSE,TRUE,3,"tmed,tmax,hrMedia",15.0767667865762,20.7901463531524,10.7,0,66.2818576636671,10.2,6.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-05-28,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",15.2390297002146,21.8430905124441,9.67904916337465,0,65.1109974447365,10.4,3.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-09-01,FALSE,TRUE,2,"prec,sol",17.7,21.4,14,33.2030669840667,78,5.18112743719541,5.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-09-02,FALSE,TRUE,1,"sol",17.2,22.8,11.6,4.5,69,6.33663986694093,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-09-03,FALSE,TRUE,1,"sol",16.2,20.1,12.4,0,71,7.13443477294562,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-09-04,FALSE,TRUE,1,"sol",15.2,19.6,10.7,0,62,6.48865961442061,5.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-10-28,FALSE,TRUE,1,"prec",12.8,17.5,8.2,4.24360256696286,68,1.5,1.7,2.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-11-11,FALSE,TRUE,1,"prec",10,12.7,7.3,0.457183455823998,98,0,1.1,5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2015-11-26,FALSE,TRUE,1,"prec",10.4,12.1,8.7,3.26185547566197,73,0.8,7.8,4.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-01-07,FALSE,TRUE,1,"prec",11.4,16.2,6.6,2.65327059705517,74,0.2,3.3,3.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-02-02,FALSE,TRUE,1,"prec",8.8,12.2,5.3,2.70488476407592,81,0,3.6,6.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-02-25,FALSE,TRUE,1,"prec",8.2,10.8,5.5,8.99809323514894,82,0.2,2.8,6.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-10,FALSE,TRUE,1,"sol",4.1,8.4,-0.2,5.9,88,0,2.5,10.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-11,FALSE,TRUE,1,"sol",5.9,8.6,3.2,0,70,1.6193375373584,6.7,9.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-12,FALSE,TRUE,1,"sol",6,9,3,0,61,0,7.8,9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-13,FALSE,TRUE,1,"sol",6.5,10.8,2.2,0.3,59,0,6.9,8.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-14,FALSE,TRUE,1,"sol",1.5,3.2,-0.2,16.7,95,0,0.6,13.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-15,FALSE,TRUE,2,"prec,sol",6,11.6,0.3,9.05113621702479,79,1.55996269903555,0.8,9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-16,FALSE,TRUE,1,"sol",3.9,8.3,-0.5,1.4,89,3.15229875200522,3.9,11.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-17,FALSE,TRUE,1,"sol",6,12,-0.1,0,66,0,1.9,9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-18,FALSE,TRUE,1,"sol",5.8,13.6,-2.1,0,72,0.366333489939902,0.6,9.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-19,FALSE,TRUE,1,"sol",8.2,9.3,7,6.4,85,0,5,6.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-20,FALSE,TRUE,1,"sol",7.7,13,2.4,2.8,82,0,0.6,7.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-21,FALSE,TRUE,1,"sol",6.9,14.6,-0.8,0,74,0.198689324576432,3.9,8.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-22,FALSE,TRUE,1,"sol",8,12.2,3.8,0,68,1.32866167964652,7.5,7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-23,FALSE,TRUE,1,"sol",7.4,11.4,3.4,0,61,0,7.8,7.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-24,FALSE,TRUE,1,"sol",8.2,14.1,2.2,0,64,0.626830889733671,6.1,6.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-25,FALSE,TRUE,1,"sol",6.8,13,0.6,0.5,78,0,3.1,8.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-26,FALSE,TRUE,1,"sol",13.6,21.6,5.7,8.2,66,1.8203908165346,3.6,1.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-27,FALSE,TRUE,1,"sol",10.2,16.3,4.1,0,60,0.26409933383879,1.7,4.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-28,FALSE,TRUE,1,"sol",12.6,17.1,8,0.9,62,3.6656678477287,2.8,2.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-29,FALSE,TRUE,1,"sol",13,18,8.1,0.2,72,3.06363020591126,1.9,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-30,FALSE,TRUE,1,"sol",14.2,21.8,6.5,0,51,3.69188653275092,5.6,0.800000000000001,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-03-31,FALSE,TRUE,1,"sol",8.2,12.8,3.7,25.6,83,1.72360163519947,5.8,6.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-01,FALSE,TRUE,1,"sol",5.7,9.8,1.6,0,70,0,6.9,9.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-02,FALSE,TRUE,1,"sol",8,17.5,-1.5,0,54,1.07894005440473,3.6,7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-03,FALSE,TRUE,1,"sol",12.7,18.2,7.2,1.2,54,2.02227229639823,6.9,2.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-04,FALSE,TRUE,1,"sol",8.3,10.9,5.7,2.1,81,2.38978942300365,5,6.7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-05,FALSE,TRUE,2,"prec,sol",9.7,12.5,6.9,1.09467844021378,70,4.66310408928558,7.2,5.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-06,FALSE,TRUE,1,"sol",10.4,14,6.8,0.1,62,5.03111459153544,7.5,4.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-07,FALSE,TRUE,1,"sol",7.3,12.1,2.5,6.8,74,1.92808610619304,6.1,7.7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-08,FALSE,TRUE,1,"sol",6.1,10.1,2.1,1.8,82,2.33891454790525,6.9,8.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-09,FALSE,TRUE,1,"sol",9,14,4,0,77,2.28690363731342,2.2,6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-10,FALSE,TRUE,1,"sol",11.2,19.1,3.3,3.5,48,4.15778767956844,10.8,3.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-11,FALSE,TRUE,1,"sol",10.8,16.9,4.8,0,64,2.52318240151761,5.6,4.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-12,FALSE,TRUE,1,"sol",13.2,18.7,7.7,7,73,4.11105122089022,2.8,1.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-13,FALSE,TRUE,1,"sol",10.8,17.9,3.8,0,54,5.46520749579705,3.6,4.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-14,FALSE,TRUE,1,"sol",14,21,6.9,1.1,58,2.66670599793823,5.3,1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-15,FALSE,TRUE,1,"sol",16.4,22.8,10,0.2,59,1.40613976322055,4.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-16,FALSE,TRUE,1,"sol",14.4,20.1,8.6,7.8,80,5.39957066826047,6.7,0.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-17,FALSE,TRUE,1,"sol",12,18.7,5.4,0,64,5.85316819215247,3.6,3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-18,FALSE,TRUE,1,"sol",10.4,18.3,2.4,0,62,5.25201719088225,2.8,4.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-19,FALSE,TRUE,1,"sol",11.5,19.3,3.7,0.3,69,5.33679608046759,1.7,3.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-20,FALSE,TRUE,1,"sol",12.5,15.3,9.7,0.5,72,6.15261501294227,3.6,2.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-21,FALSE,TRUE,1,"sol",13,19,7.1,0,69,2.84885598123008,2.2,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-22,FALSE,TRUE,1,"sol",11.2,17.3,5,0.1,76,4.05884251095776,1.7,3.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-23,FALSE,TRUE,1,"sol",10.8,17.4,4.3,0.2,74,1.94045315865183,4.4,4.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-24,FALSE,TRUE,1,"sol",8.8,12.5,5,0,61,4.8216860696561,6.7,6.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-25,FALSE,TRUE,1,"sol",8.6,13.2,4,0,64,1.25820910465784,5.8,6.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-26,FALSE,TRUE,1,"sol",9,16.7,1.2,0,65,3.24782608546988,4.2,6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-27,FALSE,TRUE,1,"sol",10.5,14.7,6.3,0,59,3.69943911982044,5,4.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-28,FALSE,TRUE,1,"sol",9.8,14.8,4.8,0,53,4.09273620965824,6.4,5.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-29,FALSE,TRUE,1,"sol",10.8,19.6,2,6,51,3.22782682614925,0.8,4.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-04-30,FALSE,TRUE,1,"sol",8.4,12.6,4.1,0.8,70,1.3470761959757,7.5,6.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-01,FALSE,TRUE,1,"sol",8.2,12.8,3.5,0,56,3.78073047448897,8.3,6.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-02,FALSE,TRUE,1,"sol",10.4,17.6,3.3,0,55,2.10200506549968,8.1,4.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-03,FALSE,TRUE,1,"sol",11.8,18,5.6,0,60,3.72488392992122,6.9,3.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-04,FALSE,TRUE,1,"sol",14.4,25.4,3.3,0,53,5.32887722609922,0.8,0.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-05,FALSE,TRUE,1,"sol",16.4,26,6.7,0,47,6.78761164716639,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-06,FALSE,TRUE,1,"sol",16.9,21.1,12.7,0,53,7.81328701789664,8.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-07,FALSE,TRUE,1,"sol",15.4,18.9,11.8,4.3,65,6.52079865147681,8.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-08,FALSE,TRUE,1,"sol",15,18.5,11.6,17,80,6.84761127778563,8.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-09,FALSE,TRUE,1,"sol",15.1,20.5,9.7,5.8,76,6.31912805337545,4.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-10,FALSE,TRUE,1,"sol",14.4,20,8.8,1.6,59,4.00362622441537,4.4,0.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-11,FALSE,TRUE,1,"sol",14.2,20.2,8.3,0,65,6.67721126959735,1.9,0.800000000000001,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-12,FALSE,TRUE,1,"sol",11.2,16.8,5.6,1.9,75,4.97846359299575,1.1,3.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-13,FALSE,TRUE,1,"sol",10.3,15.5,5.1,2.8,79,5.71520521482108,2.8,4.7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-14,FALSE,TRUE,1,"sol",13.7,16.7,10.7,0,76,5.80210366525558,6.1,1.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-15,FALSE,TRUE,1,"sol",13,16.4,9.5,0,67,5.08386526672012,5.8,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-16,FALSE,TRUE,1,"sol",13.3,17.8,8.8,0,68,6.57309559685401,4.7,1.7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-17,FALSE,TRUE,1,"sol",15.2,21.3,9.1,0,51,4.90366593430124,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-18,FALSE,TRUE,1,"sol",14.8,23,6.5,0,66,5.2337189973675,3.1,0.199999999999999,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-19,FALSE,TRUE,1,"sol",13.7,17.3,10.1,0,73,5.26211287435551,4.2,1.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-20,FALSE,TRUE,1,"sol",17.9,26.4,9.4,0,51,5.90654809710118,2.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-21,FALSE,TRUE,1,"sol",19,30.2,7.8,1.3,47,6.55763878885612,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-22,FALSE,TRUE,1,"sol",12.6,18.7,6.6,4,75,8.25646490362828,4.7,2.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-23,FALSE,TRUE,1,"sol",12,17.8,6.1,0,56,5.82896919089901,3.6,3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-24,FALSE,TRUE,1,"sol",15.8,25,6.5,0.6,54,3.846431240317,1.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-25,FALSE,TRUE,1,"sol",19.6,26.1,13.2,0,61,3.72731928927167,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-26,FALSE,TRUE,1,"sol",19.6,26.2,13,0,70,6.24702874017656,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-27,FALSE,TRUE,1,"sol",19.7,28.4,11,0,61,8.12746042328506,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-28,FALSE,TRUE,1,"sol",18.2,26.1,10.3,5.5,67,5.79710029070359,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-29,FALSE,TRUE,1,"sol",14.6,20.3,8.8,1.6,77,5.32247876996135,2.8,0.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-30,FALSE,TRUE,1,"sol",15.2,19.3,11,0.5,71,7.82176602796667,4.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-05-31,FALSE,TRUE,1,"sol",14.6,19.1,10.2,0,63,9.03561113288776,5,0.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-01,FALSE,TRUE,1,"sol",15.2,21.1,9.2,0,55,8.58871503007792,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-02,FALSE,TRUE,1,"sol",17.2,22.8,11.5,0,64,8.21034703717919,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-03,FALSE,TRUE,1,"sol",18.5,27.8,9.2,5,63,7.47838031513326,1.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-04,FALSE,TRUE,1,"sol",19,24.3,13.7,0,70,5.90743316411747,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-05,FALSE,TRUE,1,"sol",19.2,28.6,9.9,0,57,6.36794649007553,2.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-06,FALSE,TRUE,2,"prec,sol",20.6,27.6,13.6,0.00312204231970759,65,8.15295218994025,3.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-07,FALSE,TRUE,1,"sol",20.8,29.6,12,0,57,9.67443209579207,2.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-08,FALSE,TRUE,1,"sol",22.2,31.2,13.3,0,51,8.24283003078404,3.3,0,0.199999999999999
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-09,FALSE,TRUE,1,"sol",21.8,29.8,13.7,0,53,6.5499005723727,3.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-10,FALSE,TRUE,1,"sol",17.4,21,13.9,0,72,7.18049752298766,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-11,FALSE,TRUE,1,"sol",16.4,22.1,10.8,0,61,8.39480669647952,4.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-12,FALSE,TRUE,2,"prec,sol",17,24.7,9.2,0,63,7.92656875696203,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-13,FALSE,TRUE,1,"sol",19.8,24.9,14.6,0,67,7.10374425295531,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-14,FALSE,TRUE,1,"sol",17.8,23,12.7,0.5,62,9.09487687206014,1.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-15,FALSE,TRUE,1,"sol",16,22.3,9.6,4.2,63,8.18264463691126,2.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-16,FALSE,TRUE,1,"sol",13.5,18.5,8.5,2.1,70,10.4369962346279,1.4,1.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-17,FALSE,TRUE,1,"sol",14.3,20.5,8.1,8.7,74,10.5011055563737,1.1,0.699999999999999,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-18,FALSE,TRUE,1,"sol",12.8,16.9,8.8,0,71,10.0931277137376,5.6,2.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-19,FALSE,TRUE,1,"sol",14,19.4,8.5,0,62,10.181750166591,6.1,1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-20,FALSE,TRUE,1,"sol",18.8,27.2,10.3,0,51,9.49509583858214,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-21,FALSE,TRUE,1,"sol",22.8,34.5,11.1,0,43,9.86846978237665,1.7,0,0.800000000000001
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-22,FALSE,TRUE,1,"sol",26.1,35.3,16.9,0,35,10.9198137074806,4.2,0,4.1
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-23,FALSE,TRUE,1,"sol",25.6,35.1,16,0,41,10.6245284562305,4.7,0,3.6
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-24,FALSE,TRUE,1,"sol",21.5,27.1,15.9,0.1,73,10.6685883916491,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-25,FALSE,TRUE,1,"sol",15.4,17.3,13.6,0,79,10.3665947140892,7.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-26,FALSE,TRUE,1,"sol",16.3,20,12.6,0,65,11.208468553621,6.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-27,FALSE,TRUE,1,"sol",18.4,24.9,11.9,0,57,7.81214070450446,6.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-28,FALSE,TRUE,1,"sol",20.8,31.3,10.2,0,58,9.46101095747969,3.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-29,FALSE,TRUE,1,"sol",20.8,26.8,14.7,0,66,11.1820365647831,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-06-30,FALSE,TRUE,1,"sol",20.8,28.5,13,0,56,9.70841496065558,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-01,FALSE,TRUE,1,"sol",21.8,28.4,15.3,0,66,9.32074125877499,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-02,FALSE,TRUE,1,"sol",19,23.6,14.5,0,66,10.3921835138833,6.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-03,FALSE,TRUE,1,"sol",19.6,26.9,12.3,0,56,12.4675654590779,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-04,FALSE,TRUE,1,"sol",23.8,35,12.5,10.3,61,11.9859173460264,1.4,0,1.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-05,FALSE,TRUE,1,"sol",20.8,24.5,17.2,0,75,12.2097742629747,6.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-06,FALSE,TRUE,1,"sol",24.2,32,16.4,3.2,55,12.3222846849401,2.5,0,2.2
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-07,FALSE,TRUE,1,"sol",25.3,33.5,17.1,0,52,8.95008838756964,0.8,0,3.3
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-08,FALSE,TRUE,1,"sol",24.8,32,17.6,0,67,10.5368280491802,5.8,0,2.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-09,FALSE,TRUE,1,"sol",24.9,35.1,14.7,0,54,11.8022357696543,2.8,0,2.9
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-10,FALSE,TRUE,2,"prec,sol",26.3,35.1,17.5,0.0488702515106791,63,11.5516367379582,3.6,0,4.3
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-11,FALSE,TRUE,6,"tmed,tmax,tmin,hrMedia,sol,velmedia",21.9421968851515,28.3882482804055,15.3490619690308,0.1,64.5397023916526,12.5309017873993,5.26142392722387,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-12,FALSE,TRUE,1,"sol",17.2,21.1,13.4,0.6,66,13.4780748338767,7.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-13,FALSE,TRUE,1,"sol",15.9,19.5,12.3,0.1,65,10.1644779721478,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-14,FALSE,TRUE,1,"sol",15.5,19.6,11.4,0,60,13.6787498171482,6.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-15,FALSE,TRUE,1,"sol",17.6,25.2,10.1,0,45,13.888733798501,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-16,FALSE,TRUE,1,"sol",20.1,30.3,9.9,0,40,11.865147945973,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-17,FALSE,TRUE,1,"sol",23.8,36.1,11.5,0,37,13.0206426159986,0.6,0,1.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-18,FALSE,TRUE,1,"sol",26.6,37.4,15.8,0,28,12.0865277692819,1.9,0,4.6
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-19,FALSE,TRUE,1,"sol",27.8,39.2,16.3,0,24,13.4317109906456,2.8,0,5.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-20,FALSE,TRUE,1,"sol",25.8,33.5,18,0.5,56,11.6932489798463,1.4,0,3.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-21,FALSE,TRUE,1,"sol",22.3,29,15.6,11.3,66,12.5199387572564,5,0,0.300000000000001
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-22,FALSE,TRUE,6,"tmed,tmax,tmin,hrMedia,sol,velmedia",21.7667272736558,28.6593390433988,14.5542389002612,0,65.4416428382091,13.9384012685181,5.40487003525562,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-23,FALSE,TRUE,1,"sol",19.4,24.3,14.6,0,75,14.2659384342671,6.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-24,FALSE,TRUE,1,"sol",20.6,25.3,16,0,66,12.4732066985358,6.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-25,FALSE,TRUE,1,"sol",20.3,27.1,13.5,0,64,14.0194990599968,5.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-26,FALSE,TRUE,1,"sol",23,28.8,17.3,0,62,13.1936314123589,6.4,0,1
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-27,FALSE,TRUE,1,"sol",20.4,25.2,15.5,0,59,13.7072014608869,7.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-28,FALSE,TRUE,1,"sol",22.2,29.3,15,0,57,13.2306295825691,5.6,0,0.199999999999999
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-29,FALSE,TRUE,7,"tmed,tmax,tmin,prec,hrMedia,sol,velmedia",23.791534258941,33.0057719312103,15.0376583531644,0.00179267902501384,64.3103174981945,14.1930032104726,5.54223170629751,0,1.79153425894102
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-30,FALSE,TRUE,1,"sol",26.2,35.9,16.6,0,67,13.7035725862818,4.7,0,4.2
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-07-31,FALSE,TRUE,1,"sol",20.4,24.5,16.4,0,66,13.2085816494777,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-08-24,FALSE,TRUE,2,"hrMedia,velmedia",26.5,36.9,16.1,0,29.2692552385467,11,2.55446441910181,0,4.5
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-09-07,FALSE,TRUE,2,"hrMedia,velmedia",25.2,35.7,14.7,0,59.1380402364838,11.7,4.6962322735038,0,3.2
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-09-09,FALSE,TRUE,3,"hrMedia,sol,velmedia",21.6,28.3,14.8,0,64.3264219681196,7.09072410536321,3.9039965696095,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-09-13,FALSE,TRUE,2,"tmed,tmin",22.1911224465787,29.7,13.9570293895953,9.3,63,2.4,4.7,0,0.19112244657871
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-09-14,FALSE,TRUE,5,"tmed,tmin,hrMedia,sol,velmedia",17.947848869614,22.3,11.8054375610993,0.4,66.1253663197436,1.8866148488144,4.53682778011708,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-10-01,FALSE,TRUE,1,"prec",16.8,21.5,12.2,0.41865697994384,79,5.7,4.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-10-21,FALSE,TRUE,3,"tmed,tmax,tmin",11.6615856844191,14.3027790141345,8.31647336257356,0,63,10.2,0.8,3.33841431558088,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-10-22,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,velmedia",14.158845532772,18.1436266230271,9.89882738847497,0.3,66.08939697077,0,5.54898350423181,0.841154467227998,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2016-11-26,FALSE,TRUE,1,"prec",5.2,8.4,2,2.3127267059434,84,0,2.8,9.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-01-17,FALSE,TRUE,1,"prec",1.1,5.8,-3.6,1.88776444965822,51,8.8,7.5,13.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-01-18,FALSE,TRUE,2,"hrMedia,velmedia",-3.3,-1.5,-5.1,0,66.4936896566929,0,3.26271240129456,18.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-02-13,FALSE,TRUE,1,"prec",8.5,13.5,3.5,1.09784098083878,69,0,7.5,6.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-02-27,FALSE,TRUE,1,"velmedia",8.5,16.9,0.1,0,62,8.1,4.26050860931351,6.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-05-01,FALSE,TRUE,1,"prec",7.6,16.3,-1.2,6.97794329924921,62,9.6,0.8,7.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-05-13,FALSE,TRUE,1,"prec",15.8,22.2,9.4,1.82703077393928,56,9.2,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-05-20,FALSE,TRUE,1,"prec",12.6,19.8,5.4,0.00461724996674459,60,9.2,2.2,2.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-06-21,FALSE,TRUE,1,"prec",27,36.5,17.6,0.00357798872348508,39,12.7,2.8,0,5
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-06-24,FALSE,TRUE,1,"prec",21.2,25.5,16.9,6.01303514609432,65,7.6,6.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-07-03,FALSE,TRUE,1,"prec",20.2,27.2,13.2,0,58,14.2,5.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-07-24,FALSE,TRUE,1,"prec",19.8,24.5,15.1,0.00850014512064767,75,4.5,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-07-25,FALSE,TRUE,1,"prec",17.8,21.4,14.3,0.00493423092923573,71,2.3,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-08-09,FALSE,TRUE,1,"prec",15.4,20.6,10.2,0.186096194915089,60,6.7,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-08-23,FALSE,TRUE,1,"prec",24.7,32.9,16.5,0.867782134293113,64,4.9,1.4,0,2.7
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-08-24,FALSE,TRUE,1,"prec",26.1,36.1,16.1,0.448311819344362,55,11.3,4.4,0,4.1
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-08-31,FALSE,TRUE,1,"prec",17.4,23,11.9,2.55400143513397,66,7.5,4.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-09-12,FALSE,TRUE,1,"prec",17.2,21.8,12.7,0.0719029468518484,71,6.8,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-09-18,FALSE,TRUE,1,"prec",14.7,18.5,10.9,3.54346211790332,83,1,2.5,0.300000000000001,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-09-24,FALSE,TRUE,1,"prec",20.3,29.8,10.8,0.000233581288313273,61,10.4,0.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-10-19,FALSE,TRUE,1,"prec",14.2,19.7,8.8,6.15440128052282,77,5.7,1.4,0.800000000000001,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-10-27,FALSE,TRUE,1,"prec",12.1,18.1,6.1,0,75,1,4.4,2.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2017-11-11,FALSE,TRUE,1,"prec",11.2,13.6,8.9,0,85,1.6,3.6,3.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-01-21,FALSE,TRUE,1,"prec",11.6,13.4,9.9,1.62681048035733,88,0.8,5.6,3.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-02-12,FALSE,TRUE,1,"prec",2.2,6.9,-2.5,2.4463012059895,71,5.4,3.9,12.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-02-17,FALSE,TRUE,1,"prec",8,12.3,3.8,0.0575821885116538,74,2,6.1,7,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-03-27,FALSE,TRUE,1,"prec",9.2,13.3,5.2,2.49670508926645,83,1.2,3.1,5.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-04-14,FALSE,TRUE,2,"sol,velmedia",11.4,18.4,4.5,0,68,2.55268527232778,2.63113623147465,3.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-04-28,FALSE,TRUE,1,"prec",14.4,21.2,7.6,4.0424914564538,76,5.6,4.2,0.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-05-06,FALSE,TRUE,1,"velmedia",15.2,25.6,4.9,0,59,8.2,5.62892036090465,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-05-07,FALSE,TRUE,1,"velmedia",18,25.6,10.3,1.8,71,4.2,5.03876895750323,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-05-24,FALSE,TRUE,1,"hrMedia",20.6,27.9,13.2,2.5,72.741745878427,4.7,1.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-05-25,FALSE,TRUE,1,"hrMedia",17.7,23.1,12.3,5.7,73.4812506148874,2.7,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-05-28,FALSE,TRUE,1,"prec",15.4,18.1,12.8,11.5440553428196,82,0.3,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-06-13,FALSE,TRUE,1,"prec",15.2,18.2,12.1,1.04796960530919,74,2.8,7.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-06-27,FALSE,TRUE,1,"prec",23.2,30.2,16.2,0.00035077504990233,72,5.7,3.1,0,1.2
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-07-01,FALSE,TRUE,1,"prec",24.8,32.5,17.2,0.457248267832331,54,10.6,2.2,0,2.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-07-22,FALSE,TRUE,2,"hrMedia,velmedia",19.2,26.4,12.1,0,53.2961112306398,10.9,2.55392873164934,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-08-13,FALSE,TRUE,1,"prec",20.4,26.2,14.6,1.94622190474722,69,10,4.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-09-09,FALSE,TRUE,1,"prec",21.7,27.4,16,8.45863813301383,73,8.4,3.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-11-11,FALSE,TRUE,1,"prec",13.6,17.6,9.5,11.9721962602788,68,0.5,6.7,1.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-11-14,FALSE,TRUE,3,"tmed,tmax,tmin",12.726903503603,16.7102219230989,8.41253747174804,0,79,2.2,2.5,2.27309649639696,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-12-05,FALSE,TRUE,1,"prec",7.5,10.9,4.1,0.247622661173132,96,0,0.8,7.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-12-18,FALSE,TRUE,1,"prec",6,10.6,1.5,0.0128378349951505,56,1.1,2.8,9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2018-12-24,FALSE,TRUE,1,"prec",9.4,15.2,3.7,0,79,4,2.5,5.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-01-14,FALSE,TRUE,1,"prec",8.5,10.5,6.5,0.0100687507241367,81,0.5,4.7,6.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-01-16,FALSE,TRUE,1,"prec",2.8,8.4,-2.9,1.86184003699566,87,6.6,1.7,12.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-02-05,FALSE,TRUE,1,"prec",8.4,12.1,4.6,0.164718780218886,87,0,3.3,6.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-03-12,FALSE,TRUE,1,"prec",7.6,17,-1.8,1.82574251086995,69,9.3,2.8,7.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-04-22,FALSE,TRUE,1,"prec",12.5,19.5,5.5,2.50936824990618,61,6.5,3.6,2.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-05-21,FALSE,TRUE,1,"prec",12.2,20.4,4,0.0057166560296473,61,13.4,4.7,2.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-05-24,FALSE,TRUE,1,"prec",12.8,14.5,11.1,7.2047485660711,83,0,5,2.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-06-08,FALSE,TRUE,1,"prec",14.6,24.5,4.7,0.020727763182367,55,8.9,2.2,0.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-06-11,FALSE,TRUE,1,"prec",11.4,16.2,6.6,0.302437101482458,71,4.5,4.7,3.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-06-25,FALSE,TRUE,1,"prec",25.6,34.8,16.5,0,58,9.4,2.5,0,3.6
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-07-01,FALSE,TRUE,3,"tmed,tmax,tmin",25.6894640067742,38.1988036816801,13.8428799300098,7.5,68,9.4,7.2,0,3.68946400677417
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-07-02,FALSE,TRUE,3,"tmed,tmax,tmin",24.5910108478841,34.1564941120324,15.6814240933836,1,71,9.3,4.2,0,2.59101084788407
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-09-16,FALSE,TRUE,1,"prec",23.4,31.1,15.8,11.3166817921771,64,9.2,1.9,0,1.4
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-09-22,FALSE,TRUE,1,"prec",18,23.8,12.1,1.4593253958672,67,5.9,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-10-01,FALSE,TRUE,1,"prec",19.7,27.2,12.2,0.0109132533681907,65,8.9,4.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-10-02,FALSE,TRUE,1,"prec",16.2,20,12.4,0,77,2.9,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-10-26,FALSE,TRUE,1,"prec",13.8,22.4,5.3,0.111197055724413,78,8.7,1.1,1.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-11-18,FALSE,TRUE,1,"prec",4,7.7,0.3,1.4482515201659,77,1.2,4.7,11,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-12-01,FALSE,TRUE,1,"prec",7.7,11.1,4.3,11.947153646322,89,3.2,0.8,7.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-12-10,FALSE,TRUE,1,"prec",8.6,13.8,3.3,7.31747983533592,75,7.2,1.9,6.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2019-12-25,FALSE,TRUE,1,"prec",5.8,9.8,1.8,1.12178616645828,98,2.1,0.8,9.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-01-21,FALSE,TRUE,1,"prec",2,3.2,0.7,0.563687066906212,81,2,5,13,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-01-24,FALSE,TRUE,1,"hrMedia",8.2,11.7,4.6,0,86.9054616270216,2.6,2.2,6.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-01-26,FALSE,TRUE,1,"prec",8.8,14.1,3.5,2.91184481116534,74,6.4,1.7,6.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-01-27,FALSE,TRUE,1,"prec",5.4,9.3,1.6,1.49960663587834,80,0,1.7,9.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-03-26,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,velmedia",8.36046061784438,14.3828062038569,2.15898338919648,0,67.2716641244488,5.4,3.65352976382257,6.63953938215562,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-04-13,FALSE,TRUE,1,"prec",13,19.7,6.4,0.542952199880121,67,2.9,1.9,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-04-16,FALSE,TRUE,4,"tmed,tmax,tmin,hrMedia",15.3515328110416,21.2769250967473,9.52842103717864,3,62.5324001405281,2,6.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-04-24,FALSE,TRUE,1,"prec",17.6,24,11.3,1.95535609611835,70,4,1.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-05-10,FALSE,TRUE,1,"sol",14.1,16.9,11.3,4.5,84,9.55354323825429,3.1,0.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-05-11,FALSE,TRUE,1,"sol",15.8,20.4,11.3,0,68,6.54402308229507,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-05-15,FALSE,TRUE,1,"sol",11.2,12.8,9.6,0.1,82,3.26047980687628,4.4,3.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-05-19,FALSE,TRUE,1,"sol",16.5,24,9,0,58,13.565875532851,6.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-05-24,FALSE,TRUE,1,"sol",16.8,23.6,10.1,0,61,1.10324009839623,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-05-28,FALSE,TRUE,1,"sol",20.5,29.7,11.3,0,46,9.29464550517756,1.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-06-01,FALSE,TRUE,1,"sol",21,28.9,13,0,57,5.97945875057493,1.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-06-07,FALSE,TRUE,1,"sol",11.9,15.3,8.5,0.1,74,5.89310480045129,5.6,3.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-06-13,FALSE,TRUE,1,"sol",16.2,22.3,10,0,63,5.19215323815234,2.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-06-18,FALSE,TRUE,1,"sol",16.6,23.5,9.6,0,69,8.56411980755008,3.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-06-24,FALSE,TRUE,1,"prec",25,34,15.9,3.30019258682427,45,9.9,3.3,0,3
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-06-28,FALSE,TRUE,3,"tmed,tmax,tmin",21.2127456466394,28.7917774055509,13.9513979021014,0,63,11.1,5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-08-28,FALSE,TRUE,1,"prec",17.2,20.1,14.2,4.04160194433061,71,0.1,6.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-09-15,FALSE,TRUE,1,"prec",25.6,32.2,19,1.4165822169702,42,10.1,2.2,0,3.6
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-09-18,FALSE,TRUE,1,"prec",23.2,27.5,18.8,6.40305506853385,59,2.1,6.9,0,1.2
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-09-30,FALSE,TRUE,1,"prec",16,26.3,5.6,6.31013847713266,61,10.7,1.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-10-05,FALSE,TRUE,1,"prec",13,18,8.1,0.798757537436731,73,3.9,1.1,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-10-28,FALSE,TRUE,1,"prec",13,18.2,7.7,0,78,3.8,1.9,2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-11-08,FALSE,TRUE,1,"prec",11.6,16,7.2,0.146740639627964,78,5.5,3.1,3.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-11-11,FALSE,TRUE,1,"prec",8.8,14.7,2.8,2.79341656046625,88,7.1,2.2,6.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-11-21,FALSE,TRUE,1,"prec",7.5,14.7,0.3,0,58,8.8,1.1,7.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-12-02,FALSE,TRUE,1,"prec",5.2,8.1,2.3,5.99288182114001,71,3.7,5,9.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2020-12-16,FALSE,TRUE,1,"prec",9.2,11.5,6.8,0,66,1.9,4.7,5.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-01-03,FALSE,TRUE,1,"prec",1.4,4.5,-1.6,0.795374490271612,84,1,1.9,13.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-01-28,FALSE,TRUE,1,"prec",11.4,15.9,6.9,1.24927032125121,92,3.9,0.3,3.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-02-02,FALSE,TRUE,1,"prec",11,18.2,3.7,1.76180610735029,77,4,3.1,4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-02-05,FALSE,TRUE,1,"velmedia",12,17.3,6.6,2.8,80,5.8,2.35543407466381,3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-02-23,FALSE,TRUE,1,"prec",9.1,15,3.2,7.5975977957892,69,9.1,5.8,5.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-03-02,FALSE,TRUE,1,"prec",10.4,13.7,7.2,3.10745750843882,69,0.1,3.6,4.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-05-01,FALSE,TRUE,1,"prec",8.6,14.4,2.9,0.432997121357704,68,5.3,5.3,6.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-06-02,FALSE,TRUE,1,"sol",19,28.2,9.9,0,54,4.48034229104849,3.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-06-15,FALSE,TRUE,1,"prec",24.4,32.7,16.1,2.41023932454561,58,9.7,2.2,0,2.4
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-06-25,FALSE,TRUE,1,"prec",18.2,27.3,9.1,0.294387746079742,60,13.4,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-07-11,FALSE,TRUE,1,"prec",23.8,36,11.5,0,50,9.4,2.5,0,1.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-07-17,FALSE,TRUE,1,"prec",21.8,29.5,14.1,0.00324331413900575,57,13.7,5.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-07-23,FALSE,TRUE,1,"prec",27,37.8,16.3,0.00606188730713916,61,6.8,5,0,5
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-07-29,FALSE,TRUE,3,"tmed,tmax,tmin",22.3210430146467,28.6285866425729,16.4429624926233,0,64,5.5,2.8,0,0.321043014646669
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-07-31,FALSE,TRUE,1,"prec",15.8,19.4,12.1,0.00893313802668022,69,0.4,6.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-08-04,FALSE,TRUE,1,"prec",21.2,26.2,16.1,1.29630334457681,70,6.1,4.2,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-08-07,FALSE,TRUE,1,"prec",19,25.1,13,0.312166354907624,66,8.5,5.3,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-08-09,FALSE,TRUE,1,"prec",22.8,32.4,13.2,0,55,7.5,2.8,0,0.800000000000001
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-09-15,FALSE,TRUE,1,"prec",21,28.5,13.5,3.66777227104497,75,5.1,1.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-09-21,FALSE,TRUE,1,"prec",14.2,18.7,9.7,0.661191212052727,73,0.9,4.2,0.800000000000001,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-10-17,FALSE,TRUE,1,"prec",14.1,18,10.2,0.200008253546747,79,0.9,0.8,0.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-11-13,FALSE,TRUE,1,"prec",12.7,15.7,9.7,0.579651472217393,77,1.3,4.2,2.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-11-15,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,velmedia",10.8242698537844,13.8655862631787,7.14937685094323,0,77.7810393838796,0.9,5.17993069297437,4.17573014621558,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2021-12-24,FALSE,TRUE,1,"prec",9.8,13.2,6.5,1.53014962008094,91,1.2,1.7,5.2,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-02-24,FALSE,TRUE,1,"prec",7.2,13.8,0.5,0.00263623738062571,74,4.8,3.9,7.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-05-22,FALSE,TRUE,1,"prec",24.6,32.9,16.4,0,43,5,5.6,0,2.6
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-06-08,FALSE,TRUE,1,"prec",19.1,24.8,13.4,0,67,2.2,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-06-11,FALSE,TRUE,2,"hrMedia,velmedia",23.8,33.7,13.8,0.1,53.4778427852067,7.4,5.33235869806567,0,1.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-08-03,FALSE,TRUE,1,"prec",28.6,39.3,18,5.29920616399316,45,5.7,3.3,0,6.6
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-09-05,FALSE,TRUE,1,"velmedia",26,33.7,18.2,0,37,10.3,5.15886221933646,0,4
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-09-15,FALSE,TRUE,3,"prec,hrMedia,velmedia",23,29.7,16.3,1.36896232511974,60.4697979864554,6.4,3.32072310835528,0,1
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-09-22,FALSE,TRUE,1,"prec",16.8,27.3,6.3,0.500557874033127,57,9.7,2.5,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-11-01,FALSE,TRUE,1,"prec",14.6,20.1,9,0.435668857735894,77,5.9,0.8,0.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-11-02,FALSE,TRUE,1,"prec",13.4,20.9,5.8,1.17745648790139,76,4.6,0.8,1.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-12-05,FALSE,TRUE,1,"prec",2.4,6.6,-1.9,0,87,1,1.4,12.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-12-10,FALSE,TRUE,1,"prec",3.2,7.8,-1.4,0.122167843363024,64,8,5,11.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2022-12-30,FALSE,TRUE,1,"prec",12.6,15.8,9.4,2.40037242624682,83,0.5,2.8,2.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-01-11,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,velmedia",5.85502965973438,11.2215853331181,1.04846587815978,1.4,85.3566773945903,0,1.78004015153186,9.14497034026562,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-01-19,FALSE,TRUE,3,"tmed,tmax,tmin",1.26342801863283,4.31148272546463,-2.65005548023753,7.1,86,0,3.3,13.7365719813672,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-04-08,FALSE,TRUE,1,"prec",13.4,24.1,2.7,0,40,11.8,2.2,1.6,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-05-13,FALSE,TRUE,3,"hrMedia,sol,velmedia",11,13.8,8.2,10.5,83.5594838803861,5.18636207808174,4.2596200780174,4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-05-22,FALSE,TRUE,1,"prec",16.4,20.9,12,1.99614857569845,69,5.4,6.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-05-24,FALSE,TRUE,1,"prec",16.8,21,12.7,1.99591069374896,77,3.2,5.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-06-01,FALSE,TRUE,1,"prec",17.8,24.4,11.1,3.54864165530728,75,4.7,2.8,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-06-08,FALSE,TRUE,1,"hrMedia",22.1,26.8,17.4,0,68.1258378026034,2.8,4.4,0,0.100000000000001
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-08-29,FALSE,TRUE,1,"prec",18.1,22.4,13.8,0.640728076433791,75,3.3,4.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-08-31,FALSE,TRUE,5,"tmed,tmax,tmin,hrMedia,velmedia",17.2158967596879,28.5861777108826,13.2217962271539,0,56.397917961635,9.8,4.35448182922217,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-09-01,FALSE,TRUE,2,"tmed,tmin",15.8493869646643,33.9,12.4525975372908,55.8,49,10.9,3.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-09-05,FALSE,TRUE,1,"prec",25.8,31.9,19.6,0,47,10.3,3.6,0,3.8
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-09-06,FALSE,TRUE,1,"prec",24.1,31.7,16.5,0,50,10.9,2.5,0,2.1
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-09-11,FALSE,TRUE,2,"hrMedia,velmedia",21.8,27.4,16.2,6.3,69.5230081786696,5.2,2.87896372901246,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-09-12,FALSE,TRUE,1,"prec",20.2,26,14.4,3.1600071190405,76,5.8,3.9,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-10-24,FALSE,TRUE,1,"prec",13.2,17.6,8.8,7.29751792412833,75,4.6,2.8,1.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-11-07,FALSE,TRUE,4,"tmed,tmin,hrMedia,velmedia",9.03030896601821,11.1,2.64679796581438,0.2,72.6700634728378,1.6,3.57222520590057,5.96969103398179,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-11-09,FALSE,TRUE,1,"prec",12,15.4,8.5,6.37554079585279,79,2.3,1.7,3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-12-03,FALSE,TRUE,1,"prec",5.2,10.1,0.2,2.60907457681782,84,3.4,2.5,9.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-12-14,FALSE,TRUE,3,"tmed,tmax,tmin",9.00897813962089,12.457878282405,5.57829783797161,3,86,0.7,4.4,5.99102186037911,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-12-15,FALSE,TRUE,3,"prec,hrMedia,velmedia",9.6,12.7,6.4,0.108330681231697,81.7807375073807,2,3.55742195481096,5.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-12-23,FALSE,TRUE,1,"prec",9.5,12.2,6.8,0,83,4.6,4.7,5.5,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2023-12-29,FALSE,TRUE,1,"prec",5.9,9.8,2,0,82,0.6,1.4,9.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-02-16,FALSE,TRUE,1,"prec",9.7,13.9,5.5,10.1639046027433,76,2.8,3.9,5.3,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-03-21,FALSE,TRUE,1,"prec",16.5,24.2,8.8,1.70432468593174,72,8.9,1.4,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-05-20,FALSE,TRUE,1,"prec",13.2,18.7,7.8,12.9455554382958,76,3.3,3.1,1.8,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-05-25,FALSE,TRUE,1,"prec",17.7,28,7.4,0.00532835530681619,53,11.3,1.7,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-06-07,FALSE,TRUE,1,"prec",23.2,32.3,14,0.393834141045827,56,6.3,2.8,0,1.2
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-06-19,FALSE,TRUE,2,"hrMedia,velmedia",19.6,25.5,13.7,8.4,75.3978697267549,6.3,4.20537097035882,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-07-15,FALSE,TRUE,1,"prec",22.3,30.1,14.5,0,72,6.8,5,0,0.300000000000001
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-08-21,FALSE,TRUE,2,"hrMedia,velmedia",20.7,26.2,15.2,0,67.1348109700251,4.2,3.90620197031136,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-08-27,FALSE,TRUE,2,"hrMedia,velmedia",22.2,31.9,12.5,0,71.2756157348358,7.5,4.37153103084414,0,0.199999999999999
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-08-28,FALSE,TRUE,2,"hrMedia,velmedia",27.5,35.6,19.4,0,74.063221137997,7.2,3.22154629210084,0,5.5
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-08-30,FALSE,TRUE,2,"hrMedia,velmedia",23.4,29.1,17.6,10.3,76.7104049215231,4.6,3.27358829401927,0,1.4
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-09-12,FALSE,TRUE,1,"prec",14,17.8,10.3,0.0490038870562516,76,1.5,5.3,1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-09-24,FALSE,TRUE,2,"hrMedia,velmedia",17.2,23.5,10.8,0.1,68.2111788741124,4.8,4.37347867056099,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-09-25,FALSE,TRUE,1,"prec",17.6,23.9,11.4,0.190902445163447,72,2.9,5.6,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-10-04,FALSE,TRUE,1,"prec",11.9,17.9,5.9,0.500662725502214,75,10.2,3.9,3.1,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-10-10,FALSE,TRUE,1,"prec",13.1,17.4,8.8,5.24388729295549,76,3.7,1.7,1.9,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-11-01,FALSE,TRUE,1,"prec",13.6,20,7.3,0.559133770233764,88,8.2,1.9,1.4,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-11-05,FALSE,TRUE,1,"prec",16.2,21.2,11.2,0,83,5.1,1.1,0,0
+"31","Navarra","9263D","Pamplona/Noain aeropuerto",2024-12-26,FALSE,TRUE,1,"prec",6.8,10.1,3.4,0.0485651996838273,96,0,0,8.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-01-03,FALSE,TRUE,1,"prec",14.8,19.2,10.3,5.64356085928639,87,0.2,1.7,0.199999999999999,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-01-16,FALSE,TRUE,1,"prec",12.1,15.9,8.3,1.68409218741606,59,7,5,2.9,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-05-03,FALSE,TRUE,1,"prec",12.2,17.2,7.1,0.178150580532674,77,0.5,3.6,2.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-05-11,FALSE,TRUE,1,"prec",14.4,18.3,10.5,3.48526596338861,72,3.5,4.2,0.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-05-20,FALSE,TRUE,1,"prec",17.6,23.7,11.4,1.34768618581247,61,6.8,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-07-07,FALSE,TRUE,1,"prec",17.8,21.3,14.4,8.28288854818608,70,6.5,3.3,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-07-25,FALSE,TRUE,1,"prec",22.6,26,19.1,5.58707670789171,79,2.9,3.1,0,0.600000000000001
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-07-29,FALSE,TRUE,1,"velmedia",19.4,23.1,15.8,8.9,70,2.6,2.65556834630674,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-09-23,FALSE,TRUE,1,"prec",16.9,21.6,12.2,2.84646296664212,78,0.5,1.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-10-09,FALSE,TRUE,1,"prec",18.2,22,14.5,2.99596118977319,76,0.9,0.6,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-10-12,FALSE,TRUE,1,"prec",18.7,24,13.4,0.235258561592831,59,1.2,4.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-11-07,FALSE,TRUE,1,"prec",13.3,18.6,8,0,74,3,4.4,1.7,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-11-10,FALSE,TRUE,1,"prec",10.6,17,4.2,0.174212330532936,60,8,3.3,4.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-11-21,FALSE,TRUE,1,"prec",19.1,22.3,15.9,0.57479383125996,59,7.2,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-11-23,FALSE,TRUE,1,"prec",18,23.8,12.1,9.42276394081339,91,0.9,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-11-26,FALSE,TRUE,1,"prec",12.2,14.7,9.7,2.26616581760715,91,0,0.8,2.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2014-11-27,FALSE,TRUE,1,"prec",13.4,18.4,8.3,2.13384408403348,67,5.7,6.9,1.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-01-04,FALSE,TRUE,1,"prec",10.5,13.7,7.3,0,88,0,0.6,4.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-01-05,FALSE,TRUE,1,"prec",10.7,18,3.4,0.0250768727877627,78,7.9,0.6,4.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-01-06,FALSE,TRUE,1,"prec",8.9,11.8,6,0.00538829956853398,84,0,0.3,6.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-01-07,FALSE,TRUE,1,"prec",10,16.9,3.1,0,82,6.2,1.4,5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-01-23,FALSE,TRUE,1,"prec",5.9,10.3,1.5,8.95170200182693,82,3.4,1.7,9.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-03-13,FALSE,TRUE,1,"velmedia",9.6,12.6,6.6,7.8,71,0.8,5.46513585254513,5.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-03-28,FALSE,TRUE,1,"prec",12.2,15.5,9,4.65006629615467,83,1.3,1.4,2.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-04-25,FALSE,TRUE,1,"prec",19,26,11.9,2.14196071316338,53,8.2,3.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-04-30,FALSE,TRUE,1,"prec",16.6,24.5,8.6,2.87273886891489,55,3.7,1.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-06-05,FALSE,TRUE,1,"prec",19.8,23.7,16,3.77682700036733,78,3.2,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-06-30,FALSE,TRUE,1,"prec",27.6,36.3,18.8,0.0601097462248489,55,11.3,4.7,0,5.6
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-07-23,FALSE,TRUE,1,"prec",20.2,27.6,12.7,2.00568000955463,68,7.2,1.7,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-07-27,FALSE,TRUE,1,"prec",21,24.3,17.8,0.343886743565994,75,1.4,3.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-08-06,FALSE,TRUE,1,"prec",22.4,28.8,16.1,1.00881717732283,73,4.3,2.2,0,0.399999999999999
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-08-08,FALSE,TRUE,1,"prec",18.6,22.4,14.9,1.06314744367945,76,1.4,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-09-01,FALSE,TRUE,1,"prec",18,21.9,14.1,13.1734005339293,77,2.1,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-09-10,FALSE,TRUE,1,"prec",18.6,23,14.1,0.0974752822500953,82,1.9,1.7,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-09-11,FALSE,TRUE,1,"prec",19.8,27.3,12.4,0.024762650721593,77,10.4,4.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-09-21,FALSE,TRUE,1,"prec",16,22.3,9.6,7.45573929865956,81,7.1,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-10-03,FALSE,TRUE,1,"prec",13.7,20.1,7.3,2.87407951908484,73,9,1.1,1.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-10-13,FALSE,TRUE,1,"prec",14.8,17.9,11.8,5.65009859775119,81,2.4,1.9,0.199999999999999,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-10-21,FALSE,TRUE,1,"prec",13.2,16.9,9.4,0.19867701956683,81,1.2,0.8,1.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-10-22,FALSE,TRUE,1,"prec",13.5,18.6,8.4,0.169788476076199,79,5.6,1.4,1.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-11-09,FALSE,TRUE,1,"prec",17.9,23.7,12.1,0.148016313823461,78,0.5,0,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-11-11,FALSE,TRUE,1,"prec",15.4,17.8,13,0.133452925091492,87,0.4,0.3,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-11-14,FALSE,TRUE,1,"prec",14.8,20.3,9.4,0.126626874487776,84,6.6,1.7,0.199999999999999,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-11-15,FALSE,TRUE,1,"prec",14.8,22.8,6.8,0,74,8.7,0.8,0.199999999999999,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-12-05,FALSE,TRUE,1,"prec",13.8,21.4,6.2,0,81,7.7,1.7,1.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-12-14,FALSE,TRUE,1,"prec",16.4,19.7,13.2,7.7089225343659,49,4.6,5.3,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2015-12-31,FALSE,TRUE,1,"prec",9.5,13.7,5.3,2.75209150098048,88,0,0.8,5.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-01-16,FALSE,TRUE,1,"prec",6.6,11,2.1,9.77061322068694,68,3.6,2.2,8.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-01-22,FALSE,TRUE,1,"prec",14.5,19.8,9.2,0.0097032642891956,79,0.4,0.6,0.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-02-07,FALSE,TRUE,1,"prec",9.8,13.7,5.9,9.57393891343673,64,1.5,4.2,5.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-03-27,FALSE,TRUE,1,"prec",12.2,18.8,5.6,8.8046104346123,53,9.5,4.7,2.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-03-29,FALSE,TRUE,1,"prec",14.7,21.2,8.2,12.9993558274028,72,0.8,2.2,0.300000000000001,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-05-06,FALSE,TRUE,1,"prec",19.8,24.4,15.1,4.12460260575607,43,4.9,7.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-05-10,FALSE,TRUE,1,"prec",18.9,24.1,13.7,3.49355147829217,47,7.7,4.4,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-05-23,FALSE,TRUE,1,"prec",13.5,18.9,8.1,3.62579542460858,66,7.3,2.2,1.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-07-29,FALSE,TRUE,1,"prec",21.2,26.8,15.7,1.98653285345169,72,2.3,1.7,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-08-20,FALSE,TRUE,1,"prec",19.2,23.6,14.8,0.375362726474811,73,2.9,3.6,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-09-08,FALSE,TRUE,1,"prec",19.8,21.6,17.9,1.05061824427047,87,0,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-10-29,FALSE,TRUE,1,"prec",15.6,21.9,9.3,4.69684964053704,86,9.4,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-10-31,FALSE,TRUE,1,"prec",17,26.4,7.6,0.0684578017571904,74,9.3,0.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-11-16,FALSE,TRUE,1,"prec",10.2,16.9,3.4,0.0943216920585258,83,8,0.6,4.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-11-17,FALSE,TRUE,1,"prec",12,18.6,5.3,0.272909494981088,87,6,0.6,3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-12-03,FALSE,TRUE,1,"prec",10,16,3.9,1.62318756852975,75,7.3,3.3,5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-12-04,FALSE,TRUE,1,"prec",14.2,17.3,11.1,0.159180463851603,63,1.1,7.2,0.800000000000001,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-12-17,FALSE,TRUE,1,"prec",10.5,14.2,6.8,1.37365782352563,92,0,0.3,4.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-12-22,FALSE,TRUE,1,"prec",12.3,15.3,9.3,3.67046843405951,88,0.3,1.1,2.7,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2016-12-25,FALSE,TRUE,1,"prec",10.4,14.6,6.3,0.040786760917257,88,0.6,1.9,4.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-01-23,FALSE,TRUE,1,"prec",7,11.6,2.3,0.0763738964797878,82,2.1,2.8,8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-02-09,FALSE,TRUE,1,"prec",8.5,14.6,2.4,4.41671301385187,75,6.9,3.1,6.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-03-08,FALSE,TRUE,1,"prec",14.8,19,10.6,0.267542536974367,80,4.3,2.5,0.199999999999999,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-03-14,FALSE,TRUE,1,"hrMedia",12.4,16,8.8,0,82.8792768744347,2.1,2.8,2.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-05-03,FALSE,TRUE,1,"prec",16.4,21.5,11.3,0.810650915499602,75,7,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-05-09,FALSE,TRUE,1,"prec",15,21.5,8.5,0.570861318770351,68,5,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-05-10,FALSE,TRUE,1,"prec",19.7,25.6,13.8,2.21042040717086,75,6.9,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-05-27,FALSE,TRUE,1,"prec",22.2,29.6,14.7,6.01390806421541,75,8.9,0.8,0,0.199999999999999
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-06-06,FALSE,TRUE,1,"prec",17,19.6,14.5,0.0335526813879323,73,1.8,4.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-06-14,FALSE,TRUE,1,"prec",22,26.2,17.7,9.1296673304339,85,4,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-07-10,FALSE,TRUE,1,"prec",20.8,24,17.6,4.18372309471025,84,1.5,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-10-04,FALSE,TRUE,1,"prec",21.4,27.3,15.5,0.206785887860834,84,8.7,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-10-11,FALSE,TRUE,1,"prec",18.4,25.8,11,0.024670376910831,72,9,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-10-12,FALSE,TRUE,1,"prec",18.7,26.5,10.9,2.93004905713665,77,9.2,0.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-10-19,FALSE,TRUE,1,"prec",17.4,22.6,12.1,3.57288341016036,77,6.6,1.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-10-23,FALSE,TRUE,1,"prec",15.4,22.2,8.6,0.922168421026469,75,9.5,0.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-10-28,FALSE,TRUE,1,"prec",14.2,19.2,9.1,3.15055796353613,82,0.2,1.1,0.800000000000001,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-11-17,FALSE,TRUE,1,"prec",10.3,16.9,3.7,0.097567464289963,85,6.6,0.8,4.7,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-11-19,FALSE,TRUE,1,"prec",10.2,16.5,3.9,0.0259471463546733,81,7,0.8,4.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2017-11-27,FALSE,TRUE,1,"prec",7.5,12.1,2.9,3.62426282183948,85,1.6,1.9,7.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-01-09,FALSE,TRUE,1,"prec",7.7,11.7,3.7,1.63915386288086,56,0.7,5.3,7.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-01-16,FALSE,TRUE,1,"hrMedia",13.9,15.9,11.9,3.5,74.8603798413889,0.1,2.8,1.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-01-21,FALSE,TRUE,1,"prec",13.2,16.2,10.2,4.30883648271412,80,1,3.1,1.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-01-24,FALSE,TRUE,1,"prec",12,17.6,6.4,7.69551571918089,61,6.6,2.2,3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-05-03,FALSE,TRUE,1,"prec",11.4,14.9,7.9,6.00777673598498,66,3.5,5.8,3.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-05-30,FALSE,TRUE,1,"prec",16.8,18.8,14.8,0.493274990147343,84,0,1.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-06-13,FALSE,TRUE,1,"prec",16.5,20.5,12.5,0.420781630034302,73,4.6,5.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-06-29,FALSE,TRUE,1,"prec",22.8,27.9,17.7,0.427838254831817,79,8.5,3.3,0,0.800000000000001
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-07-12,FALSE,TRUE,1,"prec",20.5,25.2,15.8,5.07904336446869,79,1.4,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-07-23,FALSE,TRUE,1,"prec",23,30.9,15.1,0.0729000153377269,65,13.7,2.8,0,1
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-08-25,FALSE,TRUE,1,"prec",19,22.4,15.6,0.321228717995019,75,0.6,3.3,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-09-11,FALSE,TRUE,1,"prec",22.2,29.6,14.7,0.0376149113400414,73,10.9,2.8,0,0.199999999999999
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-10-02,FALSE,TRUE,1,"prec",13.7,19.7,7.7,0,63,9.2,2.8,1.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-10-09,FALSE,TRUE,1,"prec",17.3,24,10.6,0.203929593334845,70,9.7,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-11-03,FALSE,TRUE,1,"prec",10.8,16.3,5.3,0,81,6.8,1.4,4.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-11-23,FALSE,TRUE,1,"prec",13.2,16.5,9.9,1.43645159648115,64,5.7,3.9,1.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-11-27,FALSE,TRUE,1,"prec",10.6,15.6,5.7,6.07657372691152,78,3.7,0.6,4.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2018-12-08,FALSE,TRUE,1,"prec",11,16.6,5.3,8.13467913477238,79,6.1,2.2,4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-02-05,FALSE,TRUE,1,"prec",12,16.8,7.2,6.79624186542226,75,3.6,2.5,3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-02-06,FALSE,TRUE,1,"prec",12.1,20.1,4.1,6.46950380633815,77,7.4,1.7,2.9,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-02-12,FALSE,TRUE,1,"prec",8.8,13.6,4.1,2.93635724247095,78,7.3,3.1,6.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-02-19,FALSE,TRUE,1,"prec",10.6,14.6,6.6,0.587155248673897,88,3.3,1.7,4.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-03-11,FALSE,TRUE,1,"prec",10.8,14.6,6.9,0,74,1.7,1.9,4.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-08-04,FALSE,TRUE,1,"prec",20.9,23.8,18,0.324064929414418,83,0,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-08-07,FALSE,TRUE,1,"prec",24.4,29.5,19.4,0.0303377842207267,68,8.6,3.3,0,2.4
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-09-12,FALSE,TRUE,1,"prec",18.3,24,12.6,0.00312984335992539,70,10.9,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-09-16,FALSE,TRUE,1,"prec",23,28.1,17.9,3.48148297381295,86,8.3,3.1,0,1
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-09-27,FALSE,TRUE,1,"prec",19.6,24.9,14.4,0.00632871347053027,80,6.8,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-10-05,FALSE,TRUE,1,"prec",17,20.8,13.1,1.88548900216741,83,2.3,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-10-09,FALSE,TRUE,1,"prec",16,20.1,11.9,1.04320782755872,75,5.6,4.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-10-12,FALSE,TRUE,1,"prec",23.1,29.8,16.4,4.97145043453579,54,1.6,5.6,0,1.1
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-10-13,FALSE,TRUE,1,"prec",21.1,28.3,13.9,4.41325618628269,64,6.8,3.6,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-10-25,FALSE,TRUE,1,"prec",18.8,26.3,11.2,3.16771771339864,73,9.5,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-11-19,FALSE,TRUE,1,"prec",9,14.3,3.7,2.40775847439752,82,6.6,2.5,6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-11-29,FALSE,TRUE,1,"prec",13.7,18.6,8.8,1.90744399210854,82,5.9,1.1,1.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-12-05,FALSE,TRUE,1,"prec",9.6,13.6,5.6,0,88,0.7,1.7,5.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2019-12-06,FALSE,TRUE,1,"prec",10.2,16,4.4,0,83,2.9,1.4,4.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-01-19,FALSE,TRUE,1,"prec",8.4,9.8,7.1,14.148394219303,65,1.1,4.7,6.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-02-05,FALSE,TRUE,1,"prec",7.6,12.3,2.8,5.34442750760572,74,3.9,2.8,7.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-02-12,FALSE,TRUE,1,"prec",12.8,16.1,9.4,1.04805770639873,83,1.9,2.2,2.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-02-22,FALSE,TRUE,1,"prec",12.4,19.5,5.3,0.0504401876844375,78,7.7,1.1,2.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-02-28,FALSE,TRUE,1,"prec",14,20.6,7.4,3.93415022427861,68,4.2,2.5,1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-03-10,FALSE,TRUE,1,"prec",10.8,16,5.7,0.666266921948152,80,3.8,1.9,4.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-03-11,FALSE,TRUE,1,"prec",12.5,19.6,5.4,1.92326878307207,84,10.2,3.1,2.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-03-17,FALSE,TRUE,1,"prec",11.4,13.8,9,9.63630705569558,92,0,1.4,3.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-03-19,FALSE,TRUE,1,"prec",16.6,24.3,8.8,0.0150941523327379,76,5.1,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-04-02,FALSE,TRUE,1,"prec",10.2,15.1,5.3,0.248846142485461,78,1,2.8,4.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-04-13,FALSE,TRUE,1,"prec",14,18.1,9.8,0.300961829511633,69,2.3,3.9,1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-04-24,FALSE,TRUE,1,"prec",17.7,22,13.4,2.29037542239848,83,2.8,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-05-31,FALSE,TRUE,1,"prec",22.2,28,16.4,0,67,4.5,3.3,0,0.199999999999999
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-06-14,FALSE,TRUE,1,"prec",17.8,22.6,13,1.7534869716916,66,9.2,3.3,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-09-01,FALSE,TRUE,1,"prec",19,24.8,13.1,0.0143297463820328,68,10.2,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-09-06,FALSE,TRUE,1,"prec",19.2,21.9,16.4,0.0451312115415512,69,0.1,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-09-17,FALSE,TRUE,1,"prec",25.8,32.5,19.1,0.222860023131671,65,1.4,1.9,0,3.8
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-09-27,FALSE,TRUE,1,"prec",14.4,18.4,10.4,16.4313544618622,72,3.4,4.7,0.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-10-28,FALSE,TRUE,1,"prec",14.5,17.9,11.1,4.45666015461612,78,0,2.2,0.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-10-29,FALSE,TRUE,1,"prec",15.5,22.1,8.9,0.220678125894721,75,8.9,1.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-10-30,FALSE,TRUE,1,"prec",12.9,19.4,6.4,0.247736388065438,87,9.1,1.7,2.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-10-31,FALSE,TRUE,1,"prec",18.1,26.5,9.7,0,50,8.8,3.3,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-11-11,FALSE,TRUE,1,"hrMedia",15.5,21.3,9.7,0,83.0103750361325,5.8,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-11-22,FALSE,TRUE,1,"prec",9.5,16.1,2.9,0,70,8.6,1.9,5.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-11-30,FALSE,TRUE,1,"prec",8.8,13.1,4.6,0,90,0,1.7,6.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-12-15,FALSE,TRUE,1,"prec",11.4,16,6.9,8.0394967141421,65,6.3,3.3,3.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2020-12-17,FALSE,TRUE,1,"prec",11.1,16,6.2,1.77011008766531,76,7,2.5,3.9,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-01-18,FALSE,TRUE,1,"prec",9.2,13.4,5.1,9.62309282875999,90,2,1.1,5.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-03-05,FALSE,TRUE,1,"prec",9.9,13.4,6.4,0.0333142316308166,83,0,2.5,5.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-03-09,FALSE,TRUE,1,"prec",6.8,11.7,1.8,3.89169221822971,72,0.8,2.5,8.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-03-22,FALSE,TRUE,1,"prec",9,14.2,3.9,0.177817727337917,73,6,3.1,6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-03-24,FALSE,TRUE,1,"prec",8.8,15.8,1.7,0.100174347173838,76,5.2,3.1,6.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-03-27,FALSE,TRUE,1,"prec",11.4,16.3,6.5,0.31178327950991,71,5.9,2.8,3.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-04-12,FALSE,TRUE,1,"prec",8.2,13.3,3.2,3.82937135306643,67,8,2.8,6.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-05-03,FALSE,TRUE,1,"prec",12.2,19.9,4.6,0.500376754462616,64,5.1,2.2,2.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-06-19,FALSE,TRUE,1,"prec",21,25.6,16.5,8.66118788655029,81,5.1,3.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-06-26,FALSE,TRUE,1,"prec",17.6,22.6,12.5,0.267221613296091,76,5.2,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-06-30,FALSE,TRUE,1,"prec",18.7,21.9,15.5,0,72,1.9,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-07-01,FALSE,TRUE,1,"prec",19.1,21.8,16.4,0.253744290247039,85,0,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-07-06,FALSE,TRUE,1,"prec",17.6,19.1,16,3.75408427666849,73,0,1.7,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-07-14,FALSE,TRUE,1,"prec",17.6,20.4,14.9,2.99078882698252,79,1.1,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-07-20,FALSE,TRUE,1,"prec",21.1,26.6,15.6,0.183798619004951,80,10.6,3.6,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-07-28,FALSE,TRUE,1,"prec",18.4,21.8,14.9,1.29413456485386,81,0,1.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-09-24,FALSE,TRUE,1,"prec",19.4,24.9,14,1.00890776750538,82,6.1,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-10-06,FALSE,TRUE,1,"prec",15.2,20.2,10.1,3.73065342431597,79,8.6,1.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-10-26,FALSE,TRUE,1,"prec",14.6,20.7,8.4,0.166904894351779,78,6.9,2.2,0.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-10-28,FALSE,TRUE,1,"prec",16.5,24.4,8.6,5.46451909228829,51,8.1,3.6,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-11-13,FALSE,TRUE,1,"prec",14.4,17,11.7,6.87340962773207,88,0.3,2.5,0.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2021-12-27,FALSE,TRUE,1,"prec",15.4,19.8,10.9,4.15419098247306,65,1,5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-01-12,FALSE,TRUE,1,"prec",7.2,10.9,3.4,0.464516188997575,86,4.7,1.7,7.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-01-25,FALSE,TRUE,1,"velmedia",9.2,16.1,2.3,0,63,8.7,1.8564529267153,5.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-02-01,FALSE,TRUE,1,"prec",7.9,12.1,3.7,8.05280723592945,80,0.7,2.5,7.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-02-05,FALSE,TRUE,1,"prec",7.1,11.9,2.3,6.18754053655785,77,5,1.9,7.9,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-02-19,FALSE,TRUE,1,"prec",8.3,12.4,4.2,2.99069775358372,79,3.6,3.1,6.7,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-02-25,FALSE,TRUE,1,"prec",6.7,11.4,2,1.26848032155592,71,2.3,2.2,8.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-03-10,FALSE,TRUE,1,"prec",13.8,18.3,9.3,4.04683302609225,71,1.3,3.1,1.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-03-25,FALSE,TRUE,1,"prec",15.8,20.1,11.6,0.252682123672303,60,1.8,4.7,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-04-07,FALSE,TRUE,1,"prec",13.5,22.2,4.8,0.331803477392706,62,4.2,4.2,1.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-04-13,FALSE,TRUE,1,"prec",13.8,18.2,9.4,0,77,8.7,4.2,1.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-04-21,FALSE,TRUE,1,"prec",10.3,13,7.6,20.6844319783934,85,0,2.5,4.7,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-04-28,FALSE,TRUE,1,"prec",13,16.7,9.4,5.82485017384826,79,0,3.1,2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-05-29,FALSE,TRUE,1,"prec",17.6,24.3,10.8,0,62,13.6,3.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-06-30,FALSE,TRUE,1,"prec",15.8,19.6,11.9,0.402862897230429,71,1.3,4.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-07-03,FALSE,TRUE,1,"prec",18.6,21,16.3,0,77,1.9,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-07-04,FALSE,TRUE,1,"prec",19,21.5,16.5,0,75,0,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-07-24,FALSE,TRUE,1,"prec",24.4,33,15.8,1.08748066845576,74,11.8,5,0,2.4
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-08-23,FALSE,TRUE,1,"prec",24.1,28.6,19.6,1.48337503163806,77,11.1,3.3,0,2.1
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-08-29,FALSE,TRUE,1,"prec",26.5,33.1,19.9,0.749509308742872,54,8.6,5.3,0,4.5
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-09-09,FALSE,TRUE,1,"prec",19.6,24.2,15.1,0.782166871630998,72,5.3,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-10-25,FALSE,TRUE,1,"prec",23.1,29.4,16.8,0,47,2.1,3.3,0,1.1
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-11-23,FALSE,TRUE,1,"prec",13.9,19,8.8,6.30977660065499,70,3.5,5.8,1.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-11-30,FALSE,TRUE,1,"prec",9.8,14.5,5.1,0.114485118139019,82,2.9,2.8,5.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-12-05,FALSE,TRUE,1,"prec",9,12.5,5.5,0.257106418151877,66,1.7,2.5,6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2022-12-26,FALSE,TRUE,1,"prec",15,17.9,12,0,71,0.8,1.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-01-20,FALSE,TRUE,1,"prec",6.5,11.2,1.8,4.77795914352527,74,3,1.4,8.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-02-01,FALSE,TRUE,1,"prec",8.6,11.9,5.4,8.80556626615675,80,0.6,2.5,6.4,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-02-05,FALSE,TRUE,1,"prec",8.9,10.9,6.9,2.93101697950454,83,0,0.8,6.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-02-24,FALSE,TRUE,1,"prec",7.4,12.7,2,8.53361792385376,61,10.3,3.6,7.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-03-09,FALSE,TRUE,1,"prec",15.8,22.2,9.4,3.5521164587703,48,4.4,3.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-03-12,FALSE,TRUE,1,"prec",18.8,23.5,14.2,7.94133877777404,73,3.9,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-03-25,FALSE,TRUE,1,"prec",13.8,21.8,5.7,0.695675988858942,58,7.8,1.7,1.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-04-24,FALSE,TRUE,1,"prec",14.8,19.5,10,6.24010200717456,77,0.1,3.6,0.199999999999999,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-05-07,FALSE,TRUE,1,"prec",16.1,20.8,11.4,2.74614162648885,73,6,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-07-21,FALSE,TRUE,1,"prec",19.8,24.6,15,1.71842417511186,71,5.1,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-08-07,FALSE,TRUE,1,"prec",18.6,25.1,12.1,0.0199575117166935,62,11.3,3.1,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-08-13,FALSE,TRUE,1,"prec",21.1,23.8,18.4,0.270639007782191,77,1.8,1.7,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-09-03,FALSE,TRUE,1,"prec",21.7,29,14.4,2.37004705616547,74,2.6,2.8,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-09-23,FALSE,TRUE,1,"prec",17.8,22.3,13.3,6.90851770834364,74,7.7,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-10-07,FALSE,TRUE,1,"prec",24.8,33.3,16.4,0.0830778771167274,70,10.1,1.9,0,2.8
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-10-24,FALSE,TRUE,1,"prec",15.2,20.6,9.8,9.21203428663377,64,2.5,5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-12-05,FALSE,TRUE,1,"prec",9,12,5.9,4.35139647466051,83,1.5,0.6,6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2023-12-25,FALSE,TRUE,1,"prec",9.3,16.5,2.1,0.0106249705093248,80,8.2,1.4,5.7,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-02-05,FALSE,TRUE,1,"prec",10.2,15.1,5.4,2.92449342245123,84,3.4,1.7,4.8,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-03-08,FALSE,TRUE,1,"prec",12,15,9,3.70298559586441,53,3.8,3.9,3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-05-03,FALSE,TRUE,1,"prec",14.5,21.1,7.9,0.607858914620761,51,5.8,2.5,0.5,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-05-20,FALSE,TRUE,1,"prec",14.7,18.8,10.6,7.82919282524332,76,6.9,4.7,0.300000000000001,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-06-17,FALSE,TRUE,1,"prec",21.6,29.7,13.5,4.77316843566449,56,10.8,3.9,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-08-02,FALSE,TRUE,1,"prec",21,24.2,17.7,0.367627146880392,79,0.4,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-08-28,FALSE,TRUE,1,"prec",21.2,25.8,16.6,9.99375361258958,80,7.4,2.5,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-08-30,FALSE,TRUE,1,"prec",22.2,25.3,19,17.102155909286,87,0.1,1.9,0,0.199999999999999
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-09-06,FALSE,TRUE,1,"prec",17.8,22.8,12.8,8.54276452142228,76,10.5,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-10-03,FALSE,TRUE,1,"prec",15.8,20,11.5,11.2363679557195,79,9.6,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-10-19,FALSE,TRUE,1,"prec",18,21.9,14.2,0.274376390572188,81,5.4,2.2,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-10-29,FALSE,TRUE,1,"prec",15.6,20.1,11,0.311503320260077,85,5.8,1.4,0,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-11-13,FALSE,TRUE,1,"prec",9.8,13.1,6.4,6.41079727307424,82,4.3,2.2,5.2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-11-18,FALSE,TRUE,1,"prec",12.4,16,8.9,6.19889872666892,86,0,1.1,2.6,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-11-19,FALSE,TRUE,1,"prec",13,17,9,12.1320982915678,86,2.4,2.2,2,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-12-11,FALSE,TRUE,1,"prec",6.9,8.6,5.2,10.5061022162094,88,0,2.2,8.1,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-12-15,FALSE,TRUE,1,"velmedia",9.7,13.6,5.8,1.9,84,2.7,3.93647119802097,5.3,0
+"48","Bizkaia","1082","Bilbao aeropuerto",2024-12-21,FALSE,TRUE,1,"prec",10.1,14,6.2,7.56545386633531,82,0,1.9,4.9,0

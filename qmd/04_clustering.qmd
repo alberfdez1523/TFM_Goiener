@@ -1,0 +1,357 @@
+---
+title: "Clustering de Perfiles Residenciales — GoiEner"
+subtitle: "Segmentación operativa para tarifa, pobreza energética y OMIE"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+    fig-align: center
+    fig-width: 10
+    fig-height: 5.5
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+source(here::here("_config.R"))
+suppressPackageStartupMessages({
+  library(arrow); library(dplyr); library(tidyr); library(ggplot2)
+  library(scales); library(fs); library(knitr); library(stringr)
+  library(forcats); library(patchwork)
+})
+
+read_table <- function(name) {
+  p <- path(TABLE_DIR, name)
+  if (file_exists(p)) read.csv(p, check.names = FALSE) else NULL
+}
+theme_set(theme_minimal(base_size = 11) +
+          theme(panel.grid.minor = element_blank()))
+pal_clust <- c(
+  "C1" = "#E41A1C", "C2" = "#377EB8", "C3" = "#4DAF4A",
+  "C4" = "#984EA3", "C5" = "#FF7F00", "C6" = "#A65628",
+  "no_habitual" = "#999999"
+)
+```
+
+# 1. Marco y preguntas que responde el clustering
+
+GoiEner agrupa una cooperativa con miles de hogares residenciales 2.0TD. El clustering ataca cuatro decisiones operativas concretas:
+
+1. **Tarifa** — ¿quién aprovecha el valle nocturno y quién paga punta cara?
+2. **Pobreza energética** — ¿quién consume tan poco que sugiere subocupación o vulnerabilidad?
+3. **OMIE / comercializadora** — ¿qué segmentos tienen perfil predecible y cuáles introducen volatilidad?
+4. **Climatización** — ¿qué clusters dependen de calefacción (β_HDD) o aire acondicionado (β_CDD)?
+
+El pipeline modular (`R/05_clustering/05a-05h`) descompone el problema en pre-segregación, embedding, modelos, validación, selección y lectura socio-económica.
+
+# 2. Embudo de datos
+
+```{r embudo}
+audit <- read_table("cluster_pool_audit.csv")
+if (!is.null(audit)) kable(audit, caption = "Embudo: pool habitual vs no-habitual")
+```
+
+**Qué muestra.** Cómo pasamos de la cartera total al subconjunto clusterizable. Dos filtros: residencial 2.0TD en provincias núcleo (20, 48, 31, 01, 28) y media diaria ≥ 1,5 kWh.
+
+**Por qué.** Mezclar viviendas habituales con segundas residencias o instalaciones casi paradas distorsiona la geometría del espacio de formas. La segregación previa convierte el "cluster ruidoso" inevitable en un segmento descriptivo limpio: `no_habitual` (cluster = -1).
+
+**Lectura.** 21.296 usuarios habituales entran al clustering; 2.198 quedan como segmento `no_habitual` (~9% de la cartera).
+
+**Implicación.** Cualquier acción comercial dirigida al pool clusterizado sabe que excluye explícitamente al perfil de baja ocupación, que merece su propio canal (revisión contractual, programa de eficiencia o detección de fraude).
+
+# 3. Construcción del espacio de formas
+
+El espacio combina tres bloques con pesos calibrados:
+
+| Bloque | Variables | Peso | Racional |
+|---|---|---|---|
+| Forma horaria (24h) | `norm_h00..h23` (% del día) | 1.0 | Patrón circadiano |
+| Forma agregada | ratios noche/día, fin de semana, picos, entropía mensual, amplitud estacional | 1.6 | Estilo de vida |
+| Sensibilidad clima | β_HDD, β_CDD normalizados, R² | 2.0 | Climatización |
+
+**Por qué.** El volumen absoluto (`mean_daily_kWh`) queda fuera de la distancia para evitar clusters definidos por kWh y no por forma. Pesos diferenciados elevan la señal de comportamiento estacional/climático y evitan que las 24 columnas horarias dominen por número.
+
+**Lectura.** PCA retiene 85–90% de varianza con 6–15 componentes; rompe el degenerado de dos PCs ("amplitud" vs "fase") observado en pruebas preliminares.
+
+# 4. Familias algorítmicas y validación
+
+```{r leaderboard}
+lb <- read_table("cluster_leaderboard.csv")
+if (!is.null(lb)) {
+  lb |> select(solution, algo, k, silhouette, mean_jaccard, min_pct, max_pct,
+                passes_all, composite_score) |>
+    head(8) |>
+    kable(digits = 3, caption = "Top soluciones del leaderboard")
+}
+```
+
+Seis familias compiten: `kmeans_pca`, `pam_pca`, `ward_pca`, `gmm`, `hdbscan`, `fpca_kmeans`. K barre 2:7.
+
+**Qué muestra.** Cómo se ordenan las soluciones bajo cuatro filtros simultáneos (silhouette ≥ 0.15, Jaccard ≥ 0.75, min_pct ≥ 3%, max_pct ≤ 55%) y un `composite_score` que pondera 0.45 silhouette, 0.35 Jaccard, 0.20 equilibrio de tamaños.
+
+**Por qué.** Silhouette sola favorece pocos grupos enormes. Sin Jaccard no hay garantía de que la partición sea reproducible bajo bootstrap. Sin filtros de tamaño aparecen clusters de 0,1% inútiles para acción.
+
+**Lectura.** `kmeans_pca_k6` gana: silhouette 0.197, Jaccard 0.92, min_pct 3.3%, max_pct 47.4%, **passes_all = TRUE**, composite 0.772. HDBSCAN se calculó pero quedó descartado por Jaccard 0.33 — clusters densos pero inestables ante remuestreo.
+
+```{r leaderboard-viz, fig.height=4.2}
+if (!is.null(lb)) {
+  top <- lb |> arrange(desc(composite_score)) |> head(8)
+  ggplot(top, aes(x = silhouette, y = mean_jaccard,
+                  size = composite_score, color = passes_all)) +
+    geom_point(alpha = 0.85) +
+    geom_text(aes(label = solution), vjust = -1.2, size = 3,
+              show.legend = FALSE) +
+    geom_hline(yintercept = 0.75, linetype = "dashed", color = "grey50") +
+    geom_vline(xintercept = 0.15, linetype = "dashed", color = "grey50") +
+    scale_color_manual(values = c("TRUE" = "#1b9e77", "FALSE" = "#d95f02")) +
+    labs(title = "Trade-off cohesión × reproducibilidad",
+         subtitle = "Líneas: umbrales mínimos. Tamaño: composite_score",
+         x = "Silhouette", y = "Jaccard medio (bootstrap)",
+         color = "Pasa filtros", size = "Composite") +
+    xlim(c(0, max(top$silhouette) * 1.1)) +
+    ylim(c(0.5, 1))
+}
+```
+
+**Implicación.** El TFM no escoge "la solución con mejor silhouette" sino la que combina cohesión, reproducibilidad y balance, condiciones necesarias para uso operativo.
+
+# 5. Distribución y tamaño de los clusters
+
+```{r tamanos, fig.height=3.8}
+prof <- read_table("cluster_profiles_v2.csv")
+if (!is.null(prof)) {
+  prof_plot <- prof |>
+    mutate(cluster_label = factor(cluster_label,
+                                  levels = prof$cluster_label[order(-prof$n)]))
+  ggplot(prof_plot, aes(x = cluster_label, y = n, fill = cluster_label)) +
+    geom_col(show.legend = FALSE) +
+    geom_text(aes(label = sprintf("%s\n(%.1f%%)", scales::comma(n), pct)),
+              vjust = -0.2, size = 3) +
+    scale_fill_manual(values = pal_clust) +
+    scale_y_continuous(labels = scales::comma,
+                       expand = expansion(mult = c(0, 0.15))) +
+    labs(title = "Tamaño de cada cluster",
+         x = NULL, y = "Usuarios")
+}
+```
+
+**Qué muestra.** Cuántos hogares hay en cada segmento. Confirma el balance objetivo: ningún cluster por debajo del 3% ni por encima del 55%.
+
+# 6. Perfiles horarios — la firma de cada cluster
+
+```{r perfiles-horarios, fig.height=5.5}
+feat <- arrow::read_parquet(USER_FEATURES_V2_PARQUET)
+clust <- arrow::read_parquet(USER_CLUSTERS_V2_PARQUET) |>
+  select(user_id, cluster)
+df <- feat |> inner_join(clust, by = "user_id")
+
+hour_cols <- sprintf("norm_h%02d", 0:23)
+prof_h <- df |>
+  pivot_longer(all_of(hour_cols), names_to = "hour_lbl",
+               values_to = "norm_kWh") |>
+  mutate(hour = as.integer(sub("norm_h", "", hour_lbl))) |>
+  group_by(cluster, hour) |>
+  summarise(p25 = quantile(norm_kWh, 0.25, na.rm = TRUE),
+            p50 = median(norm_kWh, na.rm = TRUE),
+            p75 = quantile(norm_kWh, 0.75, na.rm = TRUE),
+            .groups = "drop") |>
+  mutate(cluster_label = case_when(
+    cluster == -1L ~ "no_habitual",
+    TRUE ~ paste0("C", cluster)
+  ))
+
+ggplot(prof_h, aes(x = hour, group = cluster_label)) +
+  geom_ribbon(aes(ymin = p25, ymax = p75, fill = cluster_label), alpha = 0.25) +
+  geom_line(aes(y = p50, color = cluster_label), linewidth = 0.9) +
+  facet_wrap(~ cluster_label, ncol = 3, scales = "free_y") +
+  scale_color_manual(values = pal_clust) +
+  scale_fill_manual(values = pal_clust) +
+  scale_x_continuous(breaks = c(0, 6, 12, 18, 23)) +
+  labs(title = "Perfil horario por cluster (mediana e IQR)",
+       subtitle = "Consumo normalizado por usuario; suma diaria = 24",
+       x = "Hora del día", y = "Consumo normalizado") +
+  theme(legend.position = "none")
+```
+
+**Qué muestra.** La forma horaria 24h de cada segmento. Líneas: mediana del cluster; banda: rango intercuartílico.
+
+**Lectura — narrativa por segmento:**
+
+- **C2** muestra el pico nocturno mas marcado (acumuladores, aerotermia con tarifa valle).
+- **C3 / C5** son perfiles diurnos típicos, base de la cooperativa.
+- **C4** concentra consumo de tarde-noche, compatible con uso intensivo de aire acondicionado.
+- **no_habitual** tiene una banda muy ancha — coherente con su exclusión: no comparten un patrón.
+
+# 7. Volumen, ritmo y respuesta climática
+
+```{r perfiles}
+if (!is.null(prof)) {
+  prof |>
+    select(cluster_label, n, pct, mean_daily_kWh, ratio_night_day,
+           ratio_weekend_weekday, seasonal_amplitude_norm,
+           summer_winter_ratio, beta_hdd_norm, beta_cdd_norm, r2_joint) |>
+    kable(digits = 2, caption = "Perfiles — kWh, ritmos y sensibilidad climática")
+}
+```
+
+```{r climate-scatter, fig.height=4.2}
+if (!is.null(prof)) {
+  ggplot(prof, aes(x = beta_hdd_norm, y = beta_cdd_norm,
+                   size = mean_daily_kWh, color = cluster_label)) +
+    geom_hline(yintercept = 0, color = "grey60") +
+    geom_vline(xintercept = 0, color = "grey60") +
+    geom_point(alpha = 0.85) +
+    geom_text(aes(label = cluster_label), vjust = -1.5, size = 3.5,
+              show.legend = FALSE) +
+    scale_color_manual(values = pal_clust) +
+    scale_size_continuous(range = c(3, 12)) +
+    labs(title = "Sensibilidad a frío vs calor por cluster",
+         subtitle = "β_HDD ↑ = calefacción eléctrica; β_CDD ↑ = aire acondicionado",
+         x = "β_HDD normalizado", y = "β_CDD normalizado",
+         size = "kWh/día medio")
+}
+```
+
+**Lectura.**
+
+- **C1 (4,0%, 5,0 kWh/d).** Hogares pequeños con consumo bajo y β_HDD positivo moderado. Perfil de pisos urbanos con calefacción eléctrica auxiliar.
+- **C2 (3,0%, 28,5 kWh/d).** Alto consumo nocturno (`ratio_night_day` 2.9). β_HDD el más alto — **calefacción eléctrica intensiva**. Foco para tarifa nocturna y eficiencia.
+- **C3 (29,6%, baseline).** Hogar estándar, ritmo diurno equilibrado, baja sensibilidad climática. Núcleo de la cooperativa.
+- **C4 (7,5%, β_CDD positivo).** Sensibilidad a calor — viviendas con AA relevante en verano.
+- **C5 (42,9%, mayoritario).** Baseline más grande, ritmo semanal y estacional moderado.
+- **C6 (3,7%).** Patrón mixto con entropía mensual alta (uso irregular).
+- **no_habitual (9,4%, descriptivo).** Excluido por baja ocupación.
+
+# 8. Lectura socio-económica
+
+```{r socio}
+soc <- read_table("cluster_socioeconomic_v2.csv")
+if (!is.null(soc)) kable(soc, digits = 2,
+                          caption = "Cobertura territorial y potencia contratada")
+pov <- read_table("cluster_poverty_proxy_v2.csv")
+if (!is.null(pov)) kable(pov, digits = 2,
+                          caption = "Proxy pobreza energética por cluster")
+```
+
+```{r poverty-viz, fig.height=3.8}
+if (!is.null(pov) && "poverty_score" %in% names(pov)) {
+  pov |>
+    mutate(cluster_label = fct_reorder(cluster_label, poverty_score)) |>
+    ggplot(aes(x = cluster_label, y = poverty_score, fill = cluster_label)) +
+    geom_col(show.legend = FALSE) +
+    scale_fill_manual(values = pal_clust) +
+    coord_flip() +
+    labs(title = "Proxy de vulnerabilidad energética por cluster",
+         x = NULL, y = "Score (alto = mayor riesgo)")
+}
+```
+
+**Qué muestra.** Distribución geográfica, potencia P1 y un proxy de pobreza energética combinando bajo consumo + alta tasa de días bajos + concentración invernal.
+
+**Por qué.** GoiEner no dispone de renta del hogar; combinamos **señales conductuales** (consumo discreto, infrautilización) con **contexto provincial** (clima de la provincia).
+
+**Lectura.** C1 concentra mayor `low_day_rate` y P1 menor — candidato a tarifa subdimensionada. C2 muestra P1 elevado y consumo HDD intenso, vivienda con climatización eléctrica completa.
+
+**Implicación.** El proxy no diagnostica pobreza individual; **señala segmentos** donde intervenir con auditoría energética dirigida.
+
+# 9. Mapeo a casos de negocio
+
+Esta tabla traduce los clusters a decisiones. La columna `finalidad` define para qué usar el segmento; `accion_recomendada` convierte esa finalidad en una actuación concreta; `evidencia_clave` deja claro qué dato sostiene la propuesta. El mapeo no pretende etiquetar hogares individuales. Sirve para que la cooperativa priorice campañas, auditorías y modelos agregados con una base cuantitativa.
+
+```{r negocio}
+biz <- read_table("cluster_business_mapping_v2.csv")
+if (!is.null(biz)) kable(biz, caption = "Acción operativa por cluster")
+sep <- read_table("cluster_top_separators_v2.csv")
+if (!is.null(sep)) {
+  sep |> head(15) |> kable(digits = 3,
+                             caption = "Variables que mejor separan los clusters (top 15)")
+}
+```
+
+```{r separators-viz, fig.height=4}
+if (!is.null(sep)) {
+  sep_top <- sep |> head(12)
+  vcol <- intersect(c("importance", "score", "delta", "f_stat", "value"),
+                    names(sep_top))[1]
+  if (!is.na(vcol)) {
+    ggplot(sep_top, aes(x = reorder(feature, .data[[vcol]]),
+                         y = .data[[vcol]])) +
+      geom_col(fill = "#2c7fb8") +
+      coord_flip() +
+      labs(title = "Variables más discriminantes entre clusters",
+           x = NULL, y = vcol)
+  }
+}
+```
+
+**Lectura del mapeo.** Las acciones recomendadas salen de combinar tamaño del cluster, forma horaria, sensibilidad climática, riesgo de bajo consumo y potencia contratada. No se decide igual sobre un segmento pequeño de alto consumo nocturno que sobre el cluster base de la cartera: el primero permite intervención dirigida; el segundo pide seguimiento agregado y comunicación general.
+
+- **C1, uso estacional bajo.** La finalidad es detectar suministros de baja ocupación o segunda residencia activa. La acción se centra en ajustar potencia/tarifa y avisar de consumos fuera de temporada porque la evidencia combina mediana baja, muchos días bajos y amplitud estacional alta.
+- **C2, consumo nocturno intensivo.** La finalidad es gestionar cargas desplazadas a valle. La recomendación de oferta indexada valle y auditoría de cargas nocturnas se apoya en un `valley_share` muy alto, consumo diario elevado y β_HDD fuerte; puede haber acumuladores, termo, vehículo eléctrico o calefacción eléctrica.
+- **C3, eficiencia social.** Es un grupo grande con bajo consumo y riesgo social moderado. La acción no debería ser una venta agresiva, sino acompañamiento: revisar potencia, hábitos y posibles hogares vulnerables sin inferir renta individual.
+- **C4, climatización invernal.** La finalidad es anticipar demanda sensible al frío. La campaña de invierno tiene sentido porque β_HDD y R² climático son altos; aquí el beneficio está en aislamiento, asesoramiento de calefacción y forecast específico en episodios fríos.
+- **C5, cartera residencial base.** Al ser el grupo mayoritario y estable, funciona como referencia para forecasting operativo, comunicaciones generales y control de desviaciones. No necesita una intervención individual intensiva; su valor está en explicar la demanda base.
+- **C6, flexibilidad en punta laboral.** La finalidad es reducir exposición en horas caras. La acción recomendada apunta a desplazar cargas de mediodía/tarde y revisar potencia, porque el cluster concentra consumo en punta y tiene `peak_share` alto.
+- **no_habitual.** Es un segmento descriptivo, no un cluster de forma comparable al resto. La finalidad es separar contratos casi inactivos, segunda residencia o baja ocupación; la acción razonable es revisión contractual, alertas de reactivación y lectura prudente del riesgo social.
+
+Las separadoras dominantes son `ratio_night_day`, `seasonal_amplitude_norm`, `peak_share` y `β_CDD_norm`. Esa lista confirma que las recomendaciones no salen del volumen absoluto de kWh, sino de patrones horarios, calendario y sensibilidad térmica.
+
+# 10. Estabilidad y sensibilidad
+
+```{r estabilidad}
+stab <- read_table("cluster_stability.csv")
+if (!is.null(stab)) kable(stab, digits = 3,
+                            caption = "Jaccard bootstrap por cluster")
+sens <- read_table("cluster_sensitivity.csv")
+if (!is.null(sens)) kable(sens, digits = 3,
+                            caption = "Sensibilidad a perturbaciones")
+```
+
+**Por qué.** Un cluster con Jaccard < 0.6 es un agregado oportunista; con Jaccard > 0.75 podemos defender que existe como entidad y no como ruido.
+
+**Lectura.** Todos los clusters de la solución elegida superan 0.85; la media es 0.92.
+
+# 11. Síntesis ejecutiva
+
+| Decisión | Métrica | Valor | Estado |
+|---|---|---|---|
+| Pool clusterizable | n usuarios | 21.296 | OK |
+| Algoritmo | familia | kmeans_pca k=6 | OK |
+| Cohesión | silhouette | 0.197 | ≥ 0.15 |
+| Reproducibilidad | Jaccard medio | 0.92 | ≥ 0.75 |
+| Equilibrio | min/max | 3,3% / 47,4% | OK |
+| `composite_score` | — | 0.772 | top-1 |
+| Segmento descriptivo | no_habitual | 9,4% | aislado |
+
+### Qué demuestra el clustering
+
+**1. Los clusters existen como entidades, no como artefactos del split.** Con un Jaccard bootstrap medio de 0,92 y mínimos por encima de 0,85, podemos afirmar que los grupos resisten remuestreo. Eso no es un detalle metodológico: significa que si mañana volviéramos a entrenar con una muestra distinta de hogares, recuperaríamos los mismos seis segmentos. Es la diferencia entre una segmentación defendible y una agrupación oportunista.
+
+**2. Los clusters separan por forma, no por volumen.** El top de variables discriminantes está dominado por `ratio_night_day`, `peak_share`, amplitud estacional normalizada y betas climáticas. Eso es lo que queríamos: que un hogar de alto consumo y otro de bajo consumo, pero con el mismo patrón horario, puedan caer en el mismo cluster. Si la separación fuera por kWh absolutos estaríamos haciendo un ranking, no una segmentación.
+
+**3. El segmento no_habitual es descriptivo, no comparable.** Los hogares con consumo medio < 1,5 kWh/día se aíslan antes de clusterizar. No es una decisión cosmética: mezclar baja ocupación con patrones residenciales típicos distorsiona los centroides y degrada la sensibilidad climática. Tratarlo como segmento separado preserva la interpretabilidad del resto y mantiene visible un grupo operativo relevante (segundas residencias, contratos casi inactivos).
+
+**4. La interpretación se sostiene en evidencia cuantitativa.** Cada cluster lleva asociada una ficha con su forma horaria, su sensibilidad climática (β_HDD, β_CDD), su distribución de potencia contratada, su composición provincial y su acción operativa recomendada. La traducción a negocio (Sección 9) no es una etiqueta inventada: cada recomendación tiene una columna `evidencia_clave` que la sostiene y se puede auditar.
+
+**5. El equilibrio min/max queda dentro de tolerancia.** Un 3,3 % en el cluster minoritario y un 47,4 % en el dominante son aceptables para una cartera con un grupo residencial base evidente. Forzar artificialmente más equilibrio habría fragmentado ese grupo base sin ganancia interpretativa. La métrica `composite_score` (0,772, top-1 del leaderboard) confirma que esta solución optimiza simultáneamente cohesión, reproducibilidad y balance.
+
+### Limitaciones reconocidas
+
+- **CNAE es descriptivo, no entra en la distancia.** Si un cluster tiene sobre-representación de cierta sección CNAE, lo interpretamos como hallazgo posterior, no como señal usada para separar. Esto evita confundir características de contrato con patrones de consumo.
+- **El silhouette de 0,197 indica solapamiento moderado.** Los clusters son entidades reales pero no están perfectamente separados: hay hogares en la frontera. Por eso las recomendaciones se aplican a nivel de cluster (campaña, oferta, comunicación), no a hogar individual.
+- **El alcance temporal y geográfico limita la generalización.** Los clusters describen la cartera GoiEner top 5 entre 2014 y 2024. Extrapolar a otras carteras o territorios requeriría reentrenar el modelo con datos propios, no asumir transferencia directa.
+
+**Implicación final.** El clustering es el sustrato sobre el que se construye la trazabilidad de los modelos de forecasting por cluster (Cap. 5) y las recomendaciones tarifa/pobreza/OMIE del informe de cooperativa. Sin esta capa, el forecast agregado seguiría funcionando pero perdería la capacidad de explicar dónde se concentra el error y en qué segmento merece la pena actuar. Con ella, la cadena evidencia → cluster → acción queda completa y auditable.

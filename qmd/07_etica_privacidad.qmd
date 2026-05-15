@@ -1,0 +1,337 @@
+---
+title: "Capítulo 7: ética, privacidad y limitaciones"
+subtitle: "Lectura crítica del caso GoiEner"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    code-tools: false
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("_config.R"))
+
+library(arrow)
+library(dplyr)
+library(fs)
+library(scales)
+```
+
+## Alcance
+
+El dataset GoiEner permite estudiar consumo residencial horario, pero no representa a todos los hogares españoles. Tiene sesgo geográfico hacia País Vasco y Navarra, y también sesgo de selección: GoiEner es una cooperativa, no una muestra aleatoria del sistema eléctrico español.
+
+Eso no invalida el TFM. Lo acota. Las conclusiones fuertes se formulan sobre esta cartera de usuarios; las extrapolaciones al país completo se tratan como hipótesis, no como resultados.
+
+Por ese motivo, el modelado principal se focaliza en las cinco provincias con mayor masa de usuarios: Gipuzkoa, Bizkaia, Navarra, Álava y Madrid. El recorte mantiene la mayor parte de la información útil y reduce la fragilidad de resultados por provincias residuales.
+
+## Privacidad
+
+Las lecturas horarias de electricidad permiten inferir rutinas: horas de presencia, fines de semana fuera de casa, vacaciones, posibles cargas nocturnas o equipos intensivos. Aunque el identificador se haya seudonimizado, el riesgo no desaparece.
+
+Medidas aplicadas en el repositorio:
+
+- No se publican CUPS reales ni nombres asociados a contratos.
+- Los informes trabajan con agregados por cluster, provincia o día.
+- Los modelos de forecasting se entrenan sobre serie agregada y perfiles por cluster, no sobre predicción individual de cada hogar.
+- Las provincias con pocos usuarios quedan fuera del modelado principal y se mantienen solo como contexto descriptivo agregado.
+- Las salidas del clustering se interpretan solo a escala agregada; cualquier uso sobre hogares concretos quedaría fuera del alcance del TFM.
+
+```{r}
+#| label: tbl-risk-mitigation
+
+risk_matrix <- tibble::tribble(
+  ~riesgo, ~mitigacion, ~limitacion_restante,
+  "Inferir rutinas a partir de consumo horario",
+  "Seudonimizacion, no publicacion de CUPS y resultados agregados por fecha, provincia o cluster.",
+  "Una serie horaria sigue siendo sensible si se cruza con informacion externa.",
+  "Leer clusters como etiquetas de hogares",
+  "Los clusters se describen como patrones medios de consumo; se publican perfiles agregados y bandas de variabilidad.",
+  "Un cluster no explica causas: vivienda, calefaccion, ocupacion o autoconsumo no estan observados.",
+  "Leer CNAE como estatus socioeconomico individual",
+  "CNAE se usa solo post-hoc, agregado por cluster y con soporte minimo por celda; no entra en la distancia de clustering.",
+  "El CNAE contractual puede estar incompleto, desactualizado o concentrado en codigos domesticos poco informativos.",
+  "Usar contexto territorial como proxy invasivo",
+  "Solo se usan variables provinciales agregadas y se auditan columnas para evitar atributos personales.",
+  "La provincia mezcla realidades internas y no permite diagnostico socioeconomico fino.",
+  "Sobregeneralizar por sesgo geografico y de seleccion",
+  "El modelado principal se limita a las cinco provincias con mayor soporte y se audita el alcance.",
+  "Los resultados describen esta cartera GoiEner, no el conjunto de hogares espanoles.",
+  "Confundir forecasting ex-post con uso operativo",
+  "Se separan metricas ex-post y operativas; para uso real se cita el escenario operativo.",
+  "El operativo usa historico y normales climaticas, no una API meteorologica real.",
+  "Infravalorar incertidumbre en segmentos pequenos",
+  "Se reportan intervalos, cobertura y alertas por cluster o estacion.",
+  "Cortes con pocos casos o alta variabilidad requieren lectura prudente."
+)
+
+report_table(
+  risk_matrix,
+  caption = "Matriz riesgo-mitigacion-limitacion restante."
+)
+```
+
+```{r}
+#| label: tbl-province-size
+
+if (file_exists(METADATA_PARQUET)) {
+  metadata <- arrow::read_parquet(METADATA_PARQUET)
+
+  province_size <- metadata |>
+    transmute(
+      cod_provincia = ifelse(
+        is.na(codigo_postal),
+        NA_character_,
+        substr(sprintf("%05d", as.integer(codigo_postal)), 1, 2)
+      )
+    ) |>
+    filter(!is.na(cod_provincia)) |>
+    count(cod_provincia, name = "n_usuarios", sort = TRUE)
+
+  report_table(
+    province_size |> head(12),
+    caption = "Provincias con más usuarios en metadata."
+  )
+
+  if (file_exists(MODEL_SCOPE_AUDIT_CSV)) {
+    scope_audit <- read.csv(MODEL_SCOPE_AUDIT_CSV)
+    report_table(
+      scope_audit |>
+        arrange(desc(in_model_scope), desc(n_usuarios)) |>
+        mutate(across(where(is.numeric), ~round(., 2))),
+      caption = "Auditoría del alcance territorial usado por clima, clustering y forecasting."
+    )
+  }
+
+  cat(sprintf(
+    "\nProvincias con menos de 5 usuarios: %s.\n",
+    comma(sum(province_size$n_usuarios < 5))
+  ))
+}
+```
+
+## Calidad de datos
+
+La arquitectura DuckDB/Parquet ayuda a auditar el dato porque cada fase deja tablas intermedias: consumo diario, clima diario, matriz de features, clusters y predicciones. Aun así, hay limitaciones que conviene explicar en la memoria.
+
+```{r}
+#| label: tbl-quality-inputs
+
+quality_files <- c(
+  "model_scope_audit.csv",
+  "climate_imputation_summary.csv",
+  "climate_imputation_by_province_date.csv",
+  "climate_merge_quality.csv",
+  "climate_merge_imputation_audit.csv",
+  "climate_missing_by_province_date.csv",
+  "context_feature_audit.csv",
+  "feature_summary.csv",
+  "feature_climate_sensitivity_summary.csv",
+  "cluster_pool_audit.csv",
+  "cluster_selection_decision.csv",
+  "cluster_profiles_v2.csv",
+  "cluster_socioeconomic_v2.csv",
+  "cluster_poverty_proxy_v2.csv",
+  "cluster_business_mapping_v2.csv",
+  "cluster_top_separators_v2.csv",
+  "forecast_master_leaderboard.csv",
+  "forecast_leaderboard_daily.csv",
+  "forecast_leaderboard_hourly.csv",
+  "forecast_leaderboard_cluster.csv",
+  "forecast_daily_interval_metrics.csv",
+  "forecast_reconciliation_v2.csv",
+  "forecast_error_slices_v2.csv",
+  "forecast_hourly_business_impact.csv",
+  "pipeline_timings_v2.csv",
+  "benchmark_results.csv",
+  "benchmark_disk_size.csv",
+  "benchmark_environment.csv"
+)
+
+quality_index <- tibble::tibble(
+  salida = quality_files,
+  existe = file_exists(path(TABLE_DIR, quality_files))
+)
+
+report_table(quality_index, caption = "Tablas usadas para auditar calidad y resultados.")
+```
+
+Puntos que quedan abiertos:
+
+- Algunas provincias tienen cobertura climática peor; la solución actual imputa solo clima exógeno y deja trazabilidad por variable, fecha y provincia.
+- La temperatura provincial no captura microclimas ni diferencias entre costa, interior y zonas de montana.
+- El contexto territorial anadido es provincial y agregado. No incluye información individual de vivienda, renta, calefacción ni autoconsumo real.
+- El CNAE sirve para describir composicion contractual agregada, no para inferir renta, ocupacion, tipo de vivienda ni vulnerabilidad individual.
+- Las preguntas empresariales del clustering son una guia de decision agregada; no convierten el cluster en causa ni en etiqueta individual.
+- Los outliers horarios extremos se separan para no contaminar clustering residencial, pero merecen un anexo propio si el TFM entra en fraude, error de medida o cargas no domesticas.
+
+```{r}
+#| label: tbl-context-privacy
+
+context_audit_path <- path(TABLE_DIR, "context_feature_audit.csv")
+if (file_exists(context_audit_path)) {
+  context_audit <- read.csv(context_audit_path)
+  report_table(
+    context_audit,
+    caption = "Control de privacidad de variables territoriales agregadas."
+  )
+}
+```
+
+## Uso de los clusters
+
+Los clusters sirven para explicar patrones agregados: nocturno/valle, variable/intermitente, valle moderado y pico de tarde. No son etiquetas de personas. La segunda fase ya no deja que un grupo absorba casi toda la población: el cluster mayor queda por debajo del límite fijado en el pipeline.
+
+```{r}
+#| label: tbl-cluster-ethics
+
+profiles_path <- path(TABLE_DIR, "cluster_profiles_v2.csv")
+selection_path <- path(TABLE_DIR, "cluster_selection_decision.csv")
+
+if (file_exists(profiles_path)) {
+  profiles <- read.csv(profiles_path)
+  report_table(
+    profiles |>
+      select(cluster_label, n, pct, median_daily_kWh, ratio_night_day,
+             peak_share, valley_share, beta_hdd, beta_cdd, r2_joint) |>
+      mutate(across(where(is.numeric), ~round(., 2))),
+    caption = "Clusters interpretables a nivel agregado."
+  )
+}
+
+if (file_exists(selection_path)) {
+  selection <- read.csv(selection_path)
+  report_table(
+    selection |> mutate(across(where(is.numeric), ~round(., 3))),
+    caption = "Decisión de selección del clustering."
+  )
+}
+```
+
+## Forecasting
+
+Un buen resultado de forecasting no se define solo por "que la curva se parezca". En este TFM se usan MAE, RMSE, MAPE, WAPE, SMAPE y MASE, junto con validación temporal. WAPE resulta especialmente útil para consumo agregado porque relaciona el error absoluto con la energía total real.
+
+```{r}
+#| label: tbl-forecast-ethics
+
+metrics_path <- path(TABLE_DIR, "forecast_master_leaderboard.csv")
+daily_interval_path <- path(TABLE_DIR, "forecast_daily_interval_metrics.csv")
+reconciliation_path <- path(TABLE_DIR, "forecast_reconciliation_v2.csv")
+slice_path <- path(TABLE_DIR, "forecast_error_slices_v2.csv")
+
+if (file_exists(metrics_path)) {
+  metrics <- read.csv(metrics_path)
+  report_table(
+    metrics |>
+      arrange(target, WAPE) |>
+      select(model, target, cluster, n, MAE, RMSE, WAPE, MASE, EUR_dev) |>
+      head(20) |>
+      mutate(across(where(is.numeric), ~round(., 3))),
+    caption = "Resultados de forecasting en test, ordenados por target y WAPE."
+  )
+}
+
+if (file_exists(daily_interval_path)) {
+  daily_interval <- read.csv(daily_interval_path)
+  report_table(
+    daily_interval |> mutate(across(where(is.numeric), ~round(., 2))),
+    caption = "Cobertura y anchura de intervalos para el forecast diario."
+  )
+}
+
+if (file_exists(reconciliation_path)) {
+  reconciliation <- read.csv(reconciliation_path)
+  report_table(
+    reconciliation |> mutate(across(where(is.numeric), ~round(., 3))),
+    caption = "Comparación entre predicción top-down y bottom-up por clusters."
+  )
+}
+
+if (file_exists(slice_path)) {
+  slices <- read.csv(slice_path)
+  report_table(
+    slices |> mutate(across(where(is.numeric), ~round(., 3))),
+    caption = "Cortes de error usados para detectar segmentos temporales con peor ajuste."
+  )
+}
+```
+
+La lectura es favorable si se mantiene en el nivel correcto: un WAPE bajo en agregado diario indica utilidad para planificación de cartera, no permiso para actuar sobre hogares concretos. La tabla de reconciliación también marca un límite práctico: desagregar por cluster aporta explicación, pero el top-down puede ser más estable para compras agregadas.
+
+## Benchmark y reproducibilidad
+
+El benchmark de arquitectura no es solo una prueba de velocidad. También justifica por qué este TFM puede reproducirse en local con Parquet, DuckDB y tablas pre-agregadas, sin depender de una plataforma distribuida difícil de auditar.
+
+```{r}
+#| label: tbl-reproducibility-ethics
+
+bench_files <- c(
+  "benchmark_results.csv",
+  "benchmark_disk_size.csv",
+  "benchmark_environment.csv",
+  "pipeline_timings_v2.csv"
+)
+
+bench_index <- tibble::tibble(
+  salida = bench_files,
+  existe = file_exists(path(TABLE_DIR, bench_files))
+)
+
+report_table(
+  bench_index,
+  caption = "Evidencia de reproducibilidad: benchmark, entorno y tiempos del orquestador."
+)
+
+timings_path <- path(TABLE_DIR, "pipeline_timings_v2.csv")
+if (file_exists(timings_path)) {
+  timings <- read.csv(timings_path)
+  timings_display <- if (all(c("type", "phase", "artifact") %in% names(timings))) {
+    timings |> arrange(type, phase, artifact)
+  } else {
+    timings
+  }
+  report_table(
+    timings_display,
+    caption = "Última ejecución registrada por R/99_orchestrator.R."
+  )
+}
+```
+
+## Cierre
+
+El proyecto queda defendible si se presenta como arquitectura reproducible y analítica agregada. Lo que no debe prometer: representatividad nacional, causalidad, ni predicción individual. Esa frontera es importante.
+
+### Síntesis ética y de privacidad
+
+**1. La privacidad no es un añadido, es un principio de diseño.** Desde la fase de ingesta los identificadores se trabajan seudonimizados; ninguna de las tablas que llegan a clustering, forecasting o app Shiny permite recuperar el consumo bruto de un hogar concreto a partir de las salidas publicadas. El minimum strictly necessary se cumple por construcción, no por revisión a posteriori.
+
+**2. Las conclusiones se aplican al nivel correcto.** Cuando decimos que el cluster *C2 consumo nocturno intensivo* tiene un `valley_share` alto, hablamos de un agregado de miles de hogares con un patrón similar, no de personas concretas. Esa distinción no es retórica: una recomendación operativa a nivel de cluster (ofrecer tarifa indexada valle, lanzar campaña de eficiencia) es ética y útil; la misma recomendación etiquetando a un hogar individual sería intrusiva y poco fiable.
+
+**3. El alcance declarado limita las afirmaciones.** El TFM cubre la cartera GoiEner 2.0 con clima disponible en el top 5 territorial entre 2014 y 2024. No es una muestra representativa de la población española. Cualquier extrapolación ("el consumo eléctrico español tiende a...") sería incorrecta: hay que reentrenar con datos propios de cada cartera o territorio antes de transferir conclusiones.
+
+**4. El forecasting sirve para planificación de cartera, no para discriminar hogares.** Un WAPE bajo en agregado no autoriza a actuar sobre un hogar concreto. La reconciliación top-down vs bottom-up acota la utilidad del forecast por cluster a decisiones segmentales (compras, campañas), no individuales. Esa frontera está documentada y debe respetarse en cualquier uso operativo posterior.
+
+**5. La trazabilidad es lo que sostiene la confianza.** Todas las tablas, modelos y figuras del TFM se generan desde scripts que el orquestador ejecuta de forma reproducible. Si alguien cuestiona una afirmación — sobre un cluster, sobre un WAPE, sobre una recomendación — puede volver al script que la generó y verificar los inputs. Esa cadena (datos → script → output → afirmación) es la garantía técnica equivalente al consentimiento informado en investigación con personas: no inventamos, mostramos cómo se obtuvo cada número.
+
+**6. Limitaciones reconocidas que conviene declarar.** El clima se imputa con reglas conservadoras pero imputadas son; los clusters tienen solapamiento moderado en frontera; el forecast extrapola a régimen climáticos no vistos con cautela; y la propia seudonimización no equivale a anonimato fuerte si se cruzan datos externos. Estas limitaciones no invalidan el proyecto, lo acotan.
+
+**Implicación final.** El TFM informa decisiones colectivas de la cooperativa (tarifa, eficiencia, compras agregadas, comunicación segmentada) con evidencia reproducible y sin invadir la privacidad de quienes están detrás de las series. Esa es la promesa que se sostiene; cualquier promesa adicional (representatividad nacional, causalidad, perfil individual) iría más allá de lo que los datos permiten afirmar.

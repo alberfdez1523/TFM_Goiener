@@ -1,0 +1,22 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+3: package 'duckdb' was built under R version 4.5.2 
+4: package 'DBI' was built under R version 4.5.2 
+5: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 07a: Construyendo series objetivo
+======================================================================
+[1/3] Construyendo portfolio_daily...
+  portfolio_daily: 2.954 filas (2015-12-31 -> 2024-01-31)
+[2/3] Construyendo cluster_daily...
+  cluster_daily: 15.285 filas, 6 clusters
+[3/3] Construyendo portfolio_hourly...
+  portfolio_hourly: 70.920 filas (2015-12-30 01:00:00 -> 2024-02-01)
+07a en 80.8 s

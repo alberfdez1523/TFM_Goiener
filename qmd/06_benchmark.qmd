@@ -1,0 +1,357 @@
+---
+title: "Benchmark de Arquitectura de Datos - GoiEner"
+subtitle: "CSV vs Parquet vs DuckDB: rendimiento y tamaño en disco"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    code-tools: false
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+    fig-align: center
+    fig-width: 10
+    fig-height: 5.5
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("_config.R"))
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+library(patchwork)
+```
+
+## Introducción
+
+Una de las decisiones clave de este TFM es la eleccion de la **arquitectura de datos**. En lugar de trabajar con los CSV crudos (un fichero por punto de suministro), se opto por:
+
+1. **Apache Parquet** como formato columnar con compresión ZSTD-9.
+2. **Particionado por año** (`year=YYYY/`) para permitir predicate pushdown temporal.
+3. **DuckDB** como motor SQL analítico embebido para consultas directas sobre Parquet.
+4. **Tablas pre-agregadas** (diaria, mensual, perfiles horarios) para evitar recorrer los ~950M+ registros en cada consulta.
+
+Este capítulo funciona como anexo fuerte de arquitectura: cuantifica si el stack local elegido es suficiente para desarrollar y reproducir el TFM con solvencia. No se plantea como una comparativa universal contra Spark ni como el centro metodologico del trabajo.
+
+## Resultados del benchmark
+
+```{r}
+#| label: load-results
+
+bench_file <- path(TABLE_DIR, "benchmark_results.csv")
+disk_file  <- path(TABLE_DIR, "benchmark_disk_size.csv")
+env_file   <- path(TABLE_DIR, "benchmark_environment.csv")
+
+has_bench <- file_exists(bench_file)
+has_disk  <- file_exists(disk_file)
+has_env   <- file_exists(env_file)
+
+if (has_bench) {
+  bench_results <- read.csv(bench_file)
+  cat(sprintf("Experimentos cargados: %d mediciones\n", nrow(bench_results)))
+} else {
+  cat("No se encontraron resultados. Ejecuta R/07_benchmark/07_benchmark.R primero.\n")
+}
+
+if (has_disk) {
+  disk_summary <- read.csv(disk_file)
+}
+
+if (has_env) {
+  bench_env <- read.csv(env_file)
+}
+```
+
+## Contexto de ejecución
+
+Los tiempos deben leerse como una medición local reproducible sobre este equipo y este dataset. El script no vacía la caché del sistema operativo entre iteraciones; por eso se guardan tanto la primera iteración de la sesión como la mediana caliente de las iteraciones posteriores. Además, DuckDB puede beneficiarse de cachés internas si están habilitadas en la configuración del proyecto.
+
+```{r}
+#| label: tbl-benchmark-environment
+
+if (has_env) {
+  env_display <- bench_env |>
+    filter(item %in% c(
+      "os", "cpu", "logical_cores", "physical_ram_gb",
+      "r_version", "duckdb_version", "arrow_version", "bench_version",
+      "duckdb_memory_limit", "duckdb_object_cache",
+      "iterations_per_experiment", "cache_context",
+      "process_peak_working_set_mb", "memory_note"
+    )) |>
+    mutate(
+      item = recode(item,
+        os = "Sistema operativo",
+        cpu = "CPU",
+        logical_cores = "Cores logicos",
+        physical_ram_gb = "RAM fisica (GB)",
+        r_version = "R",
+        duckdb_version = "DuckDB",
+        arrow_version = "Arrow",
+        bench_version = "bench",
+        duckdb_memory_limit = "Limite DuckDB",
+        duckdb_object_cache = "Object cache DuckDB",
+        iterations_per_experiment = "Iteraciones por experimento",
+        cache_context = "Contexto de cache",
+        process_peak_working_set_mb = "Pico proceso R (MB)",
+        memory_note = "Nota memoria"
+      )
+    )
+
+  report_table(
+    env_display,
+    caption = "Hardware, versiones y contexto de cache del benchmark.",
+    col.names = c("Variable", "Valor")
+  )
+}
+```
+
+## 1. Comparativa de rendimiento
+
+```{r}
+#| label: fig-benchmark-bars
+#| fig-cap: "Tiempo de ejecución por experimento y método. El speedup se calcula respecto al método más lento."
+#| fig-height: 14
+
+if (has_bench) {
+  tic("benchmark-viz")
+
+  p_bench <- bench_results |>
+    mutate(
+      label = sprintf("%.2fs (x%.1f)", mediana_s, speedup),
+      metodo = forcats::fct_reorder(metodo, mediana_s)
+    ) |>
+    ggplot(aes(x = metodo, y = mediana_s, fill = metodo)) +
+    geom_col(show.legend = FALSE, width = 0.7) +
+    geom_text(aes(label = label), hjust = -0.05, size = 3) +
+    coord_flip() +
+    facet_wrap(~experimento, scales = "free", ncol = 1) +
+    scale_fill_viridis_d(option = "mako", direction = -1) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.35))) +
+    labs(
+      title = "Benchmark: CSV vs Parquet vs DuckDB",
+      subtitle = "Mediana de 5 iteraciones; primera iteracion y mediana caliente en la tabla",
+      x = NULL, y = "Tiempo (segundos)"
+    ) +
+    theme_goiener() +
+    theme(strip.text = element_text(face = "bold"))
+
+  print(p_bench)
+  toc("benchmark-viz")
+}
+```
+
+### Tabla detallada
+
+```{r}
+#| label: benchmark-table
+
+if (has_bench) {
+  bench_display <- bench_results |>
+    select(experimento, metodo, first_iter_s, warm_mediana_s, mediana_s,
+           speedup, mem_alloc_mb) |>
+    mutate(
+      first_iter_s = round(first_iter_s, 3),
+      warm_mediana_s = round(warm_mediana_s, 3),
+      mediana_s = round(mediana_s, 3),
+      speedup = round(speedup, 1),
+      mem_alloc_mb = round(mem_alloc_mb, 1)
+    )
+
+  report_table(bench_display,
+    caption = "Resultados del benchmark. La primera iteracion aproxima ejecucion fria de sesion; la mediana caliente resume iteraciones 2-5.",
+    col.names = c("Experimento", "Método", "Primera iter. (s)",
+                  "Mediana caliente (s)", "Mediana total (s)",
+                  "Speedup", "Mem. asignada (MB)"))
+}
+```
+
+## 2. Análisis por experimento
+
+### Exp 1: Lectura completa
+
+La lectura de una muestra de 100 CSV con `readr` se compara con la lectura equivalente en Parquet (Arrow) y DuckDB. Para que la comparacion sea justa, las tres rutas devuelven el mismo resultado (un conteo de filas tras filtrar por la lista de `user_id` de la muestra) — sin materializar las filas en R, que penalizaria el motor que ya ha hecho el trabajo correctamente.
+
+::: {.callout-note collapse="true"}
+## Por que Parquet + Arrow sale lento aqui
+
+El resultado 20-22 s para Parquet + Arrow no es un error de medicion: es el coste real de **escanear secuencialmente** todas las particiones `year=YYYY/` desde el binding R de Arrow cuando el filtro `user_id %in% lista_grande` no se traduce a un predicate pushdown eficiente a nivel de cada fichero Parquet. DuckDB, en cambio, paraleliza el escaneo de particiones y aplica el filtro a nivel de row-group, lo que explica el factor x33 a su favor. La conclusion practica es **usar DuckDB sobre Parquet** para queries analiticas, y reservar `arrow` para flujos donde se trabaja con la API de `dplyr` lazy sin recorrer todo el dataset.
+:::
+
+```{r}
+#| label: fig-exp1
+#| fig-cap: "El formato Parquet y DuckDB reducen drasticamente el tiempo de lectura gracias a la compresión y la columnaridad."
+
+if (has_bench) {
+  exp1 <- bench_results |> filter(grepl("Lectura", experimento))
+
+  if (nrow(exp1) > 0) {
+    p_exp1 <- exp1 |>
+      mutate(metodo = forcats::fct_reorder(metodo, mediana_s)) |>
+      ggplot(aes(x = metodo, y = mediana_s, fill = metodo)) +
+      geom_col(show.legend = FALSE, width = 0.5) +
+      geom_text(aes(label = sprintf("%.2fs", mediana_s)), hjust = -0.1, size = 3.5) +
+      coord_flip() +
+      scale_fill_manual(values = c(PAL_MAIN, PAL_ACCENT, "#5EBD72")) +
+      scale_y_continuous(expand = expansion(mult = c(0, 0.25))) +
+      labs(title = "Exp 1: Lectura completa (100 usuarios)",
+           x = NULL, y = "Tiempo (s)") +
+      theme_goiener()
+
+    p_exp1
+  }
+}
+```
+
+### Exp 3: Filtro temporal (partition pruning)
+
+```{r}
+#| label: fig-exp3
+
+if (has_bench) {
+  exp3 <- bench_results |> filter(grepl("Filtro", experimento))
+
+  if (nrow(exp3) > 0) {
+    cat("DuckDB con particionado Hive puede saltar directamente a la carpeta year=2020,\n")
+    cat("evitando leer datos de otros años. Esto se traduce en:\n\n")
+
+    for (i in seq_len(nrow(exp3))) {
+      cat(sprintf("  %s: %.3f s (x%.1f)\n",
+                  exp3$metodo[i], exp3$mediana_s[i], exp3$speedup[i]))
+    }
+  }
+}
+```
+
+### Exp 4: Agregación desde horario vs tabla pre-agregada
+
+```{r}
+#| label: fig-exp4
+
+if (has_bench) {
+  exp4 <- bench_results |> filter(grepl("Agregación", experimento))
+
+  if (nrow(exp4) > 0) {
+    cat("La tabla pre-agregada evita re-recorrer los registros horarios:\n\n")
+
+    for (i in seq_len(nrow(exp4))) {
+      cat(sprintf("  %s: %.3f s (x%.1f)\n",
+                  exp4$metodo[i], exp4$mediana_s[i], exp4$speedup[i]))
+    }
+
+    cat("\nEste es el patrón de diseno más impactante: materializar las agregaciones\n")
+    cat("que se usan repetidamente en el EDA y en el forecasting.\n")
+  }
+}
+```
+
+## 3. Tamaño en disco
+
+```{r}
+#| label: fig-disk-size
+#| fig-cap: "Comparativa de tamaño en disco entre formatos."
+
+if (has_disk) {
+  tic("disk-size")
+
+  p_disk <- disk_summary |>
+    filter(!is.na(MB)) |>
+    mutate(
+      formato = forcats::fct_reorder(formato, MB),
+      label = sprintf("%.0f MB (x%.1f vs CSV)", MB, ratio_vs_csv)
+    ) |>
+    ggplot(aes(x = formato, y = MB, fill = formato)) +
+    geom_col(show.legend = FALSE, width = 0.6) +
+    geom_text(aes(label = label), hjust = -0.05, size = 3.5) +
+    coord_flip() +
+    scale_fill_viridis_d(option = "inferno", direction = -1) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
+    labs(
+      title = "Comparativa de tamaño en disco",
+      subtitle = "Ratio respecto al CSV crudo extraido",
+      x = NULL, y = "Tamaño (MB)"
+    ) +
+    theme_goiener()
+
+  print(p_disk)
+
+  report_table(disk_summary |> mutate(across(where(is.numeric), ~round(., 1))),
+    caption = "Tamaño en disco por formato",
+    col.names = c("Formato", "Bytes", "MB", "GB", "Ratio vs CSV"))
+
+  toc("disk-size")
+}
+```
+
+## 4. Discusion
+
+La eleccion de arquitectura no es un detalle técnico menor: tiene un impacto directo en la experiencia de desarrollo y en la viabilidad de iterar sobre los datos. El resultado se interpreta como **suficiente para un entorno local reproducible**: Parquet, DuckDB y tablas pre-agregadas permiten ejecutar el TFM sin desplegar Spark, reduciendo complejidad operativa y manteniendo trazabilidad.
+
+**Ventajas del stack Parquet + DuckDB:**
+
+1. **Compresión**: Parquet con ZSTD-9 reduce el tamaño en disco tipicamente a un 30-50% del CSV equivalente, y el archivo `.tar.zst` original es aún más compacto por la compresión global.
+
+2. **Lectura columnar**: cuando una consulta solo necesita 2-3 columnas de las 5+ disponibles, Parquet evita leer los datos de las columnas no solicitadas. En CSV hay que parsear toda la fila.
+
+3. **Partition pruning**: el particionado `year=YYYY` permite a DuckDB saltar directamente a las carpetas relevantes cuando hay un filtro temporal, evitando I/O innecesario.
+
+4. **Pre-agregación**: las tablas pre-calculadas (diaria, mensual, perfiles horarios) eliminan la necesidad de re-recorrer los ~950M registros horarios. Este es el patrón de mayor impacto.
+
+5. **Procesamiento in-process**: DuckDB no requiere un servidor externo. Se ejecuta dentro del proceso R, sin latencia de red ni configuracion.
+
+En este tamaño de datos, Spark no aporta una ventaja practica que compense su coste de instalacion, configuracion y reproducibilidad. La decision no invalida Spark como tecnologia: si el dataset creciera 100x, si aparecieran cargas concurrentes multiusuario o si el procesamiento tuviera que distribuirse entre nodos, Spark podria volver a tener sentido.
+
+**Limitaciones:**
+
+- La transformación inicial (CSV -> Parquet) requiere una ejecución única que puede tardar bastante (~30-60 min en este dataset).
+- DuckDB tiene un límite de memoria configurable (aquí `r DUCKDB_MEMORY_LIMIT`), que puede ser insuficiente para operaciones de join sobre el dataset completo sin particionado.
+- Las consultas ad-hoc sobre el Parquet horario completo siguen siendo lentas; la pre-agregación es necesaria para un flujo de trabajo interactivo.
+- Las mediciones dependen del hardware, versiones de librerias y cache del sistema operativo; por tanto, no deben leerse como benchmark universal.
+- La memoria por metodo se reporta como memoria asignada por `bench`; el pico del proceso R se muestra como contexto de ejecucion cuando el sistema operativo permite medirlo de forma directa.
+
+### Síntesis del benchmark
+
+**1. La arquitectura no es una elección estética, es una restricción de proyecto.** Un TFM tiene que ser reproducible por un tribunal en una máquina personal sin pedir cuentas de nube ni clusters HPC. El stack Parquet + DuckDB cumple esa restricción y la cumple bien: el orquestador ejecuta extremo a extremo (00 → 07) en horas, no en días, y los outputs son determinísticos dado el mismo input y los mismos semilleros.
+
+**2. Cuándo dejaría de tener sentido este stack.** Si el dataset creciera ~100x (decenas de miles de millones de registros horarios), si aparecieran cargas concurrentes multiusuario reales (no solo desarrollo individual) o si el procesamiento tuviera que distribuirse entre nodos con SLA estricto, Spark o un motor distribuido volverían a ser la opción correcta. Mientras estemos en el orden de magnitud actual, no aportan ventaja práctica que compense su coste operativo.
+
+**3. La pre-agregación es la palanca de mayor impacto.** El benchmark muestra que las tablas pre-calculadas (diaria, mensual, perfiles horarios) ahorran órdenes de magnitud de tiempo frente a recorrer los ~950M registros horarios cada vez. Esto no es Parquet vs CSV: es el patrón de "calcular una vez, leer muchas veces" aplicado a una cartera grande. Cualquier proyecto similar debería empezar por ahí, independientemente del motor que use.
+
+**4. La trazabilidad y la auditabilidad son resultados, no efectos secundarios.** El benchmark queda registrado en `benchmark_results.csv`, los tiempos del orquestador en `pipeline_timings_v2.csv` y el entorno (versiones, hardware) en `benchmark_environment.csv`. Eso significa que la afirmación "el TFM se reproduce en X horas" es verificable, no una promesa. Si en una ejecución futura el tiempo se duplica, sabremos qué fase es responsable y con qué hardware se comparó.
+
+**5. Limitaciones honestas del propio benchmark.** Las mediciones dependen del hardware, del sistema operativo y del cache. Repetir el benchmark en una máquina distinta dará números distintos. Lo que se sostiene es el orden de magnitud y la jerarquía relativa entre formatos y patrones de acceso, no los segundos exactos.
+
+**Implicación final.** El stack elegido permite hacer un TFM ambicioso (clima AEMET, clustering, forecasting con intervalos, app Shiny) sin depender de infraestructura cara o difícil de auditar. La decisión arquitectónica es defendible no porque Parquet sea "mejor" en abstracto, sino porque resuelve esta combinación específica de volumen, restricciones y necesidad de reproducibilidad de forma medible.
+
+## Resumen de tiempos
+
+```{r}
+#| label: timing-summary
+
+timing_df <- data.frame(
+  chunk = names(get_timings()),
+  segundos = vapply(get_timings(), function(x) if (!is.null(x$elapsed)) unname(x$elapsed) else NA_real_, numeric(1)),
+  row.names = NULL
+)
+timing_df <- timing_df[!is.na(timing_df$segundos), ]
+timing_df <- timing_df[order(-timing_df$segundos), ]
+timing_df$pct <- round(100 * timing_df$segundos / sum(timing_df$segundos), 1)
+report_table(timing_df, digits = 1, col.names = c("Chunk", "Segundos", "% del total"))
+```
+

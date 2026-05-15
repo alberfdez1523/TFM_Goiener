@@ -1,0 +1,31 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+3: package 'tidyr' was built under R version 4.5.2 
+4: package 'ggplot2' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 06f: Interpretacion
+======================================================================
+# A tibble: 6 × 33
+  cluster_label     n   pct mean_daily_kWh median_daily_kWh cv_daily
+  <chr>         <int> <dbl>          <dbl>            <dbl>    <dbl>
+1 C1              942  4.01           5.03             2.93    1.35 
+2 C2              703  2.99          28.5             26.3     0.491
+3 C3             6943 29.6            6.07             5.73    0.456
+4 C4             1754  7.47          10.4              7.74    0.775
+5 C5            10083 42.9            5.58             5.40    0.437
+6 C6              871  3.71           9.98             8.26    0.893
+# ℹ 27 more variables: ratio_night_day <dbl>, ratio_weekend_weekday <dbl>,
+#   peak_share <dbl>, valley_share <dbl>, flat_share <dbl>,
+#   peak_to_valley_ratio <dbl>, seasonal_amplitude_norm <dbl>,
+#   max_month_share <dbl>, monthly_entropy <dbl>, summer_winter_ratio <dbl>,
+#   low_day_rate <dbl>, zero_day_rate <dbl>, holiday_ratio <dbl>,
+#   bridge_ratio <dbl>, morning_kWh_share <dbl>, afternoon_kWh_share <dbl>,
+#   evening_kWh_share <dbl>, night_kWh_share <dbl>, peak_hour <dbl>, …
+06f en 2.3 s

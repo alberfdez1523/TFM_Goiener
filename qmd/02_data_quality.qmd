@@ -1,0 +1,834 @@
+---
+title: "Informe de Calidad de Datos - GoiEner"
+subtitle: "Cobertura temporal, huecos, días incompletos y anomalías"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    code-tools: false
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+    fig-align: center
+    fig-width: 10
+    fig-height: 5.5
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("_config.R"))
+
+library(arrow)
+library(DBI)
+library(duckdb)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(glue)
+library(ggplot2)
+library(scales)
+library(patchwork)
+
+parse_es_num <- function(x) {
+  x <- trimws(as.character(x))
+  x[x %in% c("", "NA")] <- NA_character_
+  x <- gsub("\\.", "", x)
+  x <- gsub(",", ".", x, fixed = TRUE)
+  as.numeric(x)
+}
+
+normalize_global_summary <- function(summary_df) {
+  if (!all(c("metrica", "valor") %in% names(summary_df))) {
+    return(list(
+      summary = summary_df,
+      table = tibble::tibble(
+        `Métrica` = c(
+          "Total registros horarios",
+          "Usuarios únicos",
+          "Fecha inicio",
+          "Fecha fin",
+          "Tasa de nulos (%)",
+          "Tasa de negativos (%)",
+          "Media consumo horario (kWh)",
+          "Mediana consumo horario (kWh)",
+          "Desviación típica horario (kWh)",
+          "Máximo consumo horario (kWh)"
+        ),
+        Valor = c(
+          fmt_int(summary_df$total_registros),
+          fmt_int(summary_df$usuarios_unicos),
+          as.character(summary_df$fecha_inicio),
+          as.character(summary_df$fecha_fin),
+          fmt_num(summary_df$pct_nulos, 4),
+          fmt_num(summary_df$pct_negativos, 4),
+          fmt_num(summary_df$media_kWh, 4),
+          fmt_num(summary_df$mediana_kWh, 4),
+          fmt_num(summary_df$sd_kWh, 4),
+          fmt_num(summary_df$max_kWh, 4)
+        )
+      )
+    ))
+  }
+
+  values <- setNames(summary_df$valor, summary_df$metrica)
+  rango_temporal <- values[["Rango temporal"]]
+  rango_parts <- strsplit(rango_temporal, " a ", fixed = TRUE)[[1]]
+  total_registros <- parse_es_num(values[["Total registros horarios"]])
+  n_nulls <- parse_es_num(values[["Registros NULL"]])
+  n_negativos <- parse_es_num(values[["Registros negativos"]])
+
+  list(
+    summary = tibble::tibble(
+      total_registros = total_registros,
+      usuarios_unicos = parse_es_num(values[["Total usuarios"]]),
+      fecha_inicio = if (length(rango_parts) >= 1) rango_parts[[1]] else NA_character_,
+      fecha_fin = if (length(rango_parts) >= 2) rango_parts[[2]] else NA_character_,
+      pct_nulos = ifelse(total_registros > 0, 100 * n_nulls / total_registros, NA_real_),
+      pct_negativos = ifelse(total_registros > 0, 100 * n_negativos / total_registros, NA_real_)
+    ),
+    table = summary_df |>
+      transmute(`Métrica` = metrica, Valor = valor)
+  )
+}
+
+normalize_user_coverage <- function(coverage_df) {
+  if (!all(c("first_ts", "last_ts", "span_days", "distinct_days") %in% names(coverage_df))) {
+    return(coverage_df)
+  }
+
+  coverage_df |>
+    transmute(
+      user_id = user_id,
+      fecha_inicio = first_ts,
+      fecha_fin = last_ts,
+      dias_con_datos = distinct_days,
+      dias_rango = span_days + 1,
+      n_lecturas = total_records,
+      n_nulos = n_nulls,
+      n_negativos = n_negativos,
+      n_zeros = n_zeros,
+      coverage_pct = coverage_pct,
+      zero_pct = zero_pct,
+      null_pct = null_pct
+    )
+}
+```
+
+## Introducción
+
+Este informe analiza la calidad de los datos del dataset GoiEner previo a cualquier modelización. Cubre:
+
+1. **Resumen global**: dimensiones, rango temporal, proporcion de nulos y negativos.
+2. **Cobertura por usuario**: días activos, tasa de completitud.
+3. **Análisis de huecos**: distribución y duración de gaps en las series temporales.
+4. **Días incompletos**: filas con menos de 24 lecturas horarias.
+5. **Deteccion de picos/spikes**: lecturas anomalamente altas.
+
+Los resultados se basan en los ficheros pre-generados por `R/02_data_quality.R`. Si no se han ejecutado, este documento los calcula directamente desde los Parquet.
+
+## Conexión a datos
+
+Este bloque fija una única fuente de lectura para todo el informe. La conexión a Parquet y a las tablas precomputadas evita que cada apartado calcule la calidad de una forma distinta, algo que haría difícil comparar nulos, huecos y anomalías.
+
+```{r}
+#| label: connection
+
+con <- connect_duckdb()
+hourly_glob       <- HOURLY_GLOB
+daily_parquet_abs <- path_abs(DAILY_PARQUET) |> path_norm()
+
+# Verificar que existen las tablas de calidad pre-calculadas
+quality_files <- list(
+  summary = path(TABLE_DIR, "data_quality_summary.csv"),
+  coverage = path(TABLE_DIR, "user_coverage.csv"),
+  gaps = path(TABLE_DIR, "gap_analysis.csv"),
+  schema = path(TABLE_DIR, "schema_checks.csv"),
+  manifest = path(TABLE_DIR, "pipeline_manifest.csv"),
+  affected_users = path(TABLE_DIR, "data_quality_affected_users.csv")
+)
+
+quality_core_files <- quality_files[c("summary", "coverage", "gaps", "schema", "manifest")]
+quality_precalculated <- all(vapply(quality_core_files, file_exists, logical(1)))
+if (quality_precalculated) {
+  message("Usando tablas de calidad pre-calculadas desde outputs/tables/")
+}
+```
+
+## 1. Resumen global del dataset
+
+El resumen global se calcula antes de mirar problemas concretos porque marca la escala real del análisis: número de lecturas, usuarios, rango temporal y tasas básicas de error. Si aquí apareciera una tasa alta de nulos o negativos, no tendría sentido pasar directamente a clustering o forecasting sin acotar el daño.
+
+```{r}
+#| label: global-summary
+
+tic("global-summary")
+if (quality_precalculated) {
+  global_summary_data <- normalize_global_summary(read.csv(quality_files$summary))
+  global_summary <- global_summary_data$summary
+  global_summary_table <- global_summary_data$table
+} else {
+  global_summary <- dbGetQuery(con, glue("
+    SELECT
+      COUNT(*)                           AS total_registros,
+      COUNT(DISTINCT user_id)            AS usuarios_unicos,
+      MIN(timestamp)                     AS fecha_inicio,
+      MAX(timestamp)                     AS fecha_fin,
+      ROUND(100.0 * SUM(CASE WHEN kWh IS NULL THEN 1 ELSE 0 END) / COUNT(*), 4)
+                                         AS pct_nulos,
+      ROUND(100.0 * SUM(CASE WHEN kWh < 0 THEN 1 ELSE 0 END) / COUNT(*), 4)
+                                         AS pct_negativos,
+      ROUND(AVG(kWh), 4)                AS media_kWh,
+      ROUND(MEDIAN(kWh), 4)             AS mediana_kWh,
+      ROUND(STDDEV(kWh), 4)             AS sd_kWh,
+      MAX(kWh)                           AS max_kWh
+    FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE)
+  "))
+
+  global_summary_data <- normalize_global_summary(global_summary)
+  global_summary <- global_summary_data$summary
+  global_summary_table <- global_summary_data$table
+}
+toc("global-summary")
+
+report_table(global_summary_table,
+             caption = "Resumen global del dataset horario")
+```
+
+El dataset contiene **`r fmt_int(global_summary$total_registros)`** lecturas horarias de **`r fmt_int(global_summary$usuarios_unicos)`** usuarios. La tasa de nulos es del `r fmt_num(global_summary$pct_nulos, 2)`% y la de negativos del `r fmt_num(global_summary$pct_negativos, 2)`%.
+
+```{r}
+#| label: tbl-contracts
+
+if (file_exists(quality_files$schema)) {
+  schema_checks <- read.csv(quality_files$schema)
+  contract_summary <- schema_checks |>
+    count(status, name = "n_checks") |>
+    arrange(match(status, c("fail", "warn", "pass")))
+
+  report_table(
+    contract_summary,
+    caption = "Resumen de contratos de esquema y rango generados por R/02_data_quality.R."
+  )
+
+  failed_or_warned <- schema_checks |>
+    filter(status != "pass") |>
+    select(check_id, table_name, column_name, expected, observed, status)
+
+  if (nrow(failed_or_warned) > 0) {
+    report_table(
+      failed_or_warned,
+      caption = "Checks que requieren revision: fail bloquea; warn señala outliers esperables."
+    )
+  }
+}
+```
+
+```{r}
+#| label: tbl-pipeline-manifest
+
+if (file_exists(quality_files$manifest)) {
+  pipeline_manifest <- read.csv(quality_files$manifest)
+  report_table(
+    pipeline_manifest |>
+      select(step, artifact, n_rows, n_users, date_min, date_max, n_null_measure, notes),
+    caption = "Manifest de conteos por artefacto principal del pipeline hasta calidad."
+  )
+}
+```
+
+## 2. Cobertura temporal por usuario
+
+La cobertura por usuario permite distinguir hogares con histórico suficiente de altas, bajas o suministros con seguimiento irregular. Esta comprobación importa porque los modelos temporales y los perfiles de cluster necesitan continuidad; un usuario con pocas semanas de datos no aporta la misma evidencia que uno observado durante años.
+
+```{r}
+#| label: user-coverage
+
+tic("user-coverage")
+if (quality_precalculated) {
+  user_coverage <- normalize_user_coverage(read.csv(quality_files$coverage))
+} else {
+  user_coverage <- dbGetQuery(con, glue("
+    SELECT
+      user_id,
+      MIN(DATE(timestamp)) AS fecha_inicio,
+      MAX(DATE(timestamp)) AS fecha_fin,
+      COUNT(DISTINCT DATE(timestamp)) AS dias_con_datos,
+      DATEDIFF('day', MIN(DATE(timestamp)), MAX(DATE(timestamp))) + 1 AS dias_rango,
+      COUNT(*) AS n_lecturas,
+      SUM(CASE WHEN kWh IS NULL THEN 1 ELSE 0 END) AS n_nulos,
+      SUM(CASE WHEN kWh < 0 THEN 1 ELSE 0 END) AS n_negativos
+    FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE)
+    WHERE user_id IS NOT NULL AND user_id <> ''
+    GROUP BY user_id
+  "))
+}
+
+user_coverage <- user_coverage |>
+  mutate(
+    tasa_completitud = dias_con_datos / pmax(dias_rango, 1),
+    dias_activos_anio = dias_con_datos / pmax(as.numeric(difftime(
+      as.Date(fecha_fin), as.Date(fecha_inicio), units = "days")) / 365.25, 0.1)
+  )
+
+toc("user-coverage")
+```
+
+### Distribución de días activos
+
+La distribución de días activos muestra si la cartera se apoya en usuarios de largo recorrido o en muchos suministros con poca observación. Se representa como histograma porque aquí interesa ver masa, cola y mediana, no solo un promedio.
+
+```{r}
+#| label: fig-coverage-hist
+#| fig-cap: "Distribución del número de días con lecturas por usuario."
+
+p_coverage <- user_coverage |>
+  ggplot(aes(x = dias_con_datos)) +
+  geom_histogram(bins = 80, fill = PAL_MAIN, color = "white", linewidth = 0.2) +
+  geom_vline(xintercept = median(user_coverage$dias_con_datos),
+             linetype = "dashed", color = PAL_ACCENT, linewidth = 0.8) +
+  labs(
+    title = "Días con datos por usuario",
+    subtitle = sprintf("Mediana: %s días | Media: %s días",
+                        fmt_int(median(user_coverage$dias_con_datos)),
+                        fmt_int(mean(user_coverage$dias_con_datos))),
+    x = "Días con al menos una lectura", y = "Número de usuarios"
+  ) +
+  theme_goiener()
+
+p_coverage
+```
+
+### Tasa de completitud
+
+La tasa de completitud mide la proporción de días observados dentro del rango de cada usuario. El umbral del 90% sirve como lectura rápida para saber cuántos perfiles pueden alimentar features temporales sin depender de rellenos artificiales.
+
+```{r}
+#| label: fig-completitud
+#| fig-cap: "Proporcion de días cubiertos respecto al rango temporal de cada usuario."
+
+p_completitud <- user_coverage |>
+  ggplot(aes(x = tasa_completitud)) +
+  geom_histogram(bins = 50, fill = PAL_MAIN, color = "white", linewidth = 0.2) +
+  scale_x_continuous(labels = percent_format()) +
+  geom_vline(xintercept = 0.9, linetype = "dashed", color = PAL_ACCENT) +
+  annotate("text", x = 0.88, y = Inf, label = "90%",
+           vjust = 1.5, hjust = 1, color = PAL_ACCENT, fontface = "italic") +
+  labs(
+    title = "Tasa de completitud por usuario",
+    subtitle = sprintf("Usuarios con >= 90%%: %s (%s)",
+                        fmt_int(sum(user_coverage$tasa_completitud >= 0.9)),
+                        fmt_pct(mean(user_coverage$tasa_completitud >= 0.9))),
+    x = "Tasa de completitud (dias_con_datos / rango)", y = "Número de usuarios"
+  ) +
+  theme_goiener()
+
+p_completitud
+```
+
+**`r fmt_pct(mean(user_coverage$tasa_completitud >= 0.9))`** de los usuarios tienen cobertura >= 90%. Los usuarios con baja completitud probablemente corresponden a altas/bajas recientes o fallos de comunicación del contador.
+
+### Distribución temporal de altas y bajas
+
+Las primeras y últimas lecturas explican cambios en el tamaño de la cartera. Esta visualización separa crecimiento de base de clientes y pérdida de usuarios, dos efectos que pueden confundirse con variaciones de consumo si se mira solo la serie agregada.
+
+```{r}
+#| label: fig-altas-bajas
+#| fig-cap: "Evolucion mensual de primeras y ultimas lecturas por usuario."
+
+altas_bajas <- user_coverage |>
+  mutate(
+    mes_alta = floor_date(as.Date(fecha_inicio), "month"),
+    mes_baja = floor_date(as.Date(fecha_fin), "month")
+  )
+
+altas_monthly <- altas_bajas |> count(mes_alta) |> rename(mes = mes_alta, n_altas = n)
+bajas_monthly <- altas_bajas |> count(mes_baja) |> rename(mes = mes_baja, n_bajas = n)
+
+ab_tbl <- full_join(altas_monthly, bajas_monthly, by = "mes") |>
+  replace_na(list(n_altas = 0, n_bajas = 0)) |>
+  pivot_longer(cols = c(n_altas, n_bajas), names_to = "tipo", values_to = "n") |>
+  mutate(tipo = recode(tipo, n_altas = "Primera lectura", n_bajas = "Ultima lectura"))
+
+p_ab <- ggplot(ab_tbl, aes(x = mes, y = n, color = tipo)) +
+  geom_line(linewidth = 0.8) +
+  scale_color_manual(values = c("Primera lectura" = PAL_MAIN, "Ultima lectura" = PAL_ACCENT)) +
+  labs(title = "Flujo de altas y bajas de usuarios",
+       subtitle = "Basado en primera/ultima lectura registrada",
+       x = NULL, y = "Usuarios", color = NULL) +
+  theme_goiener()
+
+p_ab
+```
+
+## 3. Análisis de huecos (gaps)
+
+Los huecos rompen la continuidad de la serie y afectan a retardos, medias móviles y validación temporal. Esta sección localiza no solo cuántos hay, sino su duración, porque un día perdido y tres meses sin datos tienen consecuencias muy distintas.
+
+```{r}
+#| label: gap-analysis
+
+tic("gap-analysis")
+if (quality_precalculated) {
+  gap_analysis <- read.csv(quality_files$gaps)
+} else {
+  gap_analysis <- dbGetQuery(con, glue("
+    WITH ordered AS (
+      SELECT user_id, date,
+             LAG(date) OVER (PARTITION BY user_id ORDER BY date) AS prev_date
+      FROM read_parquet('{daily_parquet_abs}')
+      WHERE user_id IS NOT NULL AND user_id <> ''
+    ),
+    gaps AS (
+      SELECT user_id, prev_date AS gap_start, date AS gap_end,
+             DATEDIFF('day', prev_date, date) - 1 AS gap_days
+      FROM ordered
+      WHERE DATEDIFF('day', prev_date, date) > 1
+    )
+    SELECT user_id, gap_start, gap_end, gap_days
+    FROM gaps
+    ORDER BY gap_days DESC
+  "))
+}
+toc("gap-analysis")
+```
+
+### Distribución de duración de huecos
+
+Agrupar los huecos por duración ayuda a decidir el tratamiento: los cortes de uno o dos días se pueden documentar, mientras que las ausencias largas aconsejan prudencia al interpretar el usuario o excluirlo de ciertos cálculos.
+
+```{r}
+#| label: fig-gap-dist
+#| fig-cap: "La mayoria de los huecos son de 1-2 días, pero existen huecos de semanas o meses."
+
+if (nrow(gap_analysis) > 0) {
+  gap_summary <- gap_analysis |>
+    mutate(gap_cat = case_when(
+      gap_days <= 1  ~ "1 día",
+      gap_days <= 7  ~ "2-7 días",
+      gap_days <= 30 ~ "8-30 días",
+      gap_days <= 90 ~ "1-3 meses",
+      TRUE           ~ "> 3 meses"
+    )) |>
+    mutate(gap_cat = factor(gap_cat, levels = c("1 día", "2-7 días", "8-30 días", "1-3 meses", "> 3 meses")))
+
+  p_gaps <- gap_summary |>
+    count(gap_cat) |>
+    ggplot(aes(x = gap_cat, y = n, fill = gap_cat)) +
+    geom_col(show.legend = FALSE, width = 0.7) +
+    geom_text(aes(label = scales::comma(n)), vjust = -0.3, size = 3.5) +
+    scale_fill_viridis_d(option = "plasma") +
+    scale_y_continuous(labels = label_comma(), expand = expansion(mult = c(0, 0.15))) +
+    labs(title = "Distribución de huecos por duración",
+         subtitle = sprintf("Total: %s huecos en %s usuarios",
+                            fmt_int(nrow(gap_analysis)),
+                            fmt_int(n_distinct(gap_analysis$user_id))),
+         x = "Duración del hueco", y = "Número de huecos") +
+    theme_goiener()
+
+  p_gaps
+} else {
+  cat("No se detectaron huecos en las series temporales.")
+}
+```
+
+### Usuarios más afectados por huecos
+
+El ranking por usuario identifica si el problema está repartido o concentrado en pocos suministros. Esta tabla es útil para trazabilidad: permite revisar casos concretos sin convertir el informe en una inspección manual de miles de series.
+
+```{r}
+#| label: gap-top-users
+
+if (nrow(gap_analysis) > 0) {
+  gap_by_user <- gap_analysis |>
+    group_by(user_id) |>
+    summarise(
+      n_huecos = n(),
+      dias_perdidos = sum(gap_days),
+      max_hueco_dias = max(gap_days),
+      .groups = "drop"
+    ) |>
+    arrange(desc(dias_perdidos))
+
+  cat(sprintf("Usuarios sin ningun hueco: %s (%s del total)\n",
+              fmt_int(global_summary$usuarios_unicos - n_distinct(gap_analysis$user_id)),
+              fmt_pct(1 - n_distinct(gap_analysis$user_id) / global_summary$usuarios_unicos)))
+
+  report_table(head(gap_by_user, 15),
+               col.names = c("user_id (truncado)", "N huecos", "Días perdidos", "Max hueco (días)"),
+               caption = "Top 15 usuarios con más días perdidos por huecos")
+}
+```
+
+## 4. Días incompletos
+
+Los días con menos de 24 lecturas no representan el mismo objeto que un día completo. Se cuantifican para justificar el filtro `hours_recorded == 24`, usado después en EDA y modelización para no mezclar consumos diarios parciales con consumos diarios reales.
+
+```{r}
+#| label: incomplete-days
+
+tic("incomplete-days")
+incomplete_tbl <- dbGetQuery(con, glue("
+  SELECT
+    hours_recorded,
+    COUNT(*) AS n_registros,
+    COUNT(DISTINCT user_id) AS n_usuarios
+  FROM read_parquet('{daily_parquet_abs}')
+  WHERE user_id IS NOT NULL AND user_id <> ''
+  GROUP BY 1
+  ORDER BY 1
+"))
+toc("incomplete-days")
+```
+
+```{r}
+#| label: fig-incomplete
+#| fig-cap: "La inmensa mayoria de los días-usuario tienen 24 lecturas; los días incompletos son una minoria."
+
+incomplete_tbl <- incomplete_tbl |>
+  mutate(
+    tipo = case_when(
+      hours_recorded == 24 ~ "24 horas (completo)",
+      hours_recorded >= 20 ~ "20-23 horas",
+      hours_recorded >= 12 ~ "12-19 horas",
+      TRUE                 ~ "< 12 horas"
+    )
+  )
+
+incomplete_summary <- incomplete_tbl |>
+  group_by(tipo) |>
+  summarise(n_registros = sum(n_registros), .groups = "drop") |>
+  mutate(pct = n_registros / sum(n_registros))
+
+p_incomplete <- incomplete_summary |>
+  mutate(tipo = forcats::fct_reorder(tipo, n_registros)) |>
+  ggplot(aes(x = tipo, y = n_registros, fill = tipo)) +
+  geom_col(show.legend = FALSE, width = 0.7) +
+  geom_text(aes(label = sprintf("%s (%s)", scales::comma(n_registros), scales::percent(pct, 0.1))),
+            hjust = -0.05, size = 3.3) +
+  coord_flip() +
+  scale_fill_viridis_d(option = "mako", direction = -1) +
+  scale_y_continuous(labels = label_comma(), expand = expansion(mult = c(0, 0.25))) +
+  labs(title = "Distribución de días por completitud horaria",
+       x = NULL, y = "Número de días-usuario") +
+  theme_goiener()
+
+p_incomplete
+```
+
+El `r fmt_pct(incomplete_summary$pct[incomplete_summary$tipo == "24 horas (completo)"])` de los días-usuario tienen las 24 lecturas completas. Los días filtrados por este criterio representan una fracción mínima del total.
+
+## 5. Deteccion de picos (spikes)
+
+Los picos extremos pueden venir de errores de medida, cargas no domésticas o eventos reales poco frecuentes. Se detectan antes de generar features porque un puñado de lecturas anómalas puede dominar medias, desviaciones típicas y separadores de cluster.
+
+```{r}
+#| label: spike-detection
+
+tic("spike-detection")
+spike_stats <- dbGetQuery(con, glue("
+  WITH user_stats AS (
+    SELECT user_id,
+           AVG(kWh) AS mean_kWh,
+           STDDEV(kWh) AS sd_kWh
+    FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE)
+    WHERE kWh IS NOT NULL AND kWh >= 0
+      AND user_id IS NOT NULL AND user_id <> ''
+    GROUP BY user_id
+    HAVING COUNT(*) >= 168  -- al menos 1 semana
+  ),
+  thresholds AS (
+    SELECT user_id, mean_kWh, sd_kWh,
+           mean_kWh + 4 * sd_kWh AS threshold_4sd
+    FROM user_stats
+    WHERE sd_kWh > 0
+  )
+  SELECT
+    COUNT(*) AS n_spikes,
+    COUNT(DISTINCT h.user_id) AS n_usuarios_con_spikes,
+    AVG(h.kWh) AS media_spikes_kWh,
+    MAX(h.kWh) AS max_spike_kWh
+  FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE) h
+  INNER JOIN thresholds t ON h.user_id = t.user_id
+  WHERE h.kWh > t.threshold_4sd
+"))
+toc("spike-detection")
+
+cat(sprintf("Lecturas > media + 4*sd (por usuario): %s\n", fmt_int(spike_stats$n_spikes)))
+cat(sprintf("Usuarios afectados: %s\n", fmt_int(spike_stats$n_usuarios_con_spikes)))
+cat(sprintf("Lectura máxima detectada: %s kWh\n", fmt_num(spike_stats$max_spike_kWh)))
+```
+
+### Distribución de valores extremos
+
+El máximo horario por usuario sirve como prueba de plausibilidad residencial. La escala logarítmica deja ver a la vez la zona normal y la cola de valores altos, que sería casi invisible en escala lineal.
+
+```{r}
+#| label: fig-extreme-values
+#| fig-cap: "Distribución de los valores máximos por usuario."
+
+extreme_by_user <- dbGetQuery(con, glue("
+  SELECT user_id, MAX(kWh) AS max_kWh
+  FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE)
+  WHERE kWh IS NOT NULL AND kWh >= 0
+    AND user_id IS NOT NULL AND user_id <> ''
+  GROUP BY user_id
+"))
+
+p_extremes <- extreme_by_user |>
+  filter(max_kWh > 0) |>
+  ggplot(aes(x = max_kWh)) +
+  geom_histogram(bins = 100, fill = PAL_MAIN, color = "white", linewidth = 0.2) +
+  scale_x_log10(labels = label_number()) +
+  geom_vline(xintercept = 10, linetype = "dashed", color = PAL_ACCENT) +
+  annotate("text", x = 11, y = Inf, label = "10 kWh/h",
+           vjust = 1.5, hjust = 0, color = PAL_ACCENT, fontface = "italic", size = 3.2) +
+  labs(
+    title = "Valor máximo horario por usuario",
+    subtitle = "Escala logaritmica; la linea marca 10 kWh/h como referencia residencial",
+    x = "Max kWh horario", y = "Número de usuarios"
+  ) +
+  theme_goiener()
+
+p_extremes
+```
+
+### Usuarios afectados e impacto energético
+
+La tabla de impacto traduce las anomalías a kWh afectados. No basta contar registros: si los errores concentran poca energía, el riesgo para el agregado es menor; si pesan mucho en ciertos usuarios, conviene tratarlos antes de segmentar.
+
+```{r}
+#| label: tbl-affected-users-impact
+
+affected_users <- if (file_exists(quality_files$affected_users)) {
+  read.csv(quality_files$affected_users)
+} else {
+  tibble::tibble()
+}
+
+if (nrow(affected_users) > 0) {
+  affected_overview <- affected_users |>
+    summarise(
+      usuarios_afectados = n(),
+      usuarios_con_negativos = sum(n_negativos > 0, na.rm = TRUE),
+      usuarios_con_extremos = sum(n_extremos_horarios > 0 | n_dias_extremos > 0, na.rm = TRUE),
+      kWh_afectado_horario = sum(kWh_afectado_horario, na.rm = TRUE),
+      pct_kWh_global_afectado = sum(pct_kWh_global_afectado, na.rm = TRUE)
+    ) |>
+    transmute(
+      `Usuarios afectados` = fmt_int(usuarios_afectados),
+      `Con negativos` = fmt_int(usuarios_con_negativos),
+      `Con extremos` = fmt_int(usuarios_con_extremos),
+      `kWh horario afectado` = fmt_num(kWh_afectado_horario),
+      `% kWh global afectado` = fmt_num(pct_kWh_global_afectado, 6)
+    )
+
+  report_table(
+    affected_overview,
+    caption = "Resumen del impacto energético asociado a negativos y extremos."
+  )
+
+  top_affected <- affected_users |>
+    mutate(user_id_truncado = substr(user_id, 1, 12)) |>
+    arrange(desc(kWh_afectado_horario)) |>
+    select(
+      user_id_truncado, tipo_anomalia, n_negativos, kWh_negativos_abs,
+      n_extremos_horarios, kWh_extremos_horarios, n_dias_extremos,
+      kWh_afectado_horario, pct_kWh_usuario_afectado
+    ) |>
+    head(15)
+
+  report_table(
+    top_affected,
+    col.names = c(
+      "user_id", "Tipo", "N negativos", "kWh negativos abs.",
+      "N extremos horarios", "kWh extremos horarios", "Días extremos",
+      "kWh afectado", "% kWh usuario"
+    ),
+    caption = "Top 15 usuarios por kWh horario afectado por negativos/extremos."
+  )
+} else {
+  cat("No se ha generado tabla de usuarios afectados o no hay usuarios con negativos/extremos.")
+}
+```
+
+## 6. Semáforo por problema
+
+El semáforo resume la lectura operativa de la calidad. La idea no es decorar el informe con colores, sino separar problemas que bloquean el pipeline de incidencias aceptables si quedan trazadas y filtradas.
+
+```{r}
+#| label: quality-semaphore
+
+impact_badge <- function(level) {
+  class <- dplyr::case_when(
+    level == "Bajo" ~ "success",
+    level == "Medio" ~ "warning text-dark",
+    TRUE ~ "danger"
+  )
+  paste0('<span class="badge bg-', class, '">', level, '</span>')
+}
+
+incomplete_pct <- 1 - incomplete_summary$pct[incomplete_summary$tipo == "24 horas (completo)"]
+if (length(incomplete_pct) == 0 || is.na(incomplete_pct)) incomplete_pct <- 0
+
+gap_user_pct <- if (global_summary$usuarios_unicos > 0) {
+  n_distinct(gap_analysis$user_id) / global_summary$usuarios_unicos
+} else {
+  NA_real_
+}
+
+spike_rate <- if (global_summary$total_registros > 0) {
+  spike_stats$n_spikes / global_summary$total_registros
+} else {
+  NA_real_
+}
+
+affected_user_count <- if (nrow(affected_users) > 0) nrow(affected_users) else 0L
+affected_global_pct <- if (nrow(affected_users) > 0) {
+  sum(affected_users$pct_kWh_global_afectado, na.rm = TRUE)
+} else {
+  0
+}
+
+impact_nulls <- ifelse(global_summary$pct_nulos == 0, "Bajo",
+                       ifelse(global_summary$pct_nulos < 0.1, "Medio", "Alto"))
+impact_negatives <- ifelse(global_summary$pct_negativos < 0.01, "Bajo",
+                           ifelse(global_summary$pct_negativos < 0.1, "Medio", "Alto"))
+impact_spikes <- ifelse(is.na(spike_rate) || spike_rate == 0, "Bajo",
+                        ifelse(spike_rate < 0.001, "Medio", "Alto"))
+impact_incomplete <- ifelse(incomplete_pct < 0.01, "Bajo",
+                            ifelse(incomplete_pct < 0.05, "Medio", "Alto"))
+impact_gaps <- ifelse(is.na(gap_user_pct) || gap_user_pct < 0.01, "Bajo",
+                      ifelse(gap_user_pct < 0.05, "Medio", "Alto"))
+
+semaforo <- tibble::tibble(
+  Problema = c(
+    "Nulos horarios",
+    "Lecturas negativas",
+    "Extremos horarios/diarios",
+    "Días incompletos",
+    "Huecos temporales"
+  ),
+  Evidencia = c(
+    paste0(fmt_num(global_summary$pct_nulos, 4), "% de lecturas"),
+    paste0(fmt_num(global_summary$pct_negativos, 4), "% de lecturas"),
+    paste0(fmt_int(affected_user_count), " usuarios; ", fmt_num(affected_global_pct, 6), "% del kWh global horario afectado"),
+    paste0(fmt_pct(incomplete_pct), " de días-usuario"),
+    paste0(fmt_int(n_distinct(gap_analysis$user_id)), " usuarios con gaps")
+  ),
+  Impacto = c(impact_nulls, impact_negatives, impact_spikes, impact_incomplete, impact_gaps),
+  `Tratamiento en pipeline` = c(
+    "Control de contrato; no requiere imputación adicional.",
+    "Se cuantifican y se excluyen de cálculos que exigen kWh no negativo.",
+    "Se trazan por usuario y se filtran con umbrales antes de features/modelos.",
+    "Se filtran con hours_recorded == 24 en EDA y modelización.",
+    "Se documentan y se usan para interpretar cobertura temporal."
+  )
+) |>
+  mutate(Impacto = impact_badge(Impacto))
+
+report_table(
+  semaforo,
+  caption = "Semáforo de problemas de calidad y tratamiento posterior.",
+  escape = FALSE
+)
+```
+
+## 7. Resumen de hallazgos
+
+El cierre reúne las métricas que deben acompañar cualquier resultado posterior. Si clustering o forecasting se leen sin esta tabla, se pierde el contexto de cobertura, completitud y anomalías sobre el que se entrenaron.
+
+```{r}
+#| label: quality-summary
+
+hallazgos <- tibble::tibble(
+  `Métrica` = c(
+    "Registros totales",
+    "Usuarios únicos",
+    "Tasa de nulos (%)",
+    "Tasa de negativos (%)",
+    "Usuarios con completitud >= 90%",
+    "Días-usuario completos (24h)",
+    "Lecturas spike (> media+4sd)",
+    "Usuarios afectados por negativos/extremos",
+    "% kWh global horario afectado",
+    "Usuarios con >= 1 hueco"
+  ),
+  Valor = c(
+    fmt_int(global_summary$total_registros),
+    fmt_int(global_summary$usuarios_unicos),
+    fmt_num(global_summary$pct_nulos, 4),
+    fmt_num(global_summary$pct_negativos, 4),
+    fmt_pct(mean(user_coverage$tasa_completitud >= 0.9)),
+    fmt_pct(incomplete_summary$pct[incomplete_summary$tipo == "24 horas (completo)"]),
+    fmt_int(spike_stats$n_spikes),
+    fmt_int(affected_user_count),
+    fmt_num(affected_global_pct, 6),
+    fmt_int(n_distinct(gap_analysis$user_id))
+  )
+)
+
+report_table(hallazgos, caption = "Resumen de métricas de calidad de datos")
+```
+
+**Conclusiones principales:**
+
+- La tasa de nulos y negativos es negligible: la captura horaria de la cartera GoiEner llega muy limpia, lo que reduce la necesidad de imputación pesada y permite trabajar con filtros simples y explícitos.
+- La gran mayoría de usuarios tiene series temporales con cobertura alta (≥ 90 %), lo que habilita clustering y forecasting por usuario sin tener que reconstruir grandes huecos sintéticos que distorsionarían la forma horaria.
+- Los días incompletos son una fracción mínima y se filtran consistentemente en el resto del TFM usando `hours_recorded == 24`. Esto es importante: cualquier agregación diaria que mezcle días de 22 h con días de 24 h sesga la media; el filtro garantiza que las comparaciones inter-día e inter-usuario son homogéneas.
+- Los picos extremos y los negativos quedan trazados por usuario y se tratan con umbrales antes de alimentar features, clustering y forecasting. No se borran a ciegas: se documentan para que cualquier revisión pueda volver al detalle.
+- Los huecos largos se detectan, miden y atribuyen al usuario, no al sistema: un hogar con un mes vacío no se mezcla con uno continuo, sino que entra al pool con una bandera de cobertura.
+
+### Lectura integrada de la calidad
+
+**1. La calidad es suficiente para los usos previstos, pero no es uniforme.** El agregado parece muy limpio porque la mayoría de hogares lo está. Sin embargo, existe una cola pequeña de usuarios con problemas (huecos, spikes, negativos) que, sin filtros, contaminarían cualquier modelo no robusto. El pipeline distingue entre "limpiar el agregado" y "auditar al usuario": ambos quedan resueltos pero con herramientas diferentes.
+
+**2. La privacidad y la trazabilidad son consustanciales al diseño.** Los identificadores se trabajan seudonimizados desde la fase de ingesta. Todas las salidas que llegan a clustering, forecasting o app Shiny son agregados, perfiles o pertenencias a segmento. No hay punto del pipeline donde sea trivial recuperar el consumo bruto de un hogar concreto a partir de las tablas publicadas.
+
+**3. La calidad delimita el alcance, no al revés.** El TFM se acota a la cartera GoiEner 2.0 con clima disponible porque ahí la calidad es defendible. No se hace una afirmación general sobre "el consumo eléctrico español": esa frase requeriría una muestra representativa que esta cartera no es. Declarar el alcance es una decisión de calidad, no de modestia.
+
+**4. La calidad alimenta directamente el resto del pipeline.** Los filtros aquí definidos (días completos, consumo positivo, usuarios con cobertura mínima) son los mismos que usan clustering y forecasting. No hay reglas paralelas: las decisiones de calidad se aplican una vez y se propagan en cascada, lo que hace el sistema reproducible y auditable.
+
+**Implicación final.** La cartera está en condiciones de soportar segmentación, sensibilidad climática y forecasting operativo. Los pocos riesgos que quedan (huecos puntuales, spikes residuales) están documentados y acotados, no escondidos. Esa traza es lo que permite defender los resultados ante un tribunal sin tener que recurrir a "limpieza manual" no reproducible.
+
+## Resumen de tiempos
+
+Los tiempos instrumentados sirven para detectar qué partes del informe son más costosas de renderizar. En un proyecto reproducible esto ayuda a decidir qué debe precomputarse en scripts y qué puede quedar dentro del QMD.
+
+```{r}
+#| label: timing-summary
+
+timing_df <- data.frame(
+  chunk = names(get_timings()),
+  segundos = vapply(get_timings(), function(x) if (!is.null(x$elapsed)) unname(x$elapsed) else NA_real_, numeric(1)),
+  row.names = NULL
+)
+timing_df <- timing_df[!is.na(timing_df$segundos), ]
+timing_df <- timing_df[order(-timing_df$segundos), ]
+timing_df$pct <- round(100 * timing_df$segundos / sum(timing_df$segundos), 1)
+report_table(timing_df, digits = 1, col.names = c("Chunk", "Segundos", "% del total"))
+```
+
+## Cierre
+
+La conexión se cierra explícitamente para liberar recursos de DuckDB al terminar el render. Es una práctica pequeña, pero evita bloqueos de fichero cuando se encadenan varios QMD desde el orquestador.
+
+```{r}
+#| label: cleanup
+
+dbDisconnect(con, shutdown = TRUE)
+```
+

@@ -1,0 +1,47 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'DBI' was built under R version 4.5.2 
+2: package 'duckdb' was built under R version 4.5.2 
+3: package 'dplyr' was built under R version 4.5.2 
+4: package 'arrow' was built under R version 4.5.2 
+5: package 'lubridate' was built under R version 4.5.2 
+6: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+============================================================
+PASO 04: Union de consumo y clima
+============================================================
+
+[1/5] Cargando datos...
+  Alcance modelado: top5_provincias_mayor_masa_usuarios (20, 48, 31, 01, 28)
+  Registros diarios consumo: 39.737.949
+  Registros climaticos: 20.090
+
+[2/5] Construyendo calendario de festivos...
+
+[3/5] Calculando horas de luz...
+  Horas de luz calculadas: 20.090 registros para 5 provincias
+Warning message:
+package 'suncalc' was built under R version 4.5.3 
+
+[4/5] Realizando el cruce consumo + clima + calendario...
+  Ejecutando JOIN...
+[1] 37237633
+
+[5/5] Validando resultado...
+  Registros totales: 37.237.633
+  Usuarios: 26.146
+  Con datos climaticos: 37.237.633 (100,00%)
+  Sin datos climaticos: 0
+  Con clima imputado: 1.958.637 (5,26%)
+  Registros en festivo: 1.253.546
+    Nacionales: 960.415 | Autonomicos/locales: 293.131
+  Calidad merge clima exportada a: C:/Users/alber/Desktop/TFM/outputs/tables/climate_merge_quality.csv
+  Auditoria merge-imputacion exportada a: C:/Users/alber/Desktop/TFM/outputs/tables/climate_merge_imputation_audit.csv
+  Missing clima por provincia-fecha exportado a: C:/Users/alber/Desktop/TFM/outputs/tables/climate_missing_by_province_date.csv
+
+Merge completado en 16.2 s. JOIN en 13.3 s.
+Fichero generado: C:/Users/alber/Desktop/TFM/data/parquet/features/daily_with_climate.parquet

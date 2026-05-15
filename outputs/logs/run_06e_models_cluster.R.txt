@@ -1,0 +1,30 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 07e: Forecasting por cluster + reconciliacion
+======================================================================
+          model   n      MAE     RMSE    MAPE  sMAPE   WAPE   EUR_dev  MASE
+1 xgb_cluster_1 215  622.823 1352.870 110.956 13.463 10.706 12721.151 0.740
+2 xgb_cluster_2 215 1029.464 2832.674  31.329  7.023  3.247 21026.797 1.704
+3 xgb_cluster_3 215 1820.341 4860.114  72.853  8.188  4.323 37180.471 1.078
+4 xgb_cluster_4 215  651.713 1494.000  21.659  7.926  5.709 13311.236 0.361
+5 xgb_cluster_5 215  741.570 1428.204  37.713 18.236 24.067 15146.569 3.824
+6 xgb_cluster_6 215  424.763 1336.705 170.796  7.879  3.874  8675.776 1.076
+  cluster
+1       1
+2       2
+3       3
+4       4
+5       5
+6       6
+    variant      MAE  WAPE  EUR_dev
+1 bottom_up 4204.732 4.001 85881.65
+2  top_down 2609.188 2.483 53292.66
+07e en 8.7 s

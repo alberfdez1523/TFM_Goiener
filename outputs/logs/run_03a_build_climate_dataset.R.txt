@@ -1,0 +1,69 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'climaemet' was built under R version 4.5.3 
+2: package 'DBI' was built under R version 4.5.2 
+3: package 'duckdb' was built under R version 4.5.2 
+4: package 'dplyr' was built under R version 4.5.2 
+5: package 'arrow' was built under R version 4.5.2 
+6: package 'lubridate' was built under R version 4.5.2 
+7: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+============================================================
+PASO 03: Construccion del dataset climatico (AEMET)
+============================================================
+[OK] API key de AEMET detectada.
+
+[1/5] Determinando provincias con usuarios...
+   cod_provincia n_usuarios
+1             20      10684
+2             48       7510
+3             31       4178
+4             01       3116
+5             28       1366
+6             21        831
+7             42        451
+8             46        221
+9             39        216
+10            09        200
+  Alcance de modelado: Gipuzkoa, Bizkaia, Navarra, Alava, Madrid provincias (26.854 usuarios de 30.260; 88,74%)
+  Auditoria de alcance guardada en: C:/Users/alber/Desktop/TFM/outputs/tables/model_scope_audit.csv
+  Provincias climaticas a cubrir: 5
+
+[2/5] Mapeando estaciones AEMET a provincias...
+  Estaciones mapeadas: 5 para 5 provincias
+  Mapeo guardado en: C:/Users/alber/Desktop/TFM/data/parquet/climate/station_mapping.parquet
+
+[3/5] Descargando datos climaticos de AEMET...
+  (climaemet gestiona internamente rate limiting, retries y rangos)
+  [1/5] Descargando San Sebastian/Igueldo (1024E, prov 20)...
+  [2/5] Descargando Bilbao aeropuerto (1082, prov 48)...
+  [3/5] Descargando Pamplona/Noain aeropuerto (9263D, prov 31)...
+  [4/5] Descargando Vitoria/Gasteiz aeropuerto (9091O, prov 01)...
+  [5/5] Descargando Madrid/Retiro (3129, prov 28)...
+
+[4/5] Guardando capa climatica...
+
+[5/5] Resumen de calidad climatica:
+     V1 V2 V3         V4         V5   V6   V7   V8   V9  V10  V11
+1 20090  5  5 2014-01-01 2024-12-31 0.27 5.06 0.94 14.4 2.96 0.38
+# A tibble: 11 × 2
+   metric           value     
+   <chr>            <chr>     
+ 1 records          20090     
+ 2 stations         5         
+ 3 provinces        5         
+ 4 date_min         2014-01-01
+ 5 date_max         2024-12-31
+ 6 pct_tmed_missing 0.27      
+ 7 pct_prec_missing 5.06      
+ 8 pct_sol_missing  0.94      
+ 9 mean_tmed        14.4      
+10 mean_hdd         2.96      
+11 mean_cdd         0.38      
+Guardado: C:/Users/alber/Desktop/TFM/data/parquet/climate/daily_climate.parquet (20.090 registros)
+
+Paso 03 completado en 351.7 s.

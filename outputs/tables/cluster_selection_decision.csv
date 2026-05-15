@@ -1,0 +1,2 @@
+"solution","algo","k","silhouette","calinski_harabasz","dunn","n_clusters_eff","min_pct","max_pct","n_below_3pct","n_above_60pct","noise_pct","balance_penalty","composite_pre","mean_jaccard","passes_silhouette","passes_jaccard","passes_min_pct","passes_max_pct","passes_all","composite_score","rationale"
+"kmeans_pca_k6","kmeans_pca",6,0.201135346154004,1238.15752871428,0.0184446961716329,6,3.27,47.7,0,0,0,0,0.201135346154004,0.939251859139597,TRUE,TRUE,TRUE,TRUE,TRUE,0.776,"Cumple todos los umbrales; mejor composite_score (silhouette + Jaccard + balance)."

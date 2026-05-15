@@ -1,0 +1,41 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+3: package 'lubridate' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 07d: Forecasting horario 24h-ahead (OMIE)
+======================================================================
+  splits horarios: train=61.415 val=4.344 test=5.160
+[1/4] Baselines horarios...
+[2/4] LightGBM/XGBoost (log-target + early stopping en val)...
+  LGBM best_iter=2995
+
+Warning messages:
+1: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
+  Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
+2: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
+  Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
+3: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
+  Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
+  Pesos stacking horario: xgb=0.50, lgbm=0.50
+[3/4] Impacto de negocio (€ desvio OMIE)...
+      model EUR_dev_total EUR_per_MWh
+1 snaive168     391377.08  17.3169100
+2  snaive24     426548.26  18.8730979
+3      lgbm      27403.80   1.2125114
+4       xgb      15072.73   0.6669095
+5     stack      17815.05   0.7882467
+[4/4] Guardando outputs...
+      model    n     MAE     RMSE   MAPE  sMAPE   WAPE   EUR_dev  MASE
+1       xgb 5160  30.748  165.694  7.477  5.520  0.702  15072.73 0.198
+2     stack 5160  36.342  200.315 11.774  3.815  0.830  17815.06 0.234
+3      lgbm 5160  55.903  278.182 21.133  5.059  1.276  27403.80 0.359
+4 snaive168 5160 798.403 1236.742 81.265 20.230 18.228 391377.08 5.130
+5  snaive24 5160 870.151 1349.625 80.949 21.801 19.866 426548.26 5.591
+07d en 114.9 s

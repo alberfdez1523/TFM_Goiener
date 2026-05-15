@@ -1,0 +1,35 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+3: package 'tidyr' was built under R version 4.5.2 
+4: package 'lubridate' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+============================================================
+PASO 03c: Imputacion climatica con timetk
+============================================================
+
+[1/5] Cargando capa AEMET original...
+  Filas AEMET: 20.090 | estaciones: 5 | rango objetivo: 2014-01-01 a 2024-12-31
+
+[2/5] Completando rejilla diaria con timetk::pad_by_time...
+Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo 
+  Filas tras padding: 20.090 | filas creadas: 0
+
+[3/5] Recalculando derivadas climaticas...
+
+[4/5] Construyendo auditorias de imputacion...
+  Celdas climaticas imputadas: 1.467 | filas con alguna imputacion: 1.276
+  Auditoria resumen: C:/Users/alber/Desktop/TFM/outputs/tables/climate_imputation_summary.csv
+  Auditoria por fecha: C:/Users/alber/Desktop/TFM/outputs/tables/climate_imputation_by_province_date.csv
+
+[5/5] Guardando capa climatica imputada...
+Guardado: C:/Users/alber/Desktop/TFM/data/parquet/climate/daily_climate_imputed.parquet (20.090 registros)
+
+Paso 03c completado en 1.9 s.

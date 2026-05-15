@@ -1,0 +1,12 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+3: package 'lubridate' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+Utilidad 03b: recuperacion/local augmentation de daily_climate.parquet; no sustituye a R/03.
+daily_climate ya tiene THI y olas. Nada que hacer.

@@ -1,0 +1,13 @@
+"experimento","metodo","first_iter_s","warm_mediana_s","mediana_s","mem_alloc_mb","speedup"
+"1. Lectura completa","CSV + readr",1.3777085,1.30075905,1.3020924,215.72,15.5
+"1. Lectura completa","Parquet + Arrow",20.2983572,20.14472665,20.2007193,16.18,1
+"1. Lectura completa","Parquet + DuckDB",0.5970005,0.60423345,0.6038561,0.18,33.5
+"2. Seleccion columnar","CSV (todas columnas -> filtrar)",0.258344899999999,0.254314,0.2548725,37.49,14.3
+"2. Seleccion columnar","Parquet + Arrow (col pushdown)",3.6149183,3.670296,3.6554431,6.34,1
+"2. Seleccion columnar","Parquet + DuckDB (col pushdown)",0.353929900000001,0.358971900000001,0.358409300000001,12.27,10.2
+"3. Filtro temporal","DuckDB scan completo",0.1213173,0.126493600000001,0.126450000000001,0,1
+"3. Filtro temporal","DuckDB con particion",0.1053569,0.107777650000001,0.107774200000001,0,1.2
+"4. Agregacion diaria","GROUP BY sobre horario",1.3461938,1.2471334,1.3027326,137.37,1
+"4. Agregacion diaria","Tabla pre-agregada",0.872397500000001,0.818044250000001,0.872397500000001,137.36,1.5
+"5. Consulta compleja","Desde horario bruto",6.7317736,6.68812065,6.6881849,0,1
+"5. Consulta compleja","Tablas pre-agregadas",0.031516700000001,0.0297024000000006,0.0301440000000008,0,221.9

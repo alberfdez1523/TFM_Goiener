@@ -1,0 +1,26 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'dplyr' was built under R version 4.5.2 
+2: package 'arrow' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 06e: Seleccion final
+======================================================================
+Decision:
+       solution       algo k silhouette calinski_harabasz       dunn
+1 kmeans_pca_k6 kmeans_pca 6  0.1970742          1224.028 0.01890933
+  n_clusters_eff min_pct max_pct n_below_3pct n_above_60pct noise_pct
+1              6     3.3   47.35            0             0         0
+  balance_penalty composite_pre mean_jaccard passes_silhouette passes_jaccard
+1               0     0.1970742    0.9200375              TRUE           TRUE
+  passes_min_pct passes_max_pct passes_all composite_score
+1           TRUE           TRUE       TRUE           0.772
+                                                                           rationale
+1 Cumple todos los umbrales; mejor composite_score (silhouette + Jaccard + balance).
+  Anadidos 2.198 usuarios no_habitual (cluster=-1).
+Etiquetas guardadas: C:/Users/alber/Desktop/TFM/data/parquet/features/user_clusters_v2.parquet (23.494 usuarios totales)
+06e en 0.6 s

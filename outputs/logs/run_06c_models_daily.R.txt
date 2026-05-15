@@ -1,0 +1,46 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 07c: Forecasting diario de la cartera
+======================================================================
+  splits: train=2.558, val=181, test=215
+[1/6] Baselines...
+Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo 
+[2/6] ETS y ARIMAX...
+[3/6] ML modelos (log-target + early stopping)...
+  RF mejor mtry=17 MAE_val=2883.5
+
+Warning messages:
+1: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
+  Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
+2: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
+  Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
+3: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
+  Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
+  LGBM best_iter=153
+[4/6] Stacking lineal sobre validacion...
+  Pesos stacking: rf=0.24, xgb=0.26, lgbm=0.24, arimax=0.25
+[5/6] Conformal split intervals...
+  best point model: xgb
+[6/6] Guardando outputs...
+           model   n       MAE      RMSE    MAPE  sMAPE   WAPE   EUR_dev  MASE
+1            xgb 215  2609.188  7673.611  12.031  3.575  2.483  53292.66 0.669
+2           lgbm 215  2907.971  7623.656  12.591  4.253  2.767  59395.30 0.745
+3  ensemble_top3 215  3106.283  8009.513  20.707  6.371  2.956  63445.83 0.796
+4             rf 215  4097.605 10476.700  38.133  7.641  3.899  83693.57 1.050
+5          stack 215  4203.189 10779.396  40.006  7.759  3.999  85850.15 1.078
+6         arimax 215  9742.910 23884.484 100.625 11.264  9.271 198998.94 2.498
+7      snaive365 215 12753.312 29131.002 120.798 13.145 12.135 260486.39 3.269
+8        snaive7 215 18263.633 26874.605  80.696 20.073 17.378 373034.71 4.682
+9            ets 215 18481.561 27028.537  80.466 20.299 17.586 377485.88 4.738
+10         naive 215 19709.937 27911.217  79.962 21.646 18.754 402575.47 5.053
+07c en 22.7 s

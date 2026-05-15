@@ -1,0 +1,68 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+
+
+processing file: 04_clustering.qmd
+1/27                    
+2/27 [setup]            
+3/27                    
+4/27 [embudo]           
+5/27                    
+6/27 [leaderboard]      
+7/27                    
+8/27 [leaderboard-viz]  
+9/27                    
+10/27 [tamanos]          
+11/27                    
+12/27 [perfiles-horarios]
+13/27                    
+14/27 [perfiles]         
+15/27                    
+16/27 [climate-scatter]  
+17/27                    
+18/27 [socio]            
+19/27                    
+20/27 [poverty-viz]      
+21/27                    
+22/27 [negocio]          
+23/27                    
+24/27 [separators-viz]   
+25/27                    
+26/27 [estabilidad]      
+27/27                    
+output file: 04_clustering.knit.md
+
+pandoc 
+  to: html
+  output-file: 04_clustering.html
+  standalone: true
+  embed-resources: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: Clustering de Perfiles Residenciales — GoiEner
+  subtitle: Segmentación operativa para tarifa, pobreza energética y OMIE
+  author: Alberto Fernandez
+  date: today
+  theme:
+    light: cosmo
+    dark: darkly
+  toc-title: Contenido
+  code-summary: Ver código
+  smooth-scroll: true
+  
+Output created: 04_clustering.html
+

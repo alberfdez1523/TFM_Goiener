@@ -1,0 +1,100 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+
+
+processing file: 01_eda.qmd
+1/59                                
+2/59 [setup]                        
+3/59                                
+4/59 [connection]                   
+5/59                                
+6/59 [summary-hourly]               
+7/59                                
+8/59 [summary-daily]                
+9/59                                
+10/59 [daily-table]                  
+11/59                                
+12/59 [fig-daily-dist]               
+13/59                                
+14/59 [fig-global-daily]             
+15/59                                
+16/59 [fig-heatmap]                  
+17/59                                
+18/59 [fig-user-heterogeneity]       
+19/59                                
+20/59 [fig-user-segments]            
+21/59                                
+22/59 [hourly-profiles-query]        
+23/59                                
+24/59 [fig-hourly-profile]           
+25/59                                
+26/59 [fig-hourly-region]            
+27/59                                
+28/59 [fig-weekday-weekend]          
+29/59                                
+30/59 [fig-seasonal]                 
+31/59                                
+32/59 [fig-day-of-week]              
+33/59                                
+34/59 [fig-monthly-boxplot]          
+35/59                                
+36/59 [fig-yoy]                      
+37/59                                
+38/59 [fig-cv]                       
+39/59                                
+40/59 [metadata-load]                
+41/59                                
+42/59 [fig-tarifa]                   
+43/59                                
+44/59 [fig-tarifa-consumo]           
+45/59                                
+46/59 [fig-mapa]                     
+47/59                                
+48/59 [fig-mapa-ccaa]                
+49/59                                
+50/59 [fig-potencia]                 
+51/59                                
+52/59 [tbl-eda-pipeline-consequences]
+53/59                                
+54/59 [save-figures]                 
+55/59                                
+56/59 [timing-summary]               
+57/59                                
+58/59 [cleanup]                      
+59/59                                
+output file: 01_eda.knit.md
+
+pandoc 
+  to: html
+  output-file: 01_eda.html
+  standalone: true
+  embed-resources: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: Análisis Exploratorio del Consumo Eléctrico - GoiEner
+  subtitle: EDA sobre datos horarios con Arrow, DuckDB y ggplot2
+  author: Alberto Fernandez
+  date: today
+  theme:
+    light: cosmo
+    dark: darkly
+  toc-title: Contenido
+  code-summary: Ver código
+  smooth-scroll: true
+  
+Output created: 01_eda.html
+

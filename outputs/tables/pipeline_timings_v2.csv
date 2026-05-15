@@ -1,0 +1,8 @@
+"phase","type","artifact","elapsed_s","status","log_file"
+"01","QMD","qmd/01_eda.qmd",56,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_01_eda.txt"
+"02","QMD","qmd/02_data_quality.qmd",21.8,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_02_data_quality.txt"
+"03","QMD","qmd/03_climate_integration.qmd",14.4,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_03_climate_integration.txt"
+"04","QMD","qmd/04_clustering.qmd",13.3,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_04_clustering.txt"
+"05","QMD","qmd/05_forecasting.qmd",13,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_05_forecasting.txt"
+"06","QMD","qmd/06_benchmark.qmd",11.4,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_06_benchmark.txt"
+"07","QMD","qmd/07_etica_privacidad.qmd",10.8,"OK","C:/Users/alber/Desktop/TFM/outputs/logs/render_07_etica_privacidad.txt"

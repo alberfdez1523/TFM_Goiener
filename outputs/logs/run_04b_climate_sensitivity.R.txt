@@ -1,0 +1,24 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+3: package 'duckdb' was built under R version 4.5.2 
+4: package 'DBI' was built under R version 4.5.2 
+5: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 04b: Sensibilidad climatica por usuario
+======================================================================
+[1/3] Calculando regresiones por usuario (kWh ~ HDD + CDD)...
+  Usuarios con regresion climatica valida: 25.707
+[2/3] Calculando regresion conjunta (kWh ~ HDD + CDD) por usuario...
+    chunk 5 / 13
+    chunk 10 / 13
+[3/3] Uniendo con user_features.parquet y guardando v2...
+  Escrito: C:/Users/alber/Desktop/TFM/data/parquet/features/user_features_v2.parquet (26.146 usuarios, 103 columnas)
+
+Paso 04b completado en 50.8 s.

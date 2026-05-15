@@ -1,0 +1,455 @@
+---
+title: "Fase 3: clima, calendario y consumo"
+subtitle: "Contexto externo para explicar el consumo eléctrico residencial GoiEner"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    code-tools: false
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+    fig-align: center
+    fig-width: 10
+    fig-height: 5.5
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("_config.R"))
+
+library(arrow)
+library(DBI)
+library(duckdb)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(glue)
+library(ggplot2)
+library(scales)
+library(fs)
+```
+
+## Papel dentro del TFM
+
+La literatura de smart meters no trata el consumo horario como una serie aislada. Los trabajos revisados sobre AMI, GoiEner y analítica de smart grids recomiendan enriquecer el consumo con calendario, temperatura, estacionalidad y variables de operación antes de segmentar o predecir. En este proyecto esa idea se traduce en una capa diaria provincia-fecha con AEMET y otra capa usuario-día con consumo, clima y calendario.
+
+El objetivo es pragmático: dar a clustering y forecasting variables que el tribunal pueda entender. Si un hogar cambia su consumo en invierno, la segmentación debe poder verlo. Si el agregado sube en una ola de frío, el forecast no debería explicarlo solo con retardos.
+
+Desde esta fase, el modelado se focaliza en Gipuzkoa, Bizkaia, Navarra, Álava y Madrid. No es una muestra nacional: es el subconjunto con masa estadística suficiente dentro de GoiEner, y concentra alrededor del 89% de los usuarios disponibles. El EDA previo mantiene la foto completa; clima, clustering y forecasting se entrenan sobre este alcance.
+
+## Salidas generadas
+
+Esta sección reúne las salidas mínimas que deben existir antes de integrar clima en features, clustering y forecasting. Se comprueban aquí para que el informe falle pronto si falta una capa base, en vez de producir tablas incompletas más adelante.
+
+```{r}
+#| label: load-data
+
+con <- connect_duckdb()
+
+climate_raw_path <- path_abs(DAILY_CLIMATE_PARQUET) |> path_norm()
+climate_path <- path_abs(DAILY_CLIMATE_IMPUTED_PARQUET) |> path_norm()
+merged_path <- path_abs(DAILY_WITH_CLIMATE) |> path_norm()
+
+quality_path <- path(TABLE_DIR, "climate_quality_summary.csv")
+station_audit_path <- path(TABLE_DIR, "climate_station_audit.csv")
+imputation_summary_path <- CLIMATE_IMPUTATION_SUMMARY_CSV
+imputation_by_date_path <- CLIMATE_IMPUTATION_BY_DATE_CSV
+merge_quality_path <- path(TABLE_DIR, "climate_merge_quality.csv")
+merge_imputation_path <- path(TABLE_DIR, "climate_merge_imputation_audit.csv")
+missing_climate_path <- path(TABLE_DIR, "climate_missing_by_province_date.csv")
+scope_audit_path <- MODEL_SCOPE_AUDIT_CSV
+
+stopifnot(
+  "Falta DAILY_CLIMATE_PARQUET. Ejecuta R/03_climate/03a_build_climate_dataset.R." = file_exists(DAILY_CLIMATE_PARQUET),
+  "Falta DAILY_CLIMATE_IMPUTED_PARQUET. Ejecuta R/03_climate/03c_impute_climate.R." = file_exists(DAILY_CLIMATE_IMPUTED_PARQUET),
+  "Falta DAILY_WITH_CLIMATE. Ejecuta R/03_climate/03d_merge_climate.R." = file_exists(DAILY_WITH_CLIMATE)
+)
+
+climate_original_summary <- dbGetQuery(con, glue("
+  SELECT
+    'AEMET original' AS capa,
+    COUNT(*) AS registros,
+    COUNT(DISTINCT cod_provincia) AS provincias,
+    COUNT(DISTINCT indicativo) AS estaciones,
+    MIN(fecha) AS fecha_min,
+    MAX(fecha) AS fecha_max,
+    ROUND(AVG(tmed), 2) AS tmed_media,
+    ROUND(AVG(hdd), 2) AS hdd_medio,
+    ROUND(AVG(cdd), 2) AS cdd_medio,
+    ROUND(100 * AVG(CASE WHEN tmed IS NULL THEN 1 ELSE 0 END), 2) AS pct_tmed_missing,
+    CAST(NULL AS DOUBLE) AS pct_filas_con_imputacion
+  FROM read_parquet('{climate_raw_path}')
+"))
+
+climate_summary <- dbGetQuery(con, glue("
+  SELECT
+    'Clima imputado' AS capa,
+    COUNT(*) AS registros,
+    COUNT(DISTINCT cod_provincia) AS provincias,
+    COUNT(DISTINCT indicativo) AS estaciones,
+    MIN(fecha) AS fecha_min,
+    MAX(fecha) AS fecha_max,
+    ROUND(AVG(tmed), 2) AS tmed_media,
+    ROUND(AVG(hdd), 2) AS hdd_medio,
+    ROUND(AVG(cdd), 2) AS cdd_medio,
+    ROUND(100 * AVG(CASE WHEN tmed IS NULL THEN 1 ELSE 0 END), 2) AS pct_tmed_missing,
+    ROUND(100 * AVG(CASE WHEN climate_any_imputed THEN 1 ELSE 0 END), 2) AS pct_filas_con_imputacion
+  FROM read_parquet('{climate_path}')
+"))
+
+merged_summary <- dbGetQuery(con, glue("
+  SELECT
+    COUNT(*) AS registros,
+    COUNT(DISTINCT user_id) AS usuarios,
+    MIN(date) AS fecha_min,
+    MAX(date) AS fecha_max,
+    ROUND(100 * AVG(CASE WHEN tmed IS NULL THEN 1 ELSE 0 END), 2) AS pct_sin_temperatura,
+    ROUND(100 * AVG(CASE WHEN climate_any_imputed THEN 1 ELSE 0 END), 2) AS pct_clima_imputado,
+    ROUND(100 * AVG(CAST(is_holiday AS INTEGER)), 2) AS pct_festivo,
+    ROUND(AVG(daylight_hours), 2) AS horas_luz_media
+  FROM read_parquet('{merged_path}')
+"))
+```
+
+La tabla de cobertura compara el clima descargado frente al clima imputado. La segunda tabla valida el panel final usuario-día: si el cruce pierde usuarios o fechas, el problema debe quedar visible antes de modelar.
+
+```{r}
+#| label: tbl-summary
+
+report_table(
+  bind_rows(climate_original_summary, climate_summary),
+  caption = "Cobertura de la capa climática original y de la capa imputada."
+)
+
+report_table(t(merged_summary), col.names = "Valor",
+             caption = "Panel final usuario-día con consumo, clima y calendario.")
+```
+
+El resumen de calidad de la capa climática se muestra para separar fallos de descarga, variables ausentes y posibles huecos por estación. Su función es dejar claro qué parte del dato viene observada y qué parte necesita tratamiento.
+
+```{r}
+#| label: tbl-quality-files
+
+if (file_exists(quality_path)) {
+  quality <- read.csv(quality_path)
+  report_table(quality, caption = "Resumen de calidad de la capa climática.")
+}
+```
+
+La auditoría de alcance territorial explica por qué solo entran ciertas provincias en el modelado. No se trata de ocultar provincias pequeñas, sino de evitar conclusiones inestables con poco soporte muestral.
+
+```{r}
+#| label: tbl-model-scope
+
+if (file_exists(scope_audit_path)) {
+  scope_audit <- read.csv(scope_audit_path)
+  report_table(
+    scope_audit |>
+      mutate(across(where(is.numeric), ~round(., 2))) |>
+      arrange(desc(in_model_scope), desc(n_usuarios)),
+    caption = "Alcance territorial del modelado: provincias incluidas y excluidas."
+  )
+}
+```
+
+## Cobertura y fallos
+
+El redisenio de la fase 3 evita descargar provincias con escasa representacion y reduce la exposicion a timeouts de AEMET. Cada fichero se normaliza antes de unirlo: fechas como `Date`, provincias como código de dos digitos y variables climáticas como numericas. Esta parte era fragil porque distintas estaciones guardaban algunas columnas como texto.
+
+La seleccion de estaciones es manual y trazable: se usa una estacion de referencia por provincia del alcance top 5, priorizando continuidad diaria, disponibilidad de variables y representatividad respecto a la masa de usuarios. Esta simplificacion no pretende capturar todos los microclimas, pero evita mezclar muchas estaciones con series incompletas o provincias con pocos usuarios.
+
+La tabla de estaciones documenta la decisión más sensible de la fase climática: qué estación representa cada provincia. Sin esta trazabilidad, cualquier efecto de temperatura podría quedar como una caja negra.
+
+```{r}
+#| label: tbl-station-justification
+
+station_mapping <- read_parquet(STATION_MAPPING_PARQUET)
+
+station_mapping_table <- station_mapping |>
+  mutate(
+    provincia = unname(PROVINCIA_NOMBRES[as.character(cod_provincia)]),
+    station_lat = round(station_lat, 4),
+    station_lon = round(station_lon, 4)
+  ) |>
+  select(
+    cod_provincia, provincia, indicativo, station_name,
+    station_lat, station_lon, selection_reason
+  ) |>
+  arrange(match(cod_provincia, FOCUS_PROVINCES))
+
+report_table(
+  station_mapping_table,
+  col.names = c(
+    "Provincia", "Nombre", "Indicativo", "Estación AEMET",
+    "Lat", "Lon", "Justificación"
+  ),
+  caption = "Estación AEMET elegida por provincia, coordenadas aproximadas y justificación."
+)
+```
+
+La auditoría por estación cuantifica cobertura y usuarios afectados. Se incluye para comprobar que la estación elegida no introduce un sesgo fuerte precisamente en las provincias con más hogares.
+
+```{r}
+#| label: tbl-station-audit
+
+if (file_exists(station_audit_path)) {
+  station_audit <- read.csv(station_audit_path)
+  report_table(
+    station_audit |>
+      arrange(desc(n_usuarios), desc(pct_tmed_missing)) |>
+      mutate(across(where(is.numeric), ~round(., 2))),
+    caption = "Auditoría por provincia y estación AEMET usada."
+  )
+}
+```
+
+La visualización de missingness cruza dos dimensiones a la vez: porcentaje de temperatura faltante y tamaño de la provincia. Así se priorizan los fallos que afectan a muchos usuarios frente a huecos pequeños con poco impacto.
+
+```{r}
+#| label: fig-station-missing
+#| fig-cap: "Missingness de temperatura por provincia, ponderada visualmente por número de usuarios."
+
+if (file_exists(station_audit_path)) {
+  station_audit <- read.csv(station_audit_path)
+
+  station_audit |>
+    mutate(
+      provincia = ifelse(is.na(provincia), cod_provincia, provincia),
+      provincia = reorder(provincia, pct_tmed_missing)
+    ) |>
+    ggplot(aes(x = provincia, y = pct_tmed_missing, size = n_usuarios, color = station_status)) +
+    geom_point(alpha = 0.8) +
+    coord_flip() +
+    scale_y_continuous(labels = label_percent(scale = 1)) +
+    scale_size_continuous(labels = comma) +
+    labs(x = NULL, y = "% temperatura media faltante", size = "Usuarios", color = "Estado") +
+    theme_goiener()
+}
+```
+
+## Imputación climática
+
+La imputación se limita a variables meteorológicas exógenas. No se imputan lecturas de consumo, días incompletos ni objetivos de forecasting. El paso `R/03_climate/03c_impute_climate.R` conserva la capa AEMET original, completa la rejilla diaria con `timetk::pad_by_time()` e imputa las variables base con `timetk::ts_impute_vec(period = 365)`. Después recalcula HDD, CDD, THI y las marcas de ola de calor/frío desde la serie imputada.
+
+El resumen por variable permite ver qué columnas y provincias han requerido más imputación. Esta tabla defiende que el tratamiento se aplica al clima, no al consumo, y que queda medido por estación.
+
+```{r}
+#| label: tbl-climate-imputation-summary
+
+if (file_exists(imputation_summary_path)) {
+  imputation_summary <- read.csv(imputation_summary_path)
+  report_table(
+    imputation_summary |>
+      arrange(desc(n_imputed), cod_provincia, variable) |>
+      mutate(across(where(is.numeric), ~round(., 2))),
+    caption = "Resumen de imputación climática por provincia, estación y variable."
+  )
+}
+```
+
+Los rangos por fecha enseñan si la imputación aparece como huecos aislados o como tramos largos. La diferencia importa: un tramo prolongado puede arrastrar patrones estacionales, mientras que huecos sueltos tienen menos peso en los modelos.
+
+```{r}
+#| label: tbl-climate-imputation-by-date
+
+if (file_exists(imputation_by_date_path)) {
+  imputation_by_date <- read.csv(imputation_by_date_path) |>
+    mutate(fecha = as.Date(fecha))
+
+  imputation_ranges <- imputation_by_date |>
+    group_by(cod_provincia, provincia, indicativo, station_name, variables_imputed) |>
+    summarise(
+      fechas_afectadas = n_distinct(fecha),
+      fecha_min = min(fecha),
+      fecha_max = max(fecha),
+      filas_creadas_por_padding = sum(climate_row_imputed),
+      .groups = "drop"
+    ) |>
+    arrange(desc(fechas_afectadas), cod_provincia)
+
+  report_table(
+    imputation_ranges,
+    caption = "Rangos y variables imputadas a partir de la auditoría día-provincia."
+  )
+}
+```
+
+La calidad del merge comprueba que el panel usuario-día hereda temperatura en las provincias del alcance. Esta tabla es la prueba de que la capa climática no se queda en un anexo, sino que llega al dataset que alimenta las fases posteriores.
+
+```{r}
+#| label: tbl-merge-quality
+
+if (file_exists(merge_quality_path)) {
+  merge_quality <- read.csv(merge_quality_path)
+  report_table(
+    merge_quality |>
+      arrange(desc(pct_sin_clima), desc(n_usuarios)) |>
+      mutate(across(where(is.numeric), ~round(., 2))),
+    caption = "Cobertura real del cruce consumo-clima por provincia."
+  )
+}
+```
+
+El cruce posterior mantiene dos controles separados: la cobertura de temperatura tras imputación y la proporción de registros usuario-día que heredan clima imputado. Si `climate_missing_by_province_date.csv` queda vacío, significa que el merge ya no pierde temperatura en el alcance modelado; si contiene filas, se trata como incidencia residual de unión o de la capa imputada.
+
+La auditoría de registros con clima imputado muestra qué parte del panel final depende de valores reconstruidos. Se usa para que el lector no confunda cobertura completa con clima observado al 100%.
+
+```{r}
+#| label: tbl-merge-imputation-audit
+
+if (file_exists(merge_imputation_path)) {
+  merge_imputation <- read.csv(merge_imputation_path)
+  report_table(
+    merge_imputation |>
+      mutate(across(where(is.numeric), ~round(., 2))) |>
+      arrange(desc(pct_registros_clima_imputado), desc(n_registros)),
+    caption = "Registros usuario-día que heredan alguna variable climática imputada."
+  )
+}
+```
+
+El control residual por provincia-fecha busca fallos que sobreviven al merge. Si no hay filas, el cruce está cerrado; si aparecen, la tabla deja una lista corta y accionable de fechas y provincias a revisar.
+
+```{r}
+#| label: tbl-missing-climate-by-date
+
+if (file_exists(missing_climate_path)) {
+  missing_climate <- read.csv(missing_climate_path) |>
+    mutate(fecha = as.Date(fecha))
+
+  if (nrow(missing_climate) == 0) {
+    report_table(
+      tibble::tibble(resultado = "Sin missing climático residual tras imputación y merge."),
+      caption = "Control residual de clima faltante tras el merge."
+    )
+  } else {
+    missing_summary <- missing_climate |>
+      group_by(cod_provincia, provincia, missing_reason) |>
+      summarise(
+        fechas_afectadas = n_distinct(fecha),
+        fecha_min = min(fecha),
+        fecha_max = max(fecha),
+        registros_usuario_dia = sum(n_registros_sin_clima),
+        usuarios_afectados = max(n_usuarios_sin_clima),
+        .groups = "drop"
+      ) |>
+      arrange(desc(registros_usuario_dia), cod_provincia)
+
+    report_table(
+      missing_summary,
+      caption = "Missing climático residual agregado por provincia, rango de fechas y causa probable."
+    )
+
+    report_table(
+      missing_climate |>
+        arrange(desc(n_registros_sin_clima), cod_provincia, fecha) |>
+        head(15),
+      caption = "Top 15 días-provincia con más registros usuario-día sin temperatura residual."
+    )
+  }
+}
+```
+
+## Señal climática
+
+La capa climática aporta dos variables sencillas de defender: `hdd` para frío y `cdd` para calor. No son variables causales, pero si resumen bien la presion termica sobre los hogares. También se incorporan amplitud termica, humedad, precipitacion, horas de luz, festivos, puentes y ventana de Semana Santa. Los festivos quedan diferenciados en nacionales y autonómicos/locales para no confundir el calendario común estatal con señales específicas de Euskadi, Navarra y Madrid.
+
+La agregación mensual reduce ruido diario y deja ver si la temperatura, HDD y CDD tienen estacionalidad suficiente para justificar su uso como features. También prepara una comparación más legible con el consumo agregado.
+
+```{r}
+#| label: climate-monthly
+
+climate_monthly <- dbGetQuery(con, glue("
+  SELECT
+    DATE_TRUNC('month', fecha)::DATE AS month,
+    AVG(tmed) AS tmed,
+    AVG(hdd) AS hdd,
+    AVG(cdd) AS cdd,
+    AVG(prec) AS prec
+  FROM read_parquet('{climate_path}')
+  GROUP BY 1
+  ORDER BY 1
+")) |>
+  mutate(month = as.Date(month))
+
+merged_monthly <- dbGetQuery(con, glue("
+  SELECT
+    DATE_TRUNC('month', date)::DATE AS month,
+    SUM(daily_kWh) AS total_kWh,
+    AVG(tmed) AS tmed,
+    AVG(hdd) AS hdd,
+    AVG(cdd) AS cdd,
+    AVG(daylight_hours) AS daylight_hours,
+    AVG(CAST(is_holiday AS INTEGER)) AS holiday_share
+  FROM read_parquet('{merged_path}')
+  WHERE tmed IS NOT NULL
+  GROUP BY 1
+  ORDER BY 1
+")) |>
+  mutate(month = as.Date(month))
+```
+
+La primera gráfica separa temperatura, frío y calor porque cada variable tiene escala distinta. El objetivo es comprobar si los grados-día capturan bien los meses de carga térmica, no solo si la temperatura sube o baja.
+
+```{r}
+#| label: fig-temp-hdd-cdd
+#| fig-cap: "Temperatura, grados-día de frío y grados-día de calor agregados por mes."
+
+climate_monthly |>
+  pivot_longer(c(tmed, hdd, cdd), names_to = "variable", values_to = "valor") |>
+  ggplot(aes(x = month, y = valor, color = variable)) +
+  geom_line(linewidth = 0.7) +
+  facet_wrap(~variable, scales = "free_y", ncol = 1) +
+  labs(x = NULL, y = NULL) +
+  theme_goiener()
+```
+
+La segunda gráfica conecta clima y consumo. No prueba causalidad, pero sí muestra si la temperatura media mensual se alinea con cambios de demanda que el forecasting debería explicar.
+
+```{r}
+#| label: fig-consumo-clima
+#| fig-cap: "Relacion mensual entre consumo total y temperatura media."
+
+merged_monthly |>
+  ggplot(aes(x = tmed, y = total_kWh)) +
+  geom_point(aes(color = month(month, label = TRUE)), alpha = 0.75, size = 2.8) +
+  geom_smooth(method = "loess", se = FALSE, color = PAL_MAIN, linewidth = 0.8) +
+  scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) +
+  labs(x = "Temperatura media mensual", y = "kWh mensuales", color = "Mes") +
+  theme_goiener()
+```
+
+## Lectura técnica
+
+La capa final tiene cobertura suficiente para modelado dentro del alcance top 5: casi todos los registros usuario-día quedan con temperatura, y cualquier problema aparece marcado para no ocultar el fallo. Esto encaja bien con un TFM: se usa un motor local reproducible, se guarda todo en Parquet y se deja una traza de calidad que el lector puede revisar.
+
+La decisión de mantener la resolucion diaria es deliberada. Para forecasting agregado aporta estabilidad, reduce ruido horario y permite incorporar calendario y clima sin crear una matriz demasiado dispersa. Para clustering, la fase siguiente usa la forma horaria ya agregada por usuario, no el bruto horario completo.
+
+### Síntesis de la integración climática
+
+**1. Qué aporta el clima al pipeline.** HDD y CDD resumen la presión térmica de manera defendible: no son variables causales pero ordenan los días por carga de calefacción y refrigeración con una única magnitud por usuario-día. Al añadirlas a los modelos de forecasting, capturan la varianza estacional que el calendario por sí solo no puede explicar — sobre todo en invierno, cuando episodios fríos consecutivos disparan el consumo de hogares con calefacción eléctrica.
+
+**2. Por qué la estrategia de cobertura es por provincia y no por hogar.** AEMET tiene cobertura desigual; intentar enlazar cada hogar a su estación más cercana habría dado una imputación frágil y con muchos huecos. En cambio, asignar la mejor estación disponible por provincia (con criterio de completitud y proximidad) produce una serie climática estable, defendible y reusable. La sensibilidad climática individual se sigue estimando por usuario, pero sobre una variable climática provincial consistente.
+
+**3. Calendario diferenciado nacional vs. autonómico.** Tratar todos los festivos como una única variable habría confundido un 25 de diciembre (nacional, baja casi toda la cartera) con un 25 de julio (festivo solo en algunas comunidades). El pipeline mantiene las dos señales separadas, junto con puentes y ventana de Semana Santa, porque cada una desplaza el consumo de forma distinta y porque el alcance top 5 mezcla CCAA con calendarios diferentes.
+
+**4. Imputación climática trazada y auditada.** Los huecos de AEMET se imputan con reglas conservadoras (provincias vecinas, medias condicionadas) y cada imputación queda marcada con su origen. El audit (`climate_imputation_by_province_date.csv`) permite reproducir, en cualquier ejecución posterior, qué se imputó, dónde y por qué. Si una decisión climática fallara en un análisis downstream, se puede volver al origen.
+
+**5. Qué entrega al resto del pipeline.** Una tabla diaria `daily_with_climate.parquet` con `user_id, date, daily_kWh, hdd, cdd, tmed, is_holiday` (y derivados) lista para 04 (features), 05 (clustering con sensibilidad β_HDD/β_CDD) y 06 (forecasting con lags climáticos). El acoplamiento es mínimo: el resto del pipeline lee este parquet y no necesita conocer cómo se construyó.
+
+**Implicación final.** El clima ha pasado de ser un dato externo a una capa interna del pipeline, con la misma trazabilidad que el consumo. Eso permite hacer afirmaciones cuantitativas sobre sensibilidad climática por cluster sin tener que disculparse por la calidad del input. Cuando en el Capítulo 4 leamos que el cluster *C4 climatización invernal* tiene un β_HDD alto, la afirmación se sostiene porque el HDD que entra al modelo está documentado, imputado con criterio y auditado.

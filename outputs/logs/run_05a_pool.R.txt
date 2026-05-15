@@ -1,0 +1,26 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 05a: Pool residencial y matriz de features
+======================================================================
+# A tibble: 8 × 3
+  paso                               n_usuarios pct_total
+  <chr>                                   <int>     <dbl>
+1 Total features                          26146    100   
+2 Provincias top-5                        26146    100   
+3 Residencial 2.0TD                       24644     94.3 
+4 Sin outlier sostenido                   24644     94.3 
+5 >= 180 dias activos                     23494     89.9 
+6 Vivienda habitual (>= 1.5 kWh/dia)      21296     81.4 
+7 Pool clustering V2                      21296     81.4 
+8 Segmento no_habitual (separado)          2198      8.41
+Pool guardado: 21.296 usuarios (vivienda habitual)
+Segmento no_habitual: 2.198 usuarios
+05a en 0.3 s

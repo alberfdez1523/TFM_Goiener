@@ -1,0 +1,60 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'dplyr' was built under R version 4.5.2 
+2: package 'tidyr' was built under R version 4.5.2 
+3: package 'lubridate' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+Warning message:
+package 'arrow' was built under R version 4.5.2 
+======================================================================
+PASO 07f: Consolidacion de leaderboards
+======================================================================
+           model    n       MAE      RMSE    MAPE  sMAPE   WAPE    EUR_dev
+1            xgb  215  2716.644  7740.273  12.089  3.641  2.585  55487.444
+2           lgbm  215  2927.367  7630.933  12.412  4.192  2.785  59791.481
+3  ensemble_top3  215  3135.864  8142.766  21.263  6.422  2.984  64050.018
+4          stack  215  4211.448 10801.263  40.109  7.770  4.007  86018.832
+5             rf  215  4224.093 10563.006  38.251  7.734  4.019  86277.107
+6         arimax  215  9758.950 23914.210 100.754 11.275  9.286 199326.564
+7      snaive365  215 12753.312 29131.002 120.798 13.145 12.135 260486.392
+8        snaive7  215 18263.633 26874.605  80.696 20.073 17.378 373034.707
+9            ets  215 18481.561 27028.537  80.466 20.299 17.586 377485.876
+10         naive  215 19709.937 27911.217  79.962 21.646 18.754 402575.465
+11           xgb 5160    30.748   165.694   7.477  5.520  0.702  15072.729
+12         stack 5160    36.342   200.315  11.774  3.815  0.830  17815.055
+13          lgbm 5160    55.903   278.182  21.133  5.059  1.276  27403.801
+14     snaive168 5160   798.403  1236.742  81.265 20.230 18.228 391377.078
+15      snaive24 5160   870.151  1349.625  80.949 21.801 19.866 426548.263
+16 xgb_cluster_1  215   675.041  1298.401  36.035 17.499 21.485  13787.707
+17 xgb_cluster_2  215   423.934  1341.304 166.928  7.836  3.861   8658.857
+18 xgb_cluster_3  215  1008.262  2787.853  31.562  6.971  3.159  20593.746
+19 xgb_cluster_4  215   685.164  1525.758  19.325  7.897  5.954  13994.483
+20 xgb_cluster_5  215  1913.175  5014.792  78.379  8.382  4.579  39076.602
+21 xgb_cluster_6  215   604.567  1325.250 106.222 13.562 10.473  12348.280
+    MASE           target cluster
+1  0.696  portfolio_daily      NA
+2  0.750  portfolio_daily      NA
+3  0.804  portfolio_daily      NA
+4  1.080  portfolio_daily      NA
+5  1.083  portfolio_daily      NA
+6  2.502  portfolio_daily      NA
+7  3.269  portfolio_daily      NA
+8  4.682  portfolio_daily      NA
+9  4.738  portfolio_daily      NA
+10 5.053  portfolio_daily      NA
+11 0.198 portfolio_hourly      NA
+12 0.234 portfolio_hourly      NA
+13 0.359 portfolio_hourly      NA
+14 5.130 portfolio_hourly      NA
+15 5.591 portfolio_hourly      NA
+16 3.606    cluster_daily       1
+17 1.042    cluster_daily       2
+18 1.628    cluster_daily       3
+19 0.395    cluster_daily       4
+20 1.119    cluster_daily       5
+21 0.723    cluster_daily       6
+07f en 0.1 s

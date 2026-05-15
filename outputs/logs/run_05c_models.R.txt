@@ -1,0 +1,26 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning message:
+package 'cluster' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+Warning message:
+package 'arrow' was built under R version 4.5.2 
+======================================================================
+PASO 06c: Entrenando algoritmos
+======================================================================
+[1/6] K-Means sobre PCA...
+Warning messages:
+1: Quick-TRANSfer stage steps exceeded maximum (= 1064800) 
+2: Quick-TRANSfer stage steps exceeded maximum (= 1064800) 
+[2/6] PAM/CLARA sobre PCA (Manhattan)...
+[3/6] Ward (jerarquico) sobre muestra...
+[4/6] GMM (mclust) sobre PCA reducido...
+[5/6] HDBSCAN sobre PCA...
+[6/6] FPCA + K-Means sobre curva horaria...
+Warning message:
+Quick-TRANSfer stage steps exceeded maximum (= 1064800) 
+  Modelos guardados: 27 soluciones
+06c en 189.3 s

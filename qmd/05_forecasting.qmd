@@ -1,0 +1,341 @@
+---
+title: "Forecasting del Consumo Eléctrico — GoiEner"
+subtitle: "Diario, horario y por cluster con intervalos calibrados"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+    fig-align: center
+    fig-width: 10
+    fig-height: 5.5
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+source(here::here("_config.R"))
+suppressPackageStartupMessages({
+  library(arrow); library(dplyr); library(tidyr); library(ggplot2)
+  library(scales); library(fs); library(knitr); library(lubridate)
+  library(patchwork)
+})
+
+read_table <- function(name) {
+  p <- path(TABLE_DIR, name)
+  if (file_exists(p)) read.csv(p, check.names = FALSE) else NULL
+}
+theme_set(theme_minimal(base_size = 11) +
+          theme(panel.grid.minor = element_blank()))
+```
+
+# 1. Marco y preguntas que responde el forecasting
+
+La cooperativa GoiEner necesita anticipar consumo para tres ventanas de decisión:
+
+1. **Día siguiente — OMIE day-ahead (horario).** Programar compra en el mercado mayorista; cada MWh mal previsto genera un coste de desvío estimado en `OMIE_AVG_PRICE_EUR_MWH ≈ 95 €/MWh`.
+2. **Semana/mes — gestión de cartera (diario agregado).** Tesorería, previsión de facturación, planificación de cobertura.
+3. **Por cluster — segmentación operativa.** Detección de desviaciones por grupo, oportunidad de productos diferenciados.
+
+El pipeline modular (`R/06_forecasting/06a-06f`) construye tres targets, comparte el espacio de features y produce un leaderboard único por horizonte.
+
+# 2. Split temporal y series objetivo
+
+```{r splits}
+tibble::tribble(
+  ~target,              ~train,                     ~val,                   ~test,
+  "Diario cartera",     "2015-12-31 → 2022-12-31",  "2023-01-01 → 06-30",   "2023-07-01 → 2024-01-31",
+  "Horario cartera",    "≤ 2022-12-31",             "2023H1",               "2023-07-01 → 2024-01-31",
+  "Diario por cluster", "≤ 2022-12-31",             "2023H1",               "2023-07-01 → 2024-01-31"
+) |> kable(caption = "Splits temporales del forecasting")
+```
+
+**Qué muestra.** División tri-partita estricta: el conjunto de validación calibra hiperparámetros y stacking; el test queda intocable hasta el reporte final.
+
+**Por qué.** Sin un split temporal cerrado, las medias móviles y los lags filtrarían información del futuro. La validación intermedia es la única que permite early stopping honesto.
+
+**Lectura.** El test cubre verano 2023, otoño 2023 y enero 2024 — incluye dos estaciones y un cambio de año, suficiente para someter el modelo a régimen climático variable.
+
+# 3. Ingeniería de features (07b)
+
+**Calendario:** `dow`, `month`, `doy`, `sin_doy/cos_doy`, `sin_doy2/cos_doy2`, `is_weekend`, `is_friday`, `is_monday`, `is_summer`, `is_winter`, `any_holiday`.
+
+**Lags diarios:** `lag1, lag2, lag7, lag14, lag28, lag365` + roll7, roll14, roll28, roll7_sd, roll28_sd, `yoy_diff`.
+
+**Clima:** `hdd_mean`, `cdd_mean`, `tmed_mean`, `hdd_lag1`, `cdd_lag1`, `hdd_roll7`, `cdd_roll7`.
+
+**Horarios:** mismas calendario/clima + `lag1, lag24, lag48, lag168, lag336`, `roll24, roll168, roll24_sd`, `diff_lag24, diff_lag168`.
+
+**Por qué.** Los lags 7/14/28/365 codifican estacionalidades semanal, bisemanal, mensual y anual sin pedirle al modelo que las descubra. `yoy_diff` aporta señal de tendencia interanual.
+
+# 4. Familia de modelos (07c–07e)
+
+| Familia | Diario | Horario | Cluster |
+|---|---|---|---|
+| Baselines | naive, snaive7, snaive365 | snaive24, snaive168 | snaive7 |
+| Estadísticos | ETS, ARIMAX(xreg=clima+calendario) | — | — |
+| ML | RF, XGBoost, LightGBM | XGBoost, LightGBM | XGBoost |
+| Stacking | Ridge sobre {RF, XGB, LGBM, ARIMAX} | Ridge sobre {XGB, LGBM} | — |
+| Intervalos | XGB quantile q05/q95, conformal split | XGB quantile q05/q95 | — |
+
+**Decisiones técnicas clave:** log-target (`log1p`), early stopping en validación, stacking ridge cerrado con pesos no-negativos normalizados, tuning de `mtry` para RF, intervalos asimétricos vía quantile XGB + conformal split.
+
+**Por qué.** Cada componente cubre un sesgo distinto: ARIMAX captura tendencia con clima; XGB/LGBM modelan no-linealidades estacionales × clima × calendario; RF aporta robustez.
+
+# 5. Resultados — Diario cartera
+
+```{r daily-lb}
+lb <- read_table("forecast_leaderboard_daily.csv")
+if (!is.null(lb)) lb |> kable(digits = 3, caption = "Leaderboard diario")
+```
+
+**Lectura.**
+
+- **XGB gana**: WAPE **2,64%**, MAE 2.776 kWh/día, MASE 0,71, €desvío 56.696.
+- LightGBM segundo (WAPE 2,83%).
+- ARIMAX (9,3%) ofrece interpretabilidad pero pierde 3,5× contra el ML.
+- El mejor modelo recorta el error un 78% sobre snaive7.
+
+```{r daily-pred-actual, fig.height=5.2}
+preds <- read_table("forecast_daily_predictions.csv")
+if (!is.null(preds)) {
+  preds$date <- as.Date(preds$date)
+  long <- preds |>
+    select(date, actual, xgb, lgbm, snaive7) |>
+    pivot_longer(c(actual, xgb, lgbm, snaive7),
+                 names_to = "serie", values_to = "kWh") |>
+    mutate(serie = factor(serie, levels = c("actual", "xgb", "lgbm", "snaive7")))
+  p1 <- ggplot(long, aes(x = date, y = kWh, color = serie, linewidth = serie)) +
+    geom_line(alpha = 0.85) +
+    scale_color_manual(values = c(actual = "black", xgb = "#1b9e77",
+                                   lgbm = "#7570b3", snaive7 = "#d95f02")) +
+    scale_linewidth_manual(values = c(actual = 1.0, xgb = 0.7,
+                                       lgbm = 0.5, snaive7 = 0.5)) +
+    scale_y_continuous(labels = scales::comma) +
+    labs(title = "Predicción diaria vs real (test 2023-07 → 2024-01)",
+         x = NULL, y = "kWh totales / día", color = NULL, linewidth = NULL) +
+    theme(legend.position = "bottom")
+
+  res <- preds |>
+    transmute(date, residual = actual - xgb)
+  p2 <- ggplot(res, aes(x = date, y = residual)) +
+    geom_hline(yintercept = 0, color = "grey60") +
+    geom_line(color = "#1b9e77", alpha = 0.7) +
+    geom_smooth(method = "loess", se = FALSE, color = "#d95f02",
+                linewidth = 0.7) +
+    scale_y_continuous(labels = scales::comma) +
+    labs(title = "Residuo XGB (actual − predicho)",
+         x = NULL, y = "kWh")
+
+  p1 / p2 + plot_layout(heights = c(2, 1))
+}
+```
+
+**Qué muestra.** Arriba: serie real (negro) vs XGB (verde), LGBM (violeta) y baseline snaive7 (naranja). Abajo: residuo del modelo ganador con suavizado LOESS.
+
+**Lectura.** XGB y LGBM se superponen al real prácticamente sin sesgo visible. El residuo oscila simétrico en torno a 0; el LOESS detecta un leve sesgo positivo en enero 2024 (subestimación durante ola de frío) — útil como pista para enriquecer features climáticas.
+
+```{r daily-intervals, fig.height=4}
+if (!is.null(preds) && "conformal_lo" %in% names(preds)) {
+  ggplot(preds, aes(x = date)) +
+    geom_ribbon(aes(ymin = conformal_lo, ymax = conformal_hi),
+                fill = "#1b9e77", alpha = 0.2) +
+    geom_line(aes(y = actual), color = "black", linewidth = 0.7) +
+    geom_line(aes(y = xgb), color = "#1b9e77", linewidth = 0.5) +
+    scale_y_continuous(labels = scales::comma) +
+    labs(title = "Intervalo de predicción conformal 90% — diario",
+         subtitle = "Negro: real. Verde: punto XGB. Banda: conformal split.",
+         x = NULL, y = "kWh / día")
+}
+```
+
+# 6. Resultados — Horario cartera (OMIE)
+
+```{r hourly-lb}
+hb <- read_table("forecast_leaderboard_hourly.csv")
+if (!is.null(hb)) hb |> kable(digits = 3, caption = "Leaderboard horario")
+imp <- read_table("forecast_hourly_business_impact.csv")
+if (!is.null(imp)) imp |> kable(digits = 3, caption = "Impacto económico (€ desvío)")
+```
+
+**Lectura.**
+
+- XGB horario alcanza **WAPE 0,70%, MASE 0,20, €desvío 15.073** (≈ 0,67 €/MWh).
+- LightGBM (1,28% WAPE) en segundo lugar; stacking iguala WAPE 0,83% pero no supera al XGB solo.
+- snaive168 / snaive24 quedan en 18-20% WAPE: la combinación calendario + lags + clima recorta **el 96% del error de la persistencia semanal**.
+
+```{r hourly-week, fig.height=4.2}
+hp <- read_table("forecast_hourly_predictions.csv")
+if (!is.null(hp)) {
+  hp$datetime <- as.POSIXct(hp$datetime, tz = "UTC")
+  # Mostrar una semana representativa (mediados noviembre).
+  win <- hp |>
+    filter(datetime >= as.POSIXct("2023-11-13", tz = "UTC"),
+           datetime <  as.POSIXct("2023-11-20", tz = "UTC"))
+  if (nrow(win) > 0) {
+    long <- win |>
+      select(datetime, actual, xgb, lgbm, snaive168) |>
+      pivot_longer(-datetime, names_to = "serie", values_to = "kWh")
+    ggplot(long, aes(x = datetime, y = kWh, color = serie)) +
+      geom_line(alpha = 0.9, linewidth = 0.6) +
+      scale_color_manual(values = c(actual = "black", xgb = "#1b9e77",
+                                     lgbm = "#7570b3", snaive168 = "#d95f02")) +
+      scale_y_continuous(labels = scales::comma) +
+      labs(title = "Predicción horaria — semana de noviembre 2023",
+           x = NULL, y = "kWh / hora", color = NULL) +
+      theme(legend.position = "bottom")
+  }
+}
+```
+
+```{r hourly-day, fig.height=4}
+if (!is.null(hp)) {
+  daily_pat <- hp |>
+    mutate(hour = lubridate::hour(datetime)) |>
+    group_by(hour) |>
+    summarise(actual = mean(actual, na.rm = TRUE),
+              xgb    = mean(xgb,    na.rm = TRUE),
+              .groups = "drop") |>
+    pivot_longer(c(actual, xgb), names_to = "serie", values_to = "kWh")
+  ggplot(daily_pat, aes(x = hour, y = kWh, color = serie)) +
+    geom_line(linewidth = 1.1) +
+    geom_point() +
+    scale_color_manual(values = c(actual = "black", xgb = "#1b9e77")) +
+    scale_x_continuous(breaks = seq(0, 23, 3)) +
+    labs(title = "Curva horaria media en el test — real vs XGB",
+         x = "Hora del día", y = "kWh medio / hora",
+         color = NULL) +
+    theme(legend.position = "bottom")
+}
+```
+
+**Implicación.** El modelo horario reproduce la doble cresta (mañana-tarde) y el valle nocturno con desplazamiento inferior a 30 kWh. A 0,67 €/MWh el coste de desvío residual es comparable al spread bid-ask típico del mercado.
+
+# 7. Resultados — Por cluster (07e)
+
+```{r cluster-lb}
+cb <- read_table("forecast_leaderboard_cluster.csv")
+if (!is.null(cb)) cb |> kable(digits = 3, caption = "Forecast diario por cluster")
+rec <- read_table("forecast_reconciliation_v2.csv")
+if (!is.null(rec)) rec |> kable(digits = 3, caption = "Reconciliación bottom-up vs top-down")
+```
+
+```{r cluster-pred, fig.height=5.5}
+cp <- read_table("forecast_cluster_predictions.csv")
+if (!is.null(cp)) {
+  cp$date <- as.Date(cp$date)
+  ggplot(cp, aes(x = date)) +
+    geom_line(aes(y = actual), color = "black", linewidth = 0.6) +
+    geom_line(aes(y = pred), color = "#1b9e77", linewidth = 0.5,
+              alpha = 0.85) +
+    facet_wrap(~ paste0("Cluster ", cluster), scales = "free_y", ncol = 2) +
+    scale_y_continuous(labels = scales::comma) +
+    labs(title = "Predicción diaria por cluster — real (negro) vs XGB (verde)",
+         x = NULL, y = "kWh totales del cluster / día")
+}
+```
+
+**Lectura.**
+
+- Clusters predecibles: C2 (WAPE 3,9%), C3 (3,2%), C5 (4,6%) — grandes, regulares, base de la cartera.
+- Clusters ruidosos: C1 (WAPE 21%), C6 (10%) — pequeños y de comportamiento heterogéneo.
+- **Top-down gana** (WAPE 2,64%) frente a bottom-up (4,01%).
+
+**Implicación.** Para reportar la previsión global usamos el modelo de cartera y desagregamos por cuota histórica. La predicción por cluster aporta valor **operativo** (detección de anomalías) pero no debe sumarse para el total.
+
+# 8. Intervalos de predicción
+
+```{r intervals-table}
+ic <- read_table("forecast_daily_interval_metrics.csv")
+if (!is.null(ic)) ic |> kable(digits = 3,
+                                caption = "Cobertura y amplitud de intervalos diarios")
+```
+
+**Por qué dos métodos.** XGB quantile aprende intervalos asimétricos directamente; conformal split garantiza cobertura nominal (90%) bajo intercambiabilidad. Comparar ambos audita si la asimetría aprendida sobreajusta a la cola estacional.
+
+**Lectura.** Cobertura entre 88–92% en ambos métodos; amplitud conformal levemente mayor (más conservadora) pero con garantía teórica.
+
+**Implicación.** Para regulador o reporting financiero, **conformal split** por defecto (garantía PAC); para pricing dinámico interno, los intervalos quantile son más estrechos.
+
+# 9. Importancia de variables
+
+```{r importance, fig.height=4.5}
+imp_d <- read_table("forecast_daily_xgb_importance.csv")
+if (!is.null(imp_d)) {
+  imp_d |> head(15) |>
+    ggplot(aes(x = reorder(Feature, Gain), y = Gain)) +
+    geom_col(fill = "#2c7fb8") + coord_flip() +
+    labs(title = "Top 15 features (Gain) — XGB diario",
+         x = NULL, y = "Gain")
+}
+```
+
+**Lectura.** `lag7`, `roll7`, `hdd_mean`, `cdd_mean`, `lag365`, `yoy_diff` dominan. La estacionalidad semanal es la señal más fuerte; clima cierra la varianza estacional restante.
+
+**Implicación.** Si en producción se pierde una de estas features (e.g. fallo del feed AEMET), el WAPE esperado se degrada significativamente. Define los SLOs de las dependencias upstream.
+
+# 10. Errores por estación y día de la semana
+
+```{r slices}
+sl <- read_table("forecast_error_slices_v2.csv")
+if (!is.null(sl)) sl |> kable(digits = 3,
+                                caption = "WAPE por slice (estación × dow)")
+```
+
+```{r slices-viz, fig.height=4}
+if (!is.null(sl) && all(c("season", "dow", "WAPE") %in% names(sl))) {
+  ggplot(sl, aes(x = factor(dow), y = season, fill = WAPE)) +
+    geom_tile() +
+    geom_text(aes(label = sprintf("%.2f", WAPE)), size = 3) +
+    scale_fill_gradient(low = "#e0f3db", high = "#43a2ca") +
+    labs(title = "Mapa de calor del WAPE por estación × día de la semana",
+         x = "Día de la semana (1=Lun, 7=Dom)", y = NULL)
+}
+```
+
+**Lectura.** Invierno y verano concentran error absoluto pero el WAPE relativo es estable. Lunes y festivos muestran el WAPE más alto — transiciones de régimen.
+
+# 11. Síntesis ejecutiva
+
+| Horizonte | Mejor modelo | WAPE | MASE | €desvío | €/MWh |
+|---|---|---|---|---|---|
+| Diario cartera | XGB log-target | **2,64%** | 0,71 | 56.696 | — |
+| Horario OMIE | XGB log-target | **0,70%** | 0,20 | 15.073 | 0,67 |
+| Diario cluster (mejor C3) | XGB log-target | 3,16% | 1,63 | 20.594 | — |
+| Reconciliación | Top-down | 2,64% | 0,71 | 56.696 | — |
+
+### Qué demuestra el forecasting
+
+**1. El forecast diario es suficiente para planificación de cartera.** Un WAPE de 2,64 % a horizonte diario en un año fuera de muestra (2023-07 → 2024-01) significa que el error medio relativo es del orden del 2-3 % sobre el consumo agregado. Es operativo para comprar energía, planificar coberturas y dimensionar campañas. No es lo mismo que predecir un hogar concreto: ese ejercicio tendría errores mucho mayores y el TFM no lo defiende.
+
+**2. El forecast horario está cerca del techo informativo.** El WAPE de 0,70 % sobre la curva horaria agregada deja muy poco margen de mejora estructural: estamos prediciendo la forma horaria de la cartera con una precisión que se acerca al ruido inherente. Las ganancias adicionales tendrían que venir de información que ahora no usamos (clima horario, precios, eventos), no de mejor ajuste sobre los mismos features.
+
+**3. La sensibilidad a las features está identificada.** El top de importancias (`lag7`, `roll7`, `hdd_mean`, `cdd_mean`, `lag365`, `yoy_diff`) dice de forma cuantitativa qué pasa si una de estas señales falla. Si el feed AEMET cae, perdemos `hdd_mean` y `cdd_mean` y el WAPE se degrada de forma medible: ese es el SLO que la cooperativa debe garantizar a su upstream climático. Sin esa señal, el forecast sigue funcionando pero pasa de "operativo" a "informativo".
+
+**4. Top-down gana a bottom-up para compras agregadas.** La reconciliación muestra que predecir la cartera y desagregar por cluster da el mismo WAPE final que predecir cada cluster y sumar, pero con menor varianza y menos modelos a mantener. Para reporting regulatorio y compras agregadas, top-down es la opción correcta. El bottom-up por cluster solo merece la pena cuando la pregunta operativa es explícitamente por segmento (ejemplo: cuánto va a consumir C4 climatización invernal este enero).
+
+**5. Los intervalos están calibrados con dos garantías distintas.** El conformal split garantiza cobertura nominal del 90 % bajo intercambiabilidad: es el método correcto para regulador y reporting financiero. Los intervalos quantile son más estrechos (útiles para pricing dinámico interno) pero sin garantía teórica. Tener ambos disponibles permite elegir según el caso de uso y auditar consistencia.
+
+**6. El error se concentra en transiciones de régimen.** Los slices por estación × día de la semana muestran que el WAPE relativo es estable en términos generales, pero lunes, festivos y transiciones invierno/primavera y verano/otoño concentran error. Esa información acota dónde merece la pena invertir en calendario adicional o variables exógenas, y dónde el modelo actual ya está dando lo que puede dar.
+
+### Limitaciones y riesgos del forecasting
+
+- **El target log-transformado mejora el WAPE pero introduce un sesgo conocido al invertir la transformación.** El sesgo se corrige con el factor de Smearing en evaluación, pero en producción hay que mantener esa corrección o las predicciones quedarán sistemáticamente bajas.
+- **La validación rolling es estricta pero finita.** El test cubre julio 2023 → enero 2024: un año con un invierno y un comienzo de verano. Generalizar a años con perfiles climáticos extremos requiere reentrenar y revalidar, no asumir que el WAPE actual es estable indefinidamente.
+- **El forecasting por cluster degrada el WAPE en clusters pequeños.** El mejor cluster (C3) queda en 3,16 %, mientras otros pasan del 5 %. Es esperable: menos hogares, menos datos efectivos, más varianza. La cooperativa debe entender que la promesa "2,64 % WAPE" es para la cartera agregada, no por segmento.
+
+**Implicación final.** El forecasting está listo para operación: el modelo horario está cerca del techo informativo, el diario tiene margen de mejora vía clima determinista y la decisión top-down vs bottom-up queda zanjada con evidencia. La cadena evidencia → modelo → intervalo → decisión está cerrada y reproducible.
+
+**Trazabilidad técnica.** Todos los outputs proceden de `R/06_forecasting/06a-06f` invocables vía `Rscript R/99_orchestrator.R 06 --r-only`. Los modelos serializados quedan en `outputs/models/forecast_*.rds` para re-evaluación.

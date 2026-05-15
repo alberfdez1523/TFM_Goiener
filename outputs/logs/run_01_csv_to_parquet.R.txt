@@ -1,0 +1,44 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'DBI' was built under R version 4.5.2 
+2: package 'duckdb' was built under R version 4.5.2 
+3: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+CSV detectados: 28808
+Salida parquet: C:/Users/alber/Desktop/TFM/data/parquet
+Convirtiendo CSV a Parquet particionado...
+[1] 953112614
+Conversion horaria completada en 52.9 s.
+Convirtiendo metadata.csv a Parquet...
+Metadata Parquet creada en 1.0 s: C:/Users/alber/Desktop/TFM/data/parquet/metadata.parquet
+Creando daily_consumption.parquet...
+[1] 39737949
+Dataset diario creado en 18.4 s: C:/Users/alber/Desktop/TFM/data/parquet/daily_consumption.parquet
+Creando monthly_consumption.parquet...
+[1] 1329310
+Dataset mensual creado en 4.2 s: C:/Users/alber/Desktop/TFM/data/parquet/monthly_consumption.parquet
+Creando user_hourly_profile.parquet...
+[1] 691368
+Perfil horario por usuario creado en 4.7 s: C:/Users/alber/Desktop/TFM/data/parquet/user_hourly_profile.parquet
+Creando user_dow_type_profile.parquet...
+[1] 1381976
+Perfil por tipo de dia creado en 7.8 s: C:/Users/alber/Desktop/TFM/data/parquet/user_dow_type_profile.parquet
+Creando user_season_profile.parquet...
+[1] 2668787
+Perfil estacional creado en 8.6 s: C:/Users/alber/Desktop/TFM/data/parquet/user_season_profile.parquet
+Creando user_weekday_profile.parquet...
+[1] 201455
+Perfil por dia de la semana creado en 4.5 s: C:/Users/alber/Desktop/TFM/data/parquet/user_weekday_profile.parquet
+Creando user_region_map.parquet...
+[1] 22676
+Mapa usuario-region creado en 0.1 s: C:/Users/alber/Desktop/TFM/data/parquet/user_region_map.parquet
+
+-- Resumen del dataset (consulta en 1.4 s) --
+     n_rows n_users              min_ts     max_ts total_kWh
+1 953112614   28807 2014-11-02 01:00:00 2024-02-01 441654154
+
+Proceso completado. Tiempo total: 104.2 s

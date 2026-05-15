@@ -1,0 +1,77 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'arrow' was built under R version 4.5.2 
+2: package 'dplyr' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+======================================================================
+PASO 05h: Mapping a finalidades de negocio
+======================================================================
+  cluster_label     n   pct                     finalidad
+1            C1   878  3.74    flexibilidad_punta_laboral
+2            C2  6927 29.48 residencial_eficiencia_social
+3            C3 10158 43.24      cartera_residencial_base
+4            C4  1755  7.47        climatizacion_invernal
+5            C5   881  3.75           uso_estacional_bajo
+6            C6   697  2.97    consumo_nocturno_intensivo
+7   no_habitual  2198  9.36          vivienda_no_habitual
+                                                          perfil_cluster
+1                   Consumo concentrado en horas punta y dias laborables
+2 Cartera residencial estable de bajo consumo con riesgo social moderado
+3                        Perfil residencial masivo, estable y predecible
+4                 Residencial con demanda fuertemente explicada por frio
+5                              Baja ocupacion con estacionalidad acusada
+6                       Hogares de alto consumo desplazado a valle/noche
+7            Segunda residencia, baja ocupacion o contrato casi inactivo
+                                                                                                                                                  accion_recomendada
+1                Programa de respuesta a la demanda: desplazar cargas de mediodia/tarde, optimizar potencia contratada y priorizar comunidad energetica/autoconsumo.
+2                 Acompanamiento de eficiencia y factura: deteccion de hogares vulnerables, recomendaciones de habitos y oferta 2.0TD sin sobredimensionar potencia.
+3                      Base para forecasting operativo y campanas generales: tarifa 2.0TD estandar, comunicacion de autoconsumo y control de desviaciones agregadas.
+4                       Campanas preventivas de invierno: asesoramiento de calefaccion electrica, aislamiento, autoconsumo/almacenamiento y forecast sensible a HDD.
+5 Segmento de segunda residencia activa: potencia/tarifa ajustada, avisos de consumo fuera de temporada y comunicacion de autoconsumo compartido si es zona costera.
+6                    Oferta indexada valle y auditoria de cargas nocturnas: acumuladores, termo, VE o calefaccion; ajustar potencia nocturna y seguimiento de coste.
+7                                                   Tarifa y potencia minima ajustada; alerta de reactivacion subita y revision de contratos con riesgo social alto.
+                                                                       evidencia_clave
+1 Punta 47.3%, valle 22.5%, tarde 39.3%, fin_semana/laborable 0.40, P1 mediana 5.0 kW.
+2                    Mediana 5.7 kWh/d, riesgo alto 21.7%, valle 48.7%, beta_HDD 0.03.
+3       Representa 43.2% de la cartera, mediana 5.4 kWh/d, noche 13.6%, amplitud 0.33.
+4           beta_HDD 1.51, R2 clima 0.40, amplitud estacional 1.10, mediana 7.9 kWh/d.
+5                 Mediana 2.8 kWh/d, amplitud 1.27, dias bajos 38.4%, dias cero 12.1%.
+6                         Mediana 26.4 kWh/d, valle 70.8%, noche 46.4%, beta_HDD 1.29.
+7            Mediana 0.44 kWh/d, dias bajos 76.8%, dias cero 27.2%, riesgo alto 64.2%.
+  prioridad median_daily_kWh mean_daily_kWh pct_high_risk peak_share
+1      Alta            8.254          9.972           3.5      0.473
+2     Media            5.720          6.060          21.7      0.253
+3     Media            5.371          5.549           6.0      0.296
+4      Alta            7.937         10.464           0.0      0.259
+5     Media            2.823          5.297          10.0      0.277
+6      Alta           26.421         28.618           0.6      0.129
+7      Alta            0.438          0.683          64.2      0.317
+  valley_share night_kWh_share afternoon_kWh_share beta_hdd beta_cdd r2_joint
+1        0.225           0.089               0.393    0.714   -0.114    0.116
+2        0.487           0.194               0.267    0.028    0.111    0.051
+3        0.421           0.136               0.296    0.162   -0.110    0.075
+4        0.477           0.192               0.250    1.514   -0.325    0.398
+5        0.461           0.186               0.269    0.474    0.005    0.117
+6        0.708           0.464               0.054    1.294   -0.617    0.242
+7        0.429           0.169               0.293    0.010    0.017    0.048
+  seasonal_amplitude_norm low_day_rate zero_day_rate median_p1_kw
+1                   0.772        0.136         0.018         5.00
+2                   0.279        0.051         0.010         3.45
+3                   0.327        0.036         0.007         3.45
+4                   1.102        0.044         0.010         4.60
+5                   1.274        0.384         0.121         3.50
+6                   0.615        0.033         0.010         4.60
+7                   1.045        0.768         0.272         3.00
+  pct_goiener_core pct_coastal
+1             96.1        71.4
+2             92.6        62.5
+3             96.9        71.7
+4             90.6        76.6
+5             91.7        63.8
+6             96.8        62.4
+7             97.5        67.0
+05h en 0.1 s

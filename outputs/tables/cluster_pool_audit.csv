@@ -1,0 +1,9 @@
+"paso","n_usuarios","pct_total"
+"Total features",26146,100
+"Provincias top-5",26146,100
+"Residencial 2.0TD",24644,94.26
+"Sin outlier sostenido",24644,94.26
+">= 180 dias activos",23494,89.86
+"Vivienda habitual (>= 1.5 kWh/dia)",21296,81.45
+"Pool clustering V2",21296,81.45
+"Segmento no_habitual (separado)",2198,8.41

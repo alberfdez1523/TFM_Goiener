@@ -1,0 +1,70 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+
+
+processing file: 05_forecasting.qmd
+1/29                    
+2/29 [setup]            
+3/29                    
+4/29 [splits]           
+5/29                    
+6/29 [daily-lb]         
+7/29                    
+8/29 [daily-pred-actual]
+9/29                    
+10/29 [daily-intervals]  
+11/29                    
+12/29 [hourly-lb]        
+13/29                    
+14/29 [hourly-week]      
+15/29                    
+16/29 [hourly-day]       
+17/29                    
+18/29 [cluster-lb]       
+19/29                    
+20/29 [cluster-pred]     
+21/29                    
+22/29 [intervals-table]  
+23/29                    
+24/29 [importance]       
+25/29                    
+26/29 [slices]           
+27/29                    
+28/29 [slices-viz]       
+29/29                    
+output file: 05_forecasting.knit.md
+
+pandoc 
+  to: html
+  output-file: 05_forecasting.html
+  standalone: true
+  embed-resources: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: Forecasting del Consumo Eléctrico — GoiEner
+  subtitle: Diario, horario y por cluster con intervalos calibrados
+  author: Alberto Fernandez
+  date: today
+  theme:
+    light: cosmo
+    dark: darkly
+  toc-title: Contenido
+  code-summary: Ver código
+  smooth-scroll: true
+  
+Output created: 05_forecasting.html
+

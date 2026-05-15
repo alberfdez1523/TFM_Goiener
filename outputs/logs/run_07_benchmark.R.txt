@@ -1,0 +1,119 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'bench' was built under R version 4.5.3 
+2: package 'DBI' was built under R version 4.5.2 
+3: package 'duckdb' was built under R version 4.5.2 
+4: package 'readr' was built under R version 4.5.2 
+5: package 'arrow' was built under R version 4.5.2 
+6: package 'dplyr' was built under R version 4.5.2 
+7: package 'ggplot2' was built under R version 4.5.2 
+8: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+============================================================
+PASO 08: Benchmark de arquitectura de datos
+============================================================
+  CSV disponibles: 28.808
+  R 4.5.1 | DuckDB 1.4.4 | Arrow 23.0.1.1 | Microsoft Windows 11 Home | 10.0.26200
+  CPU: 12th Gen Intel(R) Core(TM) i7-12650H | RAM fisica: 31.7 GB | cores logicos: 16
+  Contexto cache: No se vacia la cache del sistema operativo entre iteraciones. first_iter_s aproxima la primera ejecucion de la sesion y warm_mediana_s resume iteraciones 2-5. DuckDB object cache configurada: TRUE.
+
+[1/6] Exp. 1: Lectura completa (100 CSV vs Parquet equivalente)...
+  OK
+
+[2/6] Exp. 2: Seleccion columnar (solo user_id + kWh)...
+  OK
+
+[3/6] Exp. 3: Filtro temporal (enero 2020)...
+  OK
+
+[4/6] Exp. 4: Agregacion diaria (from scratch vs pre-agregada)...
+  OK
+
+[5/6] Exp. 5: Consulta analitica compleja (perfil horario por region)...
+  OK
+
+[6/6] Exp. 6: Tamano en disco...
+  Tamano en disco:
+                       formato       bytes      MB    GB ratio_vs_csv
+1         CSV crudo (extraido) 28384655687 27069.7 26.44          1.0
+2     Parquet horario (ZSTD-9)  1698003914  1619.3  1.58         16.7
+3 Parquet total (+ auxiliares)  4137807201  3946.1  3.85          6.9
+4             tar.zst original  2395479998  2284.5  2.23         11.8
+
+Consolidando resultados...
+
+Resultados del benchmark:
+             experimento                          metodo first_iter_s
+1    1. Lectura completa                     CSV + readr    1.3777085
+2    1. Lectura completa                 Parquet + Arrow   20.2983572
+3    1. Lectura completa                Parquet + DuckDB    0.5970005
+4  2. Seleccion columnar CSV (todas columnas -> filtrar)    0.2583449
+5  2. Seleccion columnar  Parquet + Arrow (col pushdown)    3.6149183
+6  2. Seleccion columnar Parquet + DuckDB (col pushdown)    0.3539299
+7     3. Filtro temporal            DuckDB scan completo    0.1213173
+8     3. Filtro temporal            DuckDB con particion    0.1053569
+9   4. Agregacion diaria          GROUP BY sobre horario    1.3461938
+10  4. Agregacion diaria              Tabla pre-agregada    0.8723975
+11  5. Consulta compleja             Desde horario bruto    6.7317736
+12  5. Consulta compleja            Tablas pre-agregadas    0.0315167
+   warm_mediana_s  mediana_s mem_alloc_mb speedup
+1       1.3007590  1.3020924       215.72    15.5
+2      20.1447267 20.2007193        16.18     1.0
+3       0.6042334  0.6038561         0.18    33.5
+4       0.2543140  0.2548725        37.49    14.3
+5       3.6702960  3.6554431         6.34     1.0
+6       0.3589719  0.3584093        12.27    10.2
+7       0.1264936  0.1264500         0.00     1.0
+8       0.1077777  0.1077742         0.00     1.2
+9       1.2471334  1.3027326       137.37     1.0
+10      0.8180443  0.8723975       137.36     1.5
+11      6.6881207  6.6881849         0.00     1.0
+12      0.0297024  0.0301440         0.00   221.9
+
+Contexto de ejecucion:
+                          item
+1                    timestamp
+2                    r_version
+3                   r_platform
+4                           os
+5                          cpu
+6                logical_cores
+7              physical_ram_gb
+8               duckdb_version
+9                arrow_version
+10               bench_version
+11         duckdb_memory_limit
+12         duckdb_object_cache
+13   iterations_per_experiment
+14               cache_context
+15 process_peak_working_set_mb
+16                 memory_note
+17              interpretation
+18            spark_scope_note
+19              benchmark_role
+                                                                                                                                                                                                   value
+1                                                                                                                                                                               2026-05-12 22:00:23 CEST
+2                                                                                                                                                                                                  4.5.1
+3                                                                                                                                                                                     x86_64-w64-mingw32
+4                                                                                                                                                                 Microsoft Windows 11 Home | 10.0.26200
+5                                                                                                                                                                   12th Gen Intel(R) Core(TM) i7-12650H
+6                                                                                                                                                                                                     16
+7                                                                                                                                                                                                   31.7
+8                                                                                                                                                                                                  1.4.4
+9                                                                                                                                                                                               23.0.1.1
+10                                                                                                                                                                                                 1.1.4
+11                                                                                                                                                                                                  10GB
+12                                                                                                                                                                                                  TRUE
+13                                                                                                                                                                                                     5
+14 No se vacia la cache del sistema operativo entre iteraciones. first_iter_s aproxima la primera ejecucion de la sesion y warm_mediana_s resume iteraciones 2-5. DuckDB object cache configurada: TRUE.
+15                                                                                                                                                                                                4608.3
+16                                                                        mem_alloc_mb es memoria asignada estimada por bench; process_peak_working_set_mb es el pico del proceso R completo en Windows.
+17                                                                                                 Suficiente para entorno local reproducible en este TFM; no es una comparativa universal contra Spark.
+18                                                                                      Si el dataset creciera 100x o se exigiera computo distribuido multiusuario, Spark podria volver a tener sentido.
+19                                                                                                                                   Anexo fuerte de arquitectura; no es el centro metodologico del TFM.
+
+Paso 08 completado en 220.7 s.

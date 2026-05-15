@@ -1,0 +1,58 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+
+
+processing file: 07_etica_privacidad.qmd
+1/17                             
+2/17 [setup]                     
+3/17                             
+4/17 [tbl-risk-mitigation]       
+5/17                             
+6/17 [tbl-province-size]         
+7/17                             
+8/17 [tbl-quality-inputs]        
+9/17                             
+10/17 [tbl-context-privacy]       
+11/17                             
+12/17 [tbl-cluster-ethics]        
+13/17                             
+14/17 [tbl-forecast-ethics]       
+15/17                             
+16/17 [tbl-reproducibility-ethics]
+17/17                             
+output file: 07_etica_privacidad.knit.md
+
+pandoc 
+  to: html
+  output-file: 07_etica_privacidad.html
+  standalone: true
+  embed-resources: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: 'Capítulo 7: ética, privacidad y limitaciones'
+  subtitle: Lectura crítica del caso GoiEner
+  author: Alberto Fernandez
+  date: today
+  theme:
+    light: cosmo
+    dark: darkly
+  toc-title: Contenido
+  code-summary: Ver código
+  smooth-scroll: true
+  
+Output created: 07_etica_privacidad.html
+

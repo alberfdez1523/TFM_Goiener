@@ -1,0 +1,84 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+
+
+processing file: 02_data_quality.qmd
+1/43                            
+2/43 [setup]                    
+3/43                            
+4/43 [connection]               
+5/43                            
+6/43 [global-summary]           
+7/43                            
+8/43 [tbl-contracts]            
+9/43                            
+10/43 [tbl-pipeline-manifest]    
+11/43                            
+12/43 [user-coverage]            
+13/43                            
+14/43 [fig-coverage-hist]        
+15/43                            
+16/43 [fig-completitud]          
+17/43                            
+18/43 [fig-altas-bajas]          
+19/43                            
+20/43 [gap-analysis]             
+21/43                            
+22/43 [fig-gap-dist]             
+23/43                            
+24/43 [gap-top-users]            
+25/43                            
+26/43 [incomplete-days]          
+27/43                            
+28/43 [fig-incomplete]           
+29/43                            
+30/43 [spike-detection]          
+31/43                            
+32/43 [fig-extreme-values]       
+33/43                            
+34/43 [tbl-affected-users-impact]
+35/43                            
+36/43 [quality-semaphore]        
+37/43                            
+38/43 [quality-summary]          
+39/43                            
+40/43 [timing-summary]           
+41/43                            
+42/43 [cleanup]                  
+43/43                            
+output file: 02_data_quality.knit.md
+
+pandoc 
+  to: html
+  output-file: 02_data_quality.html
+  standalone: true
+  embed-resources: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: Informe de Calidad de Datos - GoiEner
+  subtitle: Cobertura temporal, huecos, días incompletos y anomalías
+  author: Alberto Fernandez
+  date: today
+  theme:
+    light: cosmo
+    dark: darkly
+  toc-title: Contenido
+  code-summary: Ver código
+  smooth-scroll: true
+  
+Output created: 02_data_quality.html
+

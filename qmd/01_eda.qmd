@@ -1,0 +1,1163 @@
+---
+title: "Análisis Exploratorio del Consumo Eléctrico - GoiEner"
+subtitle: "EDA sobre datos horarios con Arrow, DuckDB y ggplot2"
+author: "Alberto Fernandez"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    code-fold: true
+    code-summary: "Ver código"
+    code-tools: false
+    df-print: paged
+    embed-resources: true
+    smooth-scroll: true
+    fig-align: center
+    fig-width: 10
+    fig-height: 5.5
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+source(here::here("_config.R"))
+
+library(arrow)
+library(DBI)
+library(duckdb)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(glue)
+library(ggplot2)
+library(scales)
+library(patchwork)
+library(sf)
+library(mapSpain)
+
+# Flag de exportacion de PNG
+export_figures <- identical(tolower(Sys.getenv("GOIENER_EXPORT_FIGURES", "false")), "true")
+```
+
+## Resumen del pipeline de preprocesamiento
+
+Antes de llegar a este análisis exploratorio, los datos han pasado por dos scripts de R que se encargan de descargar, descomprimir y transformar los datos crudos. A continuación se resume lo que hace cada uno:
+
+### `R/00_extract_raw.R` - Extracción de los CSV crudos
+
+Este primer script se encarga de descomprimir el archivo `imputed_goiener_v7.tar.zst`, que contiene los datos horarios de consumo eléctrico del dataset GoiEner. Cada punto de suministro (CUPS) viene en un fichero CSV independiente, identificado por el hash SHA-256 de su código CUPS.
+
+El proceso es sencillo:
+
+1. Localiza el archivo `.tar.zst` en `data/raw/`.
+2. Lo descomprime en `data/extracted/imputed_goiener_v7/` usando el paquete `{archive}`, que soporta Zstandard de forma nativa.
+3. Corrige una posible carpeta duplicada que algunos archivos tar crean al extraerse.
+4. Informa del número total de CSV extraídos.
+
+### `R/01_csv_to_parquet.R` - Conversión a Parquet y agregaciones
+
+El segundo script toma los CSV extraídos y los convierte a Parquet particionado por año, un formato columnar mucho más eficiente para consultas analíticas. Además, genera tablas pre-agregadas para no tener que recorrer cientos de millones de registros horarios cada vez que se necesita un resumen.
+
+Las etapas principales son:
+
+1. **CSV a Parquet horario** - Lee todos los CSV con DuckDB, extrae el `user_id` del nombre del fichero, convierte el timestamp, y escribe a Parquet particionado por `year`. Usa compresión ZSTD nivel 9.
+2. **Metadata a Parquet** - Convierte `metadata.csv` (información contractual: potencia contratada, código postal, CNAE, tarifa) a Parquet.
+3. **Tabla diaria** - Agrega las lecturas horarias por usuario y día.
+4. **Tabla mensual** - Agrega la tabla diaria por usuario, año y mes.
+5. **Perfiles horarios por usuario** - Materializa tablas compactas para los perfiles por hora, tipo de día, estación, día de la semana y región.
+6. **Validación** - Comprueba que el número de usuarios es coherente.
+
+## Introducción
+
+El dataset **GoiEner** recoge lecturas horarias de consumo eléctrico residencial de la cooperativa energética GoiEner, con sede en el País Vasco. Este documento explora esos datos usando:
+
+- **Apache Parquet** como formato columnar eficiente.
+- **Apache Arrow** para leer los datos sin cargarlo todo en memoria.
+- **DuckDB** para agregaciones SQL sobre ficheros Parquet locales.
+
+El foco de esta versión es que las visualizaciones sean coherentes con el dato real:
+
+- Se valida que `user_id` no esté vacío en la tabla diaria.
+- Los análisis diarios filtran días incompletos (`hours_recorded == 24`).
+- Los perfiles horarios agregan primero por usuario y luego resumen, para que ningun usuario con más registros tenga más peso que otro.
+
+## Conexión a datos
+
+```{r}
+#| label: connection
+
+# Rutas absolutas normalizadas para consultas DuckDB
+hourly_glob          <- HOURLY_GLOB
+daily_parquet_abs    <- path_abs(DAILY_PARQUET)   |> path_norm()
+metadata_parquet_abs <- path_abs(METADATA_PARQUET) |> path_norm()
+user_hourly_profile_abs   <- path_abs(USER_HOURLY_PROFILE)   |> path_norm()
+user_dow_type_profile_abs <- path_abs(USER_DOW_TYPE_PROFILE) |> path_norm()
+user_season_profile_abs   <- path_abs(USER_SEASON_PROFILE)   |> path_norm()
+user_weekday_profile_abs  <- path_abs(USER_WEEKDAY_PROFILE)  |> path_norm()
+user_region_map_abs       <- path_abs(USER_REGION_MAP)       |> path_norm()
+
+# Comprobar que los datos existen
+stopifnot(
+  "No existe data/parquet" = dir_exists(PARQUET_DIR),
+  "No existe daily_consumption.parquet" = file_exists(DAILY_PARQUET)
+)
+
+hourly_profiles_preaggregated_available <- all(file_exists(c(
+  USER_HOURLY_PROFILE, USER_DOW_TYPE_PROFILE,
+  USER_SEASON_PROFILE, USER_WEEKDAY_PROFILE,
+  USER_REGION_MAP
+)))
+
+# Conexión DuckDB
+con <- connect_duckdb()
+
+# Dataset Arrow (apertura tolerante a esquemas heterogeneos: las particiones
+# por ano fueron escritas con tipos ligeramente distintos para `month`/`year`,
+# por lo que abrimos cada particion bajo demanda mediante DuckDB y mostramos
+# un resumen agregado.)
+daily_ds  <- open_dataset(DAILY_PARQUET, format = "parquet")
+
+hourly_summary <- dbGetQuery(con, glue::glue("
+  SELECT COUNT(*) AS n_filas,
+         COUNT(DISTINCT user_id) AS n_usuarios,
+         MIN(timestamp)::DATE AS desde,
+         MAX(timestamp)::DATE AS hasta
+  FROM read_parquet('{hourly_glob}', union_by_name=true)
+"))
+report_table(hourly_summary, caption = "Resumen del dataset horario (Parquet anual)")
+```
+
+## Resumen del dataset {.tabset}
+
+::: {.panel-tabset}
+
+### Datos horarios (DuckDB)
+
+```{r}
+#| label: summary-hourly
+
+tic("summary-hourly")
+summary_hourly <- dbGetQuery(con, glue("
+  SELECT
+    COUNT(*)                AS registros,
+    COUNT(DISTINCT user_id) AS usuarios,
+    MIN(timestamp)          AS fecha_inicio,
+    MAX(timestamp)          AS fecha_fin,
+    ROUND(AVG(kWh), 4)      AS kWh_medio_horario,
+    ROUND(SUM(kWh), 0)      AS kWh_total
+  FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE)
+"))
+toc("summary-hourly")
+
+summary_hourly
+```
+
+### Datos diarios (Arrow)
+
+```{r}
+#| label: summary-daily
+
+tic("summary-daily")
+summary_daily <- daily_ds |>
+  summarise(
+    registros    = n(),
+    usuarios     = n_distinct(user_id),
+    fecha_inicio = min(date, na.rm = TRUE),
+    fecha_fin    = max(date, na.rm = TRUE)
+  ) |>
+  collect()
+toc("summary-daily")
+
+summary_daily
+```
+
+:::
+
+## Preparación de la tabla diaria
+
+La tabla diaria ya está preagregada por usuario y día, pero antes de graficar conviene validar que los `user_id` sean validos y que no estemos mezclando días completos con días parciales.
+
+```{r}
+#| label: daily-table
+
+tic("daily-table")
+daily_tbl <- daily_ds |>
+  mutate(date = as.Date(date)) |>
+  collect()
+
+daily_quality <- daily_tbl |>
+  summarise(
+    registros = n(),
+    usuarios = n_distinct(user_id),
+    prop_user_id_vacio = mean(is.na(user_id) | user_id == ""),
+    prop_dias_incompletos = mean(hours_recorded < 24, na.rm = TRUE)
+  )
+
+if (daily_quality$usuarios[[1]] < 100 || daily_quality$prop_user_id_vacio[[1]] > 0.01) {
+  stop("daily_consumption.parquet no es valido. Regenera los parquet con R/01_csv_to_parquet.R")
+}
+
+daily_complete_tbl <- daily_tbl |>
+  filter(
+    !is.na(user_id), user_id != "",
+    !is.na(daily_kWh), daily_kWh > 0,
+    hours_recorded == 24
+  )
+
+toc("daily-table")
+glimpse(daily_tbl)
+daily_quality
+```
+
+## 1. Distribución del consumo diario
+
+La distribución diaria es asimétrica a la derecha: abundan los días de consumo bajo o medio y hay una cola larga de días de mayor consumo.
+
+```{r}
+#| label: fig-daily-dist
+#| fig-cap: "La distribución diaria conserva una cola derecha clara tras excluir días incompletos."
+
+tic("fig-daily-dist")
+p_daily_dist <- daily_complete_tbl |>
+  ggplot(aes(x = daily_kWh)) +
+  geom_histogram(bins = 120, fill = PAL_MAIN, color = "white", linewidth = 0.2) +
+  scale_y_log10(labels = label_comma()) +
+  labs(
+    title = "Distribución del consumo diario",
+    subtitle = "Frecuencias en escala logaritmica",
+    x = "Consumo diario (kWh)", y = "Frecuencia"
+  ) +
+  theme_goiener()
+
+p_daily_dist
+toc("fig-daily-dist")
+
+daily_dist_stats <- daily_complete_tbl |>
+  summarise(
+    media   = round(mean(daily_kWh), 2),
+    mediana = round(median(daily_kWh), 2),
+    p90     = round(quantile(daily_kWh, 0.90), 2),
+    p95     = round(quantile(daily_kWh, 0.95), 2),
+    p99     = round(quantile(daily_kWh, 0.99), 2)
+  )
+
+daily_dist_stats
+```
+
+La media diaria (`r fmt_num(daily_dist_stats$media)`) queda muy por encima de la mediana (`r fmt_num(daily_dist_stats$mediana)`), y el percentil 99 (`r fmt_num(daily_dist_stats$p99)`) multiplica por `r fmt_num(daily_dist_stats$p99 / daily_dist_stats$mediana, digits = 1)` la mediana. La masa principal del consumo se concentra en valores modestos, mientras que existe una cola de días excepcionalmente intensivos.
+
+Esta cola obliga a separar consumo residencial típico de lecturas extremas antes de construir features; por eso la fase de calidad y los filtros posteriores no son accesorios, sino una condición para que clustering y forecasting no queden dominados por pocos casos.
+
+## 2. Evolucion temporal del consumo agregado
+
+El consumo total diario mezcla dos efectos: la estacionalidad y la evolucion del número de usuarios activos. Por eso se muestran dos paneles: total agregado y media por usuario activo.
+
+```{r}
+#| label: fig-global-daily
+#| fig-cap: "El panel superior refleja estacionalidad y crecimiento de la base; el inferior normaliza por usuarios activos."
+
+tic("fig-global-daily")
+global_daily <- daily_complete_tbl |>
+  group_by(date) |>
+  summarise(
+    total_kWh = sum(daily_kWh, na.rm = TRUE),
+    n_users = n_distinct(user_id),
+    mean_kWh_user = mean(daily_kWh, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+p_global_total <- global_daily |>
+  ggplot(aes(x = date, y = total_kWh)) +
+  geom_line(linewidth = 0.4, color = PAL_MAIN, alpha = 0.7) +
+  geom_smooth(method = "loess", span = 0.1, se = FALSE, color = PAL_ACCENT, linewidth = 1) +
+  scale_y_continuous(labels = label_number(big.mark = ".", decimal.mark = ",")) +
+  labs(title = "Consumo total diario de la cooperativa", x = NULL, y = "kWh totales") +
+  theme_goiener()
+
+p_global_mean <- global_daily |>
+  ggplot(aes(x = date, y = mean_kWh_user)) +
+  geom_line(linewidth = 0.4, color = PAL_MAIN, alpha = 0.7) +
+  geom_smooth(method = "loess", span = 0.1, se = FALSE, color = PAL_ACCENT, linewidth = 1) +
+  scale_y_continuous(labels = label_number(decimal.mark = ",")) +
+  labs(title = "Consumo medio diario por usuario activo", x = NULL, y = "kWh por usuario") +
+  theme_goiener()
+
+p_global_daily <- p_global_total / p_global_mean
+p_global_daily
+toc("fig-global-daily")
+```
+
+En un día medio hay `r fmt_int(mean(global_daily$n_users))` usuarios activos y un consumo agregado de `r fmt_int(mean(global_daily$total_kWh))` kWh. El panel inferior normaliza por usuario, separando la estacionalidad del crecimiento de la base de clientes.
+
+La comparación entre total agregado y media por usuario justifica que las validaciones posteriores usen cortes temporales y métricas normalizadas, no una división aleatoria que mezcle crecimiento de cartera con patrón de consumo.
+
+## 3. Mapa de calor: consumo medio por mes y año
+
+```{r}
+#| label: fig-heatmap
+#| fig-cap: "Los meses frios concentran los mayores consumos medios diarios en la mayor parte del periodo."
+
+tic("fig-heatmap")
+heatmap_tbl <- dbGetQuery(con, glue("
+  SELECT
+    YEAR(date) AS year,
+    MONTH(date) AS month_num,
+    AVG(daily_kWh) AS mean_daily_kWh
+  FROM read_parquet('{daily_parquet_abs}')
+  WHERE hours_recorded = 24 AND daily_kWh > 0
+    AND user_id IS NOT NULL AND user_id <> ''
+  GROUP BY 1, 2
+  ORDER BY 1, 2
+"))
+heatmap_tbl$month <- factor(month.abb[heatmap_tbl$month_num], levels = month.abb)
+
+p_heatmap <- heatmap_tbl |>
+  ggplot(aes(x = month, y = factor(year), fill = mean_daily_kWh)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  scale_fill_viridis_c(option = "inferno", direction = -1) +
+  labs(title = "Consumo medio diario por mes y año", x = NULL, y = NULL, fill = "kWh medio") +
+  theme_goiener() +
+  theme(panel.grid = element_blank())
+
+p_heatmap
+toc("fig-heatmap")
+```
+
+El máximo del mapa aparece en `r paste0(month.abb[heatmap_tbl$month_num[which.max(heatmap_tbl$mean_daily_kWh)]], "-", heatmap_tbl$year[which.max(heatmap_tbl$mean_daily_kWh)])` con `r fmt_num(max(heatmap_tbl$mean_daily_kWh))` kWh medios diarios. Los meses frios dominan casi todo el periodo y los valles se concentran en primavera avanzada y verano.
+
+La señal mensual y estacional hace razonable integrar clima antes de modelar: si invierno y verano cambian el nivel de consumo, temperatura, HDD/CDD y calendario deben entrar como variables explicativas.
+
+## 4. Heterogeneidad entre usuarios
+
+```{r}
+#| label: fig-user-heterogeneity
+#| fig-cap: "La dispersion entre usuarios se calcula sobre días completos y user_id validos."
+
+tic("fig-user-heterogeneity")
+user_stats <- daily_complete_tbl |>
+  group_by(user_id) |>
+  summarise(
+    mean_daily_kWh = mean(daily_kWh, na.rm = TRUE),
+    sd_daily_kWh   = sd(daily_kWh, na.rm = TRUE),
+    total_kWh      = sum(daily_kWh, na.rm = TRUE),
+    n_days         = n(),
+    .groups = "drop"
+  ) |>
+  mutate(cv = sd_daily_kWh / mean_daily_kWh)
+
+p_user_mean <- user_stats |>
+  filter(mean_daily_kWh > 0) |>
+  ggplot(aes(x = mean_daily_kWh)) +
+  geom_histogram(bins = 80, fill = PAL_MAIN, color = "white", linewidth = 0.2) +
+  geom_vline(
+    xintercept = median(user_stats$mean_daily_kWh, na.rm = TRUE),
+    linetype = "dashed", color = PAL_ACCENT, linewidth = 0.8
+  ) +
+  scale_x_log10(labels = label_number()) +
+  labs(
+    title = "Consumo medio diario por usuario",
+    subtitle = "Escala logaritmica; la linea discontinua marca la mediana",
+    x = "kWh medio diario", y = "Número de usuarios"
+  ) +
+  theme_goiener()
+
+p_user_mean
+toc("fig-user-heterogeneity")
+```
+
+La mediana del consumo medio diario por usuario es `r fmt_num(median(user_stats$mean_daily_kWh))` kWh, pero el percentil 90 sube a `r fmt_num(quantile(user_stats$mean_daily_kWh, 0.90))`. Una minoria de usuarios consume varias veces más que el hogar tipico.
+
+La heterogeneidad entre usuarios refuerza la necesidad de resumir por usuario antes de agregar y de construir clusters por forma de consumo, no solo por volumen total.
+
+## 5. Segmentación de usuarios por nivel de consumo
+
+```{r}
+#| label: fig-user-segments
+#| fig-cap: "El segmento de consumo alto suele representar una fracción de usuarios menor que su participación en el consumo total."
+
+tic("fig-user-segments")
+q <- quantile(user_stats$mean_daily_kWh, c(0.25, 0.75), na.rm = TRUE)
+
+user_stats <- user_stats |>
+  mutate(
+    segmento = case_when(
+      mean_daily_kWh <= q[1] ~ "Bajo (< P25)",
+      mean_daily_kWh <= q[2] ~ "Medio (P25-P75)",
+      TRUE                   ~ "Alto (> P75)"
+    ),
+    segmento = factor(segmento, levels = c("Bajo (< P25)", "Medio (P25-P75)", "Alto (> P75)"))
+  )
+
+seg_summary <- user_stats |>
+  group_by(segmento) |>
+  summarise(
+    n_usuarios = n(),
+    consumo_total = sum(total_kWh, na.rm = TRUE),
+    media_kWh = round(mean(mean_daily_kWh), 2),
+    mediana_kWh = round(median(mean_daily_kWh), 2),
+    .groups = "drop"
+  ) |>
+  mutate(
+    pct_usuarios = n_usuarios / sum(n_usuarios),
+    pct_consumo = consumo_total / sum(consumo_total)
+  )
+
+p_segments <- seg_summary |>
+  select(segmento, pct_usuarios, pct_consumo) |>
+  pivot_longer(cols = c(pct_usuarios, pct_consumo), names_to = "metrica", values_to = "porcentaje") |>
+  mutate(metrica = recode(metrica, pct_usuarios = "% usuarios", pct_consumo = "% consumo")) |>
+  ggplot(aes(x = segmento, y = porcentaje, fill = metrica)) +
+  geom_col(width = 0.65, position = position_dodge(width = 0.72)) +
+  geom_text(
+    aes(label = percent(porcentaje, accuracy = 1)),
+    position = position_dodge(width = 0.72), vjust = -0.3, size = 3.5
+  ) +
+  scale_fill_manual(values = c("% usuarios" = PAL_FILL, "% consumo" = PAL_ACCENT)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(title = "Segmentación de usuarios por consumo medio diario", x = NULL, y = "Participación", fill = NULL) +
+  theme_goiener() +
+  expand_limits(y = 0.6)
+
+p_segments
+toc("fig-user-segments")
+seg_summary
+```
+
+El segmento alto representa `r fmt_pct(seg_summary$pct_usuarios[seg_summary$segmento == "Alto (> P75)"])` de los usuarios, pero concentra `r fmt_pct(seg_summary$pct_consumo[seg_summary$segmento == "Alto (> P75)"])` del consumo.
+
+Esta diferencia entre cuota de usuarios y cuota de energía anticipa que el pipeline debe controlar perfiles de alto consumo para no sobrerrepresentarlos en la evaluación de modelos agregados.
+
+## 6-9. Perfiles horarios (consulta unificada)
+
+Las secciones 6 a 9 trabajan sobre el dataset horario bruto (~953M de filas). Si existen los perfiles pre-agregados, DuckDB solo lee esas tablas compactas; si no, mantiene la consulta lenta como fallback.
+
+```{r}
+#| label: hourly-profiles-query
+#| cache: true
+
+tic("hourly-profiles-query")
+profiles_query <- if (hourly_profiles_preaggregated_available) {
+  glue("
+    WITH user_hourly AS (
+      SELECT * FROM read_parquet('{user_hourly_profile_abs}')
+    ),
+    user_dow_profile AS (
+      SELECT * FROM read_parquet('{user_dow_type_profile_abs}')
+    ),
+    user_season_profile AS (
+      SELECT * FROM read_parquet('{user_season_profile_abs}')
+    ),
+    user_dow_daily AS (
+      SELECT * FROM read_parquet('{user_weekday_profile_abs}')
+    ),
+    region_users AS (
+      SELECT * FROM read_parquet('{user_region_map_abs}')
+    ),
+    user_region_hourly AS (
+      SELECT uh.user_id, ru.region, uh.hour, uh.mean_kWh_user
+      FROM user_hourly uh
+      INNER JOIN region_users ru ON uh.user_id = ru.user_id
+    )
+
+    SELECT 'hourly' AS query_id, hour, NULL AS tipo_dia, NULL AS season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           APPROX_QUANTILE(mean_kWh_user, 0.25) AS q25,
+           APPROX_QUANTILE(mean_kWh_user, 0.75) AS q75
+    FROM user_hourly GROUP BY 1, 2
+
+    UNION ALL
+
+    SELECT 'dow_type' AS query_id, hour, tipo_dia, NULL AS season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           NULL AS q25, NULL AS q75
+    FROM user_dow_profile GROUP BY 1, 2, 3
+
+    UNION ALL
+
+    SELECT 'seasonal' AS query_id, hour, NULL AS tipo_dia, season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           NULL AS q25, NULL AS q75
+    FROM user_season_profile GROUP BY 1, 2, 3, 4
+
+    UNION ALL
+
+    SELECT 'dow_daily' AS query_id, NULL::INTEGER AS hour, NULL AS tipo_dia,
+           NULL AS season, dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           NULL AS q25, NULL AS q75
+    FROM user_dow_daily GROUP BY 1, 5
+
+    UNION ALL
+
+    SELECT 'region' AS query_id, hour, region AS tipo_dia, NULL AS season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           APPROX_QUANTILE(mean_kWh_user, 0.25) AS q25,
+           APPROX_QUANTILE(mean_kWh_user, 0.75) AS q75
+    FROM user_region_hourly GROUP BY 1, 2, 3
+
+    ORDER BY query_id, hour, tipo_dia, season, dow_num
+  ")
+} else {
+  message("No existen los perfiles pre-agregados. Usando ruta lenta.")
+
+  glue("
+    WITH base AS (
+      SELECT user_id,
+        EXTRACT('hour' FROM timestamp)::INTEGER AS hour,
+        EXTRACT('isodow' FROM timestamp)::INTEGER AS dow_num,
+        CASE WHEN EXTRACT('dow' FROM timestamp) IN (0, 6) THEN 'Fin de semana' ELSE 'Laborable' END AS tipo_dia,
+        CASE
+          WHEN EXTRACT('month' FROM timestamp) IN (12, 1, 2) THEN 'Invierno'
+          WHEN EXTRACT('month' FROM timestamp) IN (3, 4, 5)  THEN 'Primavera'
+          WHEN EXTRACT('month' FROM timestamp) IN (6, 7, 8)  THEN 'Verano'
+          ELSE 'Otono'
+        END AS season, kWh
+      FROM read_parquet('{hourly_glob}', hive_partitioning = TRUE)
+      WHERE kWh IS NOT NULL AND kWh >= 0 AND user_id IS NOT NULL AND user_id <> ''
+    ),
+    user_hourly AS (
+      SELECT user_id, hour, AVG(kWh) AS mean_kWh_user FROM base GROUP BY 1, 2
+    ),
+    user_dow_profile AS (
+      SELECT user_id, tipo_dia, hour, AVG(kWh) AS mean_kWh_user FROM base GROUP BY 1, 2, 3
+    ),
+    user_season_profile AS (
+      SELECT user_id, season, hour, AVG(kWh) AS mean_kWh_user FROM base GROUP BY 1, 2, 3
+    ),
+    user_dow_daily AS (
+      SELECT user_id, dow_num, AVG(kWh) AS mean_kWh_user FROM base GROUP BY 1, 2
+    ),
+    meta AS (
+      SELECT user_id, cod_prov FROM (
+        SELECT cups AS user_id,
+          SUBSTR(LPAD(CAST(codigo_postal AS VARCHAR), 5, '0'), 1, 2) AS cod_prov,
+          ROW_NUMBER() OVER (PARTITION BY cups
+            ORDER BY CASE WHEN tarifa_atr IS NOT NULL AND tarifa_atr <> '' THEN 0 ELSE 1 END,
+                     fecha_alta DESC NULLS LAST) AS rn
+        FROM read_parquet('{metadata_parquet_abs}')
+      ) sub WHERE rn = 1
+    ),
+    region_users AS (
+      SELECT user_id,
+        CASE WHEN cod_prov IN ('01','20','48') THEN 'País Vasco'
+             WHEN cod_prov = '28' THEN 'Madrid' END AS region
+      FROM meta WHERE cod_prov IN ('01','20','48','28')
+    ),
+    user_region_hourly AS (
+      SELECT b.user_id, r.region, b.hour, AVG(b.kWh) AS mean_kWh_user
+      FROM base b INNER JOIN region_users r ON b.user_id = r.user_id
+      GROUP BY 1, 2, 3
+    )
+
+    SELECT 'hourly' AS query_id, hour, NULL AS tipo_dia, NULL AS season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           APPROX_QUANTILE(mean_kWh_user, 0.25) AS q25,
+           APPROX_QUANTILE(mean_kWh_user, 0.75) AS q75
+    FROM user_hourly GROUP BY 1, 2
+
+    UNION ALL
+
+    SELECT 'dow_type' AS query_id, hour, tipo_dia, NULL AS season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           NULL AS q25, NULL AS q75
+    FROM user_dow_profile GROUP BY 1, 2, 3
+
+    UNION ALL
+
+    SELECT 'seasonal' AS query_id, hour, NULL AS tipo_dia, season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           NULL AS q25, NULL AS q75
+    FROM user_season_profile GROUP BY 1, 2, 3, 4
+
+    UNION ALL
+
+    SELECT 'dow_daily' AS query_id, NULL::INTEGER AS hour, NULL AS tipo_dia,
+           NULL AS season, dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           NULL AS q25, NULL AS q75
+    FROM user_dow_daily GROUP BY 1, 5
+
+    UNION ALL
+
+    SELECT 'region' AS query_id, hour, region AS tipo_dia, NULL AS season,
+           NULL::INTEGER AS dow_num, AVG(mean_kWh_user) AS mean_kWh,
+           APPROX_QUANTILE(mean_kWh_user, 0.25) AS q25,
+           APPROX_QUANTILE(mean_kWh_user, 0.75) AS q75
+    FROM user_region_hourly GROUP BY 1, 2, 3
+
+    ORDER BY query_id, hour, tipo_dia, season, dow_num
+  ")
+}
+
+profiles_raw <- dbGetQuery(con, profiles_query)
+toc("hourly-profiles-query")
+
+hourly_profile   <- profiles_raw |> filter(query_id == "hourly")   |> select(hour, mean_kWh, q25, q75)
+dow_profile      <- profiles_raw |> filter(query_id == "dow_type") |> select(hour, tipo_dia, mean_kWh)
+seasonal_profile <- profiles_raw |> filter(query_id == "seasonal") |> select(hour, season, mean_kWh)
+dow_daily        <- profiles_raw |> filter(query_id == "dow_daily") |> select(dow_num, mean_kWh)
+region_profiles  <- profiles_raw |> filter(query_id == "region")    |> select(hour, region = tipo_dia, mean_kWh, q25, q75)
+```
+
+## 6. Perfil horario medio de consumo
+
+```{r}
+#| label: fig-hourly-profile
+#| fig-cap: "El perfil medio y su banda intercuartílica se calcula a partir del promedio horario de cada usuario."
+
+tic("fig-hourly-profile")
+p_hourly_profile <- ggplot(hourly_profile, aes(x = hour, y = mean_kWh)) +
+  geom_ribbon(aes(ymin = q25, ymax = q75), fill = PAL_FILL, alpha = 0.6) +
+  geom_line(linewidth = 1, color = PAL_MAIN) +
+  geom_point(size = 1.8, color = PAL_MAIN) +
+  scale_x_continuous(breaks = 0:23) +
+  labs(
+    title = "Perfil horario medio de consumo",
+    subtitle = "Banda: rango intercuartílico entre usuarios (P25 - P75)",
+    x = "Hora del día", y = "kWh"
+  ) +
+  theme_goiener()
+
+p_hourly_profile
+toc("fig-hourly-profile")
+```
+
+El perfil alcanza su máximo a las `r hourly_profile$hour[which.max(hourly_profile$mean_kWh)]`:00 (`r fmt_num(max(hourly_profile$mean_kWh), digits = 3)` kWh) y su mínimo a las `r hourly_profile$hour[which.min(hourly_profile$mean_kWh)]`:00 (`r fmt_num(min(hourly_profile$mean_kWh), digits = 3)`). La curva tiene un valle nocturno claro y una subida progresiva hacia el final del día.
+
+El perfil horario confirma que hay estructura intradiaria suficiente para alimentar variables de forma, ratios valle-punta y perfiles normalizados en clustering.
+
+## 6b. Perfil horario: Madrid vs. País Vasco
+
+```{r}
+#| label: fig-hourly-region
+#| fig-cap: "El País Vasco presenta un pico diurno más alto, mientras que Madrid desplaza su máximo hacia la noche."
+#| fig-height: 6
+
+tic("fig-hourly-region")
+p_region <- ggplot(region_profiles, aes(x = hour, y = mean_kWh, color = region, fill = region)) +
+  geom_ribbon(aes(ymin = q25, ymax = q75), alpha = 0.15, color = NA) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 1.5) +
+  scale_x_continuous(breaks = 0:23) +
+  scale_color_manual(values = c("Madrid" = PAL_ACCENT, "País Vasco" = PAL_MAIN)) +
+  scale_fill_manual(values = c("Madrid" = PAL_ACCENT, "País Vasco" = PAL_MAIN)) +
+  labs(
+    title = "Perfil horario medio: Madrid vs. País Vasco",
+    subtitle = "Banda: rango intercuartílico entre usuarios (P25 - P75)",
+    x = "Hora del día", y = "kWh medio", color = NULL, fill = NULL
+  ) +
+  theme_goiener()
+
+p_region
+toc("fig-hourly-region")
+```
+
+La diferencia regional advierte que el alcance geográfico no es neutro; por eso las fases posteriores priorizan territorios con masa muestral suficiente y comparan Madrid y País Vasco como señales de contexto, no como representación universal.
+
+## 7. Laborable vs. fin de semana
+
+```{r}
+#| label: fig-weekday-weekend
+#| fig-cap: "El contraste laborable-fin de semana se basa en perfiles medios por usuario."
+
+tic("fig-weekday-weekend")
+p_dow <- ggplot(dow_profile, aes(x = hour, y = mean_kWh, color = tipo_dia)) +
+  geom_line(linewidth = 1) +
+  scale_x_continuous(breaks = 0:23) +
+  scale_color_manual(values = c("Laborable" = PAL_MAIN, "Fin de semana" = PAL_ACCENT)) +
+  labs(title = "Perfil horario: laborable vs. fin de semana", x = "Hora del día", y = "kWh medio", color = NULL) +
+  theme_goiener()
+
+p_dow
+toc("fig-weekday-weekend")
+```
+
+En laborable el máximo aparece a las `r dow_profile$hour[which.max(ifelse(dow_profile$tipo_dia == "Laborable", dow_profile$mean_kWh, -Inf))]`:00, mientras que en fin de semana se desplaza a las `r dow_profile$hour[which.max(ifelse(dow_profile$tipo_dia == "Fin de semana", dow_profile$mean_kWh, -Inf))]`:00.
+
+El cambio laborable-fin de semana justifica mantener variables de calendario en forecasting y evita tratar todos los días como intercambiables.
+
+## 8. Estacionalidad: perfiles horarios por estación
+
+```{r}
+#| label: fig-seasonal
+#| fig-cap: "Los perfiles estacionales se resumen sobre medias horarias por usuario."
+
+tic("fig-seasonal")
+seasonal_profile$season <- factor(seasonal_profile$season,
+  levels = c("Invierno", "Primavera", "Verano", "Otono"))
+
+p_seasonal <- ggplot(seasonal_profile, aes(x = hour, y = mean_kWh, color = season)) +
+  geom_line(linewidth = 1) +
+  scale_x_continuous(breaks = 0:23) +
+  scale_color_manual(values = PAL_SEASON) +
+  labs(title = "Perfiles horarios por estación del año", x = "Hora del día", y = "kWh medio", color = NULL) +
+  theme_goiener()
+
+p_seasonal
+toc("fig-seasonal")
+```
+
+La ordenacion media por estación: invierno (`r fmt_num(mean(seasonal_profile$mean_kWh[seasonal_profile$season == "Invierno"]), digits = 3)` kWh) queda por encima de otono, primavera y verano (`r fmt_num(mean(seasonal_profile$mean_kWh[seasonal_profile$season == "Verano"]), digits = 3)` kWh). La principal señal temporal del dataset es estacional.
+
+Esta lectura conecta directamente el EDA con la integración climática: el modelo necesita distinguir estacionalidad de temperatura para no atribuir al usuario lo que pertenece al contexto meteorológico.
+
+## 9. Consumo medio por día de la semana
+
+```{r}
+#| label: fig-day-of-week
+#| fig-cap: "Las diferencias semanales son moderadas y deben leerse como medias por usuario."
+
+tic("fig-day-of-week")
+dow_labels <- c("Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom")
+dow_daily$dow_label <- factor(dow_labels[dow_daily$dow_num], levels = dow_labels)
+
+p_dow_bar <- ggplot(dow_daily, aes(x = dow_label, y = mean_kWh, fill = dow_num > 5)) +
+  geom_col(width = 0.65, show.legend = FALSE) +
+  scale_fill_manual(values = c("FALSE" = PAL_MAIN, "TRUE" = PAL_ACCENT)) +
+  labs(title = "Consumo medio horario por día de la semana", x = NULL, y = "kWh medio") +
+  theme_goiener()
+
+p_dow_bar
+toc("fig-day-of-week")
+```
+
+Las diferencias semanales son menores que las estacionales, pero suficientes para conservar día de la semana y tipo de día como controles de calendario en la ingeniería de variables.
+
+## 10. Variación mensual del consumo diario
+
+```{r}
+#| label: fig-monthly-boxplot
+#| fig-cap: "La dispersion mensual se calcula sobre días completos con estadisticos pre-calculados."
+
+tic("fig-monthly-boxplot")
+monthly_box_stats <- dbGetQuery(con, glue("
+  SELECT
+    MONTH(date) AS month_num,
+    APPROX_QUANTILE(daily_kWh, 0.25) AS lower,
+    MEDIAN(daily_kWh) AS middle,
+    APPROX_QUANTILE(daily_kWh, 0.75) AS upper
+  FROM read_parquet('{daily_parquet_abs}')
+  WHERE hours_recorded = 24 AND daily_kWh > 0
+    AND user_id IS NOT NULL AND user_id <> ''
+  GROUP BY 1
+  ORDER BY 1
+"))
+monthly_box_stats$month <- factor(month.abb[monthly_box_stats$month_num], levels = month.abb)
+monthly_box_stats <- monthly_box_stats |>
+  mutate(iqr = upper - lower, ymin = pmax(lower - 1.5 * iqr, 0), ymax = upper + 1.5 * iqr)
+
+p_monthly_box <- ggplot(monthly_box_stats, aes(x = month)) +
+  geom_boxplot(
+    aes(ymin = ymin, lower = lower, middle = middle, upper = upper, ymax = ymax),
+    stat = "identity", fill = PAL_FILL, width = 0.65
+  ) +
+  labs(
+    title = "Distribución mensual del consumo diario",
+    subtitle = "Bigotes: Q1 - 1.5*IQR / Q3 + 1.5*IQR",
+    x = NULL, y = "Consumo diario (kWh)"
+  ) +
+  theme_goiener()
+
+p_monthly_box
+toc("fig-monthly-boxplot")
+```
+
+La dispersión mensual muestra que no basta con una media anual; la validación temporal debe comprobar que los modelos funcionan en meses de carga alta y baja.
+
+## 11. Evolucion interanual del consumo
+
+```{r}
+#| label: fig-yoy
+#| fig-cap: "La comparativa interanual se limita a años con cobertura mensual completa."
+#| fig-height: 6
+
+tic("fig-yoy")
+yoy_tbl <- dbGetQuery(con, glue("
+  WITH monthly AS (
+    SELECT YEAR(date) AS year, MONTH(date) AS month, AVG(daily_kWh) AS mean_kWh
+    FROM read_parquet('{daily_parquet_abs}')
+    WHERE hours_recorded = 24 AND daily_kWh > 0
+      AND user_id IS NOT NULL AND user_id <> ''
+    GROUP BY 1, 2
+  ),
+  complete_years AS (
+    SELECT year FROM monthly GROUP BY year HAVING COUNT(DISTINCT month) = 12
+  )
+  SELECT m.year, m.month, m.mean_kWh
+  FROM monthly m
+  INNER JOIN complete_years cy ON m.year = cy.year
+  ORDER BY m.year, m.month
+"))
+
+p_yoy <- yoy_tbl |>
+  ggplot(aes(x = month, y = mean_kWh, color = factor(year))) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.5) +
+  scale_x_continuous(breaks = 1:12, labels = month.abb) +
+  scale_color_viridis_d(option = "turbo") +
+  labs(title = "Consumo medio diario por mes - comparativa interanual", x = NULL, y = "kWh medio diario", color = "Año") +
+  theme_goiener()
+
+p_yoy
+toc("fig-yoy")
+```
+
+La comparación interanual confirma que el histórico no es estacionario en sentido estricto, por lo que el forecasting se evalúa con ventanas temporales posteriores al entrenamiento.
+
+## 12. Variabilidad del consumo por usuario (coeficiente de variación)
+
+```{r}
+#| label: fig-cv
+#| fig-cap: "La distribución del CV se calcula sobre usuarios con días completos."
+
+tic("fig-cv")
+p_cv <- user_stats |>
+  filter(!is.na(cv), cv < 3) |>
+  ggplot(aes(x = cv)) +
+  geom_histogram(bins = 60, fill = PAL_MAIN, color = "white", linewidth = 0.2) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = PAL_ACCENT) +
+  annotate("text", x = 1.05, y = Inf, label = "CV = 1",
+           vjust = 1.5, hjust = 0, color = PAL_ACCENT, fontface = "italic", size = 3.5) +
+  labs(
+    title = "Variabilidad del consumo diario por usuario",
+    subtitle = "Coeficiente de variación (CV = sd / media)",
+    x = "Coeficiente de variación", y = "Número de usuarios"
+  ) +
+  theme_goiener()
+
+p_cv
+toc("fig-cv")
+```
+
+La mediana del CV es `r fmt_num(median(user_stats$cv, na.rm = TRUE), digits = 2)` y solo `r fmt_pct(mean(user_stats$cv > 1, na.rm = TRUE), digits = 1)` supera el umbral 1.
+
+La variabilidad individual ayuda a separar usuarios estables de perfiles intermitentes, una distinción que después se refleja en los clusters y en la incertidumbre de la predicción.
+
+## 13. Análisis de metadatos: cruce con información contractual
+
+```{r}
+#| label: metadata-load
+
+tic("metadata-load")
+metadata_tbl <- open_dataset(METADATA_PARQUET, format = "parquet") |>
+  collect() |>
+  deduplicate_metadata()
+
+user_meta <- user_stats |>
+  inner_join(metadata_tbl, by = "user_id")
+
+toc("metadata-load")
+cat("Usuarios con metadatos cruzados:", nrow(user_meta), "de", nrow(user_stats), "totales\n")
+```
+
+### 13a. Distribución de usuarios por tipo de tarifa
+
+```{r}
+#| label: fig-tarifa
+#| fig-cap: "La tarifa 2.0TD domina la base de usuarios de GoiEner."
+#| fig-height: 6
+
+tic("fig-tarifa")
+tarifa_summary <- user_meta |>
+  count(tarifa_clean, sort = TRUE) |>
+  mutate(pct = n / sum(n)) |>
+  mutate(tarifa_plot = ifelse(pct < 0.01, "Otras", tarifa_clean)) |>
+  group_by(tarifa_plot) |>
+  summarise(n = sum(n), .groups = "drop") |>
+  mutate(pct = n / sum(n)) |>
+  arrange(desc(n)) |>
+  mutate(tarifa_plot = forcats::fct_reorder(tarifa_plot, n))
+
+p_tarifa <- ggplot(tarifa_summary, aes(x = tarifa_plot, y = n, fill = tarifa_plot)) +
+  geom_col(show.legend = FALSE, width = 0.7) +
+  geom_text(
+    aes(label = paste0(scales::comma(n), " (", scales::percent(pct, accuracy = 0.1), ")")),
+    hjust = -0.05, size = 3.2
+  ) +
+  coord_flip() +
+  scale_fill_viridis_d(option = "mako", direction = -1) +
+  scale_y_continuous(labels = label_comma(), expand = expansion(mult = c(0, 0.3))) +
+  labs(title = "Número de usuarios por tipo de tarifa", x = NULL, y = "Número de usuarios") +
+  theme_goiener()
+
+p_tarifa
+toc("fig-tarifa")
+```
+
+La concentración en tarifas residenciales respalda el foco doméstico del TFM, aunque las tarifas minoritarias deben mantenerse trazables para evitar mezclar usos no comparables.
+
+### 13b. Consumo medio por tipo de tarifa
+
+```{r}
+#| label: fig-tarifa-consumo
+#| fig-cap: "Las tarifas de mayor capacidad concentran los consumos medios más altos."
+
+tic("fig-tarifa-consumo")
+tarifa_consumo <- user_meta |>
+  mutate(
+    tarifa_grupo = ifelse(
+      tarifa_clean %in% c("2.0TD", "2.0A", "2.0DHA", "3.0A", "3.0TD", "2.1A", "Desconocida"),
+      tarifa_clean, "Otras"
+    )
+  ) |>
+  group_by(tarifa_grupo) |>
+  summarise(n = n(), media_kWh = mean(mean_daily_kWh, na.rm = TRUE),
+            mediana_kWh = median(mean_daily_kWh, na.rm = TRUE), .groups = "drop") |>
+  filter(n >= 10) |>
+  arrange(desc(media_kWh)) |>
+  mutate(tarifa_grupo = forcats::fct_reorder(tarifa_grupo, media_kWh))
+
+p_tarifa_consumo <- ggplot(tarifa_consumo, aes(x = tarifa_grupo, y = media_kWh)) +
+  geom_col(fill = PAL_MAIN, width = 0.7) +
+  geom_point(aes(y = mediana_kWh), color = PAL_ACCENT, size = 3) +
+  coord_flip() +
+  labs(title = "Consumo medio diario por tipo de tarifa",
+       subtitle = "Barra = media | Punto naranja = mediana",
+       x = NULL, y = "kWh medio diario") +
+  theme_goiener()
+
+p_tarifa_consumo
+toc("fig-tarifa-consumo")
+```
+
+La relación entre tarifa y consumo refuerza que la metadata contractual no es decorativa: sirve para filtrar alcance residencial y contextualizar consumos altos.
+
+### 13c. Mapa de Espana: distribución geográfica de usuarios
+
+```{r}
+#| label: fig-mapa
+#| fig-cap: "La cooperativa GoiEner concentra su base en el País Vasco y Navarra."
+#| fig-height: 7
+
+tic("fig-mapa")
+prov_counts <- user_meta |>
+  filter(!is.na(cod_provincia), cod_provincia != "NA", cod_provincia != "") |>
+  count(cod_provincia, name = "n_usuarios")
+
+provincias_sf <- esp_get_prov() |>
+  select(cpro, ine.prov.name, geometry)
+
+mapa_tbl <- provincias_sf |>
+  left_join(prov_counts, by = c("cpro" = "cod_provincia")) |>
+  mutate(n_usuarios = ifelse(is.na(n_usuarios), 0, n_usuarios))
+
+p_mapa <- ggplot(mapa_tbl) +
+  geom_sf(aes(fill = n_usuarios), color = "white", linewidth = 0.3) +
+  scale_fill_viridis_c(option = "mako", direction = -1, labels = scales::comma, name = "Usuarios") +
+  labs(title = "Distribución geográfica de usuarios de GoiEner",
+       subtitle = "Número de usuarios por provincia") +
+  theme_void(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = rel(1.15), margin = margin(b = 6)),
+    plot.subtitle = element_text(color = "grey40", size = rel(0.9), margin = margin(b = 10)),
+    legend.position = "right"
+  )
+
+p_mapa
+toc("fig-mapa")
+```
+
+La concentración provincial justifica trabajar con un top 5 territorial en fases posteriores: aporta cobertura suficiente y reduce comparaciones inestables con provincias residuales.
+
+### 13d. Mapa por comunidad autonoma
+
+```{r}
+#| label: fig-mapa-ccaa
+#| fig-cap: "Vista a nivel de comunidad autonoma."
+#| fig-height: 7
+
+tic("fig-mapa-ccaa")
+ccaa_counts <- mapa_tbl |>
+  st_drop_geometry() |>
+  left_join(esp_get_prov() |> st_drop_geometry() |> select(cpro, codauto), by = "cpro") |>
+  group_by(codauto) |>
+  summarise(n_usuarios = sum(n_usuarios, na.rm = TRUE), .groups = "drop")
+
+ccaa_sf <- esp_get_ccaa() |>
+  select(codauto, ine.ccaa.name, geometry) |>
+  left_join(ccaa_counts, by = "codauto") |>
+  mutate(n_usuarios = ifelse(is.na(n_usuarios), 0, n_usuarios))
+
+p_mapa_ccaa <- ggplot(ccaa_sf) +
+  geom_sf(aes(fill = n_usuarios), color = "white", linewidth = 0.4) +
+  scale_fill_viridis_c(option = "mako", direction = -1, labels = scales::comma, name = "Usuarios") +
+  geom_sf_text(
+    data = ccaa_sf |> filter(n_usuarios > 0),
+    aes(label = paste0(ine.ccaa.name, "\n", scales::comma(n_usuarios))),
+    size = 2.3, color = "grey20", check_overlap = TRUE
+  ) +
+  labs(title = "Usuarios de GoiEner por comunidad autonoma",
+       subtitle = "Se muestran nombres de las CCAA con presencia") +
+  theme_void(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = rel(1.15), margin = margin(b = 6)),
+    plot.subtitle = element_text(color = "grey40", size = rel(0.9), margin = margin(b = 10)),
+    legend.position = "right"
+  )
+
+p_mapa_ccaa
+toc("fig-mapa-ccaa")
+```
+
+La lectura autonómica confirma que el dataset tiene sesgo territorial; las conclusiones deben interpretarse dentro de ese alcance y no como una muestra equilibrada de todo el sistema eléctrico español.
+
+### 13e. Potencia contratada y consumo
+
+```{r}
+#| label: fig-potencia
+#| fig-cap: "Existe relacion positiva entre potencia contratada (P1) y consumo medio diario."
+
+tic("fig-potencia")
+p_potencia <- user_meta |>
+  filter(!is.na(p1_kw), p1_kw > 0.5, p1_kw <= 20) |>
+  ggplot(aes(x = p1_kw, y = mean_daily_kWh)) +
+  geom_bin2d(bins = 40) +
+  scale_fill_viridis_c(option = "inferno", trans = "log10") +
+  scale_y_log10(labels = label_number()) +
+  labs(
+    title = "Potencia contratada (P1) vs. consumo medio diario",
+    subtitle = "Mapa de densidad 2D; colores en escala logaritmica",
+    x = "Potencia contratada P1 (kW)", y = "Consumo medio diario (kWh)", fill = "Usuarios"
+  ) +
+  theme_goiener()
+
+p_potencia
+toc("fig-potencia")
+```
+
+La potencia contratada aporta una señal de escala del suministro y ayuda a distinguir consumos residenciales plausibles de contratos con comportamiento potencialmente no doméstico.
+
+## Hallazgos del EDA y consecuencias en el pipeline
+
+El EDA no es solo una galería de gráficos: cada hallazgo tiene una traducción concreta en cómo se construyen calidad, features, clusters y forecasting más adelante. La tabla siguiente resume la cadena lógica que conecta lo que vemos en los datos con las decisiones metodológicas que se toman después.
+
+```{r}
+#| label: tbl-eda-pipeline-consequences
+
+eda_pipeline_consequences <- tibble::tibble(
+  Hallazgo = c(
+    "Cola derecha en consumo diario y usuarios de alto consumo",
+    "Crecimiento de usuarios activos y estacionalidad temporal",
+    "Meses frios con mayor consumo medio",
+    "Perfil horario con valle nocturno y subida vespertina",
+    "Diferencias regionales y concentración territorial",
+    "Diferencias entre laborables, fines de semana y estaciones"
+  ),
+  `Consecuencia en pipeline` = c(
+    "Auditar negativos/extremos y filtrar outliers antes de features y clustering.",
+    "Usar validación temporal y métricas por usuario para evitar mezclas por crecimiento de cartera.",
+    "Integrar clima, HDD/CDD y calendario antes de forecasting.",
+    "Crear perfiles horarios normalizados y variables de forma para clustering.",
+    "Priorizar el top 5 territorial y documentar el alcance geográfico del análisis.",
+    "Mantener variables de calendario y estación en feature engineering y forecasting."
+  )
+)
+
+report_table(
+  eda_pipeline_consequences,
+  caption = "Relación entre hallazgos exploratorios y decisiones metodológicas posteriores."
+)
+```
+
+### Lectura integrada de los hallazgos
+
+**1. Heterogeneidad entre hogares mayor que la variabilidad diaria intra-hogar.** Cuando se compara la dispersión del consumo medio entre usuarios contra la dispersión diaria dentro de un mismo usuario, la primera domina con claridad. La consecuencia práctica es que ningún modelo agregado único puede capturar bien todos los hogares: la segmentación previa al forecasting no es opcional, es una condición para que las métricas globales no escondan errores grandes en subsegmentos.
+
+**2. Distribución asimétrica con cola derecha persistente.** La mediana diaria queda muy por debajo de la media porque una minoría de hogares concentra consumos altos. Ese sesgo afecta a cualquier estadístico no robusto: medias móviles, varianzas y errores cuadráticos. Por eso se prioriza la mediana para describir la cartera, se transforman targets con `log1p` antes de modelar y se filtran los días con `hours_recorded == 24` y consumo positivo para evitar contaminación por lecturas espurias.
+
+**3. Estacionalidad multiescala bien definida.** Los datos muestran tres ciclos superpuestos: diario (valle nocturno, repunte vespertino), semanal (laborables vs. fin de semana) y anual (frío sube consumo, verano lo modula menos en esta cartera). Esto justifica añadir simultáneamente lags semanales/anuales, features cíclicas de día del año, dummies de día de la semana y grados-día. Quitar cualquiera de estos bloques degrada el WAPE de forma cuantificable en el Capítulo 5.
+
+**4. Crecimiento sostenido de la cartera 2014→2024.** El número de usuarios activos crece de forma monótona en todo el horizonte. Eso prohíbe usar validación aleatoria: mezclaría hogares recientes en el train y antiguos en el test, sobreestimando el rendimiento. Por eso el pipeline impone splits temporales estrictos (train ≤ 2022-12-31, validación 2023H1, test 2023H2 → 2024-01) y métricas por usuario antes de promediar.
+
+**5. Concentración territorial.** Los cinco primeros territorios concentran la mayor parte de hogares y de kWh. El TFM se acota explícitamente a ese top 5 para que la capa climática AEMET sea defendible (estaciones suficientes por provincia) y para no proyectar conclusiones a territorios mal representados. Este alcance se declara y se mantiene coherente en clima, clusters y forecasting.
+
+**6. Calendario importa tanto como el clima.** Fines de semana, festivos nacionales, festivos autonómicos y Semana Santa producen desviaciones sistemáticas. Tratarlos con una única variable "festivo" perdería la diferencia entre un 25 de diciembre nacional y un 25 de julio que solo es festivo en algunas comunidades. Por eso el feature engineering los separa y el forecast los recibe como variables explícitas.
+
+### Síntesis ejecutiva del EDA
+
+- **Qué hemos confirmado.** La cartera tiene volumen suficiente, calidad alta y estacionalidad limpia para justificar un pipeline analítico completo sobre el top 5 territorial.
+- **Qué hemos descartado.** Modelos globales sin segmentar, validación aleatoria y agregaciones sin filtros de calidad. Estas decisiones no son opiniones: salen directamente de la forma de los datos.
+- **Qué queda abierto.** El EDA describe pero no explica: las relaciones causa-efecto (qué hace que un hogar consuma así) requieren combinar contexto socioeconómico, CNAE y clima, y eso se aborda en clustering e interpretación posterior.
+- **Qué entrega al resto del pipeline.** Una lista cerrada de filtros (días completos, consumo positivo, top 5), un conjunto inicial de features candidatas (calendario extendido, estacionalidad, forma horaria) y una validación temporal acordada que se reutiliza en clustering y forecasting.
+
+## Guardado de figuras
+
+```{r}
+#| label: save-figures
+
+if (export_figures) {
+  tic("save-figures")
+
+  plots <- list(
+    "01_daily_distribution.png" = p_daily_dist,
+    "02_global_daily.png"       = p_global_daily,
+    "03_heatmap_month_year.png" = p_heatmap,
+    "04_user_heterogeneity.png" = p_user_mean,
+    "05_user_segments.png"      = p_segments,
+    "06_hourly_profile.png"     = p_hourly_profile,
+    "07_weekday_weekend.png"    = p_dow,
+    "08_seasonal_profile.png"   = p_seasonal,
+    "09_day_of_week.png"        = p_dow_bar,
+    "10_monthly_boxplot.png"    = p_monthly_box,
+    "11_yoy_comparison.png"     = p_yoy,
+    "12_coef_variation.png"     = p_cv,
+    "13a_tarifa_usuarios.png"   = p_tarifa,
+    "13b_tarifa_consumo.png"    = p_tarifa_consumo,
+    "13c_mapa_provincias.png"   = p_mapa,
+    "13d_mapa_ccaa.png"         = p_mapa_ccaa,
+    "13e_potencia_consumo.png"  = p_potencia,
+    "06b_hourly_region.png"     = p_region
+  )
+
+  plot_heights <- c(
+    "02_global_daily.png"     = 7, "06b_hourly_region.png" = 6,
+    "11_yoy_comparison.png"   = 6, "13a_tarifa_usuarios.png" = 6,
+    "13c_mapa_provincias.png" = 7, "13d_mapa_ccaa.png" = 7
+  )
+
+  invisible(lapply(names(plots), function(name) {
+    ggsave(path(FIG_DIR, name), plots[[name]],
+           width = 10, height = ifelse(name %in% names(plot_heights), plot_heights[[name]], 5.5),
+           dpi = 300)
+  }))
+
+  toc("save-figures")
+} else {
+  cat("Exportacion de PNG omitida. Renderiza con GOIENER_EXPORT_FIGURES=true para generar PNG.\n")
+}
+```
+
+## Resumen de tiempos
+
+```{r}
+#| label: timing-summary
+
+timing_df <- data.frame(
+  chunk    = names(get_timings()),
+  segundos = vapply(get_timings(), function(x) if (!is.null(x$elapsed)) unname(x$elapsed) else NA_real_, numeric(1)),
+  row.names = NULL
+)
+timing_df <- timing_df[!is.na(timing_df$segundos), ]
+timing_df <- timing_df[order(-timing_df$segundos), ]
+timing_df$pct <- round(100 * timing_df$segundos / sum(timing_df$segundos), 1)
+
+cat(sprintf("Tiempo total instrumentado: %.1f s\n\n", sum(timing_df$segundos)))
+report_table(timing_df, digits = 1, col.names = c("Chunk", "Segundos", "% del total"))
+```
+
+## Cierre de conexión
+
+```{r}
+#| label: cleanup
+
+dbDisconnect(con, shutdown = TRUE)
+```
+

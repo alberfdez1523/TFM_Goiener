@@ -1,0 +1,59 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'DBI' was built under R version 4.5.2 
+2: package 'duckdb' was built under R version 4.5.2 
+3: package 'dplyr' was built under R version 4.5.2 
+4: package 'arrow' was built under R version 4.5.2 
+5: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+============================================================
+PASO 02: Validacion y calidad del dato
+============================================================
+
+[1/8] Resumen global del dataset...
+  Registros: 953.112.614 | Usuarios: 28.807
+  Nulls: 0 | Negativos: 1.351 | Zeros: 55.990.300
+[TIMING] 1. Resumen global del dataset: 2.6 s
+
+[2/8] Cobertura temporal por usuario...
+  Mediana de cobertura: 1.351 dias (100,00%)
+  Usuarios < 30 dias: 313 | < 1 anio: 3.384 | > 5 anios: 9.971
+[TIMING] 2. Cobertura temporal por usuario: 7.6 s
+
+[3/8] Analisis de gaps temporales...
+  Usuarios con gaps: 2 de 28.807 (0,01%)
+  Total gaps: 2 | Max gap: 29 dias
+[TIMING] 3. Analisis de gaps temporales: 4.4 s
+
+[4/8] Analisis de dias incompletos...
+  Total dias-usuario: 39.737.949
+  Dias completos (24h): 39.701.961 (99,91%)
+  Dias incompletos: 35.988 (0,09%)
+[TIMING] 4. Analisis de dias incompletos: 0.1 s
+
+[5/8] Deteccion de lecturas sospechosas...
+  P95: 1,38 kWh | P99: 5,36 kWh | P99.9: 34,00 kWh
+  Lecturas > P99.9: 952.524 | > 100 kWh: 198.595
+[TIMING] 5. Deteccion de lecturas sospechosas: 48.6 s
+
+[6/8] Usuarios afectados por negativos/extremos...
+  Usuarios afectados: 718
+  kWh horario afectado: 35.107.226,63
+[TIMING] 6. Usuarios afectados por negativos/extremos: 4.6 s
+
+[7/8] Ejecutando contratos de esquema y rango...
+  Checks: 19 pass | 2 warn | 2 fail
+[TIMING] 7. Contratos de esquema y rango: 3.0 s
+
+[8/8] Exportando resumen de calidad...
+
+Resumen exportado a: C:/Users/alber/Desktop/TFM/outputs/tables/data_quality_summary.csv
+[TIMING] 8. Exportando resumen de calidad: 0.0 s
+Timings exportados a: C:/Users/alber/Desktop/TFM/outputs/tables/data_quality_timings.csv
+Manifest exportado a: C:/Users/alber/Desktop/TFM/outputs/tables/pipeline_manifest.csv
+
+Paso 02 completado en 71.7 s.

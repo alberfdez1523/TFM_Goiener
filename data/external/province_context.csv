@@ -1,0 +1,53 @@
+cod_provincia,ccaa,coastal_flag,density_bucket,climate_zone,goiener_core_region
+01,Pais Vasco,0,medium,atlantic_north,1
+02,Castilla-La Mancha,0,low,continental_interior,0
+03,Comunitat Valenciana,1,high,mediterranean_coast,0
+04,Andalucia,1,medium,mediterranean_south,0
+05,Castilla y Leon,0,low,continental_interior,0
+06,Extremadura,0,low,continental_southwest,0
+07,Illes Balears,1,high,mediterranean_island,0
+08,Catalunya,1,high,mediterranean_coast,0
+09,Castilla y Leon,0,low,continental_interior,0
+10,Extremadura,0,low,continental_southwest,0
+11,Andalucia,1,high,atlantic_south,0
+12,Comunitat Valenciana,1,medium,mediterranean_coast,0
+13,Castilla-La Mancha,0,low,continental_interior,0
+14,Andalucia,0,medium,continental_south,0
+15,Galicia,1,medium,atlantic_northwest,0
+16,Castilla-La Mancha,0,low,continental_interior,0
+17,Catalunya,1,medium,mediterranean_north,0
+18,Andalucia,1,medium,mediterranean_south,0
+19,Castilla-La Mancha,0,low,continental_interior,0
+20,Pais Vasco,1,high,atlantic_north,1
+21,Andalucia,1,medium,atlantic_south,0
+22,Aragon,0,low,continental_pyrenees,0
+23,Andalucia,0,low,continental_south,0
+24,Castilla y Leon,0,low,continental_mountain,0
+25,Catalunya,0,medium,continental_northeast,0
+26,La Rioja,0,medium,continental_ebro,1
+27,Galicia,1,low,atlantic_northwest,0
+28,Comunidad de Madrid,0,high,continental_metropolitan,0
+29,Andalucia,1,high,mediterranean_south,0
+30,Region de Murcia,1,medium,mediterranean_southeast,0
+31,Navarra,0,medium,atlantic_ebro_transition,1
+32,Galicia,0,low,atlantic_northwest,0
+33,Asturias,1,medium,atlantic_north,0
+34,Castilla y Leon,0,low,continental_interior,0
+35,Canarias,1,high,subtropical_island,0
+36,Galicia,1,medium,atlantic_northwest,0
+37,Castilla y Leon,0,low,continental_interior,0
+38,Canarias,1,high,subtropical_island,0
+39,Cantabria,1,medium,atlantic_north,0
+40,Castilla y Leon,0,low,continental_interior,0
+41,Andalucia,0,high,continental_south,0
+42,Castilla y Leon,0,low,continental_interior,0
+43,Catalunya,1,medium,mediterranean_coast,0
+44,Aragon,0,low,continental_mountain,0
+45,Castilla-La Mancha,0,medium,continental_interior,0
+46,Comunitat Valenciana,1,high,mediterranean_coast,0
+47,Castilla y Leon,0,medium,continental_interior,0
+48,Pais Vasco,1,high,atlantic_north,1
+49,Castilla y Leon,0,low,continental_interior,0
+50,Aragon,0,medium,continental_ebro,0
+51,Ceuta,1,high,mediterranean_north_africa,0
+52,Melilla,1,high,mediterranean_north_africa,0

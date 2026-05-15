@@ -1,0 +1,78 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning message:
+package 'dplyr' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+Warning message:
+package 'arrow' was built under R version 4.5.2 
+Warning messages:
+1: package 'cluster' was built under R version 4.5.2 
+2: package 'fpc' was built under R version 4.5.3 
+======================================================================
+PASO 06d: Validacion (indices + Jaccard + ARI)
+======================================================================
+  Indices calculados para 27 soluciones.
+[Jaccard] Bootstrap (B=30) sobre top-15 soluciones...
+  hdbscan_mp50: mean Jaccard = 0.333
+  hdbscan_mp100: mean Jaccard = 0.333
+  hdbscan_mp200: mean Jaccard = 0.333
+  kmeans_pca_k4: mean Jaccard = 0.969
+  kmeans_pca_k3: mean Jaccard = 0.884
+  ward_pca_k3: mean Jaccard = 0.584
+  fpca_kmeans_k2: mean Jaccard = 0.644
+  kmeans_pca_k2: mean Jaccard = 0.907
+  ward_pca_k4: mean Jaccard = 0.727
+  ward_pca_k2: mean Jaccard = 0.640
+  pam_pca_k2: mean Jaccard = 0.901
+  kmeans_pca_k6: mean Jaccard = 0.920
+  kmeans_pca_k7: mean Jaccard = 0.745
+  kmeans_pca_k5: mean Jaccard = 0.929
+  ward_pca_k7: mean Jaccard = 0.487
+         solution        algo k silhouette calinski_harabasz       dunn
+1   kmeans_pca_k6  kmeans_pca 6  0.1970742         1224.0281 0.01890933
+2   kmeans_pca_k5  kmeans_pca 5  0.1982417         1288.3954 0.01132398
+3   kmeans_pca_k4  kmeans_pca 4  0.4927670         1399.4931 0.04047019
+4      pam_pca_k2     pam_pca 2  0.4098130          983.5144 0.02474848
+5   kmeans_pca_k3  kmeans_pca 3  0.4868488         1382.6387 0.04003305
+6   kmeans_pca_k2  kmeans_pca 2  0.5071988         1305.9416 0.03886898
+7     ward_pca_k4    ward_pca 4  0.4693418         1247.8645 0.03918289
+8     ward_pca_k2    ward_pca 2  0.4897043         1205.8181 0.02816483
+9     ward_pca_k3    ward_pca 3  0.4967354         1090.1037 0.03327431
+10 fpca_kmeans_k2 fpca_kmeans 2  0.5502646         1165.2325 0.05815146
+   n_clusters_eff min_pct max_pct n_below_3pct n_above_60pct noise_pct
+1               6    3.30   47.35            0             0         0
+2               5    3.35   51.03            0             0         0
+3               4    3.62   80.66            0             1         0
+4               2   19.01   80.99            0             1         0
+5               3    4.62   81.33            0             1         0
+6               2   12.57   87.43            0             1         0
+7               4    3.57   82.26            0             1         0
+8               2   13.00   87.00            0             1         0
+9               3    3.77   83.47            0             1         0
+10              2    5.48   94.52            0             1         0
+   balance_penalty composite_pre mean_jaccard passes_silhouette passes_jaccard
+1           0.0000     0.1970742    0.9200375              TRUE           TRUE
+2           0.0206     0.1920617    0.9294828              TRUE           TRUE
+3           0.6132     0.3088070    0.9688342              TRUE           TRUE
+4           0.6198     0.2238730    0.9008930              TRUE           TRUE
+5           0.6266     0.2988688    0.8839385              TRUE           TRUE
+6           0.7486     0.2826188    0.9071504              TRUE           TRUE
+7           0.6452     0.2757818    0.7267105              TRUE          FALSE
+8           0.7400     0.2677043    0.6400555              TRUE          FALSE
+9           0.6694     0.2959154    0.5839614              TRUE          FALSE
+10          0.8904     0.2831446    0.6443975              TRUE          FALSE
+   passes_min_pct passes_max_pct passes_all composite_score
+1            TRUE           TRUE       TRUE           0.772
+2            TRUE           TRUE       TRUE           0.769
+3            TRUE          FALSE      FALSE           0.877
+4            TRUE          FALSE      FALSE           0.876
+5            TRUE          FALSE      FALSE           0.868
+6            TRUE          FALSE      FALSE           0.850
+7            TRUE          FALSE      FALSE           0.804
+8            TRUE          FALSE      FALSE           0.751
+9            TRUE          FALSE      FALSE           0.743
+10           TRUE          FALSE      FALSE           0.723
+06d en 72.8 s

@@ -1,0 +1,74 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+
+
+processing file: 03_climate_integration.qmd
+1/33                                 
+2/33 [setup]                         
+3/33                                 
+4/33 [load-data]                     
+5/33                                 
+6/33 [tbl-summary]                   
+7/33                                 
+8/33 [tbl-quality-files]             
+9/33                                 
+10/33 [tbl-model-scope]               
+11/33                                 
+12/33 [tbl-station-justification]     
+13/33                                 
+14/33 [tbl-station-audit]             
+15/33                                 
+16/33 [fig-station-missing]           
+17/33                                 
+18/33 [tbl-climate-imputation-summary]
+19/33                                 
+20/33 [tbl-climate-imputation-by-date]
+21/33                                 
+22/33 [tbl-merge-quality]             
+23/33                                 
+24/33 [tbl-merge-imputation-audit]    
+25/33                                 
+26/33 [tbl-missing-climate-by-date]   
+27/33                                 
+28/33 [climate-monthly]               
+29/33                                 
+30/33 [fig-temp-hdd-cdd]              
+31/33                                 
+32/33 [fig-consumo-clima]             
+33/33                                 
+output file: 03_climate_integration.knit.md
+
+pandoc 
+  to: html
+  output-file: 03_climate_integration.html
+  standalone: true
+  embed-resources: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  toc-depth: 3
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  title: 'Fase 3: clima, calendario y consumo'
+  subtitle: Contexto externo para explicar el consumo eléctrico residencial GoiEner
+  author: Alberto Fernandez
+  date: today
+  theme:
+    light: cosmo
+    dark: darkly
+  toc-title: Contenido
+  code-summary: Ver código
+  smooth-scroll: true
+  
+Output created: 03_climate_integration.html
+

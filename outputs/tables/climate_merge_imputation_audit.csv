@@ -1,0 +1,6 @@
+"cod_provincia","provincia","n_registros","n_usuarios","n_registros_clima_imputado","n_usuarios_con_clima_imputado","n_dias_con_clima_imputado","pct_registros_clima_imputado","fecha_min_imputada","fecha_max_imputada","max_valores_imputados_registro"
+"01","Alava",4458519,3016,398946,2984,237,8.95,2016-01-25,2024-01-01,1
+"31","Navarra",5510953,4081,327928,4034,149,5.95,2017-06-21,2023-12-29,5
+"48","Bizkaia",10687237,7278,627778,7236,142,5.87,2017-05-27,2023-12-25,1
+"28","Madrid",1426790,1324,53025,1303,93,3.72,2017-05-28,2023-12-01,2
+"20","Gipuzkoa",15154134,10447,550960,10387,94,3.64,2017-01-30,2024-01-09,1

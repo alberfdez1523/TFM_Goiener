@@ -1,0 +1,49 @@
+here() starts at C:/Users/alber/Desktop/TFM
+[CONFIG] Configuracion del proyecto cargada.
+Warning messages:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Warning messages:
+1: package 'DBI' was built under R version 4.5.2 
+2: package 'duckdb' was built under R version 4.5.2 
+3: package 'dplyr' was built under R version 4.5.2 
+4: package 'tidyr' was built under R version 4.5.2 
+5: package 'arrow' was built under R version 4.5.2 
+6: package 'glue' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+============================================================
+PASO 05: Feature Engineering
+============================================================
+[1] 26854
+  Alcance modelado: 26.854 usuarios en 5 provincias (20, 48, 31, 01, 28)
+
+[1/6] Perfil horario normalizado...
+  Usuarios con perfil horario: 26.149
+
+[2/6] Ratios de comportamiento (noche/dia, fin de semana/laborable)...
+  Ratios calculados para 26.149 usuarios
+
+[3/6] Estadisticos diarios por usuario...
+  Estadisticos para 26.146 usuarios
+  Comportamiento mensual para 26.146 usuarios
+  Shares 2.0TD para 26.149 usuarios
+  Desglose nacional/autonomico-local de festivos: disponible
+  Patrones calendario/rachas para 26.146 usuarios
+
+[4/6] Metadata contractual...
+  Metadata para 26.854 usuarios
+    -> Residenciales (estricto, 2.0*):     25.184 (93,8%)
+    -> Residenciales (permisivo + p1<=15): 25.184 (93,8%)
+
+[4b/6] Detectando usuarios con lecturas extremas (>100 kWh/h)...
+  Usuarios con alguna lectura extrema:  47
+  Usuarios con outlier SOSTENIDO:        38
+
+[5/6] Sensibilidad climatica (correlacion consumo ~ HDD/CDD)...
+  Sensibilidad climatica para 25.510 usuarios
+
+[6/6] Uniendo features y exportando...
+  Features finales: 26146 usuarios x 97 columnas
+  Guardado en: C:/Users/alber/Desktop/TFM/data/parquet/features/user_features.parquet
+
+Paso 05 completado en 16.9 s.
