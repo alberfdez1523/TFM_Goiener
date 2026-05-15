@@ -267,7 +267,7 @@ if (!is.null(ic)) ic |> kable(digits = 3,
 
 **Lectura.** Cobertura entre 88–92% en ambos métodos; amplitud conformal levemente mayor (más conservadora) pero con garantía teórica.
 
-**Implicación.** Para regulador o reporting financiero, **conformal split** por defecto (garantía PAC); para pricing dinámico interno, los intervalos quantile son más estrechos.
+**Implicación.** Para regulador o reporting financiero, **conformal split** por defecto: en la evaluación queda más alineado con el nivel nominal; el cuantil directo se mantiene como contraste operativo, pero sin la misma garantía de cobertura.
 
 # 9. Importancia de variables
 
@@ -326,7 +326,7 @@ if (!is.null(sl) && all(c("season", "dow", "WAPE") %in% names(sl))) {
 
 **4. Top-down gana a bottom-up para compras agregadas.** La reconciliación muestra que predecir la cartera y desagregar por cluster da el mismo WAPE final que predecir cada cluster y sumar, pero con menor varianza y menos modelos a mantener. Para reporting regulatorio y compras agregadas, top-down es la opción correcta. El bottom-up por cluster solo merece la pena cuando la pregunta operativa es explícitamente por segmento (ejemplo: cuánto va a consumir C4 climatización invernal este enero).
 
-**5. Los intervalos están calibrados con dos garantías distintas.** El conformal split garantiza cobertura nominal del 90 % bajo intercambiabilidad: es el método correcto para regulador y reporting financiero. Los intervalos quantile son más estrechos (útiles para pricing dinámico interno) pero sin garantía teórica. Tener ambos disponibles permite elegir según el caso de uso y auditar consistencia.
+**5. Los intervalos están calibrados con dos garantías distintas.** El conformal split garantiza cobertura nominal del 90 % bajo intercambiabilidad y en la evaluación queda más alineado con ese nivel: es el método correcto para regulador y reporting financiero. El cuantil directo se conserva como contraste operativo, pero queda infracubierto y no ofrece la misma garantía teórica. Tener ambos disponibles permite elegir según el caso de uso y auditar consistencia.
 
 **6. El error se concentra en transiciones de régimen.** Los slices por estación × día de la semana muestran que el WAPE relativo es estable en términos generales, pero lunes, festivos y transiciones invierno/primavera y verano/otoño concentran error. Esa información acota dónde merece la pena invertir en calendario adicional o variables exógenas, y dónde el modelo actual ya está dando lo que puede dar.
 

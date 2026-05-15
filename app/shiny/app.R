@@ -1428,7 +1428,7 @@ server <- function(input, output, session) {
                   if (!is.null(best_daily) && nrow(best_daily)) sprintf("%.2f%%", best_daily$WAPE[1]) else "n/d"),
           bullets = list(
             "El modelo horario llega cerca del techo informativo (WAPE submilesimal/unidad de %) gracias a diff_lag24/168 y stacking ridge sobre validación.",
-            "Los intervalos conformal split garantizan cobertura nominal del 90 %; los intervalos quantile son más estrechos pero sin garantía teórica.",
+            "Los intervalos conformal split quedan más alineados con la cobertura nominal del 90 %; el cuantil directo sirve como contraste, pero sin la misma garantía teórica.",
             "Errores mayores se concentran en lunes, festivos y transiciones de régimen: queda margen vía calendario y clima determinista."
           ),
           footer = "Implicación: usar conformal para regulador/reporting financiero, quantile para pricing interno."
