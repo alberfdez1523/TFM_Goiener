@@ -59,10 +59,10 @@ Los CSV de contexto que ya están en `data/external/` (`province_context.csv` y 
 
 ## Requisitos
 
-El proyecto se ha ejecutado con R 4.5.x y Quarto 1.8.x. En Windows, si `Rscript` no está en el PATH, usa la ruta completa:
+El proyecto se ha ejecutado con R 4.5.x y Quarto 1.8.x. En Windows, si `Rscript` no está en el PATH, usa la ruta completa de tu instalación de R:
 
 ```powershell
-$RSCRIPT = "C:\Program Files\R\R-4.5.1\bin\Rscript.exe"
+$RSCRIPT = "<ruta-a-R>\bin\Rscript.exe"
 ```
 
 Si `Rscript` sí está disponible en consola:
@@ -102,6 +102,7 @@ TFM_codigo/
     05_clustering/           # matrices, modelos, validación y lectura de segmentos
     06_forecasting/          # targets, features temporales, modelos y evaluación
     07_benchmark/            # comparación de almacenamiento y consulta
+    08_shiny/                # tablas ligeras para desplegar el panel Shiny
     99_orchestrator.R        # ejecuta fases R y documentos Quarto
     _lib/                    # funciones compartidas
   qmd/                       # informes Quarto renderizados a HTML
@@ -123,10 +124,10 @@ TFM_codigo/
 
 ## Preparación paso a paso
 
-Abre una terminal en la raíz del proyecto:
+Abre una terminal en la raíz del proyecto. Sustituye la ruta del ejemplo por la carpeta donde hayas descargado o clonado este repositorio:
 
 ```powershell
-Set-Location "C:\Users\alber\Desktop\TFM\TFM_codigo"
+Set-Location "<ruta-a-la-carpeta-del-proyecto>"
 ```
 
 Crea las carpetas necesarias si estás empezando desde cero:
@@ -243,13 +244,139 @@ También puedes ejecutar `testthat` directamente:
 
 ## Uso del panel Shiny
 
-El panel de consulta está en `app/shiny/`. Úsalo después de generar `data/parquet/` y `outputs/`:
+El panel de consulta está en `app/shiny/`. No lo lances como primer paso: la app lee resultados ya calculados por el pipeline, sobre todo `outputs/tables/` y varios Parquet de `data/parquet/`.
 
-```powershell
-& $RSCRIPT -e "shiny::runApp('app/shiny')"
+Paquetes que necesita la app, además de los paquetes del pipeline:
+
+```r
+install.packages(c(
+  "shiny", "bslib", "plotly", "DT", "fontawesome",
+  "shinyWidgets", "shinycssloaders", "forcats"
+))
 ```
 
-Si la app arranca pero muestra paneles vacíos, casi siempre falta una tabla de `outputs/tables/` o una figura de `outputs/figures/`. Ejecuta primero `R/99_orchestrator.R --r-only`.
+Antes de abrir el panel, ejecuta el pipeline R al menos una vez:
+
+```powershell
+& $RSCRIPT R\99_orchestrator.R --r-only
+```
+
+Después lanza Shiny desde la raíz del proyecto, no desde `app/shiny/`. Esto importa porque `app.R` carga `_config.R` con `here::here()` y espera encontrar las carpetas `data/` y `outputs/` en la raíz.
+
+```powershell
+& $RSCRIPT -e "shiny::runApp('app/shiny', host = '127.0.0.1', port = 3838)"
+```
+
+Abre después esta URL en el navegador:
+
+```text
+http://127.0.0.1:3838
+```
+
+Para parar la app, vuelve a la terminal y pulsa `Ctrl+C`.
+
+Si la app arranca pero muestra paneles vacíos, falta alguna salida. Lo normal es que no existan uno o más CSV de `outputs/tables/`, o estos Parquet:
+
+```text
+data/parquet/daily_consumption.parquet
+data/parquet/metadata.parquet
+data/parquet/user_hourly_profile.parquet
+data/parquet/features/user_clusters.parquet
+```
+
+En ese caso, repite:
+
+```powershell
+& $RSCRIPT R\99_orchestrator.R --r-only
+```
+
+Si falla al arrancar con un error de paquete, instala el paquete que indique el mensaje y vuelve a lanzar la app.
+
+## Despliegue online de la app Shiny
+
+La vía más directa para una demo online es `shinyapps.io` con el paquete `rsconnect`. Posit también permite publicar con `rsconnect` en Posit Connect y Posit Connect Cloud; para este TFM, `shinyapps.io` suele bastar si el tamaño del paquete entra en el límite de la cuenta.
+
+Hay un detalle importante en este proyecto: no conviene desplegar todo el repositorio. `data/raw/`, `data/extracted/`, los Parquet horarios por año y `daily_with_climate.parquet` pesan mucho y no son necesarios para la app. Prepara una carpeta de despliegue con solo lo que Shiny usa.
+
+Desde la raíz del proyecto:
+
+```powershell
+& $RSCRIPT R\08_shiny\08a_prepare_shiny_tables.R
+```
+
+Ese script crea `outputs/tables/shiny_eda_*.csv`. La app los usa para no abrir `daily_consumption.parquet`, `metadata.parquet` ni `user_hourly_profile.parquet` en shinyapps.io.
+
+```powershell
+New-Item -ItemType Directory -Force `
+  deploy\shiny-goiener\www, `
+  deploy\shiny-goiener\data\parquet\features, `
+  deploy\shiny-goiener\outputs\tables | Out-Null
+
+Copy-Item app\shiny\app.R deploy\shiny-goiener\app.R -Force
+Copy-Item app\shiny\www\custom.css deploy\shiny-goiener\www\custom.css -Force
+Copy-Item _config.R deploy\shiny-goiener\_config.R -Force
+Copy-Item TFM.Rproj deploy\shiny-goiener\TFM.Rproj -Force
+Copy-Item outputs\tables\*.csv deploy\shiny-goiener\outputs\tables\ -Force
+
+Copy-Item data\parquet\features\user_clusters.parquet deploy\shiny-goiener\data\parquet\features\ -Force
+```
+
+Prueba esa copia antes de subirla:
+
+```powershell
+Set-Location deploy\shiny-goiener
+& $RSCRIPT -e "shiny::runApp('.', host = '127.0.0.1', port = 3839)"
+```
+
+Si la prueba funciona, para la app con `Ctrl+C` y vuelve a la raíz:
+
+```powershell
+Set-Location ..\..
+```
+
+Instala `rsconnect`:
+
+```r
+install.packages("rsconnect")
+```
+
+Crea una cuenta en `shinyapps.io`. En el panel web, entra en `Tokens`, pulsa `Show` y copia el comando `rsconnect::setAccountInfo(...)` que te da la plataforma. Tiene esta forma:
+
+```r
+rsconnect::setAccountInfo(
+  name = "TU_CUENTA",
+  token = "TOKEN",
+  secret = "SECRET"
+)
+```
+
+No escribas ese token en el README ni lo subas a Git.
+
+Despliega la carpeta preparada:
+
+```r
+rsconnect::deployApp(
+  appDir = "deploy/shiny-goiener",
+  appName = "goiener-tfm",
+  appTitle = "GoiEner TFM",
+  appVisibility = "private"
+)
+```
+
+Usa `appVisibility = "private"` si la cuenta lo permite. Aunque los datos están seudonimizados, el despliegue incluye ficheros derivados de consumo eléctrico; para una entrega pública es más prudente publicar una versión agregada o de muestra.
+
+Si el despliegue falla por tamaño, revisa el peso de la carpeta. Una copia correcta no debería acercarse al gigabyte:
+
+```powershell
+(Get-ChildItem deploy\shiny-goiener -Recurse -File | Measure-Object Length -Sum).Sum / 1GB
+```
+
+Si ves `daily_consumption.parquet`, `metadata.parquet` o `user_hourly_profile.parquet` dentro de `deploy/shiny-goiener`, bórralos de esa copia antes de publicar. Son útiles en local, pero en shinyapps.io pueden dejar la sesión cargando hasta que el contenedor se queda sin memoria.
+
+Documentación útil:
+
+- `shinyapps.io`: https://docs.posit.co/shinyapps.io/guide/getting_started/
+- `rsconnect::deployApp()`: https://rstudio.github.io/rsconnect/reference/deployApp.html
 
 ## Reglas prácticas para no romper la reproducción
 

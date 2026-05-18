@@ -49,6 +49,16 @@ read_tbl <- function(name) {
 empty_msg <- function(text) tibble::tibble(mensaje = text)
 
 load_eda <- function() {
+  eda_from_csv <- list(
+    summary = read_tbl("shiny_eda_summary"),
+    monthly = read_tbl("shiny_eda_monthly"),
+    hourly = read_tbl("shiny_eda_hourly"),
+    tariff = read_tbl("shiny_eda_tariff")
+  )
+  if (all(vapply(eda_from_csv, function(x) !is.null(x), logical(1)))) {
+    return(eda_from_csv)
+  }
+
   if (!file_exists(DAILY_PARQUET)) {
     return(list(summary = NULL, monthly = NULL, hourly = NULL, tariff = NULL))
   }
@@ -192,8 +202,8 @@ theme_goi <- bs_theme(
   info = "#74B9FF",
   warning = "#FDCB6E",
   danger = "#E17055",
-  base_font = font_google("Inter"),
-  heading_font = font_google("Inter"),
+  base_font = "Inter",
+  heading_font = "Inter",
   font_scale = 0.95
 )
 

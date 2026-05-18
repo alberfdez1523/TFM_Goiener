@@ -15,4 +15,6 @@ data/*.duckdb
 outputs/_log*.txt
 outputs/models/
 
+deploy/
+
 documentacion_txt/
