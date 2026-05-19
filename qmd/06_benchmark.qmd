@@ -284,7 +284,7 @@ if (has_disk) {
     scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
     labs(
       title = "Comparativa de tamaño en disco",
-      subtitle = "Ratio respecto al CSV crudo extraido",
+      subtitle = "Ratio respecto al CSV crudo extraído",
       x = NULL, y = "Tamaño (MB)"
     ) +
     theme_goiener()

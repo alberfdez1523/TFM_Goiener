@@ -294,7 +294,7 @@ bm2_parquet <- bench::mark(
   filter_gc = FALSE
 )
 
-results[["exp2_csv"]]     <- bench_result_row("2. Seleccion columnar", "CSV (todas columnas -> filtrar)", bm2_csv)
+results[["exp2_csv"]]     <- bench_result_row("2. Selección columnar", "CSV (todas columnas -> filtrar)", bm2_csv)
 sample_users_20_sql <- paste(sprintf("('%s')", sample_users[1:20]), collapse = ", ")
 bm2_duckdb <- bench::mark(
   duckdb_2cols = {
@@ -312,8 +312,8 @@ bm2_duckdb <- bench::mark(
   filter_gc = FALSE
 )
 
-results[["exp2_parquet"]] <- bench_result_row("2. Seleccion columnar", "Parquet + Arrow (col pushdown)",  bm2_parquet)
-results[["exp2_duckdb"]]  <- bench_result_row("2. Seleccion columnar", "Parquet + DuckDB (col pushdown)", bm2_duckdb)
+results[["exp2_parquet"]] <- bench_result_row("2. Selección columnar", "Parquet + Arrow (col pushdown)",  bm2_parquet)
+results[["exp2_duckdb"]]  <- bench_result_row("2. Selección columnar", "Parquet + DuckDB (col pushdown)", bm2_duckdb)
 
 message("  OK")
 
@@ -354,7 +354,7 @@ bm3_duckdb_part <- bench::mark(
 )
 
 results[["exp3_scan"]] <- bench_result_row("3. Filtro temporal", "DuckDB scan completo", bm3_duckdb_nopart)
-results[["exp3_part"]] <- bench_result_row("3. Filtro temporal", "DuckDB con particion",  bm3_duckdb_part)
+results[["exp3_part"]] <- bench_result_row("3. Filtro temporal", "DuckDB con partición",  bm3_duckdb_part)
 
 message("  OK")
 
@@ -392,8 +392,8 @@ bm4_preagg <- bench::mark(
   filter_gc = FALSE
 )
 
-results[["exp4_scratch"]] <- bench_result_row("4. Agregacion diaria", "GROUP BY sobre horario", bm4_scratch)
-results[["exp4_preagg"]]  <- bench_result_row("4. Agregacion diaria", "Tabla pre-agregada",     bm4_preagg)
+results[["exp4_scratch"]] <- bench_result_row("4. Agregación diaria", "GROUP BY sobre horario", bm4_scratch)
+results[["exp4_preagg"]]  <- bench_result_row("4. Agregación diaria", "Tabla pre-agregada",     bm4_preagg)
 
 message("  OK")
 
@@ -479,7 +479,7 @@ raw_file <- path(RAW_DIR, "imputed_goiener_v7.tar.zst")
 raw_bytes <- if (file_exists(raw_file)) file_size(raw_file) else NA
 
 disk_summary <- tibble::tibble(
-  formato = c("CSV crudo (extraido)", "Parquet horario (ZSTD-9)",
+  formato = c("CSV crudo (extraído)", "Parquet horario (ZSTD-9)",
               "Parquet total (+ auxiliares)", "tar.zst original"),
   bytes = c(csv_total_bytes, parquet_hourly_bytes, parquet_total_bytes, raw_bytes),
   MB = round(bytes / 1024^2, 1),
@@ -605,9 +605,9 @@ p_disk <- disk_summary |>
   scale_fill_viridis_d(option = "inferno", direction = -1) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
   labs(
-    title = "Comparativa de tamano en disco",
-    subtitle = "Ratio respecto al CSV crudo extraido",
-    x = NULL, y = "Tamano (MB)"
+    title = "Comparativa de tamaño en disco",
+    subtitle = "Ratio respecto al CSV crudo extraído",
+    x = NULL, y = "Tamaño (MB)"
   ) +
   theme_goiener()
 
@@ -616,4 +616,3 @@ ggsave(path(FIG_DIR, "08_disk_size_comparison.png"), p_disk,
 
 elapsed_total <- (proc.time() - t0_total)["elapsed"]
 message(sprintf("\nPaso 08 completado en %.1f s.", elapsed_total))
-

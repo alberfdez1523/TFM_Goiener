@@ -98,7 +98,7 @@ if (length(hour_cols) == 24L) {
     geom_line(linewidth = 1) +
     scale_x_continuous(breaks = seq(0, 23, 3)) +
     labs(title = "Perfil horario normalizado por cluster",
-         x = "hora del dia", y = "kWh normalizado (media usuario = 1)",
+         x = "hora del día", y = "kWh normalizado (media usuario = 1)",
          colour = NULL) +
     theme_goiener()
   save_fig(p, "06_profiles_hourly.png", width = 9, height = 5)
@@ -119,7 +119,7 @@ if (!is.null(art$X_pca) && ncol(art$X_pca) >= 2) {
   pca_df <- pca_df[sample.int(nrow(pca_df), min(8000, nrow(pca_df))), ]
   p <- ggplot(pca_df, aes(PC1, PC2, colour = cluster_label)) +
     geom_point(alpha = 0.5, size = 0.7) +
-    labs(title = "Proyeccion PCA de los clusters",
+    labs(title = "Proyección PCA de los clusters",
          x = "PC1", y = "PC2", colour = NULL) +
     theme_goiener()
   save_fig(p, "06_pca_scatter.png", width = 8, height = 6)
