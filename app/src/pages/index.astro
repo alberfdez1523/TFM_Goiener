@@ -1,0 +1,611 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Dashboard del TFM GoiEner migrado de Shiny a Astro." />
+    <title>GoiEner TFM</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.bunny.net/css?family=ibm-plex-sans:400,500,600,700|jetbrains-mono:400,500,600"
+    />
+    <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  </head>
+  <body class="bslib-page-navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark app-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#inicio" data-tab-link="inicio">
+          <span class="brand-mark"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+          GoiEner TFM
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle-nav
+          aria-label="Abrir navegación"
+          aria-expanded="false"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navbar">
+          <div class="navbar-nav me-auto mb-2 mb-lg-0">
+            <button class="nav-link active" type="button" data-tab-link="inicio">
+              <i class="fa-solid fa-house" aria-hidden="true"></i> Inicio
+            </button>
+            <button class="nav-link" type="button" data-tab-link="eda">
+              <i class="fa-solid fa-magnifying-glass-chart" aria-hidden="true"></i> EDA
+            </button>
+            <button class="nav-link" type="button" data-tab-link="clusters">
+              <i class="fa-solid fa-layer-group" aria-hidden="true"></i> Clusters
+            </button>
+            <button class="nav-link" type="button" data-tab-link="forecast">
+              <i class="fa-solid fa-chart-line" aria-hidden="true"></i> Forecast
+            </button>
+            <button class="nav-link" type="button" data-tab-link="benchmarks">
+              <i class="fa-solid fa-trophy" aria-hidden="true"></i> Benchmarks
+            </button>
+            <button class="nav-link" type="button" data-tab-link="conclusiones">
+              <i class="fa-solid fa-clipboard-check" aria-hidden="true"></i> Conclusiones
+            </button>
+            <button class="nav-link" type="button" data-tab-link="metodologia">
+              <i class="fa-solid fa-book" aria-hidden="true"></i> Metodología
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container-fluid app-page">
+      <section class="tab-pane active" data-tab-panel="inicio" id="inicio">
+        <div class="hero">
+          <div>
+            <div class="hero-eyebrow">Dashboard analítico · TFM</div>
+            <h1>Hogares, clima y consumo energético</h1>
+            <p class="lead">
+              Segmentación, sensibilidad climática y forecasting operativo sobre la cartera GoiEner (2014-2024).
+            </p>
+            <div class="badges">
+              <span class="badge"><i class="fa-solid fa-database" aria-hidden="true"></i> 25 700+ usuarios</span>
+              <span class="badge"><i class="fa-solid fa-cloud-sun-rain" aria-hidden="true"></i> AEMET clima diario</span>
+              <span class="badge"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> XGBoost · LightGBM · Stack</span>
+              <span class="badge"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> K-Means PCA</span>
+              <span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Intervalos conformales</span>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="hero-users">-</div>
+              <div class="hero-stat-label">Usuarios</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="hero-clusters">-</div>
+              <div class="hero-stat-label">Clusters</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="hero-beta-hdd">-</div>
+              <div class="hero-stat-label">β_HDD mediano</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value" id="hero-wape">-</div>
+              <div class="hero-stat-label">WAPE diario</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layout-column-wrap columns-4">
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-users" aria-hidden="true"></i>
+            <div class="kpi-label">Usuarios analizados</div>
+            <div class="kpi-value" id="kpi-users">-</div>
+            <div class="kpi-sub">tarifa 2.0 con clima</div>
+          </article>
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-layer-group" aria-hidden="true"></i>
+            <div class="kpi-label">Clusters seleccionados</div>
+            <div class="kpi-value" id="kpi-clusters">-</div>
+            <div class="kpi-sub">K-Means sobre PCA</div>
+          </article>
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-snowflake" aria-hidden="true"></i>
+            <div class="kpi-label">β_HDD mediano</div>
+            <div class="kpi-value" id="kpi-beta-hdd">-</div>
+            <div class="kpi-sub">kWh/día por °C frío</div>
+          </article>
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-bullseye" aria-hidden="true"></i>
+            <div class="kpi-label">WAPE diario</div>
+            <div class="kpi-value" id="kpi-wape">-</div>
+            <div class="kpi-sub">mejor modelo del leaderboard</div>
+          </article>
+        </div>
+
+        <div class="layout-columns cols-7-5">
+          <article class="card">
+            <div class="card-header">
+              <i class="fa-solid fa-chart-area" aria-hidden="true"></i> Predicción diaria vs. real (test set)
+            </div>
+            <div class="card-body">
+              <div id="home-forecast-plot" class="plotly-host plot-h360"></div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <i class="fa-solid fa-trophy" aria-hidden="true"></i> Top modelos diarios (WAPE)
+            </div>
+            <div class="card-body">
+              <div id="home-leaderboard-plot" class="plotly-host plot-h360"></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="layout-columns cols-6-6">
+          <article class="card">
+            <div class="card-header">
+              <i class="fa-solid fa-circle-nodes" aria-hidden="true"></i> Distribución de hogares por cluster
+            </div>
+            <div class="card-body">
+              <div id="home-cluster-donut" class="plotly-host plot-h340"></div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <i class="fa-solid fa-temperature-half" aria-hidden="true"></i> Sensibilidad climática por cluster
+            </div>
+            <div class="card-body">
+              <div id="home-climate-scatter" class="plotly-host plot-h340"></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-pane" data-tab-panel="eda" id="eda">
+        <header class="section-header">
+          <div class="section-title">Datos exploratorios clave</div>
+          <div class="section-sub">Cobertura, distribución diaria, perfil horario y tarifas antes de modelar.</div>
+        </header>
+
+        <div class="layout-column-wrap columns-4">
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-calendar-check" aria-hidden="true"></i>
+            <div class="kpi-label">Días-usuario completos</div>
+            <div class="kpi-value" id="eda-kpi-records">-</div>
+            <div class="kpi-sub">hours_recorded = 24</div>
+          </article>
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-users" aria-hidden="true"></i>
+            <div class="kpi-label">Usuarios EDA</div>
+            <div class="kpi-value" id="eda-kpi-users">-</div>
+            <div class="kpi-sub">user_id válido</div>
+          </article>
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-bolt" aria-hidden="true"></i>
+            <div class="kpi-label">Mediana diaria</div>
+            <div class="kpi-value" id="eda-kpi-median">-</div>
+            <div class="kpi-sub">kWh por usuario</div>
+          </article>
+          <article class="kpi">
+            <i class="kpi-icon fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+            <div class="kpi-label">Percentil 99</div>
+            <div class="kpi-value" id="eda-kpi-p99">-</div>
+            <div class="kpi-sub">cola de consumo</div>
+          </article>
+        </div>
+
+        <div class="layout-columns cols-7-5">
+          <article class="card">
+            <div class="card-header">
+              <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Consumo medio mensual
+            </div>
+            <div class="card-body"><div id="eda-monthly-plot" class="plotly-host plot-h360"></div></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><i class="fa-solid fa-clock" aria-hidden="true"></i> Perfil horario medio</div>
+            <div class="card-body"><div id="eda-hourly-plot" class="plotly-host plot-h360"></div></div>
+          </article>
+        </div>
+        <div class="layout-columns cols-5-7">
+          <article class="card">
+            <div class="card-header"><i class="fa-solid fa-file-contract" aria-hidden="true"></i> Tarifas principales</div>
+            <div class="card-body"><div id="eda-tariff-plot" class="plotly-host plot-h340"></div></div>
+          </article>
+          <article class="card">
+            <div class="card-header"><i class="fa-solid fa-table" aria-hidden="true"></i> Resumen EDA</div>
+            <div class="card-body"><div id="eda-summary-dt" class="table-host"></div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-pane" data-tab-panel="clusters" id="clusters">
+        <header class="section-header">
+          <div class="section-title">Segmentación de hogares</div>
+          <div class="section-sub">Patrones de consumo + sensibilidad climática (PCA + K-Means).</div>
+        </header>
+
+        <div class="navset">
+          <div class="nav nav-tabs">
+            <button class="nav-link active" type="button" data-subtab-link="clusters-global">
+              <i class="fa-solid fa-chart-column" aria-hidden="true"></i> Comparativa global
+            </button>
+            <button class="nav-link" type="button" data-subtab-link="clusters-individual">
+              <i class="fa-solid fa-user-gear" aria-hidden="true"></i> Análisis individual
+            </button>
+          </div>
+          <section class="tab-pane active sub-pane" data-subtab-panel="clusters-global">
+            <div class="layout-columns cols-6-6">
+              <article class="card">
+                <div class="card-header">Tamaño relativo de todos los clusters</div>
+                <div class="card-body"><div id="cluster-overview-size-plot" class="plotly-host plot-h360"></div></div>
+              </article>
+              <article class="card">
+                <div class="card-header">Reparto horario medio por cluster</div>
+                <div class="card-body"><div id="cluster-overview-shape-plot" class="plotly-host plot-h360"></div></div>
+              </article>
+            </div>
+            <article class="card">
+              <div class="card-header">Sensibilidad climática y consumo medio</div>
+              <div class="card-body"><div id="cluster-overview-climate-plot" class="plotly-host plot-h420"></div></div>
+            </article>
+          </section>
+
+          <section class="tab-pane sub-pane" data-subtab-panel="clusters-individual">
+            <div class="layout-sidebar">
+              <aside class="sidebar-panel">
+                <label class="form-label" for="cluster-picker">Cluster:</label>
+                <select id="cluster-picker" class="form-select"></select>
+                <hr />
+                <p class="small-help">
+                  <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                  Selecciona un cluster para ver perfil horario, sensibilidad climática, separadores y recomendación.
+                </p>
+              </aside>
+              <div class="sidebar-content">
+                <div class="nav nav-tabs">
+                  <button class="nav-link active" type="button" data-subtab-link="cluster-hourly">
+                    <i class="fa-solid fa-clock" aria-hidden="true"></i> Perfil horario
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="cluster-climate">
+                    <i class="fa-solid fa-temperature-half" aria-hidden="true"></i> Sensibilidad climática
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="cluster-separators">
+                    <i class="fa-solid fa-ranking-star" aria-hidden="true"></i> Top separadores
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="cluster-business">
+                    <i class="fa-solid fa-briefcase" aria-hidden="true"></i> Recomendación comercial
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="cluster-table">
+                    <i class="fa-solid fa-table" aria-hidden="true"></i> Tabla completa
+                  </button>
+                </div>
+
+                <section class="tab-pane active sub-pane" data-subtab-panel="cluster-hourly">
+                  <div class="layout-columns cols-8-4">
+                    <article class="card">
+                      <div class="card-header">Distribución horaria del consumo (shares)</div>
+                      <div class="card-body"><div id="cluster-hourly-plot" class="plotly-host plot-h380"></div></div>
+                    </article>
+                    <article class="card">
+                      <div class="card-header">Indicadores</div>
+                      <div class="card-body"><div id="cluster-indicators" class="metric-list"></div></div>
+                    </article>
+                  </div>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="cluster-climate">
+                  <article class="card">
+                    <div class="card-header">β_HDD vs β_CDD (todos los clusters; resaltado el seleccionado)</div>
+                    <div class="card-body"><div id="cluster-climate-plot" class="plotly-host plot-h440"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="cluster-separators">
+                  <article class="card">
+                    <div class="card-header">Variables que más distinguen el cluster del resto (z-score)</div>
+                    <div class="card-body"><div id="cluster-separators-plot" class="plotly-host plot-h440"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="cluster-business">
+                  <div id="cluster-business-card"></div>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="cluster-table">
+                  <article class="card">
+                    <div class="card-header">Perfiles de cluster (cluster_profiles)</div>
+                    <div class="card-body"><div id="cluster-table" class="table-host"></div></div>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="tab-pane" data-tab-panel="forecast" id="forecast">
+        <header class="section-header">
+          <div class="section-title">Predicción energética</div>
+          <div class="section-sub">Diario, horario y por cluster dentro del mismo apartado.</div>
+        </header>
+
+        <div class="navset">
+          <div class="nav nav-tabs">
+            <button class="nav-link active" type="button" data-subtab-link="forecast-daily">
+              <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Diario
+            </button>
+            <button class="nav-link" type="button" data-subtab-link="forecast-hourly">
+              <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Horario
+            </button>
+            <button class="nav-link" type="button" data-subtab-link="forecast-cluster">
+              <i class="fa-solid fa-layer-group" aria-hidden="true"></i> Por cluster
+            </button>
+            <button class="nav-link" type="button" data-subtab-link="forecast-master">
+              <i class="fa-solid fa-table-list" aria-hidden="true"></i> Master leaderboard
+            </button>
+          </div>
+
+          <section class="tab-pane active sub-pane" data-subtab-panel="forecast-daily">
+            <div class="layout-sidebar">
+              <aside class="sidebar-panel">
+                <label class="form-label">Rango de fechas:</label>
+                <div class="date-grid">
+                  <input id="daily-date-start" class="form-control" type="date" />
+                  <input id="daily-date-end" class="form-control" type="date" />
+                </div>
+                <div class="form-label mt-3">Modelos a mostrar:</div>
+                <div id="daily-models" class="check-list">
+                  <label><input type="checkbox" value="xgb" checked /> XGBoost</label>
+                  <label><input type="checkbox" value="lgbm" /> LightGBM</label>
+                  <label><input type="checkbox" value="stack" /> Stacking</label>
+                  <label><input type="checkbox" value="ensemble" checked /> Ensemble</label>
+                  <label><input type="checkbox" value="rf" /> Random Forest</label>
+                  <label><input type="checkbox" value="arimax" /> ARIMA</label>
+                  <label><input type="checkbox" value="ets" /> ETS</label>
+                  <label><input type="checkbox" value="snaive7" /> S-naïve 7d</label>
+                </div>
+                <div class="form-check form-switch mt-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="daily-show-band" checked />
+                  <label class="form-check-label" for="daily-show-band">Banda conformal 90%</label>
+                </div>
+                <hr />
+                <p class="small-help">
+                  <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                  La banda gris es el intervalo conformalizado al 90%.
+                </p>
+              </aside>
+              <div class="sidebar-content">
+                <div class="nav nav-tabs">
+                  <button class="nav-link active" type="button" data-subtab-link="daily-pred">
+                    <i class="fa-solid fa-chart-area" aria-hidden="true"></i> Predicción
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="daily-leader">
+                    <i class="fa-solid fa-ranking-star" aria-hidden="true"></i> Leaderboard
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="daily-importance">
+                    <i class="fa-solid fa-seedling" aria-hidden="true"></i> Importancia
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="daily-slices">
+                    <i class="fa-solid fa-scissors" aria-hidden="true"></i> Slices de error
+                  </button>
+                </div>
+                <section class="tab-pane active sub-pane" data-subtab-panel="daily-pred">
+                  <article class="card">
+                    <div class="card-header">Predicción vs. real</div>
+                    <div class="card-body"><div id="daily-pred-plot" class="plotly-host plot-h460"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="daily-leader">
+                  <article class="card">
+                    <div class="card-header">Métricas diarias</div>
+                    <div class="card-body"><div id="daily-leader-dt" class="table-host"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="daily-importance">
+                  <article class="card">
+                    <div class="card-header">XGBoost — importancia (Gain)</div>
+                    <div class="card-body"><div id="daily-importance-plot" class="plotly-host plot-h520"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="daily-slices">
+                  <article class="card">
+                    <div class="card-header">Error por estación / segmento</div>
+                    <div class="card-body"><div id="daily-slices-plot" class="plotly-host plot-h420"></div></div>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section class="tab-pane sub-pane" data-subtab-panel="forecast-hourly">
+            <div class="layout-sidebar">
+              <aside class="sidebar-panel">
+                <label class="form-label">Rango de fechas:</label>
+                <div class="date-grid">
+                  <input id="hourly-date-start" class="form-control" type="date" />
+                  <input id="hourly-date-end" class="form-control" type="date" />
+                </div>
+                <div class="form-label mt-3">Modelos:</div>
+                <div id="hourly-models" class="check-list">
+                  <label><input type="checkbox" value="xgb" checked /> XGBoost</label>
+                  <label><input type="checkbox" value="lgbm" /> LightGBM</label>
+                  <label><input type="checkbox" value="stack" checked /> Stacking</label>
+                  <label><input type="checkbox" value="snaive24" /> S-naïve 24h</label>
+                  <label><input type="checkbox" value="snaive168" /> S-naïve 168h</label>
+                </div>
+                <div class="form-check form-switch mt-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="hourly-show-band" checked />
+                  <label class="form-check-label" for="hourly-show-band">Banda cuantílica XGB</label>
+                </div>
+              </aside>
+              <div class="sidebar-content">
+                <div class="nav nav-tabs">
+                  <button class="nav-link active" type="button" data-subtab-link="hourly-pred">
+                    <i class="fa-solid fa-chart-line" aria-hidden="true"></i> Predicción
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="hourly-leader">
+                    <i class="fa-solid fa-ranking-star" aria-hidden="true"></i> Leaderboard
+                  </button>
+                  <button class="nav-link" type="button" data-subtab-link="hourly-business">
+                    <i class="fa-solid fa-euro-sign" aria-hidden="true"></i> Impacto negocio
+                  </button>
+                </div>
+                <section class="tab-pane active sub-pane" data-subtab-panel="hourly-pred">
+                  <article class="card">
+                    <div class="card-header">Consumo horario · predicción vs. real</div>
+                    <div class="card-body"><div id="hourly-plot" class="plotly-host plot-h460"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="hourly-leader">
+                  <article class="card">
+                    <div class="card-header">Métricas horarias</div>
+                    <div class="card-body"><div id="hourly-leader-dt" class="table-host"></div></div>
+                  </article>
+                </section>
+                <section class="tab-pane sub-pane" data-subtab-panel="hourly-business">
+                  <article class="card">
+                    <div class="card-header">Desviación económica estimada por modelo</div>
+                    <div class="card-body"><div id="hourly-business-plot" class="plotly-host plot-h420"></div></div>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section class="tab-pane sub-pane" data-subtab-panel="forecast-cluster">
+            <div class="layout-sidebar">
+              <aside class="sidebar-panel">
+                <label class="form-label" for="cluster-fc-picker">Cluster:</label>
+                <select id="cluster-fc-picker" class="form-select"></select>
+              </aside>
+              <div class="layout-columns cols-8-4">
+                <article class="card">
+                  <div class="card-header">Predicción vs. real por cluster</div>
+                  <div class="card-body"><div id="cluster-fc-plot" class="plotly-host plot-h460"></div></div>
+                </article>
+                <article class="card">
+                  <div class="card-header">Métricas</div>
+                  <div class="card-body"><div id="cluster-fc-dt" class="table-host"></div></div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="tab-pane sub-pane" data-subtab-panel="forecast-master">
+            <article class="card">
+              <div class="card-header"><i class="fa-solid fa-table" aria-hidden="true"></i> Modelos por target</div>
+              <div class="card-body"><div id="master-leader-dt" class="table-host"></div></div>
+            </article>
+            <div class="layout-columns cols-6-6">
+              <article class="card">
+                <div class="card-header">WAPE por target</div>
+                <div class="card-body"><div id="master-wape-plot" class="plotly-host plot-h380"></div></div>
+              </article>
+              <article class="card">
+                <div class="card-header">MAE por target</div>
+                <div class="card-body"><div id="master-mae-plot" class="plotly-host plot-h380"></div></div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="tab-pane" data-tab-panel="benchmarks" id="benchmarks">
+        <header class="section-header">
+          <div class="section-title">Benchmark de arquitectura</div>
+          <div class="section-sub">Resultados del capítulo 6: CSV, Parquet, DuckDB y tamaño en disco.</div>
+        </header>
+
+        <div class="layout-columns cols-6-6">
+          <article class="card">
+            <div class="card-header">Tiempo por experimento y método</div>
+            <div class="card-body"><div id="benchmark-time-plot" class="plotly-host plot-h420"></div></div>
+          </article>
+          <article class="card">
+            <div class="card-header">Tamaño en disco por formato</div>
+            <div class="card-body"><div id="benchmark-disk-plot" class="plotly-host plot-h420"></div></div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header"><i class="fa-solid fa-table" aria-hidden="true"></i> Resultados detallados</div>
+          <div class="card-body"><div id="benchmark-dt" class="table-host"></div></div>
+        </article>
+        <article class="card">
+          <div class="card-header"><i class="fa-solid fa-computer" aria-hidden="true"></i> Entorno de ejecución</div>
+          <div class="card-body"><div id="benchmark-env-dt" class="table-host"></div></div>
+        </article>
+      </section>
+
+      <section class="tab-pane" data-tab-panel="conclusiones" id="conclusiones">
+        <header class="section-header">
+          <div class="section-title">Conclusiones del TFM</div>
+          <div class="section-sub">Resumen de los puntos que sostienen la memoria y la app.</div>
+        </header>
+        <div id="conclusions-ui" class="layout-column-wrap columns-2"></div>
+      </section>
+
+      <section class="tab-pane" data-tab-panel="metodologia" id="metodologia">
+        <header class="section-header">
+          <div class="section-title">Metodología y reproducibilidad</div>
+        </header>
+
+        <div class="layout-columns cols-6-6">
+          <article class="card">
+            <div class="card-header"><i class="fa-solid fa-database" aria-hidden="true"></i> Datos</div>
+            <div class="card-body p-3">
+              <ul>
+                <li><strong>Fuente:</strong> GoiEner imputed v7 (parquet, 2014-2024).</li>
+                <li><strong>Universo:</strong> hogares residenciales 2.0 con foco en cinco provincias con soporte suficiente.</li>
+                <li><strong>Granularidad:</strong> horaria → agregado diario por usuario.</li>
+                <li><strong>Clima:</strong> estación AEMET trazable por provincia e imputación exógena por fecha.</li>
+                <li><strong>Splits temporales:</strong> train ≤ 2022-12-31 · val 2023-01..06 · test 2023-07..2024-01.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Modelado</div>
+            <div class="card-body p-3">
+              <ul>
+                <li><strong>Features:</strong> consumo, calendario, HDD/CDD, amplitud térmica, festivos, potencia contratada y sensibilidad climática por usuario.</li>
+                <li><strong>Clustering:</strong> matriz de forma + PCA + K-Means; selección por silhouette + Jaccard + balance.</li>
+                <li><strong>Forecast:</strong> naïve, S-naïve, ETS, ARIMAX, RF, XGBoost, LightGBM, GLMNet, stacking.</li>
+                <li><strong>Cuantiles:</strong> XGB objective='reg:quantileerror' (q05, q95).</li>
+                <li><strong>Conformal:</strong> split-conformal calibrado en validación.</li>
+                <li><strong>Reproducibilidad:</strong> SEED=42, orquestador con subprocesos.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-header"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Pipeline</div>
+          <div class="card-body p-3">
+            <ol>
+              <li>00_extract_raw / 01_csv_to_parquet — ingesta y formato columnar.</li>
+              <li>02_data_quality — auditoría y selección de hogares.</li>
+              <li>03a-d_climate — descarga AEMET, augment, imputación y merge consumo-clima.</li>
+              <li>04a-b_features — feature engineering por usuario y sensibilidad climática.</li>
+              <li>05a-h_clustering — pool, matriz, modelos, validación, selección, interpretación, socioeconómico, mapping comercial.</li>
+              <li>06a-f_forecasting — targets, features temporales, modelos diarios / horarios / cluster, evaluación.</li>
+              <li>07_benchmark — rendimiento CSV/Parquet/DuckDB, disco y entorno.</li>
+              <li>99_orchestrator — ejecuta scripts R y QMD con logs por artefacto.</li>
+            </ol>
+          </div>
+        </article>
+        <div class="footer">
+          <p>
+            <strong>GoiEner TFM</strong> · construido con Astro ·
+            <i class="fa-solid fa-heart" aria-hidden="true"></i> 2026 ·
+            <span>Astro + Bootstrap + Plotly</span>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/dashboard.js"></script>
+  </body>
+</html>

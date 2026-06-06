@@ -1,0 +1,5 @@
+"formato","bytes","MB","GB","ratio_vs_csv"
+"CSV crudo (extraido)",28384655687,27069.7,26.44,1
+"Parquet horario (ZSTD-9)",1698003914,1619.3,1.58,16.7
+"Parquet total (+ auxiliares)",4137807201,3946.1,3.85,6.9
+"tar.zst original",2395479998,2284.5,2.23,11.8

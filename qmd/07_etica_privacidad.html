@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alberto Fernandez">
-<meta name="dcterms.date" content="2026-05-12">
+<meta name="dcterms.date" content="2026-06-06">
 
 <title>Capítulo 7: ética, privacidad y limitaciones</title>
 <style>
@@ -3685,7 +3685,7 @@ window.onload = function() {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 12, 2026</p>
+      <p class="date">June 6, 2026</p>
     </div>
   </div>
   
@@ -4830,7 +4830,7 @@ Table 7: Última ejecución registrada por R/99_orchestrator.R.
 <table class="table table-sm table-striped table-hover goiener-table do-not-create-environment cell caption-top small">
 <thead>
 <tr class="header">
-<th style="text-align: right;" data-quarto-table-cell-role="th">phase</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">phase</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">type</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">artifact</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">elapsed_s</th>
@@ -4840,196 +4840,76 @@ Table 7: Última ejecución registrada por R/99_orchestrator.R.
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/00_extract/00_extract_raw.R</td>
-<td style="text-align: right;">86.4</td>
+<td style="text-align: left;">app</td>
+<td style="text-align: left;">ASTRO</td>
+<td style="text-align: left;">app</td>
+<td style="text-align: right;">2.2</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_00_extract_raw.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/build_astro_app.txt</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/01_ingest/01_csv_to_parquet.R</td>
-<td style="text-align: right;">105.4</td>
+<td style="text-align: left;">01</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/01_eda.qmd</td>
+<td style="text-align: right;">56.0</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_01_csv_to_parquet.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_01_eda.txt</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/02_quality/02_data_quality.R</td>
-<td style="text-align: right;">74.2</td>
+<td style="text-align: left;">02</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/02_data_quality.qmd</td>
+<td style="text-align: right;">21.8</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_02_data_quality.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_02_data_quality.txt</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/03_climate/03a_build_climate_dataset.R</td>
-<td style="text-align: right;">353.2</td>
+<td style="text-align: left;">03</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/03_climate_integration.qmd</td>
+<td style="text-align: right;">14.4</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_03a_build_climate_dataset.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_03_climate_integration.txt</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/03_climate/03b_augment_climate.R</td>
-<td style="text-align: right;">0.7</td>
+<td style="text-align: left;">04</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/04_clustering.qmd</td>
+<td style="text-align: right;">13.3</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_03b_augment_climate.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_04_clustering.txt</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/03_climate/03c_impute_climate.R</td>
-<td style="text-align: right;">4.5</td>
+<td style="text-align: left;">05</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/05_forecasting.qmd</td>
+<td style="text-align: right;">13.0</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_03c_impute_climate.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_05_forecasting.txt</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/03_climate/03d_merge_climate.R</td>
-<td style="text-align: right;">16.9</td>
+<td style="text-align: left;">06</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/06_benchmark.qmd</td>
+<td style="text-align: right;">11.4</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_03d_merge_climate.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_06_benchmark.txt</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/04_features/04a_legacy_features.R</td>
-<td style="text-align: right;">15.2</td>
+<td style="text-align: left;">07</td>
+<td style="text-align: left;">QMD</td>
+<td style="text-align: left;">qmd/07_etica_privacidad.qmd</td>
+<td style="text-align: right;">10.8</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_04a_legacy_features.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_07_etica_privacidad.txt</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">4</td>
+<td style="text-align: left;">08</td>
 <td style="text-align: left;">R</td>
-<td style="text-align: left;">R/04_features/04b_climate_sensitivity.R</td>
-<td style="text-align: right;">51.6</td>
+<td style="text-align: left;">R/08_dashboard/08a_prepare_dashboard_tables.R</td>
+<td style="text-align: right;">6.1</td>
 <td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_04b_climate_sensitivity.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05a_pool.R</td>
-<td style="text-align: right;">0.9</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05a_pool.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05b_matrix.R</td>
-<td style="text-align: right;">1.6</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05b_matrix.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05c_models.R</td>
-<td style="text-align: right;">190.0</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05c_models.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05d_validation.R</td>
-<td style="text-align: right;">64.6</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05d_validation.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05e_selection.R</td>
-<td style="text-align: right;">1.1</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05e_selection.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05f_interpretation.R</td>
-<td style="text-align: right;">2.7</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05f_interpretation.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05g_socioeconomic.R</td>
-<td style="text-align: right;">1.0</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05g_socioeconomic.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/05_clustering/05h_business_segments.R</td>
-<td style="text-align: right;">0.7</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_05h_business_segments.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/06_forecasting/06a_targets.R</td>
-<td style="text-align: right;">77.4</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_06a_targets.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/06_forecasting/06b_features_temporal.R</td>
-<td style="text-align: right;">2.3</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_06b_features_temporal.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/06_forecasting/06c_models_daily.R</td>
-<td style="text-align: right;">23.3</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_06c_models_daily.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/06_forecasting/06d_models_hourly.R</td>
-<td style="text-align: right;">109.9</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_06d_models_hourly.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/06_forecasting/06e_models_cluster.R</td>
-<td style="text-align: right;">9.3</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_06e_models_cluster.R.txt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/06_forecasting/06f_evaluation.R</td>
-<td style="text-align: right;">0.8</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_06f_evaluation.R.txt</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">7</td>
-<td style="text-align: left;">R</td>
-<td style="text-align: left;">R/07_benchmark/07_benchmark.R</td>
-<td style="text-align: right;">221.8</td>
-<td style="text-align: left;">OK</td>
-<td style="text-align: left;">C:/Users/alber/Desktop/TFM/outputs/logs/run_07_benchmark.R.txt</td>
+<td style="text-align: left;">C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/run_08a_prepare_dashboard_tables.R.txt</td>
 </tr>
 </tbody>
 </table>
@@ -5044,7 +4924,7 @@ Table 7: Última ejecución registrada por R/99_orchestrator.R.
 <p>El proyecto queda defendible si se presenta como arquitectura reproducible y analítica agregada. Lo que no debe prometer: representatividad nacional, causalidad, ni predicción individual. Esa frontera es importante.</p>
 <section id="síntesis-ética-y-de-privacidad" class="level3">
 <h3 class="anchored" data-anchor-id="síntesis-ética-y-de-privacidad">Síntesis ética y de privacidad</h3>
-<p><strong>1. La privacidad no es un añadido, es un principio de diseño.</strong> Desde la fase de ingesta los identificadores se trabajan seudonimizados; ninguna de las tablas que llegan a clustering, forecasting o app Shiny permite recuperar el consumo bruto de un hogar concreto a partir de las salidas publicadas. El minimum strictly necessary se cumple por construcción, no por revisión a posteriori.</p>
+<p><strong>1. La privacidad no es un añadido, es un principio de diseño.</strong> Desde la fase de ingesta los identificadores se trabajan seudonimizados; ninguna de las tablas que llegan a clustering, forecasting o dashboard Astro permite recuperar el consumo bruto de un hogar concreto a partir de las salidas publicadas. El minimum strictly necessary se cumple por construcción, no por revisión a posteriori.</p>
 <p><strong>2. Las conclusiones se aplican al nivel correcto.</strong> Cuando decimos que el cluster <em>C2 consumo nocturno intensivo</em> tiene un <code>valley_share</code> alto, hablamos de un agregado de miles de hogares con un patrón similar, no de personas concretas. Esa distinción no es retórica: una recomendación operativa a nivel de cluster (ofrecer tarifa indexada valle, lanzar campaña de eficiencia) es ética y útil; la misma recomendación etiquetando a un hogar individual sería intrusiva y poco fiable.</p>
 <p><strong>3. El alcance declarado limita las afirmaciones.</strong> El TFM cubre la cartera GoiEner 2.0 con clima disponible en el top 5 territorial entre 2014 y 2024. No es una muestra representativa de la población española. Cualquier extrapolación (“el consumo eléctrico español tiende a…”) sería incorrecta: hay que reentrenar con datos propios de cada cartera o territorio antes de transferir conclusiones.</p>
 <p><strong>4. El forecasting sirve para planificación de cartera, no para discriminar hogares.</strong> Un WAPE bajo en agregado no autoriza a actuar sobre un hogar concreto. La reconciliación top-down vs bottom-up acota la utilidad del forecast por cluster a decisiones segmentales (compras, campañas), no individuales. Esa frontera está documentada y debe respetarse en cualquier uso operativo posterior.</p>

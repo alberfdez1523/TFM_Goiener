@@ -59,7 +59,7 @@ Los CSV de contexto que ya están en `data/external/` (`province_context.csv` y 
 
 ## Requisitos
 
-El proyecto se ha ejecutado con R 4.5.x y Quarto 1.8.x. En Windows, si `Rscript` no está en el PATH, usa la ruta completa de tu instalación de R:
+El proyecto se ha ejecutado con R 4.5.x y Quarto 1.8.x. El dashboard web se ha migrado a Astro y necesita Node.js/npm para desarrollo y build. En Windows, si `Rscript` no está en el PATH, usa la ruta completa de tu instalación de R:
 
 ```powershell
 $RSCRIPT = "<ruta-a-R>\bin\Rscript.exe"
@@ -88,6 +88,13 @@ Comprueba Quarto antes de renderizar informes:
 quarto check
 ```
 
+Comprueba Node antes de trabajar con la app:
+
+```powershell
+node --version
+npm --version
+```
+
 ## Estructura del repositorio
 
 ```text
@@ -102,11 +109,11 @@ TFM_codigo/
     05_clustering/           # matrices, modelos, validación y lectura de segmentos
     06_forecasting/          # targets, features temporales, modelos y evaluación
     07_benchmark/            # comparación de almacenamiento y consulta
-    08_shiny/                # tablas ligeras para desplegar el panel Shiny
+    08_dashboard/            # tablas ligeras para el dashboard Astro
     99_orchestrator.R        # ejecuta fases R y documentos Quarto
     _lib/                    # funciones compartidas
   qmd/                       # informes Quarto renderizados a HTML
-  app/shiny/                 # panel Shiny opcional
+  app/                       # dashboard Astro estatico
   data/
     raw/                     # datos originales locales; no se versionan
     extracted/               # CSV extraídos del comprimido
@@ -200,6 +207,7 @@ Resumen de fases:
 | 05 | `R/05_clustering/05a` a `05h` | Construye matrices, entrena modelos de clustering, valida estabilidad e interpreta segmentos. |
 | 06 | `R/06_forecasting/06a` a `06f` | Prepara targets, entrena modelos diarios/horarios/por cluster y evalúa error e intervalos. |
 | 07 | `R/07_benchmark/07_benchmark.R` | Compara CSV, Parquet y DuckDB en tamaño, tiempo y memoria. |
+| 08 | `R/08_dashboard/08a_prepare_dashboard_tables.R` | Genera tablas EDA ligeras y las sincroniza con `app/public/data/`. |
 
 Documentos Quarto:
 
@@ -242,146 +250,98 @@ También puedes ejecutar `testthat` directamente:
 & $RSCRIPT -e "testthat::test_dir('tests/testthat')"
 ```
 
-## Uso del panel Shiny
+## Uso del dashboard Astro
 
-El panel de consulta está en `app/shiny/`. No lo lances como primer paso: la app lee resultados ya calculados por el pipeline, sobre todo `outputs/tables/` y varios Parquet de `data/parquet/`.
+El dashboard está en `app/`. Es una app Astro estática: no arranca un servidor R, no carga Parquet grandes en producción y lee solo CSV ligeros desde `app/public/data/`.
 
-Paquetes que necesita la app, además de los paquetes del pipeline:
-
-```r
-install.packages(c(
-  "shiny", "bslib", "plotly", "DT", "fontawesome",
-  "shinyWidgets", "shinycssloaders", "forcats"
-))
-```
-
-Antes de abrir el panel, ejecuta el pipeline R al menos una vez:
+Si ya tienes las salidas del pipeline, puedes preparar solo los datos del dashboard desde la raíz del proyecto:
 
 ```powershell
-& $RSCRIPT R\99_orchestrator.R --r-only
+& $RSCRIPT R\08_dashboard\08a_prepare_dashboard_tables.R
 ```
 
-Después lanza Shiny desde la raíz del proyecto, no desde `app/shiny/`. Esto importa porque `app.R` carga `_config.R` con `here::here()` y espera encontrar las carpetas `data/` y `outputs/` en la raíz.
+Ese script crea `outputs/tables/dashboard_eda_*.csv` y copia esos CSV a `app/public/data/`. Para sincronizar también el resto de tablas ya existentes que usa la app:
 
 ```powershell
-& $RSCRIPT -e "shiny::runApp('app/shiny', host = '127.0.0.1', port = 3838)"
+Set-Location app
+npm run sync:data
 ```
 
-Abre después esta URL en el navegador:
+Para abrir el dashboard en local:
+
+```powershell
+Set-Location app
+npm install
+npm run dev
+```
+
+Astro mostrará una URL local, normalmente:
 
 ```text
-http://127.0.0.1:3838
+http://localhost:4321
 ```
 
-Para parar la app, vuelve a la terminal y pulsa `Ctrl+C`.
+Para validar la versión de despliegue:
 
-Si la app arranca pero muestra paneles vacíos, falta alguna salida. Lo normal es que no existan uno o más CSV de `outputs/tables/`, o estos Parquet:
+```powershell
+npm run build
+npm run preview
+```
+
+La salida estática queda en `app/dist/`. Esa carpeta no se versiona; Vercel la genera en cada despliegue.
+
+Si el dashboard muestra paneles vacíos, revisa que existan los CSV en:
 
 ```text
-data/parquet/daily_consumption.parquet
-data/parquet/metadata.parquet
-data/parquet/user_hourly_profile.parquet
-data/parquet/features/user_clusters.parquet
+app/public/data/
+outputs/tables/
 ```
 
-En ese caso, repite:
+No hace falta reejecutar el orquestador completo para refrescar la app si solo han cambiado salidas ya calculadas: ejecuta `npm run sync:data` desde `app/`.
+
+## Despliegue online del dashboard Astro en Vercel
+
+La app se despliega como proyecto Astro estático. La carpeta correcta para Vercel es `app/`, no la raíz completa del repositorio. Así se evita subir datos crudos, Parquet y artefactos pesados que no necesita el dashboard.
+
+Configuración recomendada al importar el repositorio en Vercel:
+
+```text
+Root Directory: app
+Framework Preset: Astro
+Install Command: npm install
+Build Command: npm run build
+Output Directory: dist
+```
+
+Si tu repositorio remoto contiene `TFM_codigo/` como subcarpeta en lugar de ser la raíz del repo, usa `TFM_codigo/app` como `Root Directory`.
+
+También puedes desplegar con Vercel CLI desde la raíz del repositorio:
 
 ```powershell
-& $RSCRIPT R\99_orchestrator.R --r-only
+vercel --cwd app
+vercel --cwd app --prod
 ```
 
-Si falla al arrancar con un error de paquete, instala el paquete que indique el mensaje y vuelve a lanzar la app.
-
-## Despliegue online de la app Shiny
-
-La vía más directa para una demo online es `shinyapps.io` con el paquete `rsconnect`. Posit también permite publicar con `rsconnect` en Posit Connect y Posit Connect Cloud; para este TFM, `shinyapps.io` suele bastar si el tamaño del paquete entra en el límite de la cuenta.
-
-Hay un detalle importante en este proyecto: no conviene desplegar todo el repositorio. `data/raw/`, `data/extracted/`, los Parquet horarios por año y `daily_with_climate.parquet` pesan mucho y no son necesarios para la app. Prepara una carpeta de despliegue con solo lo que Shiny usa.
-
-Desde la raíz del proyecto:
+O desde dentro de la carpeta de la app:
 
 ```powershell
-& $RSCRIPT R\08_shiny\08a_prepare_shiny_tables.R
+Set-Location app
+vercel
+vercel --prod
 ```
 
-Ese script crea `outputs/tables/shiny_eda_*.csv`. La app los usa para no abrir `daily_consumption.parquet`, `metadata.parquet` ni `user_hourly_profile.parquet` en shinyapps.io.
-
-```powershell
-New-Item -ItemType Directory -Force `
-  deploy\shiny-goiener\www, `
-  deploy\shiny-goiener\data\parquet\features, `
-  deploy\shiny-goiener\outputs\tables | Out-Null
-
-Copy-Item app\shiny\app.R deploy\shiny-goiener\app.R -Force
-Copy-Item app\shiny\www\custom.css deploy\shiny-goiener\www\custom.css -Force
-Copy-Item _config.R deploy\shiny-goiener\_config.R -Force
-Copy-Item TFM.Rproj deploy\shiny-goiener\TFM.Rproj -Force
-Copy-Item outputs\tables\*.csv deploy\shiny-goiener\outputs\tables\ -Force
-
-Copy-Item data\parquet\features\user_clusters.parquet deploy\shiny-goiener\data\parquet\features\ -Force
-```
-
-Prueba esa copia antes de subirla:
-
-```powershell
-Set-Location deploy\shiny-goiener
-& $RSCRIPT -e "shiny::runApp('.', host = '127.0.0.1', port = 3839)"
-```
-
-Si la prueba funciona, para la app con `Ctrl+C` y vuelve a la raíz:
-
-```powershell
-Set-Location ..\..
-```
-
-Instala `rsconnect`:
-
-```r
-install.packages("rsconnect")
-```
-
-Crea una cuenta en `shinyapps.io`. En el panel web, entra en `Tokens`, pulsa `Show` y copia el comando `rsconnect::setAccountInfo(...)` que te da la plataforma. Tiene esta forma:
-
-```r
-rsconnect::setAccountInfo(
-  name = "TU_CUENTA",
-  token = "TOKEN",
-  secret = "SECRET"
-)
-```
-
-No escribas ese token en el README ni lo subas a Git.
-
-Despliega la carpeta preparada:
-
-```r
-rsconnect::deployApp(
-  appDir = "deploy/shiny-goiener",
-  appName = "goiener-tfm",
-  appTitle = "GoiEner TFM",
-  appVisibility = "private"
-)
-```
-
-Usa `appVisibility = "private"` si la cuenta lo permite. Aunque los datos están seudonimizados, el despliegue incluye ficheros derivados de consumo eléctrico; para una entrega pública es más prudente publicar una versión agregada o de muestra.
-
-Si el despliegue falla por tamaño, revisa el peso de la carpeta. Una copia correcta no debería acercarse al gigabyte:
-
-```powershell
-(Get-ChildItem deploy\shiny-goiener -Recurse -File | Measure-Object Length -Sum).Sum / 1GB
-```
-
-Si ves `daily_consumption.parquet`, `metadata.parquet` o `user_hourly_profile.parquet` dentro de `deploy/shiny-goiener`, bórralos de esa copia antes de publicar. Son útiles en local, pero en shinyapps.io pueden dejar la sesión cargando hasta que el contenedor se queda sin memoria.
+Antes de hacer push, comprueba que están versionados `app/package.json`, `app/package-lock.json`, `app/public/data/` y el código de `app/src/`. No subas `app/dist/`, `app/node_modules/`, `data/raw/`, `data/extracted/`, `data/parquet/` ni claves API.
 
 Documentación útil:
 
-- `shinyapps.io`: https://docs.posit.co/shinyapps.io/guide/getting_started/
-- `rsconnect::deployApp()`: https://rstudio.github.io/rsconnect/reference/deployApp.html
+- Astro en Vercel: https://docs.astro.build/en/guides/deploy/vercel/
+- Vercel con Astro: https://vercel.com/docs/frameworks/astro
+- Configuración de build en Vercel: https://vercel.com/docs/builds/configure-a-build
 
 ## Reglas prácticas para no romper la reproducción
 
 - No subas `data/raw/`, `data/extracted/`, `data/parquet/`, `data/goiener.duckdb` ni claves API.
-- No cambies nombres de columnas en tablas intermedias sin revisar los QMD y la app Shiny.
+- No cambies nombres de columnas en tablas intermedias sin revisar los QMD y el dashboard Astro.
 - Si repites una fase avanzada, asegúrate de que las fases anteriores generaron sus Parquet y CSV.
 - Los resultados de forecasting dependen de los cortes temporales definidos en `_config.R`.
 - Los datos son seudonimizados, pero siguen describiendo hábitos de consumo. Trabaja con agregados, clusters o cartera; evita publicar series de usuarios individuales.

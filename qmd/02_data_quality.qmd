@@ -796,7 +796,7 @@ report_table(hallazgos, caption = "Resumen de métricas de calidad de datos")
 
 **1. La calidad es suficiente para los usos previstos, pero no es uniforme.** El agregado parece muy limpio porque la mayoría de hogares lo está. Sin embargo, existe una cola pequeña de usuarios con problemas (huecos, spikes, negativos) que, sin filtros, contaminarían cualquier modelo no robusto. El pipeline distingue entre "limpiar el agregado" y "auditar al usuario": ambos quedan resueltos pero con herramientas diferentes.
 
-**2. La privacidad y la trazabilidad son consustanciales al diseño.** Los identificadores se trabajan seudonimizados desde la fase de ingesta. Todas las salidas que llegan a clustering, forecasting o app Shiny son agregados, perfiles o pertenencias a segmento. No hay punto del pipeline donde sea trivial recuperar el consumo bruto de un hogar concreto a partir de las tablas publicadas.
+**2. La privacidad y la trazabilidad son consustanciales al diseño.** Los identificadores se trabajan seudonimizados desde la fase de ingesta. Todas las salidas que llegan a clustering, forecasting o dashboard Astro son agregados, perfiles o pertenencias a segmento. No hay punto del pipeline donde sea trivial recuperar el consumo bruto de un hogar concreto a partir de las tablas publicadas.
 
 **3. La calidad delimita el alcance, no al revés.** El TFM se acota a la cartera GoiEner 2.0 con clima disponible porque ahí la calidad es defendible. No se hace una afirmación general sobre "el consumo eléctrico español": esa frase requeriría una muestra representativa que esta cartera no es. Declarar el alcance es una decisión de calidad, no de modestia.
 

@@ -9,6 +9,7 @@
 #   Rscript R/99_orchestrator.R --qmd-only         # solo documentos QMD
 #   Rscript R/99_orchestrator.R 05 --r-only        # solo fase R 05
 #   Rscript R/99_orchestrator.R qmd05 --qmd-only   # solo qmd/05_forecasting.qmd
+#   Rscript R/99_orchestrator.R 08 --r-only        # solo tablas ligeras dashboard
 #   Rscript R/99_orchestrator.R --keep-going       # no parar al primer fallo
 # ==============================================================================
 suppressPackageStartupMessages({
@@ -64,7 +65,8 @@ R_PHASES <- list(
     "R/06_forecasting/06e_models_cluster.R",
     "R/06_forecasting/06f_evaluation.R"
   ),
-  "07" = c("R/07_benchmark/07_benchmark.R")
+  "07" = c("R/07_benchmark/07_benchmark.R"),
+  "08" = c("R/08_dashboard/08a_prepare_dashboard_tables.R")
 )
 
 QMD_DOCS <- list(

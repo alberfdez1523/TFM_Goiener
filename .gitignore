@@ -17,4 +17,9 @@ outputs/models/
 
 deploy/
 
+app/node_modules/
+app/dist/
+app/.astro/
+app/.vercel/
+
 documentacion_txt/

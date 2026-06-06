@@ -337,7 +337,7 @@ En este tamaño de datos, Spark no aporta una ventaja practica que compense su c
 
 **5. Limitaciones honestas del propio benchmark.** Las mediciones dependen del hardware, del sistema operativo y del cache. Repetir el benchmark en una máquina distinta dará números distintos. Lo que se sostiene es el orden de magnitud y la jerarquía relativa entre formatos y patrones de acceso, no los segundos exactos.
 
-**Implicación final.** El stack elegido permite hacer un TFM ambicioso (clima AEMET, clustering, forecasting con intervalos, app Shiny) sin depender de infraestructura cara o difícil de auditar. La decisión arquitectónica es defendible no porque Parquet sea "mejor" en abstracto, sino porque resuelve esta combinación específica de volumen, restricciones y necesidad de reproducibilidad de forma medible.
+**Implicación final.** El stack elegido permite hacer un TFM ambicioso (clima AEMET, clustering, forecasting con intervalos, dashboard Astro) sin depender de infraestructura cara o difícil de auditar. La decisión arquitectónica es defendible no porque Parquet sea "mejor" en abstracto, sino porque resuelve esta combinación específica de volumen, restricciones y necesidad de reproducibilidad de forma medible.
 
 ## Resumen de tiempos
 

@@ -1,9 +1,9 @@
 # ==============================================================================
-# Preparacion de tablas ligeras para Shiny
+# Preparacion de tablas ligeras para el dashboard Astro
 # ==============================================================================
 #
 # Genera resumenes EDA pequenos para que la app desplegada no tenga que abrir
-# Parquet grandes en shinyapps.io.
+# Parquet grandes ni depender de un proceso R en produccion.
 # ==============================================================================
 
 suppressPackageStartupMessages({
@@ -17,11 +17,25 @@ suppressPackageStartupMessages({
 
 source(here::here("_config.R"))
 
+APP_DATA_DIR <- here::here("app", "public", "data")
+
+write_dashboard_csv <- function(data, filename) {
+  out_path <- fs::path(TABLE_DIR, filename)
+  app_path <- fs::path(APP_DATA_DIR, filename)
+
+  fs::dir_create(TABLE_DIR)
+  fs::dir_create(APP_DATA_DIR)
+  readr::write_csv(data, out_path)
+  fs::file_copy(out_path, app_path, overwrite = TRUE)
+
+  invisible(out_path)
+}
+
 required_files <- c(DAILY_PARQUET, USER_HOURLY_PROFILE, METADATA_PARQUET)
 missing_files <- required_files[!fs::file_exists(required_files)]
 if (length(missing_files) > 0) {
   stop(
-    "Faltan Parquet necesarios para preparar Shiny: ",
+    "Faltan Parquet necesarios para preparar el dashboard: ",
     paste(missing_files, collapse = ", "),
     call. = FALSE
   )
@@ -79,9 +93,10 @@ tariff <- DBI::dbGetQuery(con, glue::glue("
   LIMIT 8
 "))
 
-readr::write_csv(summary, fs::path(TABLE_DIR, "shiny_eda_summary.csv"))
-readr::write_csv(monthly, fs::path(TABLE_DIR, "shiny_eda_monthly.csv"))
-readr::write_csv(hourly, fs::path(TABLE_DIR, "shiny_eda_hourly.csv"))
-readr::write_csv(tariff, fs::path(TABLE_DIR, "shiny_eda_tariff.csv"))
+write_dashboard_csv(summary, "dashboard_eda_summary.csv")
+write_dashboard_csv(monthly, "dashboard_eda_monthly.csv")
+write_dashboard_csv(hourly, "dashboard_eda_hourly.csv")
+write_dashboard_csv(tariff, "dashboard_eda_tariff.csv")
 
-message("[SHINY] Tablas ligeras escritas en outputs/tables/shiny_eda_*.csv")
+message("[DASHBOARD] Tablas ligeras escritas en outputs/tables/dashboard_eda_*.csv")
+message("[DASHBOARD] Copia sincronizada en app/public/data/")

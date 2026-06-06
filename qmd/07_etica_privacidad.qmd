@@ -322,7 +322,7 @@ El proyecto queda defendible si se presenta como arquitectura reproducible y ana
 
 ### Síntesis ética y de privacidad
 
-**1. La privacidad no es un añadido, es un principio de diseño.** Desde la fase de ingesta los identificadores se trabajan seudonimizados; ninguna de las tablas que llegan a clustering, forecasting o app Shiny permite recuperar el consumo bruto de un hogar concreto a partir de las salidas publicadas. El minimum strictly necessary se cumple por construcción, no por revisión a posteriori.
+**1. La privacidad no es un añadido, es un principio de diseño.** Desde la fase de ingesta los identificadores se trabajan seudonimizados; ninguna de las tablas que llegan a clustering, forecasting o dashboard Astro permite recuperar el consumo bruto de un hogar concreto a partir de las salidas publicadas. El minimum strictly necessary se cumple por construcción, no por revisión a posteriori.
 
 **2. Las conclusiones se aplican al nivel correcto.** Cuando decimos que el cluster *C2 consumo nocturno intensivo* tiene un `valley_share` alto, hablamos de un agregado de miles de hogares con un patrón similar, no de personas concretas. Esa distinción no es retórica: una recomendación operativa a nivel de cluster (ofrecer tarifa indexada valle, lanzar campaña de eficiencia) es ética y útil; la misma recomendación etiquetando a un hogar individual sería intrusiva y poco fiable.
 

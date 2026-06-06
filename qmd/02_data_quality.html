@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alberto Fernandez">
-<meta name="dcterms.date" content="2026-05-12">
+<meta name="dcterms.date" content="2026-06-06">
 
 <title>Informe de Calidad de Datos - GoiEner</title>
 <style>
@@ -3702,7 +3702,7 @@ window.onload = function() {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 12, 2026</p>
+      <p class="date">June 6, 2026</p>
     </div>
   </div>
   
@@ -5040,7 +5040,7 @@ Table 3: Top 15 usuarios por kWh horario afectado por negativos/extremos.
 <section id="lectura-integrada-de-la-calidad" class="level3">
 <h3 class="anchored" data-anchor-id="lectura-integrada-de-la-calidad">Lectura integrada de la calidad</h3>
 <p><strong>1. La calidad es suficiente para los usos previstos, pero no es uniforme.</strong> El agregado parece muy limpio porque la mayoría de hogares lo está. Sin embargo, existe una cola pequeña de usuarios con problemas (huecos, spikes, negativos) que, sin filtros, contaminarían cualquier modelo no robusto. El pipeline distingue entre “limpiar el agregado” y “auditar al usuario”: ambos quedan resueltos pero con herramientas diferentes.</p>
-<p><strong>2. La privacidad y la trazabilidad son consustanciales al diseño.</strong> Los identificadores se trabajan seudonimizados desde la fase de ingesta. Todas las salidas que llegan a clustering, forecasting o app Shiny son agregados, perfiles o pertenencias a segmento. No hay punto del pipeline donde sea trivial recuperar el consumo bruto de un hogar concreto a partir de las tablas publicadas.</p>
+<p><strong>2. La privacidad y la trazabilidad son consustanciales al diseño.</strong> Los identificadores se trabajan seudonimizados desde la fase de ingesta. Todas las salidas que llegan a clustering, forecasting o dashboard Astro son agregados, perfiles o pertenencias a segmento. No hay punto del pipeline donde sea trivial recuperar el consumo bruto de un hogar concreto a partir de las tablas publicadas.</p>
 <p><strong>3. La calidad delimita el alcance, no al revés.</strong> El TFM se acota a la cartera GoiEner 2.0 con clima disponible porque ahí la calidad es defendible. No se hace una afirmación general sobre “el consumo eléctrico español”: esa frase requeriría una muestra representativa que esta cartera no es. Declarar el alcance es una decisión de calidad, no de modestia.</p>
 <p><strong>4. La calidad alimenta directamente el resto del pipeline.</strong> Los filtros aquí definidos (días completos, consumo positivo, usuarios con cobertura mínima) son los mismos que usan clustering y forecasting. No hay reglas paralelas: las decisiones de calidad se aplican una vez y se propagan en cascada, lo que hace el sistema reproducible y auditable.</p>
 <p><strong>Implicación final.</strong> La cartera está en condiciones de soportar segmentación, sensibilidad climática y forecasting operativo. Los pocos riesgos que quedan (huecos puntuales, spikes residuales) están documentados y acotados, no escondidos. Esa traza es lo que permite defender los resultados ante un tribunal sin tener que recurrir a “limpieza manual” no reproducible.</p>
@@ -5076,26 +5076,26 @@ Table 3: Top 15 usuarios por kWh horario afectado por negativos/extremos.
 <tr class="odd">
 <td style="text-align: left;">5</td>
 <td style="text-align: left;">spike-detection</td>
-<td style="text-align: right;">5.4</td>
-<td style="text-align: right;">83.5</td>
+<td style="text-align: right;">5.3</td>
+<td style="text-align: right;">84.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2</td>
 <td style="text-align: left;">user-coverage</td>
 <td style="text-align: right;">0.5</td>
-<td style="text-align: right;">8.1</td>
+<td style="text-align: right;">7.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">incomplete-days</td>
 <td style="text-align: right;">0.5</td>
-<td style="text-align: right;">8.1</td>
+<td style="text-align: right;">7.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">global-summary</td>
 <td style="text-align: right;">0.0</td>
-<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">3</td>

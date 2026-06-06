@@ -1,0 +1,19 @@
+﻿[stdout]
+
+[stderr]
+here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
+[CONFIG] Configuracion del proyecto cargada.
+Avisos:
+1: package 'here' was built under R version 4.5.2 
+2: package 'fs' was built under R version 4.5.2 
+Avisos:
+1: package 'DBI' was built under R version 4.5.2 
+2: package 'duckdb' was built under R version 4.5.2 
+3: package 'glue' was built under R version 4.5.2 
+4: package 'readr' was built under R version 4.5.2 
+[CONFIG] Configuracion del proyecto cargada.
+[DASHBOARD] Tablas ligeras escritas en outputs/tables/dashboard_eda_*.csv
+[DASHBOARD] Copia sincronizada en app/public/data/
+
+exit_code=0
+elapsed_s=6.1
