@@ -7,4 +7,4 @@
 "06","QMD","qmd/06_benchmark.qmd",9.2,"OK","C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_06_benchmark.txt"
 "07","QMD","qmd/07_etica_privacidad.qmd",8.6,"OK","C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/render_07_etica_privacidad.txt"
 "08","R","R/08_dashboard/08a_prepare_dashboard_tables.R",6.1,"OK","C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/run_08a_prepare_dashboard_tables.R.txt"
-"app","ASTRO","app",3.3,"OK","C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/build_astro_app.txt"
+"app","ASTRO","app",2.8,"OK","C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/logs/build_astro_app.txt"

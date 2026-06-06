@@ -59,7 +59,7 @@ Los CSV de contexto que ya están en `data/external/` (`province_context.csv` y 
 
 ## Requisitos
 
-El proyecto se ha ejecutado con R 4.5.x y Quarto 1.8.x. El dashboard web se ha migrado a Astro y necesita Node.js/npm para desarrollo y build. En Windows, si `Rscript` no está en el PATH, usa la ruta completa de tu instalación de R:
+El proyecto se ha ejecutado con R 4.5.x y Quarto 1.8.x. El dashboard web está implementado en Astro y necesita Node.js/npm para desarrollo y build. En Windows, si `Rscript` no está en el PATH, usa la ruta completa de tu instalación de R:
 
 ```powershell
 $RSCRIPT = "<ruta-a-R>\bin\Rscript.exe"
