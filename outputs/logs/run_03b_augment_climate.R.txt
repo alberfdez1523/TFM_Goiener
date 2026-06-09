@@ -1,9 +1,8 @@
-here() starts at C:/Users/alber/Desktop/TFM
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'arrow' was built under R version 4.5.2 
 2: package 'dplyr' was built under R version 4.5.2 
 3: package 'lubridate' was built under R version 4.5.2 

@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -26,5 +25,5 @@ PASO 07e: Forecasting por cluster + reconciliacion
 6       6
     variant      MAE  WAPE  EUR_dev
 1 bottom_up 2335.183 2.153 46143.21
-2  top_down 2138.955 1.972 42265.74
-07e en 24.8 s
+2  top_down 2119.292 1.954 41877.21
+07e en 9.8 s

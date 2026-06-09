@@ -560,39 +560,44 @@ function renderForecastMaster() {
   scatterLeaderboard("#master-mae-plot", "MAE", "MAE (kWh)");
 }
 
+function benchmarkSeconds(row) {
+  if (!row) return NaN;
+  return Number.isFinite(num(row.warm_mediana_s)) ? num(row.warm_mediana_s) : num(row.mediana_s);
+}
+
 function renderBenchmarks() {
   const experiments = [...new Set(state.benchmark.map((row) => row.experimento))];
   const experimentOrder = new Map(experiments.map((experiment, index) => [experiment, index]));
   const benchmarkRows = [...state.benchmark]
-    .filter((row) => Number.isFinite(num(row.mediana_s)))
-    .sort((a, b) => experimentOrder.get(a.experimento) - experimentOrder.get(b.experimento) || num(b.mediana_s) - num(a.mediana_s));
+    .filter((row) => Number.isFinite(benchmarkSeconds(row)))
+    .sort((a, b) => experimentOrder.get(a.experimento) - experimentOrder.get(b.experimento) || benchmarkSeconds(b) - benchmarkSeconds(a));
 
   plot("#benchmark-time-plot", [{
     type: "bar",
     orientation: "h",
     y: benchmarkRows.map((row) => `${row.experimento} · ${row.metodo}`),
-    x: benchmarkRows.map((row) => num(row.mediana_s)),
-    text: benchmarkRows.map((row) => `${formatFixed(row.mediana_s, 3)}s`),
+    x: benchmarkRows.map((row) => benchmarkSeconds(row)),
+    text: benchmarkRows.map((row) => `${formatFixedEs(benchmarkSeconds(row), benchmarkSeconds(row) < 1 ? 3 : 2)} s`),
     textposition: "outside",
     cliponaxis: false,
     marker: {
       color: benchmarkRows.map((row) => PALETTE[experimentOrder.get(row.experimento) % PALETTE.length])
     },
     customdata: benchmarkRows.map((row) => [row.experimento, row.metodo, row.speedup, row.mem_alloc_mb]),
-    hovertemplate: "%{customdata[0]}<br>%{customdata[1]}<br>Mediana = %{x:.3f}s<br>Speedup = %{customdata[2]}x<br>Memoria = %{customdata[3]:.1f} MB<extra></extra>"
+    hovertemplate: "%{customdata[0]}<br>%{customdata[1]}<br>Mediana templada = %{x:.3f}s<br>Speedup = %{customdata[2]}x<br>Memoria = %{customdata[3]:.1f} MB<extra></extra>"
   }], {
-    xaxis: { title: "Mediana (s)", title_standoff: 16 },
+    xaxis: { title: "Mediana templada (s)", title_standoff: 16 },
     yaxis: { title: "", automargin: true, autorange: "reversed", tickfont: { size: 10 } },
     margin: { l: 290, r: 112, t: 12, b: 62 },
     showlegend: false
   });
 
   horizontalBar("#benchmark-disk-plot", state.benchmarkDisk, {
-    x: "MB",
+    x: "GB",
     y: "formato",
-    text: (row) => `${formatFixed(row.MB, 0)} MB`,
+    text: (row) => `${formatFixedEs(row.GB, 2)} GB`,
     marker: "#8b5cf6",
-    xTitle: "MB",
+    xTitle: "GB",
     sort: "asc"
   });
 
@@ -624,15 +629,15 @@ function renderBenchmarkReading() {
   );
   const memoryLimit = state.benchmarkEnv.find((row) => row.item === "duckdb_memory_limit")?.value || "10GB";
 
-  const diskRatio = num(csvDisk?.MB) / num(parquetHourly?.MB);
-  const duckVsArrow = num(arrowRead?.mediana_s) / num(duckRead?.mediana_s);
-  const preaggRatio = num(rawQuery?.mediana_s) / num(preagg?.mediana_s);
+  const diskRatio = Number.isFinite(num(parquetHourly?.ratio_vs_csv)) ? num(parquetHourly.ratio_vs_csv) : num(csvDisk?.MB) / num(parquetHourly?.MB);
+  const duckVsArrow = Number.isFinite(num(duckRead?.speedup)) ? num(duckRead.speedup) : benchmarkSeconds(arrowRead) / benchmarkSeconds(duckRead);
+  const preaggRatio = Number.isFinite(num(preagg?.speedup)) ? num(preagg.speedup) : benchmarkSeconds(rawQuery) / benchmarkSeconds(preagg);
 
   host.innerHTML = `
     <div class="benchmark-reading-grid">
-      ${benchmarkReadingItem("Compresión", `${formatFixed(diskRatio, 1)}x`, "CSV crudo frente a Parquet horario ZSTD-9", "box-archive")}
-      ${benchmarkReadingItem("Lectura amplia", `${formatFixed(duckVsArrow, 1)}x`, "DuckDB reduce el coste frente a Arrow en lectura completa", "gauge-high")}
-      ${benchmarkReadingItem("Pre-agregación", `${formatFixed(preaggRatio, 0)}x`, "Las tablas compactas evitan recorrer el horario bruto", "table-cells")}
+      ${benchmarkReadingItem("Compresión", `${formatFixedEs(diskRatio, 1)}x`, "CSV crudo frente a Parquet horario ZSTD-9", "box-archive")}
+      ${benchmarkReadingItem("Lectura amplia", `${formatFixedEs(duckVsArrow, 1)}x`, "DuckDB reduce el coste frente a Arrow en lectura completa", "gauge-high")}
+      ${benchmarkReadingItem("Pre-agregación", `${formatFixedEs(preaggRatio, 1)}x`, "Las tablas compactas evitan recorrer el horario bruto", "table-cells")}
       ${benchmarkReadingItem("Límite local", memoryLimit, "Suficiente para reproducir el TFM sin Spark", "memory")}
     </div>
     <div class="benchmark-reading-note">
@@ -662,16 +667,22 @@ function renderConclusions() {
   const medianKwh = state.summary[0]?.mediana_kWh;
   const csvDisk = bestBy(state.benchmarkDisk.filter((row) => String(row.formato || "").toLowerCase().includes("csv")), "MB");
   const parquetDisk = bestBy(state.benchmarkDisk.filter((row) => String(row.formato || "").toLowerCase().includes("parquet")), "MB");
+  const intervalRows = state.forecastDailyIntervals.filter((row) =>
+    Number.isFinite(num(row.actual)) && Number.isFinite(num(row.conformal_lo)) && Number.isFinite(num(row.conformal_hi))
+  );
+  const intervalCoverage = intervalRows.length
+    ? 100 * intervalRows.filter((row) => num(row.actual) >= num(row.conformal_lo) && num(row.actual) <= num(row.conformal_hi)).length / intervalRows.length
+    : NaN;
 
   const cards = [
     {
       icon: "magnifying-glass-chart",
       tag: "Cartera",
       title: "El consumo no es homogéneo",
-      value: `${formatFixed(medianKwh, 2)} kWh`,
+      value: `${formatFixedEs(medianKwh, 2)} kWh`,
       detail: "mediana diaria",
       lead: "La memoria confirma asimetría, estacionalidad y crecimiento de cartera; por eso el pipeline filtra, agrega y valida en el tiempo antes de modelar.",
-      points: ["segmentar antes de promediar", "top 5 territorial con clima defendible", "test fuera de muestra 2023-07 → 2024-01"]
+      points: ["segmentar antes de promediar", "top 5 territorial con clima defendible", "test efectivo 2023-07 → 2024-01-24"]
     },
     {
       icon: "layer-group",
@@ -680,22 +691,22 @@ function renderConclusions() {
       value: `${formatInt(users)}`,
       detail: `${clusterCount} grupos comparables`,
       lead: "PCA + K-Means convierte forma horaria, estacionalidad y sensibilidad climática en segmentos accionables y auditables.",
-      points: ["silhouette + Jaccard + balance", "recomendación comercial por cluster", "lectura agregada, nunca individual"]
+      points: ["silhouette + Jaccard + balance", "acción operativa por cluster", "lectura agregada, nunca individual"]
     },
     {
       icon: "chart-line",
       tag: "Forecast",
-      title: "XGBoost sostiene la operación agregada",
-      value: formatPercent(bestDaily?.WAPE, 2),
+      title: "Forecast útil para cartera agregada",
+      value: formatPercentEs(bestDaily?.WAPE, 2),
       detail: "WAPE diario",
-      lead: "El modelo diario es válido para planificación de cartera; el horario queda cerca del techo informativo y top-down gana para compras agregadas.",
-      points: ["lags + calendario + HDD/CDD", "conformal split para reporting", "errores en lunes, festivos y cambios de régimen"]
+      lead: "En diario domina XGBoost; en horario domina el stack XGBoost-LightGBM. Para compras agregadas, el enfoque top-down es el más defendible.",
+      points: ["lags + calendario + HDD/CDD", `conformal ${formatPercentEs(intervalCoverage, 1)}`, "errores en domingo, lunes y mitad de semana"]
     },
     {
       icon: "database",
       tag: "Arquitectura",
       title: "Parquet + DuckDB hacen reproducible el TFM",
-      value: `${formatFixed(csvDisk?.MB, 0)} → ${formatFixed(parquetDisk?.MB, 0)} MB`,
+      value: `${formatFixedEs(csvDisk?.GB, 2)} → ${formatFixedEs(parquetDisk?.GB, 2)} GB`,
       detail: "CSV crudo vs Parquet horario",
       lead: "La decisión técnica no es estética: permite ejecutar el trabajo en local, medir tiempos y no depender de nube o clusters externos.",
       points: ["pre-agregación como palanca principal", "logs y timings por fase", "orden de magnitud defendible, no segundos absolutos"]
@@ -715,7 +726,7 @@ function renderConclusions() {
       title: "Mejora donde hay incertidumbre real",
       value: "Monitorizar",
       detail: "deriva y cobertura",
-      lead: "La memoria propone reforzar validación estacional, estabilidad de clusters y drift del intervalo conformal antes de ampliar el alcance.",
+      lead: "La memoria propone reforzar validación estacional, estabilidad de clusters y deriva del intervalo conformal antes de ampliar el alcance.",
       points: ["clima horario y eventos externos", "reentrenos con ventanas múltiples", "métricas de cobertura en producción"]
     }
   ];
@@ -1216,6 +1227,14 @@ function formatFixed(value, digits = 1) {
 function formatPercent(value, digits = 2) {
   const parsed = num(value);
   return Number.isFinite(parsed) ? `${formatFixed(parsed, digits)}%` : "-";
+}
+
+function formatFixedEs(value, digits = 1) {
+  return formatFixed(value, digits).replace(".", ",");
+}
+
+function formatPercentEs(value, digits = 2) {
+  return formatPercent(value, digits).replace(".", ",");
 }
 
 function formatCompact(value) {

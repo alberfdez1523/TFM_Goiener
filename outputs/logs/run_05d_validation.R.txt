@@ -1,14 +1,13 @@
-here() starts at C:/Users/alber/Desktop/TFM
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning message:
+Aviso:
 package 'dplyr' was built under R version 4.5.2 
 [CONFIG] Configuracion del proyecto cargada.
-Warning message:
+Aviso:
 package 'arrow' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'cluster' was built under R version 4.5.2 
 2: package 'fpc' was built under R version 4.5.3 
 ======================================================================
@@ -75,4 +74,4 @@ PASO 06d: Validacion (indices + Jaccard + ARI)
 8            TRUE          FALSE      FALSE           0.822
 9            TRUE          FALSE      FALSE           0.800
 10           TRUE          FALSE      FALSE           0.792
-06d en 63.3 s
+06d en 76.5 s

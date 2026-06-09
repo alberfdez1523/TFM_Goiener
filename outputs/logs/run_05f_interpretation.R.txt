@@ -1,9 +1,8 @@
-here() starts at C:/Users/alber/Desktop/TFM
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'arrow' was built under R version 4.5.2 
 2: package 'dplyr' was built under R version 4.5.2 
 3: package 'tidyr' was built under R version 4.5.2 
@@ -28,4 +27,4 @@ PASO 06f: Interpretacion
 #   low_day_rate <dbl>, zero_day_rate <dbl>, holiday_ratio <dbl>,
 #   bridge_ratio <dbl>, morning_kWh_share <dbl>, afternoon_kWh_share <dbl>,
 #   evening_kWh_share <dbl>, night_kWh_share <dbl>, peak_hour <dbl>, …
-06f en 1.8 s
+06f en 2.0 s

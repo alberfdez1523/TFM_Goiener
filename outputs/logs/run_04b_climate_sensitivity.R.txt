@@ -1,9 +1,8 @@
-here() starts at C:/Users/alber/Desktop/TFM
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'arrow' was built under R version 4.5.2 
 2: package 'dplyr' was built under R version 4.5.2 
 3: package 'duckdb' was built under R version 4.5.2 
@@ -18,7 +17,7 @@ PASO 04b: Sensibilidad climatica por usuario
 [2/3] Calculando regresion conjunta (kWh ~ HDD + CDD) por usuario...
     chunk 5 / 13
     chunk 10 / 13
-[3/3] Uniendo con user_features.parquet y guardando v2...
-  Escrito: C:/Users/alber/Desktop/TFM/data/parquet/features/user_features.parquet (26.146 usuarios, 103 columnas)
+[3/3] Uniendo con user_features_base.parquet y guardando user_features.parquet...
+  Escrito: <PROJECT_ROOT>/data/parquet/features/user_features.parquet (26.146 usuarios, 103 columnas)
 
-Paso 04b completado en 50.8 s.
+Paso 04b completado en 67.9 s.

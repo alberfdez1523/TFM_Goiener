@@ -12,6 +12,8 @@
 #   Rscript R/99_orchestrator.R 08 --r-only        # solo tablas ligeras dashboard
 #   Rscript R/99_orchestrator.R --keep-going       # no parar al primer fallo
 # ==============================================================================
+options(here.quiet = TRUE)
+
 suppressPackageStartupMessages({
   library(here)
   library(fs)
@@ -115,6 +117,21 @@ select_qmd_docs <- function(requested_keys) {
   qmd_keys
 }
 
+sanitize_log_file <- function(log_file) {
+  if (!file_exists(log_file)) return(invisible(NULL))
+
+  proj_norm <- normalizePath(here::here(), winslash = "/", mustWork = FALSE)
+  proj_win <- gsub("/", "\\", proj_norm, fixed = TRUE)
+  txt <- readLines(log_file, warn = FALSE, encoding = "UTF-8")
+  txt <- gsub(proj_norm, "<PROJECT_ROOT>", txt, fixed = TRUE)
+  if (nzchar(proj_win) && proj_win != proj_norm) {
+    txt <- gsub(proj_win, "<PROJECT_ROOT>", txt, fixed = TRUE)
+  }
+  txt <- txt[!grepl("^here\\(\\) starts at ", txt)]
+  writeLines(txt, log_file, useBytes = TRUE)
+  invisible(log_file)
+}
+
 run_process <- function(kind, phase, artifact, command, args, log_file) {
   cat("\n", strrep("=", 78), "\n", sep = "")
   cat(">>> [", kind, " ", phase, "] ", artifact, "\n", sep = "")
@@ -125,6 +142,7 @@ run_process <- function(kind, phase, artifact, command, args, log_file) {
 
   t0 <- proc.time()
   rc <- system2(command, args = args, stdout = log_file, stderr = log_file)
+  sanitize_log_file(log_file)
   elapsed <- (proc.time() - t0)[["elapsed"]]
   status <- if (identical(as.integer(rc), 0L)) "OK" else paste0("ERROR: exit=", rc)
 
@@ -136,7 +154,7 @@ run_process <- function(kind, phase, artifact, command, args, log_file) {
     artifact = artifact,
     elapsed_s = round(elapsed, 1),
     status = status,
-    log_file = as.character(log_file),
+    log_file = as.character(path_rel(log_file, start = here::here())),
     stringsAsFactors = FALSE
   )
 }
