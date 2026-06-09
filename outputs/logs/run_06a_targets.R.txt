@@ -20,4 +20,4 @@ PASO 06a: Construyendo series objetivo
   cluster_daily: 15.247 filas, 6 clusters
 [3/3] Construyendo portfolio_hourly...
   portfolio_hourly: 70.728 filas (2015-12-31 -> 2024-01-24 23:00:00)
-06a en 81.5 s
+06a en 116.4 s
