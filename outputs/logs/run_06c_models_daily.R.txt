@@ -1,25 +1,25 @@
-here() starts at C:/Users/alber/Desktop/TFM
+here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'arrow' was built under R version 4.5.2 
 2: package 'dplyr' was built under R version 4.5.2 
 [CONFIG] Configuracion del proyecto cargada.
 ======================================================================
 PASO 07c: Forecasting diario de la cartera
 ======================================================================
-  splits: train=2.558, val=181, test=215
+  splits: train=2.558, val=181, test=208
 [1/6] Baselines...
 Registered S3 method overwritten by 'quantmod':
   method            from
   as.zoo.data.frame zoo 
 [2/6] ETS y ARIMAX...
 [3/6] ML modelos (log-target + early stopping)...
-  RF mejor mtry=17 MAE_val=2883.5
+  RF mejor mtry=17 MAE_val=2881.9
 
-Warning messages:
+Avisos:
 1: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
   Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
 2: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
@@ -32,15 +32,15 @@ Warning messages:
 [5/6] Conformal split intervals...
   best point model: xgb
 [6/6] Guardando outputs...
-           model   n       MAE      RMSE    MAPE  sMAPE   WAPE   EUR_dev  MASE
-1            xgb 215  2609.188  7673.611  12.031  3.575  2.483  53292.66 0.669
-2           lgbm 215  2907.971  7623.656  12.591  4.253  2.767  59395.30 0.745
-3  ensemble_top3 215  3106.283  8009.513  20.707  6.371  2.956  63445.83 0.796
-4             rf 215  4097.605 10476.700  38.133  7.641  3.899  83693.57 1.050
-5          stack 215  4203.189 10779.396  40.006  7.759  3.999  85850.15 1.078
-6         arimax 215  9742.910 23884.484 100.625 11.264  9.271 198998.94 2.498
-7      snaive365 215 12753.312 29131.002 120.798 13.145 12.135 260486.39 3.269
-8        snaive7 215 18263.633 26874.605  80.696 20.073 17.378 373034.71 4.682
-9            ets 215 18481.561 27028.537  80.466 20.299 17.586 377485.88 4.738
-10         naive 215 19709.937 27911.217  79.962 21.646 18.754 402575.47 5.053
-07c en 22.7 s
+           model   n       MAE      RMSE   MAPE  sMAPE   WAPE   EUR_dev  MASE
+1            xgb 208  2138.955  3022.415  1.910  1.899  1.972  42265.74 0.548
+2  ensemble_top3 208  2272.998  3191.616  2.035  2.029  2.095  44914.44 0.583
+3           lgbm 208  2456.207  3369.819  2.191  2.194  2.264  48534.65 0.630
+4             rf 208  2537.533  3524.891  2.258  2.248  2.339  50141.66 0.651
+5          stack 208  2591.199  3414.338  2.366  2.341  2.389  51202.10 0.664
+6         arimax 208  5821.367  7271.489  5.529  5.359  5.366 115030.22 1.492
+7      snaive365 208  8098.613 10437.942  7.547  7.233  7.465 160028.59 2.076
+8        snaive7 208 15847.023 21752.396 13.070 14.628 14.608 313137.17 4.063
+9            ets 208 16087.267 22014.580 13.257 14.863 14.830 317884.39 4.124
+10         naive 208 17422.147 23376.312 14.389 16.267 16.060 344261.62 4.466
+07c en 28.9 s

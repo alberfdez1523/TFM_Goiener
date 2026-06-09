@@ -41,6 +41,59 @@ clust_df <- clusters |> select(user_id, cluster) |>
   filter(cluster >= 0L)  # excluye no_habitual (cluster = -1)
 duckdb::duckdb_register(con, "clust", clust_df)
 
+rolling_prior_median <- function(x, window_days) {
+  window_days <- as.integer(window_days)
+  if (is.na(window_days) || window_days < 1L) {
+    stop("FORECAST_COVERAGE_WINDOW_DAYS debe ser >= 1.", call. = FALSE)
+  }
+
+  vapply(seq_along(x), function(i) {
+    if (i == 1L) return(NA_real_)
+    start <- max(1L, i - window_days)
+    stats::median(x[start:(i - 1L)], na.rm = TRUE)
+  }, numeric(1))
+}
+
+build_coverage_audit <- function(portfolio_daily) {
+  threshold <- as.numeric(FORECAST_MIN_DAILY_COVERAGE_PCT)
+  if (is.na(threshold) || threshold <= 0 || threshold > 100) {
+    stop("FORECAST_MIN_DAILY_COVERAGE_PCT debe estar en (0, 100].", call. = FALSE)
+  }
+
+  audit <- portfolio_daily |>
+    arrange(.data$date) |>
+    mutate(
+      coverage_ref_n_users = rolling_prior_median(
+        .data$n_users,
+        FORECAST_COVERAGE_WINDOW_DAYS
+      ),
+      coverage_pct = if_else(
+        !is.na(.data$coverage_ref_n_users) & .data$coverage_ref_n_users > 0,
+        100 * .data$n_users / .data$coverage_ref_n_users,
+        NA_real_
+      ),
+      coverage_ok = is.na(.data$coverage_pct) |
+        .data$coverage_pct >= threshold
+    )
+
+  ok_idx <- which(audit$coverage_ok)
+  if (length(ok_idx) == 0) {
+    stop("Ningun dia supera el filtro de cobertura de forecasting.", call. = FALSE)
+  }
+
+  last_valid_idx <- max(ok_idx)
+  audit |>
+    mutate(
+      terminal_invalid = row_number() > last_valid_idx,
+      retained_for_forecast = !.data$terminal_invalid,
+      coverage_rule = sprintf(
+        "n_users >= %.1f%% de la mediana movil previa de %d dias",
+        threshold,
+        as.integer(FORECAST_COVERAGE_WINDOW_DAYS)
+      )
+    )
+}
+
 # 1. Daily portfolio
 message("[1/3] Construyendo portfolio_daily...")
 portfolio_daily <- dbGetQuery(con, glue("
@@ -57,6 +110,23 @@ portfolio_daily <- dbGetQuery(con, glue("
   GROUP BY 1
   ORDER BY 1
 "))
+portfolio_daily <- portfolio_daily |> mutate(date = as.Date(.data$date))
+
+coverage_audit <- build_coverage_audit(portfolio_daily)
+write_csv_audit(coverage_audit, "forecast_target_coverage_audit.csv")
+
+valid_dates <- coverage_audit$date[coverage_audit$retained_for_forecast]
+trimmed_dates <- coverage_audit$date[coverage_audit$terminal_invalid]
+if (length(trimmed_dates) > 0) {
+  message(sprintf(
+    "  Recorte de cobertura: se excluyen %d dias finales (%s -> %s).",
+    length(trimmed_dates),
+    min(trimmed_dates),
+    max(trimmed_dates)
+  ))
+}
+
+portfolio_daily <- portfolio_daily |> filter(.data$date %in% valid_dates)
 arrow::write_parquet(portfolio_daily, PORTFOLIO_DAILY_PARQUET)
 message(sprintf("  portfolio_daily: %s filas (%s -> %s)",
                 fmt_int(nrow(portfolio_daily)),
@@ -77,6 +147,9 @@ cluster_daily <- dbGetQuery(con, glue("
   GROUP BY 1, 2
   ORDER BY 1, 2
 "))
+cluster_daily <- cluster_daily |>
+  mutate(date = as.Date(.data$date)) |>
+  filter(.data$date %in% valid_dates)
 arrow::write_parquet(cluster_daily, CLUSTER_DAILY_PARQUET)
 message(sprintf("  cluster_daily: %s filas, %d clusters",
                 fmt_int(nrow(cluster_daily)),
@@ -95,6 +168,8 @@ portfolio_hourly <- dbGetQuery(con, glue("
   GROUP BY 1
   ORDER BY 1
 "))
+portfolio_hourly <- portfolio_hourly |>
+  filter(as.Date(.data$datetime) %in% valid_dates)
 arrow::write_parquet(portfolio_hourly, PORTFOLIO_HOURLY_PARQUET)
 message(sprintf("  portfolio_hourly: %s filas (%s -> %s)",
                 fmt_int(nrow(portfolio_hourly)),

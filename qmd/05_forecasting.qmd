@@ -94,6 +94,20 @@ tibble::tribble(
 
 **Por qué.** Cada componente cubre un sesgo distinto: ARIMAX captura tendencia con clima; XGB/LGBM modelan no-linealidades estacionales × clima × calendario; RF aporta robustez.
 
+# 4.1 Control de cobertura del target
+
+Antes de evaluar el bloque final se audita la cobertura diaria de usuarios. La serie
+contenía una cola no natural entre el 25 y el 31 de enero de 2024: el agregado
+pasaba de 105.232 kWh y 14.908 usuarios el 24/01 a 5.349 kWh y 789 usuarios el
+25/01. No era una caída real de demanda, sino un corte de datos. El pipeline
+marca como retenidos los días con `n_users >= 85%` de la mediana móvil previa de
+29 días y exporta `forecast_target_coverage_audit.csv`.
+
+Con esa regla, el 24/01 se conserva (85,95% de cobertura) y desde el 25/01 se
+excluye (4,55% y decreciendo). El test efectivo queda en 2023-07-01 →
+2024-01-24: 208 días, 4.992 horas y 1.248 filas cluster-día. Esto evita que los
+lags y medias móviles aprendan de una cola artificialmente baja.
+
 # 5. Resultados — Diario cartera
 
 ```{r daily-lb}
@@ -103,10 +117,10 @@ if (!is.null(lb)) lb |> kable(digits = 3, caption = "Leaderboard diario")
 
 **Lectura.**
 
-- **XGB gana**: WAPE **2,64%**, MAE 2.776 kWh/día, MASE 0,71, €desvío 56.696.
-- LightGBM segundo (WAPE 2,83%).
-- ARIMAX (9,3%) ofrece interpretabilidad pero pierde 3,5× contra el ML.
-- El mejor modelo recorta el error un 78% sobre snaive7.
+- **XGB gana**: WAPE **1,97%**, MAE 2.139 kWh/día, MASE 0,55, €desvío 42.266.
+- El ensemble top-3 queda segundo (WAPE 2,10%) y LightGBM tercero (2,26%).
+- ARIMAX (5,37%) ofrece interpretabilidad pero pierde 2,7× contra el XGB.
+- El mejor modelo recorta el MAE un 74% sobre `snaive365` y un 87% sobre `snaive7`.
 
 ```{r daily-pred-actual, fig.height=5.2}
 preds <- read_table("forecast_daily_predictions.csv")
@@ -124,7 +138,7 @@ if (!is.null(preds)) {
     scale_linewidth_manual(values = c(actual = 1.0, xgb = 0.7,
                                        lgbm = 0.5, snaive7 = 0.5)) +
     scale_y_continuous(labels = scales::comma) +
-    labs(title = "Predicción diaria vs real (test 2023-07 → 2024-01)",
+    labs(title = "Predicción diaria vs real (test 2023-07 → 2024-01-24)",
          x = NULL, y = "kWh totales / día", color = NULL, linewidth = NULL) +
     theme(legend.position = "bottom")
 
@@ -145,7 +159,7 @@ if (!is.null(preds)) {
 
 **Qué muestra.** Arriba: serie real (negro) vs XGB (verde), LGBM (violeta) y baseline snaive7 (naranja). Abajo: residuo del modelo ganador con suavizado LOESS.
 
-**Lectura.** XGB y LGBM se superponen al real prácticamente sin sesgo visible. El residuo oscila simétrico en torno a 0; el LOESS detecta un leve sesgo positivo en enero 2024 (subestimación durante ola de frío) — útil como pista para enriquecer features climáticas.
+**Lectura.** XGB y LGBM se superponen al real prácticamente sin sesgo visible. La cola incompleta de finales de enero ya no aparece: el gráfico termina el 24/01, último día con cobertura suficiente. El residuo oscila alrededor de 0 y mantiene un error bajo también en invierno.
 
 ```{r daily-intervals, fig.height=4}
 if (!is.null(preds) && "conformal_lo" %in% names(preds)) {
@@ -172,9 +186,9 @@ if (!is.null(imp)) imp |> kable(digits = 3, caption = "Impacto económico (€ d
 
 **Lectura.**
 
-- XGB horario alcanza **WAPE 0,70%, MASE 0,20, €desvío 15.073** (≈ 0,67 €/MWh).
-- LightGBM (1,28% WAPE) en segundo lugar; stacking iguala WAPE 0,83% pero no supera al XGB solo.
-- snaive168 / snaive24 quedan en 18-20% WAPE: la combinación calendario + lags + clima recorta **el 96% del error de la persistencia semanal**.
+- El stacking horario alcanza **WAPE 0,32%, MASE 0,09, €desvío 6.805** (≈ 0,30 €/MWh).
+- XGB y LightGBM quedan prácticamente empatados detrás (0,38% WAPE).
+- snaive168 / snaive24 quedan en 15-17% WAPE: la combinación calendario + lags + clima recorta **el 98% del error de la persistencia semanal**.
 
 ```{r hourly-week, fig.height=4.2}
 hp <- read_table("forecast_hourly_predictions.csv")
@@ -221,7 +235,7 @@ if (!is.null(hp)) {
 }
 ```
 
-**Implicación.** El modelo horario reproduce la doble cresta (mañana-tarde) y el valle nocturno con desplazamiento inferior a 30 kWh. A 0,67 €/MWh el coste de desvío residual es comparable al spread bid-ask típico del mercado.
+**Implicación.** El modelo horario reproduce la doble cresta (mañana-tarde) y el valle nocturno con desplazamiento muy bajo. A 0,30 €/MWh el coste de desvío residual del stack queda en una escala casi residual frente a la persistencia semanal.
 
 # 7. Resultados — Por cluster (07e)
 
@@ -249,9 +263,9 @@ if (!is.null(cp)) {
 
 **Lectura.**
 
-- Clusters predecibles: C2 (WAPE 3,9%), C3 (3,2%), C5 (4,6%) — grandes, regulares, base de la cartera.
-- Clusters ruidosos: C1 (WAPE 21%), C6 (10%) — pequeños y de comportamiento heterogéneo.
-- **Top-down gana** (WAPE 2,64%) frente a bottom-up (4,01%).
+- Clusters predecibles: C6 (WAPE 1,79%), C2 (1,81%) y C3 (2,38%).
+- Cluster más ruidoso: C5 (22,16% WAPE), coherente con baja ocupación y mayor irregularidad.
+- **Top-down gana** (WAPE 1,97%) frente a bottom-up (2,15%), aunque el margen es menor tras retirar la cola incompleta.
 
 **Implicación.** Para reportar la previsión global usamos el modelo de cartera y desagregamos por cuota histórica. La predicción por cluster aporta valor **operativo** (detección de anomalías) pero no debe sumarse para el total.
 
@@ -265,7 +279,7 @@ if (!is.null(ic)) ic |> kable(digits = 3,
 
 **Por qué dos métodos.** XGB quantile aprende intervalos asimétricos directamente; conformal split garantiza cobertura nominal (90%) bajo intercambiabilidad. Comparar ambos audita si la asimetría aprendida sobreajusta a la cola estacional.
 
-**Lectura.** Cobertura entre 88–92% en ambos métodos; amplitud conformal levemente mayor (más conservadora) pero con garantía teórica.
+**Lectura.** El conformal alcanza 90,9% de cobertura frente al 81,7% del cuantil XGB. Queda ligeramente por encima del nominal del 90% y evita la infracobertura clara del cuantil directo.
 
 **Implicación.** Para regulador o reporting financiero, **conformal split** por defecto: en la evaluación queda más alineado con el nivel nominal; el cuantil directo se mantiene como contraste operativo, pero sin la misma garantía de cobertura.
 
@@ -295,36 +309,37 @@ if (!is.null(sl)) sl |> kable(digits = 3,
 ```
 
 ```{r slices-viz, fig.height=4}
-if (!is.null(sl) && all(c("season", "dow", "WAPE") %in% names(sl))) {
-  ggplot(sl, aes(x = factor(dow), y = season, fill = WAPE)) +
-    geom_tile() +
-    geom_text(aes(label = sprintf("%.2f", WAPE)), size = 3) +
-    scale_fill_gradient(low = "#e0f3db", high = "#43a2ca") +
-    labs(title = "Mapa de calor del WAPE por estación × día de la semana",
-         x = "Día de la semana (1=Lun, 7=Dom)", y = NULL)
+if (!is.null(sl) && all(c("slice", "WAPE") %in% names(sl))) {
+  sl_viz <- sl |>
+    tidyr::separate(slice, into = c("tipo", "valor"), sep = "=", remove = FALSE)
+  ggplot(sl_viz, aes(x = reorder(valor, WAPE), y = WAPE, fill = tipo)) +
+    geom_col() +
+    coord_flip() +
+    labs(title = "WAPE por corte calendario",
+         x = NULL, y = "WAPE (%)", fill = NULL)
 }
 ```
 
-**Lectura.** Invierno y verano concentran error absoluto pero el WAPE relativo es estable. Lunes y festivos muestran el WAPE más alto — transiciones de régimen.
+**Lectura.** Invierno concentra el mayor WAPE estacional (2,82%). Por día de semana, lunes es el corte más difícil (2,23%), seguido de domingo y sábado en torno al 2,05-2,08%.
 
 # 11. Síntesis ejecutiva
 
 | Horizonte | Mejor modelo | WAPE | MASE | €desvío | €/MWh |
 |---|---|---|---|---|---|
-| Diario cartera | XGB log-target | **2,64%** | 0,71 | 56.696 | — |
-| Horario OMIE | XGB log-target | **0,70%** | 0,20 | 15.073 | 0,67 |
-| Diario cluster (mejor C3) | XGB log-target | 3,16% | 1,63 | 20.594 | — |
-| Reconciliación | Top-down | 2,64% | 0,71 | 56.696 | — |
+| Diario cartera | XGB log-target | **1,97%** | 0,55 | 42.266 | — |
+| Horario OMIE | Stack XGB+LGBM | **0,32%** | 0,09 | 6.805 | 0,30 |
+| Diario cluster (mejor C6) | XGB log-target | 1,79% | 0,51 | 4.007 | — |
+| Reconciliación | Top-down | 1,97% | 0,55 | 42.266 | — |
 
 ### Qué demuestra el forecasting
 
-**1. El forecast diario es suficiente para planificación de cartera.** Un WAPE de 2,64 % a horizonte diario en un año fuera de muestra (2023-07 → 2024-01) significa que el error medio relativo es del orden del 2-3 % sobre el consumo agregado. Es operativo para comprar energía, planificar coberturas y dimensionar campañas. No es lo mismo que predecir un hogar concreto: ese ejercicio tendría errores mucho mayores y el TFM no lo defiende.
+**1. El forecast diario es suficiente para planificación de cartera.** Un WAPE de 1,97 % a horizonte diario en test (2023-07-01 → 2024-01-24) significa que el error relativo queda alrededor del 2 % sobre el consumo agregado. Es operativo para comprar energía, planificar coberturas y dimensionar campañas. No es lo mismo que predecir un hogar concreto: ese ejercicio tendría errores mucho mayores y el TFM no lo defiende.
 
-**2. El forecast horario está cerca del techo informativo.** El WAPE de 0,70 % sobre la curva horaria agregada deja muy poco margen de mejora estructural: estamos prediciendo la forma horaria de la cartera con una precisión que se acerca al ruido inherente. Las ganancias adicionales tendrían que venir de información que ahora no usamos (clima horario, precios, eventos), no de mejor ajuste sobre los mismos features.
+**2. El forecast horario está cerca del techo informativo.** El WAPE de 0,32 % sobre la curva horaria agregada deja muy poco margen de mejora estructural: estamos prediciendo la forma horaria de la cartera con una precisión que se acerca al ruido inherente. Las ganancias adicionales tendrían que venir de información que ahora no usamos (clima horario, precios, eventos), no de mejor ajuste sobre los mismos features.
 
 **3. La sensibilidad a las features está identificada.** El top de importancias (`lag7`, `roll7`, `hdd_mean`, `cdd_mean`, `lag365`, `yoy_diff`) dice de forma cuantitativa qué pasa si una de estas señales falla. Si el feed AEMET cae, perdemos `hdd_mean` y `cdd_mean` y el WAPE se degrada de forma medible: ese es el SLO que la cooperativa debe garantizar a su upstream climático. Sin esa señal, el forecast sigue funcionando pero pasa de "operativo" a "informativo".
 
-**4. Top-down gana a bottom-up para compras agregadas.** La reconciliación muestra que predecir la cartera y desagregar por cluster da el mismo WAPE final que predecir cada cluster y sumar, pero con menor varianza y menos modelos a mantener. Para reporting regulatorio y compras agregadas, top-down es la opción correcta. El bottom-up por cluster solo merece la pena cuando la pregunta operativa es explícitamente por segmento (ejemplo: cuánto va a consumir C4 climatización invernal este enero).
+**4. Top-down gana a bottom-up para compras agregadas.** La reconciliación muestra que predecir la cartera y desagregar por cluster queda en 1,97% WAPE, frente a 2,15% al sumar modelos de cluster. Para reporting regulatorio y compras agregadas, top-down es la opción correcta. El bottom-up por cluster solo merece la pena cuando la pregunta operativa es explícitamente por segmento (ejemplo: cuánto va a consumir C4 climatización invernal este enero).
 
 **5. Los intervalos están calibrados con dos garantías distintas.** El conformal split garantiza cobertura nominal del 90 % bajo intercambiabilidad y en la evaluación queda más alineado con ese nivel: es el método correcto para regulador y reporting financiero. El cuantil directo se conserva como contraste operativo, pero queda infracubierto y no ofrece la misma garantía teórica. Tener ambos disponibles permite elegir según el caso de uso y auditar consistencia.
 
@@ -333,9 +348,9 @@ if (!is.null(sl) && all(c("season", "dow", "WAPE") %in% names(sl))) {
 ### Limitaciones y riesgos del forecasting
 
 - **El target log-transformado mejora el WAPE pero introduce un sesgo conocido al invertir la transformación.** El sesgo se corrige con el factor de Smearing en evaluación, pero en producción hay que mantener esa corrección o las predicciones quedarán sistemáticamente bajas.
-- **La validación rolling es estricta pero finita.** El test cubre julio 2023 → enero 2024: un año con un invierno y un comienzo de verano. Generalizar a años con perfiles climáticos extremos requiere reentrenar y revalidar, no asumir que el WAPE actual es estable indefinidamente.
-- **El forecasting por cluster degrada el WAPE en clusters pequeños.** El mejor cluster (C3) queda en 3,16 %, mientras otros pasan del 5 %. Es esperable: menos hogares, menos datos efectivos, más varianza. La cooperativa debe entender que la promesa "2,64 % WAPE" es para la cartera agregada, no por segmento.
+- **La validación rolling es estricta pero finita.** El test cubre julio 2023 → 24 de enero de 2024 tras excluir la cola incompleta del 25-31/01. Generalizar a años con perfiles climáticos extremos requiere reentrenar y revalidar, no asumir que el WAPE actual es estable indefinidamente.
+- **El forecasting por cluster degrada el WAPE en algunos segmentos.** El mejor cluster (C6) queda en 1,79 %, mientras C5 sube a 22,16 %. Es esperable: menos hogares efectivos y mayor irregularidad elevan la varianza. La cooperativa debe entender que la promesa "1,97 % WAPE" es para la cartera agregada, no para todos los segmentos.
 
-**Implicación final.** El forecasting está listo para operación: el modelo horario está cerca del techo informativo, el diario tiene margen de mejora vía clima determinista y la decisión top-down vs bottom-up queda zanjada con evidencia. La cadena evidencia → modelo → intervalo → decisión está cerrada y reproducible.
+**Implicación final.** El forecasting está listo para operación: el stack horario está cerca del techo informativo, el diario tiene margen de mejora vía clima determinista y la decisión top-down vs bottom-up queda zanjada con evidencia. La cadena evidencia → modelo → intervalo → decisión está cerrada y reproducible.
 
 **Trazabilidad técnica.** Todos los outputs proceden de `R/06_forecasting/06a-06f` invocables vía `Rscript R/99_orchestrator.R 06 --r-only`. Los modelos serializados quedan en `outputs/models/forecast_*.rds` para re-evaluación.

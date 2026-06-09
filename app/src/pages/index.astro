@@ -8,7 +8,9 @@ import "../styles/global.css";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Dashboard del TFM GoiEner con resultados agregados de EDA, clustering, forecasting y benchmark." />
+    <meta name="theme-color" content="#09090b" />
     <title>GoiEner TFM</title>
+    <link rel="icon" type="image/svg+xml" href="/goiener-dev-icon.svg" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -27,7 +29,7 @@ import "../styles/global.css";
     <nav class="navbar navbar-expand-lg navbar-dark app-navbar">
       <div class="container-fluid">
         <a class="navbar-brand" href="#inicio" data-tab-link="inicio">
-          <span class="brand-mark"><i class="fa-solid fa-bolt" aria-hidden="true"></i></span>
+          <span class="brand-mark"><img src="/goiener-dev-icon.svg" alt="" aria-hidden="true" /></span>
           GoiEner TFM
         </a>
         <button
@@ -68,6 +70,11 @@ import "../styles/global.css";
     </nav>
 
     <main class="container-fluid app-page">
+      <div class="mobile-view-notice" role="note">
+        <i class="fa-solid fa-display" aria-hidden="true"></i>
+        <span>Recomendado visualizar este dashboard en tablet o PC antes que en móvil.</span>
+      </div>
+
       <section class="tab-pane active" data-tab-panel="inicio" id="inicio">
         <div class="hero">
           <div>
@@ -84,51 +91,32 @@ import "../styles/global.css";
               <span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Intervalos conformales</span>
             </div>
           </div>
-          <div class="hero-stats">
+          <div class="hero-stats home-hero-metrics" aria-label="Indicadores principales">
             <div class="hero-stat">
+              <i class="fa-solid fa-users" aria-hidden="true"></i>
               <div class="hero-stat-value" id="hero-users">-</div>
               <div class="hero-stat-label">Usuarios</div>
+              <div class="hero-stat-sub">tarifa 2.0 con clima</div>
             </div>
             <div class="hero-stat">
-              <div class="hero-stat-value" id="hero-clusters">-</div>
-              <div class="hero-stat-label">Clusters</div>
-            </div>
-            <div class="hero-stat">
+              <i class="fa-solid fa-snowflake" aria-hidden="true"></i>
               <div class="hero-stat-value" id="hero-beta-hdd">-</div>
               <div class="hero-stat-label">β_HDD mediano</div>
+              <div class="hero-stat-sub">kWh/día por °C frío</div>
             </div>
             <div class="hero-stat">
+              <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+              <div class="hero-stat-value" id="hero-clusters">-</div>
+              <div class="hero-stat-label">Clusters</div>
+              <div class="hero-stat-sub">K-Means sobre PCA</div>
+            </div>
+            <div class="hero-stat">
+              <i class="fa-solid fa-bullseye" aria-hidden="true"></i>
               <div class="hero-stat-value" id="hero-wape">-</div>
               <div class="hero-stat-label">WAPE diario</div>
+              <div class="hero-stat-sub">mejor modelo diario</div>
             </div>
           </div>
-        </div>
-
-        <div class="layout-column-wrap columns-4">
-          <article class="kpi">
-            <i class="kpi-icon fa-solid fa-users" aria-hidden="true"></i>
-            <div class="kpi-label">Usuarios analizados</div>
-            <div class="kpi-value" id="kpi-users">-</div>
-            <div class="kpi-sub">tarifa 2.0 con clima</div>
-          </article>
-          <article class="kpi">
-            <i class="kpi-icon fa-solid fa-layer-group" aria-hidden="true"></i>
-            <div class="kpi-label">Clusters seleccionados</div>
-            <div class="kpi-value" id="kpi-clusters">-</div>
-            <div class="kpi-sub">K-Means sobre PCA</div>
-          </article>
-          <article class="kpi">
-            <i class="kpi-icon fa-solid fa-snowflake" aria-hidden="true"></i>
-            <div class="kpi-label">β_HDD mediano</div>
-            <div class="kpi-value" id="kpi-beta-hdd">-</div>
-            <div class="kpi-sub">kWh/día por °C frío</div>
-          </article>
-          <article class="kpi">
-            <i class="kpi-icon fa-solid fa-bullseye" aria-hidden="true"></i>
-            <div class="kpi-label">WAPE diario</div>
-            <div class="kpi-value" id="kpi-wape">-</div>
-            <div class="kpi-sub">mejor modelo del leaderboard</div>
-          </article>
         </div>
 
         <div class="layout-columns cols-7-5">
@@ -215,14 +203,14 @@ import "../styles/global.css";
             <div class="card-body"><div id="eda-hourly-plot" class="plotly-host plot-h360"></div></div>
           </article>
         </div>
-        <div class="layout-columns cols-5-7">
+        <div class="layout-columns cols-5-7 eda-summary-row">
           <article class="card">
             <div class="card-header"><i class="fa-solid fa-file-contract" aria-hidden="true"></i> Tarifas principales</div>
             <div class="card-body"><div id="eda-tariff-plot" class="plotly-host plot-h340"></div></div>
           </article>
           <article class="card">
             <div class="card-header"><i class="fa-solid fa-table" aria-hidden="true"></i> Resumen EDA</div>
-            <div class="card-body"><div id="eda-summary-dt" class="table-host"></div></div>
+            <div class="card-body"><div id="eda-summary-dt" class="eda-summary-panel"></div></div>
           </article>
         </div>
       </section>
@@ -262,8 +250,11 @@ import "../styles/global.css";
           <section class="tab-pane sub-pane" data-subtab-panel="clusters-individual">
             <div class="layout-sidebar">
               <aside class="sidebar-panel">
-                <label class="form-label" for="cluster-picker">Cluster:</label>
-                <select id="cluster-picker" class="form-select"></select>
+                <label class="form-label" for="cluster-picker">Cluster seleccionado</label>
+                <div class="select-affordance">
+                  <select id="cluster-picker" class="form-select"></select>
+                  <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </div>
                 <hr />
                 <p class="small-help">
                   <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
@@ -478,19 +469,24 @@ import "../styles/global.css";
           </section>
 
           <section class="tab-pane sub-pane" data-subtab-panel="forecast-cluster">
-            <div class="layout-sidebar">
+            <div class="layout-sidebar forecast-cluster-layout">
               <aside class="sidebar-panel">
-                <label class="form-label" for="cluster-fc-picker">Cluster:</label>
-                <select id="cluster-fc-picker" class="form-select"></select>
+                <label class="form-label" for="cluster-fc-picker">Cluster seleccionado</label>
+                <div class="select-affordance">
+                  <select id="cluster-fc-picker" class="form-select"></select>
+                  <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <div class="sidebar-metrics">
+                  <div class="sidebar-section-title">
+                    <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Métricas
+                  </div>
+                  <div id="cluster-fc-dt" class="metric-list compact"></div>
+                </div>
               </aside>
-              <div class="layout-columns cols-8-4">
+              <div class="sidebar-content">
                 <article class="card">
                   <div class="card-header">Predicción vs. real por cluster</div>
-                  <div class="card-body"><div id="cluster-fc-plot" class="plotly-host plot-h460"></div></div>
-                </article>
-                <article class="card">
-                  <div class="card-header">Métricas</div>
-                  <div class="card-body"><div id="cluster-fc-dt" class="table-host"></div></div>
+                  <div class="card-body"><div id="cluster-fc-plot" class="plotly-host plot-h520"></div></div>
                 </article>
               </div>
             </div>
@@ -521,24 +517,26 @@ import "../styles/global.css";
           <div class="section-sub">Resultados del capítulo 6: CSV, Parquet, DuckDB y tamaño en disco.</div>
         </header>
 
-        <div class="layout-columns cols-6-6">
+        <article class="card benchmark-time-card">
+          <div class="card-header">Tiempo por experimento y método</div>
+          <div class="card-body"><div id="benchmark-time-plot" class="plotly-host plot-h520"></div></div>
+        </article>
+        <div class="layout-columns cols-7-5 align-start">
+          <div class="benchmark-left-stack">
+            <article class="card">
+              <div class="card-header">Tamaño en disco por formato</div>
+              <div class="card-body"><div id="benchmark-disk-plot" class="plotly-host plot-h380"></div></div>
+            </article>
+            <article class="card benchmark-reading-card">
+              <div class="card-header"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Lectura del benchmark</div>
+              <div class="card-body"><div id="benchmark-reading"></div></div>
+            </article>
+          </div>
           <article class="card">
-            <div class="card-header">Tiempo por experimento y método</div>
-            <div class="card-body"><div id="benchmark-time-plot" class="plotly-host plot-h420"></div></div>
-          </article>
-          <article class="card">
-            <div class="card-header">Tamaño en disco por formato</div>
-            <div class="card-body"><div id="benchmark-disk-plot" class="plotly-host plot-h420"></div></div>
+            <div class="card-header"><i class="fa-solid fa-computer" aria-hidden="true"></i> Entorno de ejecución</div>
+            <div class="card-body"><div id="benchmark-env-dt" class="table-host compact-table"></div></div>
           </article>
         </div>
-        <article class="card">
-          <div class="card-header"><i class="fa-solid fa-table" aria-hidden="true"></i> Resultados detallados</div>
-          <div class="card-body"><div id="benchmark-dt" class="table-host"></div></div>
-        </article>
-        <article class="card">
-          <div class="card-header"><i class="fa-solid fa-computer" aria-hidden="true"></i> Entorno de ejecución</div>
-          <div class="card-body"><div id="benchmark-env-dt" class="table-host"></div></div>
-        </article>
       </section>
 
       <section class="tab-pane" data-tab-panel="conclusiones" id="conclusiones">
@@ -546,56 +544,81 @@ import "../styles/global.css";
           <div class="section-title">Conclusiones del TFM</div>
           <div class="section-sub">Resumen de los puntos que sostienen la memoria y la app.</div>
         </header>
-        <div id="conclusions-ui" class="layout-column-wrap columns-2"></div>
+        <div id="conclusions-ui" class="insight-board"></div>
       </section>
 
       <section class="tab-pane" data-tab-panel="metodologia" id="metodologia">
         <header class="section-header">
           <div class="section-title">Metodología y reproducibilidad</div>
+          <div class="section-sub">Cadena completa de la memoria: datos, clima, segmentación, forecast, benchmark y límites de uso.</div>
         </header>
 
-        <div class="layout-columns cols-6-6">
-          <article class="card">
-            <div class="card-header"><i class="fa-solid fa-database" aria-hidden="true"></i> Datos</div>
-            <div class="card-body p-3">
-              <ul>
-                <li><strong>Fuente:</strong> GoiEner imputed v7 (parquet, 2014-2024).</li>
-                <li><strong>Universo:</strong> hogares residenciales 2.0 con foco en cinco provincias con soporte suficiente.</li>
-                <li><strong>Granularidad:</strong> horaria → agregado diario por usuario.</li>
-                <li><strong>Clima:</strong> estación AEMET trazable por provincia e imputación exógena por fecha.</li>
-                <li><strong>Splits temporales:</strong> train ≤ 2022-12-31 · val 2023-01..06 · test 2023-07..2024-01.</li>
-              </ul>
-            </div>
+        <div class="method-hero">
+          <div>
+            <span class="method-kicker">Diseño reproducible</span>
+            <h2>De 27,1 GB de CSV a decisiones agregadas defendibles</h2>
+            <p>
+              El pipeline materializa cada fase en salidas auditables: Parquet particionado, tablas de calidad,
+              clima AEMET, features por usuario, clusters, predicciones e informes Quarto.
+            </p>
+          </div>
+          <div class="method-stack" aria-label="Tecnologías principales">
+            <span>Parquet ZSTD-9</span>
+            <span>DuckDB local</span>
+            <span>R + Quarto</span>
+            <span>Astro dashboard</span>
+          </div>
+        </div>
+
+        <div class="method-map">
+          <article class="method-step">
+            <span class="method-step-index">01</span>
+            <i class="fa-solid fa-database" aria-hidden="true"></i>
+            <h3>Ingesta y calidad</h3>
+            <p>CSV horarios seudonimizados → Parquet por año; filtros de días completos, consumo positivo, top 5 territorial y trazas de anomalías.</p>
           </article>
-          <article class="card">
-            <div class="card-header"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Modelado</div>
-            <div class="card-body p-3">
-              <ul>
-                <li><strong>Features:</strong> consumo, calendario, HDD/CDD, amplitud térmica, festivos, potencia contratada y sensibilidad climática por usuario.</li>
-                <li><strong>Clustering:</strong> matriz de forma + PCA + K-Means; selección por silhouette + Jaccard + balance.</li>
-                <li><strong>Forecast:</strong> naïve, S-naïve, ETS, ARIMAX, RF, XGBoost, LightGBM, GLMNet, stacking.</li>
-                <li><strong>Cuantiles:</strong> XGB objective='reg:quantileerror' (q05, q95).</li>
-                <li><strong>Conformal:</strong> split-conformal calibrado en validación.</li>
-                <li><strong>Reproducibilidad:</strong> SEED=42, orquestador con subprocesos.</li>
-              </ul>
-            </div>
+          <article class="method-step">
+            <span class="method-step-index">02</span>
+            <i class="fa-solid fa-cloud-sun-rain" aria-hidden="true"></i>
+            <h3>Clima AEMET</h3>
+            <p>Temperatura, HDD/CDD e imputación exógena marcada por provincia y fecha para no ocultar huecos meteorológicos.</p>
+          </article>
+          <article class="method-step">
+            <span class="method-step-index">03</span>
+            <i class="fa-solid fa-fingerprint" aria-hidden="true"></i>
+            <h3>Features por usuario</h3>
+            <p>Forma horaria, estacionalidad, potencia, calendario, festivos y sensibilidad climática agregada antes de segmentar.</p>
+          </article>
+          <article class="method-step">
+            <span class="method-step-index">04</span>
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <h3>Clustering</h3>
+            <p>PCA + K-Means con selección por silhouette, estabilidad Jaccard y balance para obtener segmentos comparables.</p>
+          </article>
+          <article class="method-step">
+            <span class="method-step-index">05</span>
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+            <h3>Forecast</h3>
+            <p>Baselines, RF, XGBoost, LightGBM y stacking con split temporal estricto: train ≤ 2022-12-31, validación 2023H1 y test 2023H2-2024-01.</p>
+          </article>
+          <article class="method-step">
+            <span class="method-step-index">06</span>
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+            <h3>Intervalos y límites</h3>
+            <p>Conformal split para cobertura nominal del 90%, uso agregado de cartera y exclusión explícita de predicción individual.</p>
           </article>
         </div>
-        <article class="card">
-          <div class="card-header"><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Pipeline</div>
-          <div class="card-body p-3">
-            <ol>
-              <li>00_extract_raw / 01_csv_to_parquet — ingesta y formato columnar.</li>
-              <li>02_data_quality — auditoría y selección de hogares.</li>
-              <li>03a-d_climate — descarga AEMET, augment, imputación y merge consumo-clima.</li>
-              <li>04a-b_features — feature engineering por usuario y sensibilidad climática.</li>
-              <li>05a-h_clustering — pool, matriz, modelos, validación, selección, interpretación, socioeconómico, mapping comercial.</li>
-              <li>06a-f_forecasting — targets, features temporales, modelos diarios / horarios / cluster, evaluación.</li>
-              <li>07_benchmark — rendimiento CSV/Parquet/DuckDB, disco y entorno.</li>
-              <li>99_orchestrator — ejecuta scripts R y QMD con logs por artefacto.</li>
-            </ol>
-          </div>
-        </article>
+
+        <div class="layout-columns cols-6-6 align-start">
+          <article class="method-note accent-teal">
+            <div class="method-note-title"><i class="fa-solid fa-route" aria-hidden="true"></i> Orquestación</div>
+            <p>El script <code>R/99_orchestrator.R</code> ejecuta fases 00→07 y documentos <code>qmd/01</code>→<code>qmd/07</code>, escribiendo logs y timings por artefacto.</p>
+          </article>
+          <article class="method-note accent-violet">
+            <div class="method-note-title"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> Alcance defendible</div>
+            <p>Las conclusiones son de cartera GoiEner 2.0 con clima disponible; no se presentan como muestra nacional ni como causalidad individual.</p>
+          </article>
+        </div>
         <div class="footer">
           <p>
             <strong>GoiEner TFM</strong> · construido con Astro ·

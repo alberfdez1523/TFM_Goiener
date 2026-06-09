@@ -1,0 +1,26 @@
+copied dashboard_eda_summary.csv
+copied dashboard_eda_monthly.csv
+copied dashboard_eda_hourly.csv
+copied dashboard_eda_tariff.csv
+copied cluster_profiles.csv
+copied cluster_socioeconomic.csv
+copied cluster_business_mapping.csv
+copied cluster_top_separators.csv
+copied cluster_leaderboard.csv
+copied forecast_master_leaderboard.csv
+copied forecast_leaderboard_daily.csv
+copied forecast_leaderboard_hourly.csv
+copied forecast_leaderboard_cluster.csv
+copied forecast_daily_predictions.csv
+copied forecast_daily_intervals.csv
+copied forecast_hourly_predictions.csv
+copied forecast_hourly_business_impact.csv
+copied forecast_cluster_predictions.csv
+copied forecast_error_slices.csv
+copied forecast_daily_xgb_importance.csv
+copied feature_climate_sensitivity_summary.csv
+copied benchmark_results.csv
+copied benchmark_environment.csv
+copied benchmark_disk_size.csv
+copied pipeline_timings.csv
+dashboard data sync complete: 25/25 files

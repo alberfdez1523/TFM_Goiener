@@ -95,6 +95,8 @@ VAL_START   <- as.Date("2023-01-01")
 VAL_END     <- as.Date("2023-06-30")
 TEST_START  <- as.Date("2023-07-01")
 TEST_END    <- as.Date("2024-01-31")
+FORECAST_MIN_DAILY_COVERAGE_PCT <- 85
+FORECAST_COVERAGE_WINDOW_DAYS <- 29L
 
 # Clustering
 MAX_K <- 10L  # Maximo numero de clusters a evaluar

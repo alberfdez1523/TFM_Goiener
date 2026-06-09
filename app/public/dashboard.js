@@ -94,6 +94,10 @@ function initTabs() {
         panel.classList.toggle("active", panel.dataset.tabPanel === target);
       });
       document.querySelector("#main-navbar")?.classList.remove("show");
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+      });
       setTimeout(resizePlots, 40);
     });
   });
@@ -174,11 +178,6 @@ function renderHome() {
   setText("#hero-beta-hdd", formatFixed(betaHdd, 3));
   setText("#hero-wape", formatPercent(wape, 2));
 
-  setText("#kpi-users", formatInt(users));
-  setText("#kpi-clusters", formatInt(clusterCount));
-  setText("#kpi-beta-hdd", formatFixed(betaHdd, 3));
-  setText("#kpi-wape", formatPercent(wape, 2));
-
   plotDailyForecast("#home-forecast-plot", state.forecastDaily, {
     models: ["xgb", "ensemble"],
     showBand: true,
@@ -200,11 +199,15 @@ function renderHome() {
     values: clusters.map((row) => num(row.n)),
     hole: 0.55,
     marker: { colors: PALETTE },
-    textinfo: "label+percent",
+    textinfo: "percent",
+    textposition: "inside",
+    insidetextorientation: "radial",
+    sort: false,
     hovertemplate: "%{label}<br>%{value:,.0f} usuarios<extra></extra>"
   }], {
-    showlegend: false,
-    margin: { t: 12, r: 10, b: 12, l: 10 }
+    showlegend: true,
+    legend: { orientation: "v", x: 1.02, y: 0.5, xanchor: "left", yanchor: "middle" },
+    margin: { t: 12, r: 150, b: 12, l: 10 }
   });
 
   scatterClusters("#home-climate-scatter", clusters, null);
@@ -255,17 +258,7 @@ function renderEda() {
     sort: "asc"
   });
 
-  table("#eda-summary-dt", state.summary, [
-    ["Días completos", "dias_usuario_completos", formatInt],
-    ["Usuarios", "usuarios", formatInt],
-    ["Fecha min", "fecha_min"],
-    ["Fecha max", "fecha_max"],
-    ["Media kWh", "media_kWh", (v) => formatFixed(v, 2)],
-    ["Mediana kWh", "mediana_kWh", (v) => formatFixed(v, 2)],
-    ["P90", "p90_kWh", (v) => formatFixed(v, 2)],
-    ["P99", "p99_kWh", (v) => formatFixed(v, 2)],
-    ["kWh total", "kWh_total", formatInt]
-  ]);
+  edaSummaryPanel("#eda-summary-dt", summary);
 }
 
 function renderClusters() {
@@ -312,6 +305,7 @@ function renderClusters() {
     ["Beta HDD", "beta_hdd", (v) => formatFixed(v, 3)],
     ["Beta CDD", "beta_cdd", (v) => formatFixed(v, 3)]
   ]);
+  highlightClusterTable(document.querySelector("#cluster-picker")?.value);
 }
 
 function renderClusterDetail() {
@@ -352,6 +346,7 @@ function renderClusterDetail() {
   });
 
   renderBusinessCard(selected);
+  highlightClusterTable(selected);
 }
 
 function renderBusinessCard(clusterLabel) {
@@ -538,15 +533,15 @@ function renderForecastCluster() {
     hovermode: "x unified"
   });
 
-  const leader = state.forecastClusterLeader.filter((row) => String(row.cluster) === String(selected));
-  table("#cluster-fc-dt", leader.length ? leader : state.forecastClusterLeader, [
-    ["Cluster", "cluster"],
-    ["Modelo", "model"],
-    ["MAE", "MAE", (v) => formatFixed(v, 3)],
-    ["RMSE", "RMSE", (v) => formatFixed(v, 3)],
-    ["WAPE", "WAPE", (v) => formatFixed(v, 3)],
-    ["MASE", "MASE", (v) => formatFixed(v, 3)]
-  ], { limit: 12 });
+  const leader = state.forecastClusterLeader.find((row) => String(row.cluster) === String(selected)) || {};
+  metricList("#cluster-fc-dt", [
+    ["Cluster", selected],
+    ["Modelo", leader.model || "-"],
+    ["MAE", formatFixed(leader.MAE, 3)],
+    ["RMSE", formatFixed(leader.RMSE, 3)],
+    ["WAPE", `${formatFixed(leader.WAPE, 3)}%`],
+    ["MASE", formatFixed(leader.MASE, 3)]
+  ]);
 }
 
 function renderForecastMaster() {
@@ -567,21 +562,29 @@ function renderForecastMaster() {
 
 function renderBenchmarks() {
   const experiments = [...new Set(state.benchmark.map((row) => row.experimento))];
-  plot("#benchmark-time-plot", experiments.map((experiment, index) => {
-    const rows = state.benchmark.filter((row) => row.experimento === experiment);
-    return {
-      type: "bar",
-      orientation: "h",
-      name: experiment,
-      y: rows.map((row) => row.metodo),
-      x: rows.map((row) => num(row.mediana_s)),
-      marker: { color: PALETTE[index % PALETTE.length] },
-      hovertemplate: `${escapeHtml(experiment)}<br>%{y}<br>%{x:.3f}s<extra></extra>`
-    };
-  }), {
-    xaxis: { title: "Mediana (s)" },
-    yaxis: { title: "" },
-    barmode: "group"
+  const experimentOrder = new Map(experiments.map((experiment, index) => [experiment, index]));
+  const benchmarkRows = [...state.benchmark]
+    .filter((row) => Number.isFinite(num(row.mediana_s)))
+    .sort((a, b) => experimentOrder.get(a.experimento) - experimentOrder.get(b.experimento) || num(b.mediana_s) - num(a.mediana_s));
+
+  plot("#benchmark-time-plot", [{
+    type: "bar",
+    orientation: "h",
+    y: benchmarkRows.map((row) => `${row.experimento} · ${row.metodo}`),
+    x: benchmarkRows.map((row) => num(row.mediana_s)),
+    text: benchmarkRows.map((row) => `${formatFixed(row.mediana_s, 3)}s`),
+    textposition: "outside",
+    cliponaxis: false,
+    marker: {
+      color: benchmarkRows.map((row) => PALETTE[experimentOrder.get(row.experimento) % PALETTE.length])
+    },
+    customdata: benchmarkRows.map((row) => [row.experimento, row.metodo, row.speedup, row.mem_alloc_mb]),
+    hovertemplate: "%{customdata[0]}<br>%{customdata[1]}<br>Mediana = %{x:.3f}s<br>Speedup = %{customdata[2]}x<br>Memoria = %{customdata[3]:.1f} MB<extra></extra>"
+  }], {
+    xaxis: { title: "Mediana (s)", title_standoff: 16 },
+    yaxis: { title: "", automargin: true, autorange: "reversed", tickfont: { size: 10 } },
+    margin: { l: 290, r: 112, t: 12, b: 62 },
+    showlegend: false
   });
 
   horizontalBar("#benchmark-disk-plot", state.benchmarkDisk, {
@@ -593,19 +596,61 @@ function renderBenchmarks() {
     sort: "asc"
   });
 
-  table("#benchmark-dt", state.benchmark, [
-    ["Experimento", "experimento"],
-    ["Método", "metodo"],
-    ["n", "n", formatInt],
-    ["Mediana s", "mediana_s", (v) => formatFixed(v, 3)],
-    ["Media s", "media_s", (v) => formatFixed(v, 3)],
-    ["P95 s", "p95_s", (v) => formatFixed(v, 3)]
-  ]);
+  renderBenchmarkReading();
 
   table("#benchmark-env-dt", state.benchmarkEnv, [
     ["Item", "item"],
     ["Value", "value"]
   ]);
+}
+
+function renderBenchmarkReading() {
+  const host = document.querySelector("#benchmark-reading");
+  if (!host) return;
+
+  const csvDisk = state.benchmarkDisk.find((row) => String(row.formato || "").toLowerCase().includes("csv"));
+  const parquetHourly = state.benchmarkDisk.find((row) => String(row.formato || "").toLowerCase().includes("parquet horario"));
+  const duckRead = state.benchmark.find((row) =>
+    row.experimento === "1. Lectura completa" && String(row.metodo || "").toLowerCase().includes("duckdb")
+  );
+  const arrowRead = state.benchmark.find((row) =>
+    row.experimento === "1. Lectura completa" && String(row.metodo || "").toLowerCase().includes("arrow")
+  );
+  const preagg = state.benchmark.find((row) =>
+    row.experimento === "5. Consulta compleja" && String(row.metodo || "").toLowerCase().includes("pre-agregadas")
+  );
+  const rawQuery = state.benchmark.find((row) =>
+    row.experimento === "5. Consulta compleja" && String(row.metodo || "").toLowerCase().includes("horario bruto")
+  );
+  const memoryLimit = state.benchmarkEnv.find((row) => row.item === "duckdb_memory_limit")?.value || "10GB";
+
+  const diskRatio = num(csvDisk?.MB) / num(parquetHourly?.MB);
+  const duckVsArrow = num(arrowRead?.mediana_s) / num(duckRead?.mediana_s);
+  const preaggRatio = num(rawQuery?.mediana_s) / num(preagg?.mediana_s);
+
+  host.innerHTML = `
+    <div class="benchmark-reading-grid">
+      ${benchmarkReadingItem("Compresión", `${formatFixed(diskRatio, 1)}x`, "CSV crudo frente a Parquet horario ZSTD-9", "box-archive")}
+      ${benchmarkReadingItem("Lectura amplia", `${formatFixed(duckVsArrow, 1)}x`, "DuckDB reduce el coste frente a Arrow en lectura completa", "gauge-high")}
+      ${benchmarkReadingItem("Pre-agregación", `${formatFixed(preaggRatio, 0)}x`, "Las tablas compactas evitan recorrer el horario bruto", "table-cells")}
+      ${benchmarkReadingItem("Límite local", memoryLimit, "Suficiente para reproducir el TFM sin Spark", "memory")}
+    </div>
+    <div class="benchmark-reading-note">
+      <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+      <span>Conclusión operativa: Parquet queda como almacenamiento persistente, DuckDB como motor de consulta y las tablas pre-agregadas como capa interactiva del dashboard.</span>
+    </div>
+  `;
+}
+
+function benchmarkReadingItem(label, value, detail, icon) {
+  return `
+    <div class="benchmark-reading-item">
+      <i class="fa-solid fa-${icon}" aria-hidden="true"></i>
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+      <small>${escapeHtml(detail)}</small>
+    </div>
+  `;
 }
 
 function renderConclusions() {
@@ -615,77 +660,90 @@ function renderConclusions() {
   const clusterCount = clusterRows().length;
   const users = sum(clusterRows(), "n");
   const medianKwh = state.summary[0]?.mediana_kWh;
+  const csvDisk = bestBy(state.benchmarkDisk.filter((row) => String(row.formato || "").toLowerCase().includes("csv")), "MB");
+  const parquetDisk = bestBy(state.benchmarkDisk.filter((row) => String(row.formato || "").toLowerCase().includes("parquet")), "MB");
 
   const cards = [
     {
       icon: "magnifying-glass-chart",
-      title: "EDA — qué dice la cartera",
-      lead: `La cartera presenta una distribución muy asimétrica de consumo: la mediana diaria ronda ${formatFixed(medianKwh, 2)} kWh mientras la cola derecha concentra un grupo reducido de hogares de consumo alto.`,
-      bullets: [
-        "Heterogeneidad entre usuarios mayor que la variabilidad diaria de un mismo hogar: tiene más sentido segmentar antes que ajustar un único modelo agregado.",
-        "Estacionalidad clara con valles nocturnos, pico vespertino y mayor consumo en meses fríos.",
-        "Crecimiento sostenido de la cartera 2014-2024: obliga a validación temporal estricta."
-      ],
-      footer: "Implicación: filtros de calidad por usuario, features de forma horaria y validación rolling."
-    },
-    {
-      icon: "shield-halved",
-      title: "Calidad, privacidad y alcance",
-      lead: "Los datos están seudonimizados y se trabajan siempre como agregados o segmentos: la app no muestra hogares individuales.",
-      bullets: [
-        "Tasa de nulos y negativos muy baja, con trazabilidad de días incompletos.",
-        "Spikes y negativos quedan auditados antes de features y clustering.",
-        "Privacidad por diseño: salidas agregadas a cluster y sin atributos identificativos sensibles."
-      ],
-      footer: "Implicación ética: el TFM informa decisiones de cartera, no segmentaciones individuales."
-    },
-    {
-      icon: "cloud-sun-rain",
-      title: "Clima — qué aporta AEMET",
-      lead: "La capa climática diaria se construye desde AEMET por provincia, se imputa cuando hay huecos y se cruza con calendario.",
-      bullets: [
-        "HDD/CDD resumen presión térmica de manera defendible.",
-        "La sensibilidad climática se estima por usuario y luego se promedia por cluster.",
-        "El calendario diferenciado evita confundir señales estatales con festivos autonómicos."
-      ],
-      footer: "Implicación operativa: si el feed AEMET falla, el WAPE del forecast se degrada de forma medible."
+      tag: "Cartera",
+      title: "El consumo no es homogéneo",
+      value: `${formatFixed(medianKwh, 2)} kWh`,
+      detail: "mediana diaria",
+      lead: "La memoria confirma asimetría, estacionalidad y crecimiento de cartera; por eso el pipeline filtra, agrega y valida en el tiempo antes de modelar.",
+      points: ["segmentar antes de promediar", "top 5 territorial con clima defendible", "test fuera de muestra 2023-07 → 2024-01"]
     },
     {
       icon: "layer-group",
-      title: "Clusters — segmentación operativa",
-      lead: `La solución K-Means sobre PCA segmenta ${formatInt(users)} hogares en ${clusterCount} grupos comparables, más un segmento descriptivo no_habitual.`,
-      bullets: [
-        "Los segmentos resisten remuestreo y no son artefactos del split concreto.",
-        "Las variables más discriminantes son forma horaria, estacionalidad y sensibilidad climática.",
-        "Cada cluster tiene una acción operativa asociada en cluster_business_mapping."
-      ],
-      footer: "Implicación: la segmentación sostiene recomendaciones de tarifa, eficiencia y forecasting por cluster."
+      tag: "Clusters",
+      title: "Segmentos útiles, no etiquetas personales",
+      value: `${formatInt(users)}`,
+      detail: `${clusterCount} grupos comparables`,
+      lead: "PCA + K-Means convierte forma horaria, estacionalidad y sensibilidad climática en segmentos accionables y auditables.",
+      points: ["silhouette + Jaccard + balance", "recomendación comercial por cluster", "lectura agregada, nunca individual"]
     },
     {
       icon: "chart-line",
-      title: "Forecast — utilidad y límites",
-      lead: `El mejor modelo diario alcanza WAPE ${formatPercent(bestDaily?.WAPE, 2)} en test con XGBoost sobre target log-transformado, calendario extendido, lags y HDD/CDD.`,
-      bullets: [
-        "El modelo horario se apoya en diff_lag24/168 y stacking ridge sobre validación.",
-        "Los intervalos conformal split quedan más alineados con cobertura nominal del 90%.",
-        "Errores mayores se concentran en lunes, festivos y transiciones de régimen."
-      ],
-      footer: "Implicación: usar conformal para reporting financiero, quantile para pricing interno."
+      tag: "Forecast",
+      title: "XGBoost sostiene la operación agregada",
+      value: formatPercent(bestDaily?.WAPE, 2),
+      detail: "WAPE diario",
+      lead: "El modelo diario es válido para planificación de cartera; el horario queda cerca del techo informativo y top-down gana para compras agregadas.",
+      points: ["lags + calendario + HDD/CDD", "conformal split para reporting", "errores en lunes, festivos y cambios de régimen"]
     },
     {
       icon: "database",
-      title: "Arquitectura — reproducibilidad",
-      lead: "El stack Parquet + DuckDB + tablas pre-agregadas hace viable reproducir el TFM en local sin desplegar infraestructura distribuida.",
-      bullets: [
-        "Compresión ZSTD-9 reduce el tamaño frente al CSV equivalente.",
-        "El orquestador encadena extracción, calidad, clima, features, clustering, forecasting y benchmark.",
-        "El re-render reproducible queda trazado con logs y timings por fase."
-      ],
-      footer: "Implicación: el TFM se valida 1:1 desde cero."
+      tag: "Arquitectura",
+      title: "Parquet + DuckDB hacen reproducible el TFM",
+      value: `${formatFixed(csvDisk?.MB, 0)} → ${formatFixed(parquetDisk?.MB, 0)} MB`,
+      detail: "CSV crudo vs Parquet horario",
+      lead: "La decisión técnica no es estética: permite ejecutar el trabajo en local, medir tiempos y no depender de nube o clusters externos.",
+      points: ["pre-agregación como palanca principal", "logs y timings por fase", "orden de magnitud defendible, no segundos absolutos"]
+    },
+    {
+      icon: "shield-halved",
+      tag: "Ética",
+      title: "La frontera de uso queda declarada",
+      value: "Agregado",
+      detail: "no individual",
+      lead: "La seudonimización no convierte el dato en anónimo fuerte; por eso las salidas son de cartera, cluster o benchmark, no de hogar concreto.",
+      points: ["sin representatividad nacional", "sin causalidad fuerte", "sin decisiones intrusivas por usuario"]
+    },
+    {
+      icon: "route",
+      tag: "Siguiente fase",
+      title: "Mejora donde hay incertidumbre real",
+      value: "Monitorizar",
+      detail: "deriva y cobertura",
+      lead: "La memoria propone reforzar validación estacional, estabilidad de clusters y drift del intervalo conformal antes de ampliar el alcance.",
+      points: ["clima horario y eventos externos", "reentrenos con ventanas múltiples", "métricas de cobertura en producción"]
     }
   ];
 
-  host.innerHTML = cards.map(conclusionCard).join("");
+  host.innerHTML = `
+    <section class="conclusion-hero">
+      <div>
+        <span class="method-kicker">Síntesis de memoria</span>
+        <h2>Evidencia → modelo → intervalo → decisión</h2>
+        <p>El TFM queda defendible porque cada afirmación del dashboard puede volver a una tabla, un script y un log reproducible.</p>
+      </div>
+      <div class="decision-chain" aria-label="Cadena de decisión">
+        ${["Datos", "Clusters", "Forecast", "Uso"].map((item, index) => `
+          <span><strong>${index + 1}</strong>${item}</span>
+        `).join("")}
+      </div>
+    </section>
+    <div class="conclusion-grid">
+      ${cards.map(conclusionCard).join("")}
+    </div>
+    <section class="limits-strip">
+      <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+      <div>
+        <strong>Límite explícito de la memoria:</strong>
+        resultados válidos para cartera GoiEner 2.0 con clima disponible, no para extrapolar a toda España ni actuar sobre hogares individuales.
+      </div>
+    </section>
+  `;
 }
 
 function plotDailyForecast(selector, rows, options) {
@@ -745,22 +803,49 @@ function plotDailyForecast(selector, rows, options) {
 }
 
 function scatterClusters(selector, rows, selected) {
-  plot(selector, [{
+  const selectedRows = selected ? rows.filter((row) => row.cluster_label === selected) : [];
+  const baseRows = selected ? rows.filter((row) => row.cluster_label !== selected) : rows;
+  const traceFor = (traceRows, options) => ({
     type: "scatter",
     mode: "markers+text",
-    x: rows.map((row) => num(row.beta_hdd)),
-    y: rows.map((row) => num(row.beta_cdd)),
-    text: rows.map((row) => row.cluster_label),
+    x: traceRows.map((row) => num(row.beta_hdd)),
+    y: traceRows.map((row) => num(row.beta_cdd)),
+    text: traceRows.map((row) => row.cluster_label),
     textposition: "top center",
     marker: {
-      color: rows.map((row) => row.cluster_label === selected ? "#fbbf24" : "#10b981"),
-      size: rows.map((row) => Math.max(12, Math.sqrt(num(row.n) || 1) / 2.5)),
-      opacity: 0.82,
-      line: { color: "#fafafa", width: rows.map((row) => row.cluster_label === selected ? 2 : 1) }
+      color: options.color,
+      size: traceRows.map((row) => Math.max(options.minSize, Math.sqrt(num(row.n) || 1) / options.scale + options.extraSize)),
+      opacity: options.opacity,
+      line: { color: options.lineColor, width: options.lineWidth }
     },
-    customdata: rows.map((row) => [row.n, row.mean_daily_kWh]),
+    customdata: traceRows.map((row) => [row.n, row.mean_daily_kWh]),
     hovertemplate: "%{text}<br>β_HDD=%{x:.3f}<br>β_CDD=%{y:.3f}<br>n=%{customdata[0]:,.0f}<br>media=%{customdata[1]:.2f} kWh<extra></extra>"
-  }], {
+  });
+
+  const traces = [
+    traceFor(baseRows, {
+      color: "#10b981",
+      minSize: 12,
+      scale: 2.5,
+      extraSize: 0,
+      opacity: 0.62,
+      lineColor: "rgba(250,250,250,0.65)",
+      lineWidth: 1
+    })
+  ];
+  if (selectedRows.length) {
+    traces.push(traceFor(selectedRows, {
+      color: "#f97316",
+      minSize: 20,
+      scale: 2.5,
+      extraSize: 7,
+      opacity: 0.98,
+      lineColor: "#ffedd5",
+      lineWidth: 3
+    }));
+  }
+
+  plot(selector, traces, {
     xaxis: { title: "β_HDD" },
     yaxis: { title: "β_CDD" },
     showlegend: false
@@ -798,6 +883,7 @@ function horizontalBar(selector, rows, config) {
     y: plotted.map((row) => row[config.y]),
     text: plotted.map((row) => config.text ? config.text(row) : formatFixed(row[config.x], 2)),
     textposition: "outside",
+    cliponaxis: false,
     marker: {
       color: typeof config.marker === "function" ? plotted.map(config.marker) : config.marker
     },
@@ -805,7 +891,7 @@ function horizontalBar(selector, rows, config) {
   }], {
     xaxis: { title: config.xTitle || "" },
     yaxis: { title: "", automargin: true, autorange: "reversed" },
-    margin: { l: 120, r: 34, t: 14, b: 48 },
+    margin: { l: 120, r: 116, t: 14, b: 48 },
     showlegend: false
   });
 }
@@ -884,21 +970,90 @@ function metricList(selector, rows) {
   host.innerHTML = rows.map(([label, value]) => metricRow(label, value)).join("");
 }
 
+function edaSummaryPanel(selector, summary) {
+  const host = document.querySelector(selector);
+  if (!host) return;
+  if (!summary || !Object.keys(summary).length) return empty(host);
+
+  const items = [
+    {
+      label: "Cobertura",
+      value: formatInt(summary.dias_usuario_completos),
+      detail: "días-usuario completos",
+      icon: "calendar-check"
+    },
+    {
+      label: "Usuarios",
+      value: formatInt(summary.usuarios),
+      detail: "identificadores válidos",
+      icon: "users"
+    },
+    {
+      label: "Ventana",
+      value: `${summary.fecha_min || "-"} → ${summary.fecha_max || "-"}`,
+      detail: "periodo observado",
+      icon: "timeline"
+    },
+    {
+      label: "Consumo típico",
+      value: `${formatFixed(summary.mediana_kWh, 2)} kWh`,
+      detail: `media ${formatFixed(summary.media_kWh, 2)} kWh`,
+      icon: "bolt"
+    },
+    {
+      label: "Cola alta",
+      value: `${formatFixed(summary.p99_kWh, 2)} kWh`,
+      detail: `P90 ${formatFixed(summary.p90_kWh, 2)} kWh`,
+      icon: "arrow-trend-up"
+    },
+    {
+      label: "Total",
+      value: formatInt(summary.kWh_total),
+      detail: "kWh agregados",
+      icon: "gauge-high"
+    }
+  ];
+
+  host.innerHTML = `
+    <div class="eda-summary-grid">
+      ${items.map((item) => `
+        <div class="eda-summary-item">
+          <i class="fa-solid fa-${item.icon}" aria-hidden="true"></i>
+          <span>${escapeHtml(item.label)}</span>
+          <strong>${escapeHtml(item.value)}</strong>
+          <small>${escapeHtml(item.detail)}</small>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
 function metricRow(label, value) {
   return `<div class="metric-row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value ?? "-")}</strong></div>`;
 }
 
 function conclusionCard(card) {
   return `
-    <article class="card">
-      <div class="card-header"><i class="fa-solid fa-${card.icon}" aria-hidden="true"></i> ${escapeHtml(card.title)}</div>
-      <div class="card-body goi-prose">
-        <p>${escapeHtml(card.lead)}</p>
-        <ul>${card.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
-        <p class="mt-2 mb-0 text-secondary"><em>${escapeHtml(card.footer)}</em></p>
+    <article class="conclusion-card">
+      <div class="conclusion-card-top">
+        <span><i class="fa-solid fa-${card.icon}" aria-hidden="true"></i> ${escapeHtml(card.tag)}</span>
+        <strong>${escapeHtml(card.value)}</strong>
+      </div>
+      <h3>${escapeHtml(card.title)}</h3>
+      <p>${escapeHtml(card.lead)}</p>
+      <div class="conclusion-card-detail">${escapeHtml(card.detail)}</div>
+      <div class="conclusion-points">
+        ${card.points.map((point) => `<span>${escapeHtml(point)}</span>`).join("")}
       </div>
     </article>
   `;
+}
+
+function highlightClusterTable(selected) {
+  document.querySelectorAll("#cluster-table tbody tr").forEach((row) => {
+    const cluster = row.cells[0]?.textContent?.trim();
+    row.classList.toggle("is-selected", Boolean(selected && cluster === selected));
+  });
 }
 
 function setDateInputs(prefix, rows, key, defaultSpanDays) {
