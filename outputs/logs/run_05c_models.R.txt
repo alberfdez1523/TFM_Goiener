@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -23,4 +22,4 @@ Avisos:
 Aviso:
 Quick-TRANSfer stage steps exceeded maximum (= 1064800) 
   Modelos guardados: 27 soluciones
-06c en 255.0 s
+06c en 236.3 s

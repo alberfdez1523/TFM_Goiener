@@ -9,10 +9,12 @@
 #   source(here::here("_config.R"))
 # ==============================================================================
 
-library(here)
-library(fs)
+options(here.quiet = TRUE, encoding = "UTF-8", useFancyQuotes = FALSE)
 
-options(encoding = "UTF-8", useFancyQuotes = FALSE)
+suppressPackageStartupMessages({
+  library(here)
+  library(fs)
+})
 
 # ==============================================================================
 # Rutas del proyecto

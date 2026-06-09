@@ -1,13 +1,13 @@
 "experimento","metodo","first_iter_s","warm_mediana_s","mediana_s","mem_alloc_mb","speedup"
-"1. Lectura completa","CSV + readr",1.3777085,1.30075905,1.3020924,215.72,15.5
-"1. Lectura completa","Parquet + Arrow",20.2983572,20.14472665,20.2007193,16.18,1
-"1. Lectura completa","Parquet + DuckDB",0.5970005,0.60423345,0.6038561,0.18,33.5
-"2. Seleccion columnar","CSV (todas columnas -> filtrar)",0.258344899999999,0.254314,0.2548725,37.49,14.3
-"2. Seleccion columnar","Parquet + Arrow (col pushdown)",3.6149183,3.670296,3.6554431,6.34,1
-"2. Seleccion columnar","Parquet + DuckDB (col pushdown)",0.353929900000001,0.358971900000001,0.358409300000001,12.27,10.2
-"3. Filtro temporal","DuckDB scan completo",0.1213173,0.126493600000001,0.126450000000001,0,1
-"3. Filtro temporal","DuckDB con particion",0.1053569,0.107777650000001,0.107774200000001,0,1.2
-"4. Agregacion diaria","GROUP BY sobre horario",1.3461938,1.2471334,1.3027326,137.37,1
-"4. Agregacion diaria","Tabla pre-agregada",0.872397500000001,0.818044250000001,0.872397500000001,137.36,1.5
-"5. Consulta compleja","Desde horario bruto",6.7317736,6.68812065,6.6881849,0,1
-"5. Consulta compleja","Tablas pre-agregadas",0.031516700000001,0.0297024000000006,0.0301440000000008,0,221.9
+"1. Lectura completa","CSV + readr",1.63855319999999,1.57466209999995,1.58169959999998,215.72,16.6
+"1. Lectura completa","Parquet + Arrow",26.2639973,25.9379593,26.2639973,16.18,1
+"1. Lectura completa","Parquet + DuckDB",0.773004800000024,0.772225000000049,0.773004800000024,0.18,34
+"2. Selección columnar","CSV (todas columnas -> filtrar)",0.322591799999998,0.324614700000041,0.323752800000022,37.49,13.7
+"2. Selección columnar","Parquet + Arrow (col pushdown)",4.39902000000001,4.44679665000007,4.42154840000006,6.34,1
+"2. Selección columnar","Parquet + DuckDB (col pushdown)",0.44884780000001,0.443037100000026,0.443203500000038,12.27,10
+"3. Filtro temporal","DuckDB scan completo",0.167237499999999,0.174578650000029,0.174322500000017,0,1
+"3. Filtro temporal","DuckDB con partición",0.140759400000036,0.144145750000035,0.143416900000034,0,1.2
+"4. Agregación diaria","GROUP BY sobre horario",1.73674730000005,1.61925835000002,1.68106060000002,137.37,1
+"4. Agregación diaria","Tabla pre-agregada",1.02454950000003,0.969943950000044,1.02454950000003,137.36,1.6
+"5. Consulta compleja","Desde horario bruto",8.26471010000006,8.27812000000003,8.27770450000003,0,1
+"5. Consulta compleja","Tablas pre-agregadas",0.0404168000000027,0.040022050000033,0.0403482000000395,0,205.2

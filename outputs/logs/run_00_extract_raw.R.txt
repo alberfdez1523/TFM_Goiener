@@ -1,32 +1,31 @@
-here() starts at C:/Users/alber/Desktop/TFM
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning message:
+Aviso:
 package 'archive' was built under R version 4.5.2 
 [CONFIG] Configuracion del proyecto cargada.
-⠙ 1973 extracted | 2.0 GB (443 MB/s) | 4.4s
-⠹ 3263 extracted | 3.3 GB (438 MB/s) | 7.5s
-⠸ 4442 extracted | 4.4 GB (425 MB/s) | 10.4s
-⠼ 5783 extracted | 5.8 GB (428 MB/s) | 13.5s
-⠴ 7111 extracted | 7.0 GB (428 MB/s) | 16.4s
-⠦ 8381 extracted | 8.3 GB (427 MB/s) | 19.5s
-⠧ 9630 extracted | 9.5 GB (424 MB/s) | 22.5s
-⠇ 10865 extracted |  11 GB (422 MB/s) | 25.5s
-⠏ 12088 extracted |  12 GB (419 MB/s) | 28.5s
-⠋ 13438 extracted |  13 GB (422 MB/s) | 31.5s
-⠙ 14743 extracted |  15 GB (423 MB/s) | 34.5s
-⠹ 15992 extracted |  16 GB (422 MB/s) | 37.5s
-⠸ 17418 extracted |  17 GB (425 MB/s) | 40.5s
-⠼ 18799 extracted |  19 GB (427 MB/s) | 43.5s
-⠴ 20205 extracted |  20 GB (429 MB/s) | 46.5s
-⠦ 21474 extracted |  21 GB (428 MB/s) | 49.5s
-⠧ 22835 extracted |  23 GB (429 MB/s) | 52.5s
-⠇ 24092 extracted |  24 GB (428 MB/s) | 55.5s
-⠏ 25408 extracted |  25 GB (428 MB/s) | 58.5s
-⠋ 26726 extracted |  26 GB (428 MB/s) | 1m 1.5s
-⠙ 28086 extracted |  28 GB (429 MB/s) | 1m 4.6s
+⠙ 2468 extracted | 2.5 GB (578 MB/s) | 4.2s
+⠹ 3950 extracted | 3.9 GB (538 MB/s) | 7.3s
+⠸ 5393 extracted | 5.4 GB (502 MB/s) | 10.7s
+⠼ 6839 extracted | 6.8 GB (509 MB/s) | 13.4s
+⠴ 8118 extracted | 8.1 GB (493 MB/s) | 16.4s
+⠦ 9660 extracted | 9.6 GB (494 MB/s) | 19.4s
+⠧ 10966 extracted |  11 GB (485 MB/s) | 22.4s
+⠇ 12384 extracted |  12 GB (482 MB/s) | 25.4s
+⠏ 13593 extracted |  13 GB (474 MB/s) | 28.4s
+⠋ 14883 extracted |  15 GB (467 MB/s) | 31.5s
+⠙ 16344 extracted |  16 GB (469 MB/s) | 34.4s
+⠹ 17599 extracted |  17 GB (452 MB/s) | 38.5s
+⠸ 18555 extracted |  18 GB (453 MB/s) | 40.4s
+⠼ 19865 extracted |  20 GB (452 MB/s) | 43.5s
+⠴ 21005 extracted |  21 GB (446 MB/s) | 46.4s
+⠦ 22152 extracted |  22 GB (442 MB/s) | 49.5s
+⠧ 23498 extracted |  23 GB (441 MB/s) | 52.6s
+⠇ 24818 extracted |  24 GB (438 MB/s) | 55.8s
+⠏ 26121 extracted |  26 GB (439 MB/s) | 58.6s
+⠋ 27405 extracted |  27 GB (438 MB/s) | 1m 1.6s
+⠙ 28744 extracted |  28 GB (438 MB/s) | 1m 4.6s
 Se detecto carpeta duplicada. Recolocando archivos...
 CSV extraidos: 28807
-Ruta final: C:/Users/alber/Desktop/TFM/data/extracted/imputed_goiener_v7
+Ruta final: <PROJECT_ROOT>/data/extracted/imputed_goiener_v7
