@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -38,4 +37,4 @@ Avisos:
 3      lgbm 4992  17.212   35.198  0.343  0.343  0.381   8162.694 0.111
 4 snaive168 4992 699.672 1047.107 13.162 14.824 15.478 331812.540 4.494
 5  snaive24 4992 777.149 1194.931 14.347 16.460 17.192 368555.031 4.992
-07d en 137.7 s
+07d en 128.6 s

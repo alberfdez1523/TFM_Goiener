@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -75,4 +74,4 @@ PASO 06d: Validacion (indices + Jaccard + ARI)
 8            TRUE          FALSE      FALSE           0.822
 9            TRUE          FALSE      FALSE           0.800
 10           TRUE          FALSE      FALSE           0.792
-06d en 84.5 s
+06d en 76.5 s

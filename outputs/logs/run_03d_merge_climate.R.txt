@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -39,12 +38,9 @@ package 'suncalc' was built under R version 4.5.3
   Con clima imputado: 1.958.637 (5,26%)
   Registros en festivo: 1.253.546
     Nacionales: 960.415 | Autonomicos/locales: 293.131
-  Calidad merge clima exportada a: C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/tables/climate_merge_quality.csv
-  Auditoria merge-imputacion exportada a: C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/tables/climate_merge_imputation_audit.csv
-  Missing clima por provincia-fecha exportado a: C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/tables/climate_missing_by_province_date.csv
+  Calidad merge clima exportada a: <PROJECT_ROOT>/outputs/tables/climate_merge_quality.csv
+  Auditoria merge-imputacion exportada a: <PROJECT_ROOT>/outputs/tables/climate_merge_imputation_audit.csv
+  Missing clima por provincia-fecha exportado a: <PROJECT_ROOT>/outputs/tables/climate_missing_by_province_date.csv
 
-[Extra] Normales climaticas provincia x mes...
-  Normales portfolio guardadas: C:/Users/alber/Desktop/TFM/TFM_codigo/data/parquet/climate/climate_normals_province_month.parquet
-
-Merge completado en 31.6 s. JOIN en 26.1 s.
-Fichero generado: C:/Users/alber/Desktop/TFM/TFM_codigo/data/parquet/features/daily_with_climate.parquet
+Merge completado en 26.8 s. JOIN en 22.0 s.
+Fichero generado: <PROJECT_ROOT>/data/parquet/features/daily_with_climate.parquet

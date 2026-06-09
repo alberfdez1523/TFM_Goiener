@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -26,10 +25,10 @@ Registered S3 method overwritten by 'quantmod':
 
 [4/5] Construyendo auditorias de imputacion...
   Celdas climaticas imputadas: 1.467 | filas con alguna imputacion: 1.276
-  Auditoria resumen: C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/tables/climate_imputation_summary.csv
-  Auditoria por fecha: C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/tables/climate_imputation_by_province_date.csv
+  Auditoria resumen: <PROJECT_ROOT>/outputs/tables/climate_imputation_summary.csv
+  Auditoria por fecha: <PROJECT_ROOT>/outputs/tables/climate_imputation_by_province_date.csv
 
 [5/5] Guardando capa climatica imputada...
-Guardado: C:/Users/alber/Desktop/TFM/TFM_codigo/data/parquet/climate/daily_climate_imputed.parquet (20.090 registros)
+Guardado: <PROJECT_ROOT>/data/parquet/climate/daily_climate_imputed.parquet (20.090 registros)
 
-Paso 03c completado en 2.0 s.
+Paso 03c completado en 2.6 s.

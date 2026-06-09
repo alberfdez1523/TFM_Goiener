@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -11,4 +10,4 @@ Avisos:
 ======================================================================
 PASO 06g: Lectura socioeconomica post-hoc
 ======================================================================
-06g en 0.6 s
+06g en 0.5 s

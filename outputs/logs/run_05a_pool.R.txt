@@ -1,4 +1,3 @@
-here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
@@ -23,4 +22,4 @@ PASO 05a: Pool residencial y matriz de features
 8 Segmento no_habitual (separado)          2198      8.41
 Pool guardado: 21.296 usuarios (vivienda habitual)
 Segmento no_habitual: 2.198 usuarios
-05a en 0.5 s
+05a en 0.4 s

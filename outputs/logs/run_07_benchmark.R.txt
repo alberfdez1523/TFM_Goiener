@@ -1,9 +1,8 @@
-here() starts at C:/Users/alber/Desktop/TFM
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'bench' was built under R version 4.5.3 
 2: package 'DBI' was built under R version 4.5.2 
 3: package 'duckdb' was built under R version 4.5.2 
@@ -39,40 +38,40 @@ PASO 08: Benchmark de arquitectura de datos
 [6/6] Exp. 6: Tamano en disco...
   Tamano en disco:
                        formato       bytes      MB    GB ratio_vs_csv
-1         CSV crudo (extraido) 28384655687 27069.7 26.44          1.0
-2     Parquet horario (ZSTD-9)  1698003914  1619.3  1.58         16.7
-3 Parquet total (+ auxiliares)  4137807201  3946.1  3.85          6.9
+1         CSV crudo (extraído) 28384655687 27069.7 26.44          1.0
+2     Parquet horario (ZSTD-9)  1700373420  1621.6  1.58         16.7
+3 Parquet total (+ auxiliares)  4139544341  3947.8  3.86          6.9
 4             tar.zst original  2395479998  2284.5  2.23         11.8
 
 Consolidando resultados...
 
 Resultados del benchmark:
              experimento                          metodo first_iter_s
-1    1. Lectura completa                     CSV + readr    1.3777085
-2    1. Lectura completa                 Parquet + Arrow   20.2983572
-3    1. Lectura completa                Parquet + DuckDB    0.5970005
-4  2. Seleccion columnar CSV (todas columnas -> filtrar)    0.2583449
-5  2. Seleccion columnar  Parquet + Arrow (col pushdown)    3.6149183
-6  2. Seleccion columnar Parquet + DuckDB (col pushdown)    0.3539299
-7     3. Filtro temporal            DuckDB scan completo    0.1213173
-8     3. Filtro temporal            DuckDB con particion    0.1053569
-9   4. Agregacion diaria          GROUP BY sobre horario    1.3461938
-10  4. Agregacion diaria              Tabla pre-agregada    0.8723975
-11  5. Consulta compleja             Desde horario bruto    6.7317736
-12  5. Consulta compleja            Tablas pre-agregadas    0.0315167
+1    1. Lectura completa                     CSV + readr    1.6385532
+2    1. Lectura completa                 Parquet + Arrow   26.2639973
+3    1. Lectura completa                Parquet + DuckDB    0.7730048
+4  2. Selección columnar CSV (todas columnas -> filtrar)    0.3225918
+5  2. Selección columnar  Parquet + Arrow (col pushdown)    4.3990200
+6  2. Selección columnar Parquet + DuckDB (col pushdown)    0.4488478
+7     3. Filtro temporal            DuckDB scan completo    0.1672375
+8     3. Filtro temporal            DuckDB con partición    0.1407594
+9   4. Agregación diaria          GROUP BY sobre horario    1.7367473
+10  4. Agregación diaria              Tabla pre-agregada    1.0245495
+11  5. Consulta compleja             Desde horario bruto    8.2647101
+12  5. Consulta compleja            Tablas pre-agregadas    0.0404168
    warm_mediana_s  mediana_s mem_alloc_mb speedup
-1       1.3007590  1.3020924       215.72    15.5
-2      20.1447267 20.2007193        16.18     1.0
-3       0.6042334  0.6038561         0.18    33.5
-4       0.2543140  0.2548725        37.49    14.3
-5       3.6702960  3.6554431         6.34     1.0
-6       0.3589719  0.3584093        12.27    10.2
-7       0.1264936  0.1264500         0.00     1.0
-8       0.1077777  0.1077742         0.00     1.2
-9       1.2471334  1.3027326       137.37     1.0
-10      0.8180443  0.8723975       137.36     1.5
-11      6.6881207  6.6881849         0.00     1.0
-12      0.0297024  0.0301440         0.00   221.9
+1      1.57466210  1.5816996       215.72    16.6
+2     25.93795930 26.2639973        16.18     1.0
+3      0.77222500  0.7730048         0.18    34.0
+4      0.32461470  0.3237528        37.49    13.7
+5      4.44679665  4.4215484         6.34     1.0
+6      0.44303710  0.4432035        12.27    10.0
+7      0.17457865  0.1743225         0.00     1.0
+8      0.14414575  0.1434169         0.00     1.2
+9      1.61925835  1.6810606       137.37     1.0
+10     0.96994395  1.0245495       137.36     1.6
+11     8.27812000  8.2777045         0.00     1.0
+12     0.04002205  0.0403482         0.00   205.2
 
 Contexto de ejecucion:
                           item
@@ -96,7 +95,7 @@ Contexto de ejecucion:
 18            spark_scope_note
 19              benchmark_role
                                                                                                                                                                                                    value
-1                                                                                                                                                                               2026-05-12 22:00:23 CEST
+1                                                                                                                                                                               2026-06-10 00:04:56 CEST
 2                                                                                                                                                                                                  4.5.1
 3                                                                                                                                                                                     x86_64-w64-mingw32
 4                                                                                                                                                                 Microsoft Windows 11 Home | 10.0.26200
@@ -110,10 +109,10 @@ Contexto de ejecucion:
 12                                                                                                                                                                                                  TRUE
 13                                                                                                                                                                                                     5
 14 No se vacia la cache del sistema operativo entre iteraciones. first_iter_s aproxima la primera ejecucion de la sesion y warm_mediana_s resume iteraciones 2-5. DuckDB object cache configurada: TRUE.
-15                                                                                                                                                                                                4608.3
+15                                                                                                                                                                                                5382.2
 16                                                                        mem_alloc_mb es memoria asignada estimada por bench; process_peak_working_set_mb es el pico del proceso R completo en Windows.
 17                                                                                                 Suficiente para entorno local reproducible en este TFM; no es una comparativa universal contra Spark.
 18                                                                                      Si el dataset creciera 100x o se exigiera computo distribuido multiusuario, Spark podria volver a tener sentido.
 19                                                                                                                                   Anexo fuerte de arquitectura; no es el centro metodologico del TFM.
 
-Paso 08 completado en 220.7 s.
+Paso 08 completado en 280.7 s.

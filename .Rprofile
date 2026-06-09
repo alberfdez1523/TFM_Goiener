@@ -4,6 +4,7 @@
 # silenciando los falsos positivos "no visible binding".
 
 local({
+  options(here.quiet = TRUE)
   cfg <- file.path(getwd(), "_config.R")
   if (file.exists(cfg)) {
     try(source(cfg, local = FALSE), silent = TRUE)
