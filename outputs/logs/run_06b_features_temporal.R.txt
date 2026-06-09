@@ -17,4 +17,4 @@ PASO 07b: Features temporales
   filas: 15.247, clusters: 6
 [3/3] Hourly portfolio FE...
   filas: 70.728
-07b en 1.9 s
+07b en 2.0 s

@@ -26,5 +26,5 @@ PASO 07e: Forecasting por cluster + reconciliacion
 6       6
     variant      MAE  WAPE  EUR_dev
 1 bottom_up 2335.183 2.153 46143.21
-2  top_down 2138.955 1.972 42265.74
-07e en 24.8 s
+2  top_down 2175.088 2.005 42979.74
+07e en 12.0 s

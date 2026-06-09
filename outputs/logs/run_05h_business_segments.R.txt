@@ -1,9 +1,9 @@
-here() starts at C:/Users/alber/Desktop/TFM
+here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'arrow' was built under R version 4.5.2 
 2: package 'dplyr' was built under R version 4.5.2 
 [CONFIG] Configuracion del proyecto cargada.
@@ -74,4 +74,4 @@ PASO 05h: Mapping a finalidades de negocio
 5             91.7        63.8
 6             96.8        62.4
 7             97.5        67.0
-05h en 0.1 s
+05h en 0.2 s

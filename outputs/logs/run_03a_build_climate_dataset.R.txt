@@ -1,9 +1,9 @@
-here() starts at C:/Users/alber/Desktop/TFM
+here() starts at C:/Users/alber/Desktop/TFM/TFM_codigo
 [CONFIG] Configuracion del proyecto cargada.
-Warning messages:
+Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
-Warning messages:
+Avisos:
 1: package 'climaemet' was built under R version 4.5.3 
 2: package 'DBI' was built under R version 4.5.2 
 3: package 'duckdb' was built under R version 4.5.2 
@@ -30,20 +30,20 @@ PASO 03: Construccion del dataset climatico (AEMET)
 9             39        216
 10            09        200
   Alcance de modelado: Gipuzkoa, Bizkaia, Navarra, Alava, Madrid provincias (26.854 usuarios de 30.260; 88,74%)
-  Auditoria de alcance guardada en: C:/Users/alber/Desktop/TFM/outputs/tables/model_scope_audit.csv
+  Auditoria de alcance guardada en: C:/Users/alber/Desktop/TFM/TFM_codigo/outputs/tables/model_scope_audit.csv
   Provincias climaticas a cubrir: 5
 
 [2/5] Mapeando estaciones AEMET a provincias...
   Estaciones mapeadas: 5 para 5 provincias
-  Mapeo guardado en: C:/Users/alber/Desktop/TFM/data/parquet/climate/station_mapping.parquet
+  Mapeo guardado en: C:/Users/alber/Desktop/TFM/TFM_codigo/data/parquet/climate/station_mapping.parquet
 
 [3/5] Descargando datos climaticos de AEMET...
   (climaemet gestiona internamente rate limiting, retries y rangos)
-  [1/5] Descargando San Sebastian/Igueldo (1024E, prov 20)...
-  [2/5] Descargando Bilbao aeropuerto (1082, prov 48)...
-  [3/5] Descargando Pamplona/Noain aeropuerto (9263D, prov 31)...
-  [4/5] Descargando Vitoria/Gasteiz aeropuerto (9091O, prov 01)...
-  [5/5] Descargando Madrid/Retiro (3129, prov 28)...
+  [1/5] Cache San Sebastian/Igueldo (1024E, prov 20)
+  [2/5] Cache Bilbao aeropuerto (1082, prov 48)
+  [3/5] Cache Pamplona/Noain aeropuerto (9263D, prov 31)
+  [4/5] Cache Vitoria/Gasteiz aeropuerto (9091O, prov 01)
+  [5/5] Cache Madrid/Retiro (3129, prov 28)
 
 [4/5] Guardando capa climatica...
 
@@ -64,6 +64,6 @@ PASO 03: Construccion del dataset climatico (AEMET)
  9 mean_tmed        14.4      
 10 mean_hdd         2.96      
 11 mean_cdd         0.38      
-Guardado: C:/Users/alber/Desktop/TFM/data/parquet/climate/daily_climate.parquet (20.090 registros)
+Guardado: C:/Users/alber/Desktop/TFM/TFM_codigo/data/parquet/climate/daily_climate.parquet (20.090 registros)
 
-Paso 03 completado en 351.7 s.
+Paso 03 completado en 0.7 s.

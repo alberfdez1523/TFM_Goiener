@@ -17,7 +17,7 @@ Registered S3 method overwritten by 'quantmod':
   as.zoo.data.frame zoo 
 [2/6] ETS y ARIMAX...
 [3/6] ML modelos (log-target + early stopping)...
-  RF mejor mtry=17 MAE_val=2881.9
+  RF mejor mtry=17 MAE_val=2885.4
 
 Avisos:
 1: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
@@ -26,21 +26,21 @@ Avisos:
   Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
 3: In throw_err_or_depr_msg("Parameter '", match_old, "' has been renamed to '",  :
   Parameter 'watchlist' has been renamed to 'evals'. This warning will become an error in a future version.
-  LGBM best_iter=153
+  LGBM best_iter=146
 [4/6] Stacking lineal sobre validacion...
   Pesos stacking: rf=0.24, xgb=0.26, lgbm=0.24, arimax=0.25
 [5/6] Conformal split intervals...
   best point model: xgb
 [6/6] Guardando outputs...
            model   n       MAE      RMSE   MAPE  sMAPE   WAPE   EUR_dev  MASE
-1            xgb 208  2138.955  3022.415  1.910  1.899  1.972  42265.74 0.548
-2  ensemble_top3 208  2272.998  3191.616  2.035  2.029  2.095  44914.44 0.583
-3           lgbm 208  2456.207  3369.819  2.191  2.194  2.264  48534.65 0.630
-4             rf 208  2537.533  3524.891  2.258  2.248  2.339  50141.66 0.651
-5          stack 208  2591.199  3414.338  2.366  2.341  2.389  51202.10 0.664
+1            xgb 208  2175.088  3086.100  1.945  1.933  2.005  42979.74 0.558
+2  ensemble_top3 208  2287.422  3207.541  2.047  2.042  2.109  45199.46 0.586
+3           lgbm 208  2481.482  3410.469  2.207  2.215  2.287  49034.09 0.636
+4             rf 208  2531.074  3520.835  2.251  2.241  2.333  50014.03 0.649
+5          stack 208  2600.749  3415.726  2.373  2.348  2.397  51390.79 0.667
 6         arimax 208  5821.367  7271.489  5.529  5.359  5.366 115030.22 1.492
 7      snaive365 208  8098.613 10437.942  7.547  7.233  7.465 160028.59 2.076
 8        snaive7 208 15847.023 21752.396 13.070 14.628 14.608 313137.17 4.063
 9            ets 208 16087.267 22014.580 13.257 14.863 14.830 317884.39 4.124
 10         naive 208 17422.147 23376.312 14.389 16.267 16.060 344261.62 4.466
-07c en 28.9 s
+07c en 29.2 s
