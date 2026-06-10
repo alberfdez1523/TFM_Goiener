@@ -1,0 +1,8 @@
+"solution","algo","k","jaccard_mean"
+"kmeans_pca_k6","kmeans_pca",6,0.939251859139597
+"kmeans_pca_k5","kmeans_pca",5,0.948895808592788
+"kmeans_pca_k7","kmeans_pca",7,0.831968388820671
+"kmeans_pca_k4","kmeans_pca",4,0.9812683033416
+"kmeans_pca_k3","kmeans_pca",3,0.8900753627122
+"pam_pca_k2","pam_pca",2,0.875467092363869
+"kmeans_pca_k2","kmeans_pca",2,0.937707168063081

@@ -11,20 +11,30 @@ Avisos:
 ======================================================================
 PASO 06f: Interpretacion
 ======================================================================
-# A tibble: 6 × 33
-  cluster_label     n   pct mean_daily_kWh median_daily_kWh cv_daily
-  <chr>         <int> <dbl>          <dbl>            <dbl>    <dbl>
-1 C1              878  3.74           9.97             8.25    0.892
-2 C2             6927 29.5            6.06             5.72    0.464
-3 C3            10158 43.2            5.55             5.37    0.436
-4 C4             1755  7.47          10.5              7.94    0.757
-5 C5              881  3.75           5.30             2.82    1.39 
-6 C6              697  2.97          28.6             26.4     0.488
-# ℹ 27 more variables: ratio_night_day <dbl>, ratio_weekend_weekday <dbl>,
-#   peak_share <dbl>, valley_share <dbl>, flat_share <dbl>,
-#   peak_to_valley_ratio <dbl>, seasonal_amplitude_norm <dbl>,
-#   max_month_share <dbl>, monthly_entropy <dbl>, summer_winter_ratio <dbl>,
-#   low_day_rate <dbl>, zero_day_rate <dbl>, holiday_ratio <dbl>,
-#   bridge_ratio <dbl>, morning_kWh_share <dbl>, afternoon_kWh_share <dbl>,
-#   evening_kWh_share <dbl>, night_kWh_share <dbl>, peak_hour <dbl>, …
-06f en 2.0 s
+Aviso:
+There was 1 warning in `mutate()`.
+ℹ In argument: `cluster = ifelse(...)`.
+Caused by warning in `ifelse()`:
+! NAs introducidos por coerción 
+# A tibble: 6 × 36
+  cluster_label     n   pct cluster n_usuarios pct_usuarios mean_daily_kWh
+  <chr>         <int> <dbl>   <int>      <int>        <dbl>          <dbl>
+1 C1              878  3.74       1        878         3.74           9.97
+2 C2             6927 29.5        2       6927        29.5            6.06
+3 C3            10158 43.2        3      10158        43.2            5.55
+4 C4             1755  7.47       4       1755         7.47          10.5 
+5 C5              881  3.75       5        881         3.75           5.30
+6 C6              697  2.97       6        697         2.97          28.6 
+# ℹ 29 more variables: median_daily_kWh <dbl>, cv_daily <dbl>,
+#   ratio_night_day <dbl>, ratio_weekend_weekday <dbl>, peak_share <dbl>,
+#   valley_share <dbl>, flat_share <dbl>, peak_to_valley_ratio <dbl>,
+#   seasonal_amplitude_norm <dbl>, max_month_share <dbl>,
+#   monthly_entropy <dbl>, summer_winter_ratio <dbl>, low_day_rate <dbl>,
+#   zero_day_rate <dbl>, holiday_ratio <dbl>, bridge_ratio <dbl>,
+#   morning_kWh_share <dbl>, afternoon_kWh_share <dbl>, …
+Aviso:
+There was 1 warning in `mutate()`.
+ℹ In argument: `cluster = ifelse(...)`.
+Caused by warning in `ifelse()`:
+! NAs introducidos por coerción 
+06f en 2.6 s

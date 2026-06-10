@@ -1,0 +1,8 @@
+"cluster","cluster_label","n_users","n_cnae_known","n_cnae_unknown","coverage_pct","top_cnae_section_label"
+0,"no_habitual",2198,2194,4,99.82,"T Hogares"
+1,"C1",878,874,4,99.54,"T Hogares"
+2,"C2",6927,6922,5,99.93,"T Hogares"
+3,"C3",10158,10154,4,99.96,"T Hogares"
+4,"C4",1755,1754,1,99.94,"T Hogares"
+5,"C5",881,878,3,99.66,"T Hogares"
+6,"C6",697,697,0,100,"O Administracion"

@@ -1,0 +1,8 @@
+"cluster","cluster_label","n_usuarios","pct_stage_b","max_pct_constraint","is_stage_b"
+1,"C1",878,3.74,75,TRUE
+2,"C2",6927,29.48,75,TRUE
+3,"C3",10158,43.24,75,TRUE
+4,"C4",1755,7.47,75,TRUE
+5,"C5",881,3.75,75,TRUE
+6,"C6",697,2.97,75,TRUE
+0,"no_habitual",2198,NA,75,FALSE

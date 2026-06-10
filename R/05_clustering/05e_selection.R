@@ -63,6 +63,8 @@ clusters_df <- tibble::tibble(
 
 # Anade el segmento descriptivo "no_habitual" si existe.
 nh_path <- path(FEATURES_DIR, "cluster_no_habitual.parquet")
+scope_df <- arrow::read_parquet(path(FEATURES_DIR, "cluster_pool.parquet")) |>
+  select(any_of(c("user_id", "cod_provincia", "tarifa_clean", "cnae", "p1_kw")))
 if (file_exists(nh_path)) {
   nh <- arrow::read_parquet(nh_path)
   if (nrow(nh) > 0) {
@@ -74,12 +76,27 @@ if (file_exists(nh_path)) {
       k        = decision$k[1]
     )
     clusters_df <- dplyr::bind_rows(clusters_df, nh_df)
+    scope_df <- dplyr::bind_rows(
+      scope_df,
+      nh |> select(any_of(c("user_id", "cod_provincia", "tarifa_clean", "cnae", "p1_kw")))
+    )
     message(sprintf("  Anadidos %s usuarios no_habitual (cluster=-1).",
                     fmt_int(nrow(nh_df))))
   }
 }
 
+clusters_df <- clusters_df |>
+  left_join(scope_df |> distinct(user_id, .keep_all = TRUE), by = "user_id")
+
 arrow::write_parquet(clusters_df, USER_CLUSTERS_PARQUET)
+
+validation_path <- path(TABLE_DIR, "cluster_validation.csv")
+if (file_exists(validation_path)) {
+  validation <- read.csv(validation_path, stringsAsFactors = FALSE) |>
+    mutate(selected = .data$solution == solution_name)
+  write_csv_audit(validation, "cluster_validation.csv")
+}
+
 message(sprintf("Etiquetas guardadas: %s (%s usuarios totales)",
                 USER_CLUSTERS_PARQUET, fmt_int(nrow(clusters_df))))
 message(sprintf("06e en %.1f s", (proc.time() - t0)[["elapsed"]]))

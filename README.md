@@ -247,7 +247,7 @@ Para comprobar que las pruebas básicas pasan:
 También puedes ejecutar `testthat` directamente:
 
 ```powershell
-& $RSCRIPT -e "testthat::test_dir('tests/testthat')"
+& $RSCRIPT -e "testthat::test_dir('tests/testthat', reporter = 'tap')"
 ```
 
 ## Uso del dashboard Astro

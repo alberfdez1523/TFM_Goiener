@@ -22,4 +22,4 @@ Avisos:
 Aviso:
 Quick-TRANSfer stage steps exceeded maximum (= 1064800) 
   Modelos guardados: 27 soluciones
-06c en 236.3 s
+06c en 243.6 s

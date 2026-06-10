@@ -1,31 +1,11 @@
-[CONFIG] Configuracion del proyecto cargada.
+﻿[CONFIG] Configuracion del proyecto cargada.
 Avisos:
 1: package 'here' was built under R version 4.5.2 
 2: package 'fs' was built under R version 4.5.2 
 Aviso:
 package 'archive' was built under R version 4.5.2 
 [CONFIG] Configuracion del proyecto cargada.
-⠙ 2468 extracted | 2.5 GB (578 MB/s) | 4.2s
-⠹ 3950 extracted | 3.9 GB (538 MB/s) | 7.3s
-⠸ 5393 extracted | 5.4 GB (502 MB/s) | 10.7s
-⠼ 6839 extracted | 6.8 GB (509 MB/s) | 13.4s
-⠴ 8118 extracted | 8.1 GB (493 MB/s) | 16.4s
-⠦ 9660 extracted | 9.6 GB (494 MB/s) | 19.4s
-⠧ 10966 extracted |  11 GB (485 MB/s) | 22.4s
-⠇ 12384 extracted |  12 GB (482 MB/s) | 25.4s
-⠏ 13593 extracted |  13 GB (474 MB/s) | 28.4s
-⠋ 14883 extracted |  15 GB (467 MB/s) | 31.5s
-⠙ 16344 extracted |  16 GB (469 MB/s) | 34.4s
-⠹ 17599 extracted |  17 GB (452 MB/s) | 38.5s
-⠸ 18555 extracted |  18 GB (453 MB/s) | 40.4s
-⠼ 19865 extracted |  20 GB (452 MB/s) | 43.5s
-⠴ 21005 extracted |  21 GB (446 MB/s) | 46.4s
-⠦ 22152 extracted |  22 GB (442 MB/s) | 49.5s
-⠧ 23498 extracted |  23 GB (441 MB/s) | 52.6s
-⠇ 24818 extracted |  24 GB (438 MB/s) | 55.8s
-⠏ 26121 extracted |  26 GB (439 MB/s) | 58.6s
-⠋ 27405 extracted |  27 GB (438 MB/s) | 1m 1.6s
-⠙ 28744 extracted |  28 GB (438 MB/s) | 1m 4.6s
 Se detecto carpeta duplicada. Recolocando archivos...
 CSV extraidos: 28807
 Ruta final: <PROJECT_ROOT>/data/extracted/imputed_goiener_v7
+

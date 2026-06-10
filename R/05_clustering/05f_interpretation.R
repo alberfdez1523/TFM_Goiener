@@ -39,6 +39,14 @@ df <- df |> mutate(cluster_label = dplyr::case_when(
   TRUE ~ sprintf("C%d", cluster)
 ))
 
+cluster_label_to_id <- function(x) {
+  out <- rep(NA_integer_, length(x))
+  out[x == "no_habitual"] <- 0L
+  idx <- grepl("^C\\d+$", x)
+  out[idx] <- as.integer(sub("^C", "", x[idx]))
+  out
+}
+
 # Profiles: scalar means per cluster.
 scalar_cols <- intersect(c(
   "mean_daily_kWh", "median_daily_kWh", "cv_daily",
@@ -57,10 +65,27 @@ profiles <- df |>
   summarise(n = n(),
             across(all_of(scalar_cols), \(x) round(mean(x, na.rm = TRUE), 3)),
             .groups = "drop") |>
-  mutate(pct = round(100 * n / sum(n), 2), .after = n)
+  mutate(
+    pct = round(100 * n / sum(n), 2),
+    cluster = cluster_label_to_id(cluster_label),
+    n_usuarios = n,
+    pct_usuarios = pct,
+    .after = n
+  )
 
 write_csv_audit(profiles, "cluster_profiles.csv")
 print(head(profiles))
+
+balance <- profiles |>
+  transmute(
+    cluster,
+    cluster_label,
+    n_usuarios,
+    pct_stage_b = ifelse(cluster_label == "no_habitual", NA_real_, pct_usuarios),
+    max_pct_constraint = CLUSTER_MAX_PCT_PER_CLUSTER,
+    is_stage_b = cluster_label != "no_habitual"
+  )
+write_csv_audit(balance, "cluster_balance_diagnostics.csv")
 
 # Top separators: standardized difference between cluster mean and global mean.
 global_mean <- colMeans(df[, scalar_cols, drop = FALSE], na.rm = TRUE)
@@ -82,6 +107,19 @@ sep_list <- df |>
   mutate(across(where(is.numeric), \(x) round(x, 3)))
 
 write_csv_audit(sep_list, "cluster_top_separators.csv")
+
+contrib <- sep_list |>
+  mutate(
+    cluster = cluster_label_to_id(cluster_label),
+    standardized_difference = std_diff
+  ) |>
+  group_by(cluster) |>
+  arrange(desc(abs(standardized_difference)), .by_group = TRUE) |>
+  mutate(rank_abs = row_number()) |>
+  ungroup() |>
+  select(cluster, cluster_label, feature, standardized_difference, rank_abs,
+         cluster_mean, global_mean)
+write_csv_audit(contrib, "cluster_feature_contribution.csv")
 
 # Figure: hourly profiles per cluster.
 hour_cols <- grep("^norm_h\\d{2}$", names(df), value = TRUE)

@@ -27,6 +27,14 @@ joined <- profiles |>
 
 `%||%` <- function(a, b) if (is.null(a) || (length(a) == 1 && is.na(a))) b else a
 
+cluster_label_to_id <- function(x) {
+  out <- rep(NA_integer_, length(x))
+  out[x == "no_habitual"] <- 0L
+  idx <- grepl("^C\\d+$", x)
+  out[idx] <- as.integer(sub("^C", "", x[idx]))
+  out
+}
+
 num <- function(row, name, default = NA_real_) {
   if (!name %in% names(row)) return(default)
   row[[name]][1] %||% default
@@ -170,7 +178,9 @@ classify <- function(row) {
 classification <- bind_rows(lapply(seq_len(nrow(joined)), function(i) classify(joined[i, ])))
 
 mapping <- bind_cols(joined, classification) |>
+  mutate(cluster = cluster_label_to_id(cluster_label)) |>
   select(cluster_label, n, pct,
+         cluster,
          finalidad, perfil_cluster, accion_recomendada, evidencia_clave, prioridad,
          median_daily_kWh, mean_daily_kWh, pct_high_risk,
          peak_share, valley_share, night_kWh_share, afternoon_kWh_share,
@@ -179,6 +189,53 @@ mapping <- bind_cols(joined, classification) |>
          median_p1_kw, pct_goiener_core, pct_coastal)
 
 write_csv_audit(mapping, "cluster_business_mapping.csv")
+
+references <- read.csv(REFERENCE_MATRIX_CSV, stringsAsFactors = FALSE,
+                       check.names = FALSE)
+ref_cycle <- rep(references$referencia, length.out = 6)
+catalog <- data.frame(
+  question_id = sprintf("Q%02d", seq_len(6)),
+  business_question = c(
+    "Que segmentos sostienen la demanda base?",
+    "Que segmentos concentran riesgo de punta?",
+    "Que segmentos son sensibles al frio?",
+    "Que segmentos muestran baja ocupacion?",
+    "Que segmentos requieren lectura social cautelosa?",
+    "Que segmentos deben entrar en forecasting operativo?"
+  ),
+  reference_theme = c("demanda", "punta", "clima", "ocupacion", "privacidad", "forecasting"),
+  reference_rows = ref_cycle,
+  reference_basis = "Matriz de referencia metodologica del proyecto.",
+  repo_evidence = "outputs/tables/cluster_profiles.csv; outputs/tables/cluster_business_mapping.csv",
+  conclusion_rule = "Combinar perfil horario, sensibilidad climatica, tamano y cautela de privacidad.",
+  decision_scope = "Cartera y cluster; no usuario individual.",
+  caveat = "Evidencia agregada, no diagnostico personal.",
+  stringsAsFactors = FALSE
+)
+
+assessment <- tidyr::crossing(
+  mapping |> select(cluster, cluster_label, finalidad, evidencia_clave),
+  catalog |> select(question_id, business_question)
+) |>
+  mutate(
+    evidence_strength = case_when(
+      finalidad %in% c("climatizacion_invernal", "consumo_nocturno_intensivo",
+                       "flexibilidad_punta_laboral") ~ "Alta",
+      finalidad %in% c("cartera_residencial_base", "residencial_eficiencia_social") ~ "Media",
+      TRUE ~ "Contextual"
+    ),
+    cluster_evidence = evidencia_clave,
+    recommended_conclusion = paste("Priorizar lectura", finalidad, "para", cluster_label),
+    question_caveat = "Validar antes de acciones individuales.",
+    is_primary_question = question_id == "Q01"
+  ) |>
+  select(cluster, cluster_label, question_id, business_question,
+         evidence_strength, cluster_evidence, recommended_conclusion,
+         question_caveat, is_primary_question)
+
+write_csv_audit(catalog, "cluster_business_question_catalog.csv")
+write_csv_audit(assessment, "cluster_business_question_assessment.csv")
+
 print(mapping)
 
 message(sprintf("05h en %.1f s", (proc.time() - t0)[["elapsed"]]))

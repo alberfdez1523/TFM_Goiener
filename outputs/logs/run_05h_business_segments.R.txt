@@ -9,14 +9,19 @@ Avisos:
 ======================================================================
 PASO 05h: Mapping a finalidades de negocio
 ======================================================================
-  cluster_label     n   pct                     finalidad
-1            C1   878  3.74    flexibilidad_punta_laboral
-2            C2  6927 29.48 residencial_eficiencia_social
-3            C3 10158 43.24      cartera_residencial_base
-4            C4  1755  7.47        climatizacion_invernal
-5            C5   881  3.75           uso_estacional_bajo
-6            C6   697  2.97    consumo_nocturno_intensivo
-7   no_habitual  2198  9.36          vivienda_no_habitual
+Aviso:
+There was 1 warning in `mutate()`.
+ℹ In argument: `cluster = ifelse(...)`.
+Caused by warning in `ifelse()`:
+! NAs introducidos por coerción 
+  cluster_label     n   pct cluster                     finalidad
+1            C1   878  3.74       1    flexibilidad_punta_laboral
+2            C2  6927 29.48       2 residencial_eficiencia_social
+3            C3 10158 43.24       3      cartera_residencial_base
+4            C4  1755  7.47       4        climatizacion_invernal
+5            C5   881  3.75       5           uso_estacional_bajo
+6            C6   697  2.97       6    consumo_nocturno_intensivo
+7   no_habitual  2198  9.36       0          vivienda_no_habitual
                                                           perfil_cluster
 1                   Consumo concentrado en horas punta y dias laborables
 2 Cartera residencial estable de bajo consumo con riesgo social moderado
@@ -73,4 +78,4 @@ PASO 05h: Mapping a finalidades de negocio
 5             91.7        63.8
 6             96.8        62.4
 7             97.5        67.0
-05h en 0.1 s
+05h en 0.2 s

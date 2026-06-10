@@ -71,9 +71,23 @@ main <- function() {
   # --- Descomprimir el archivo ---
   # archive_extract maneja directamente el formato .tar.zst sin necesidad de
   # descomprimir el .zst primero y luego el .tar por separado.
-  archive::archive_extract(
-    archive = raw_file,
-    dir = output_dir
+  quiet_out <- tempfile("archive_extract_stdout_")
+  quiet_msg <- tempfile("archive_extract_stderr_")
+  out_con <- file(quiet_out, open = "wt")
+  msg_con <- file(quiet_msg, open = "wt")
+  sink(out_con)
+  sink(msg_con, type = "message")
+  tryCatch(
+    archive::archive_extract(
+      archive = raw_file,
+      dir = output_dir
+    ),
+    finally = {
+      sink(type = "message")
+      sink()
+      close(msg_con)
+      close(out_con)
+    }
   )
 
   # --- Corregir estructura de carpetas duplicadas ---
@@ -119,4 +133,3 @@ main <- function() {
 
 # Ejecutar la funcion principal
 main()
-

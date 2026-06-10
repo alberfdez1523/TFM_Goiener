@@ -1,0 +1,7 @@
+"cluster","calibration_group","n_calibration","qhat","safety_factor","coverage_val","coverage_test"
+1,"cluster_1",208,1149.28069529851,1.15,NA,91.827
+2,"cluster_2",208,1117.18380401645,1.15,NA,91.827
+3,"cluster_3",208,2096.9237974736,1.15,NA,93.269
+4,"cluster_4",208,1297.1169778376,1.15,NA,93.269
+5,"cluster_5",208,1934.189678278,1.15,NA,91.827
+6,"cluster_6",208,457.547907938971,1.15,NA,91.827

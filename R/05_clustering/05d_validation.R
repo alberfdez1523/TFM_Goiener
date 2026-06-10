@@ -143,6 +143,26 @@ ix_df <- ix_df |>
   arrange(desc(passes_all), desc(composite_score), desc(silhouette))
 
 write_csv_audit(ix_df, "cluster_leaderboard.csv")
+
+validation <- ix_df |>
+  transmute(
+    solution,
+    algo,
+    k,
+    silhouette_avg = silhouette,
+    balance_entropy = round(1 - pmax(0, max_pct - min_pct) / 100, 4),
+    min_cluster_pct = min_pct,
+    max_cluster_pct = max_pct,
+    passes_size_constraints = passes_min_pct & passes_max_pct,
+    selected = FALSE
+  )
+write_csv_audit(validation, "cluster_validation.csv")
+
+stability <- ix_df |>
+  filter(!is.na(mean_jaccard), passes_jaccard) |>
+  transmute(solution, algo, k, jaccard_mean = mean_jaccard)
+write_csv_audit(stability, "cluster_stability.csv")
+
 print(head(ix_df, 10))
 
 message(sprintf("06d en %.1f s", (proc.time() - t0)[["elapsed"]]))

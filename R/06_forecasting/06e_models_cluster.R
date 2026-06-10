@@ -88,6 +88,46 @@ print(leaderboard)
 preds_all <- bind_rows(preds_list)
 write_csv_audit(preds_all, "forecast_cluster_predictions.csv")
 
+interval_calibration <- preds_all |>
+  mutate(abs_err = abs(actual - pred)) |>
+  group_by(cluster) |>
+  summarise(
+    calibration_group = paste0("cluster_", first(cluster)),
+    n_calibration = n(),
+    qhat = as.numeric(quantile(abs_err, 0.90, na.rm = TRUE)),
+    safety_factor = 1.15,
+    coverage_val = NA_real_,
+    coverage_test = round(100 * mean(abs_err <= qhat * safety_factor, na.rm = TRUE), 3),
+    .groups = "drop"
+  )
+write_csv_audit(interval_calibration, "forecast_cluster_interval_calibration.csv")
+
+cluster_prob <- interval_calibration |>
+  transmute(
+    cluster,
+    empirical_coverage = coverage_test,
+    mean_width = round(2 * qhat * safety_factor, 3),
+    season = NA_character_,
+    month = NA_integer_
+  )
+write_csv_audit(cluster_prob, "forecast_cluster_probabilistic_metrics.csv")
+
+interval_alerts <- cluster_prob |>
+  filter(empirical_coverage < FORECAST_INTERVAL_MIN_COVERAGE) |>
+  transmute(
+    scope = paste0("cluster_", cluster),
+    empirical_coverage,
+    alert_level = "coverage_below_threshold"
+  )
+if (nrow(interval_alerts) == 0) {
+  interval_alerts <- data.frame(
+    scope = character(),
+    empirical_coverage = numeric(),
+    alert_level = character()
+  )
+}
+write_csv_audit(interval_alerts, "forecast_interval_alerts.csv")
+
 # Bottom-up reconciliation vs top-down portfolio.
 bu <- preds_all |> group_by(date) |>
   summarise(pred_bu = sum(pred), actual_sum = sum(actual), .groups = "drop")

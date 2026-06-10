@@ -30,7 +30,8 @@ df <- pool |> inner_join(clusters |> select(user_id, cluster), by = "user_id") |
     cluster == 0L  ~ "noise",
     cluster == -1L ~ "no_habitual",
     TRUE ~ sprintf("C%d", cluster)
-  ))
+  ),
+  cluster_report = ifelse(cluster == -1L, 0L, cluster))
 
 # 1. Provincia / contexto territorial.
 ctx_cols <- intersect(c("cod_provincia", "ccaa", "coastal_flag",
@@ -94,6 +95,105 @@ poverty_summary <- df_pe |>
 
 write_csv_audit(contextual, "cluster_socioeconomic.csv")
 write_csv_audit(poverty_summary, "cluster_poverty_proxy.csv")
+
+cnae_section <- function(x) {
+  code <- suppressWarnings(as.integer(substr(gsub("\\D", "", as.character(x)), 1, 2)))
+  dplyr::case_when(
+    is.na(code) ~ "Desconocido",
+    code <= 3 ~ "A Agricultura",
+    code <= 9 ~ "B Extractivas",
+    code <= 33 ~ "C Industria",
+    code == 35 ~ "D Energia",
+    code <= 39 ~ "E Agua y residuos",
+    code <= 43 ~ "F Construccion",
+    code <= 47 ~ "G Comercio",
+    code <= 53 ~ "H Transporte",
+    code <= 56 ~ "I Hosteleria",
+    code <= 63 ~ "J Informacion",
+    code <= 66 ~ "K Finanzas",
+    code == 68 ~ "L Inmobiliarias",
+    code <= 75 ~ "M Profesionales",
+    code <= 82 ~ "N Administrativas",
+    code == 84 ~ "O Administracion",
+    code == 85 ~ "P Educacion",
+    code <= 88 ~ "Q Sanidad",
+    code <= 93 ~ "R Arte y ocio",
+    code <= 96 ~ "S Otros servicios",
+    code <= 98 ~ "T Hogares",
+    TRUE ~ "U Organismos"
+  )
+}
+
+cnae_base <- df |>
+  mutate(
+    cluster = cluster_report,
+    cnae_clean = trimws(as.character(cnae)),
+    cnae_known = !is.na(cnae_clean) & cnae_clean != "" & cnae_clean != "NA",
+    cnae_section_label = ifelse(cnae_known, cnae_section(cnae_clean), "Desconocido"),
+    cnae_section = substr(cnae_section_label, 1, 1),
+    cnae_division = suppressWarnings(as.integer(substr(gsub("\\D", "", cnae_clean), 1, 2)))
+  )
+
+cluster_totals <- cnae_base |>
+  count(cluster, cluster_label, name = "n_users")
+
+cnae_coverage <- cnae_base |>
+  group_by(cluster, cluster_label) |>
+  summarise(
+    n_users = n(),
+    n_cnae_known = sum(cnae_known, na.rm = TRUE),
+    n_cnae_unknown = n_users - n_cnae_known,
+    coverage_pct = round(100 * n_cnae_known / n_users, 2),
+    top_cnae_section_label = names(sort(table(cnae_section_label), decreasing = TRUE))[1],
+    .groups = "drop"
+  )
+
+cnae_distribution <- cnae_base |>
+  count(cluster, cluster_label, cnae_section, cnae_section_label, name = "n_users") |>
+  left_join(cluster_totals, by = c("cluster", "cluster_label")) |>
+  mutate(
+    pct_cluster = round(100 * n_users.x / n_users.y, 3),
+    pct_global = round(100 * n_users.x / sum(n_users.x), 3),
+    support_ok = n_users.x >= CLUSTER_CNAE_MIN_N
+  ) |>
+  select(cluster, cluster_label, cnae_section, cnae_section_label,
+         n_users = n_users.x, pct_cluster, pct_global, support_ok)
+
+cnae_enrichment <- cnae_distribution |>
+  group_by(cnae_section_label) |>
+  mutate(global_share = sum(n_users) / sum(cnae_distribution$n_users)) |>
+  ungroup() |>
+  mutate(
+    enrichment_ratio = round((pct_cluster / 100) / pmax(global_share, 1e-6), 3),
+    is_interpretable = support_ok & cnae_section_label != "Desconocido"
+  ) |>
+  select(cluster, cluster_label, cnae_section_label, n_users,
+         enrichment_ratio, is_interpretable)
+
+cnae_division_distribution <- cnae_base |>
+  mutate(cnae_division = ifelse(is.na(cnae_division), -1L, cnae_division)) |>
+  count(cluster, cluster_label, cnae_division, name = "n_users") |>
+  left_join(cluster_totals, by = c("cluster", "cluster_label")) |>
+  mutate(pct_cluster = round(100 * n_users.x / n_users.y, 3)) |>
+  select(cluster, cluster_label, cnae_division, n_users = n_users.x, pct_cluster)
+
+business_interpretation <- cnae_coverage |>
+  transmute(
+    cluster,
+    cluster_label,
+    business_question = "Que lectura operativa aporta el segmento?",
+    behavioral_signal = paste("Perfil", cluster_label, "con", n_users, "usuarios"),
+    cnae_signal = paste("CNAE dominante:", top_cnae_section_label),
+    goiener_action = "Usar como capa agregada de interpretacion, nunca como diagnostico individual.",
+    caveat = "La lectura CNAE es descriptiva y depende de la calidad de metadatos."
+  )
+
+write_csv_audit(cnae_coverage, "cluster_cnae_coverage.csv")
+write_csv_audit(cnae_distribution, "cluster_cnae_section_distribution.csv")
+write_csv_audit(cnae_enrichment, "cluster_cnae_enrichment.csv")
+write_csv_audit(cnae_division_distribution, "cluster_cnae_division_distribution.csv")
+write_csv_audit(business_interpretation, "cluster_business_interpretation.csv")
+
 # Persist user-level proxy for forecasting/business use.
 arrow::write_parquet(
   df_pe |> select(user_id, cluster, cluster_label, pe_proxy_score, pe_high_risk),

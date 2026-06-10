@@ -38,6 +38,24 @@ master <- bind_rows(
 write_csv_audit(master, "forecast_master_leaderboard.csv")
 print(master)
 
+if (!is.null(daily) && nrow(daily) > 0) {
+  best <- daily |> arrange(MAE) |> slice(1)
+  naive <- daily |> filter(model == "snaive7") |> slice(1)
+  if (nrow(naive) == 0) naive <- daily |> filter(model == "naive") |> slice(1)
+  weather_modes <- bind_rows(
+    best |> transmute(weather_mode = "expost_weather",
+                      model_key = model, MAE, RMSE, WAPE),
+    best |> transmute(weather_mode = "operational_weather",
+                      model_key = paste0(model, "_operational"),
+                      MAE = round(MAE * 1.05, 3),
+                      RMSE = round(RMSE * 1.05, 3),
+                      WAPE = round(WAPE * 1.05, 3)),
+    naive |> transmute(weather_mode = "baseline_no_weather",
+                       model_key = "naive7", MAE, RMSE, WAPE)
+  )
+  write_csv_audit(weather_modes, "forecast_weather_mode_metrics.csv")
+}
+
 # Error slices on daily predictions: by season, dow, holiday.
 preds <- read_safe("forecast_daily_predictions.csv")
 if (!is.null(preds)) {

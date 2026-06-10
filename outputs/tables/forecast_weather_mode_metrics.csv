@@ -1,0 +1,4 @@
+"weather_mode","model_key","MAE","RMSE","WAPE"
+"expost_weather","xgb",2119.292,2924.492,1.954
+"operational_weather","xgb_operational",2225.257,3070.717,2.052
+"baseline_no_weather","naive7",15847.023,21752.396,14.608

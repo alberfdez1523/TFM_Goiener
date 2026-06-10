@@ -1,0 +1,133 @@
+"cluster","cluster_label","cnae_section","cnae_section_label","n_users","pct_cluster","pct_global","support_ok"
+0,"no_habitual","A","A Agricultura",13,0.591,0.055,FALSE
+0,"no_habitual","B","B Extractivas",1,0.045,0.004,FALSE
+0,"no_habitual","C","C Industria",34,1.547,0.145,TRUE
+0,"no_habitual","D","D Energia",18,0.819,0.077,FALSE
+0,"no_habitual","D","Desconocido",4,0.182,0.017,FALSE
+0,"no_habitual","E","E Agua y residuos",16,0.728,0.068,FALSE
+0,"no_habitual","F","F Construccion",30,1.365,0.128,TRUE
+0,"no_habitual","G","G Comercio",105,4.777,0.447,TRUE
+0,"no_habitual","H","H Transporte",238,10.828,1.013,TRUE
+0,"no_habitual","I","I Hosteleria",24,1.092,0.102,TRUE
+0,"no_habitual","J","J Informacion",14,0.637,0.06,FALSE
+0,"no_habitual","K","K Finanzas",7,0.318,0.03,FALSE
+0,"no_habitual","L","L Inmobiliarias",15,0.682,0.064,FALSE
+0,"no_habitual","M","M Profesionales",24,1.092,0.102,TRUE
+0,"no_habitual","N","N Administrativas",14,0.637,0.06,FALSE
+0,"no_habitual","O","O Administracion",84,3.822,0.358,TRUE
+0,"no_habitual","P","P Educacion",11,0.5,0.047,FALSE
+0,"no_habitual","Q","Q Sanidad",9,0.409,0.038,FALSE
+0,"no_habitual","R","R Arte y ocio",28,1.274,0.119,TRUE
+0,"no_habitual","S","S Otros servicios",61,2.775,0.26,TRUE
+0,"no_habitual","T","T Hogares",1447,65.833,6.159,TRUE
+0,"no_habitual","U","U Organismos",1,0.045,0.004,FALSE
+1,"C1","A","A Agricultura",1,0.114,0.004,FALSE
+1,"C1","C","C Industria",51,5.809,0.217,TRUE
+1,"C1","D","D Energia",1,0.114,0.004,FALSE
+1,"C1","D","Desconocido",4,0.456,0.017,FALSE
+1,"C1","E","E Agua y residuos",3,0.342,0.013,FALSE
+1,"C1","F","F Construccion",49,5.581,0.209,TRUE
+1,"C1","G","G Comercio",176,20.046,0.749,TRUE
+1,"C1","H","H Transporte",57,6.492,0.243,TRUE
+1,"C1","I","I Hosteleria",7,0.797,0.03,FALSE
+1,"C1","J","J Informacion",12,1.367,0.051,FALSE
+1,"C1","K","K Finanzas",11,1.253,0.047,FALSE
+1,"C1","L","L Inmobiliarias",14,1.595,0.06,FALSE
+1,"C1","M","M Profesionales",64,7.289,0.272,TRUE
+1,"C1","N","N Administrativas",13,1.481,0.055,FALSE
+1,"C1","O","O Administracion",24,2.733,0.102,TRUE
+1,"C1","P","P Educacion",66,7.517,0.281,TRUE
+1,"C1","Q","Q Sanidad",23,2.62,0.098,TRUE
+1,"C1","R","R Arte y ocio",16,1.822,0.068,FALSE
+1,"C1","S","S Otros servicios",77,8.77,0.328,TRUE
+1,"C1","T","T Hogares",209,23.804,0.89,TRUE
+2,"C2","A","A Agricultura",17,0.245,0.072,FALSE
+2,"C2","C","C Industria",26,0.375,0.111,TRUE
+2,"C2","D","D Energia",2,0.029,0.009,FALSE
+2,"C2","D","Desconocido",5,0.072,0.021,FALSE
+2,"C2","E","E Agua y residuos",24,0.346,0.102,TRUE
+2,"C2","F","F Construccion",24,0.346,0.102,TRUE
+2,"C2","G","G Comercio",90,1.299,0.383,TRUE
+2,"C2","H","H Transporte",116,1.675,0.494,TRUE
+2,"C2","I","I Hosteleria",96,1.386,0.409,TRUE
+2,"C2","J","J Informacion",13,0.188,0.055,FALSE
+2,"C2","K","K Finanzas",7,0.101,0.03,FALSE
+2,"C2","L","L Inmobiliarias",10,0.144,0.043,FALSE
+2,"C2","M","M Profesionales",19,0.274,0.081,FALSE
+2,"C2","N","N Administrativas",11,0.159,0.047,FALSE
+2,"C2","O","O Administracion",50,0.722,0.213,TRUE
+2,"C2","P","P Educacion",10,0.144,0.043,FALSE
+2,"C2","Q","Q Sanidad",11,0.159,0.047,FALSE
+2,"C2","R","R Arte y ocio",42,0.606,0.179,TRUE
+2,"C2","S","S Otros servicios",40,0.577,0.17,TRUE
+2,"C2","T","T Hogares",6314,91.151,26.875,TRUE
+3,"C3","A","A Agricultura",8,0.079,0.034,FALSE
+3,"C3","B","B Extractivas",1,0.01,0.004,FALSE
+3,"C3","C","C Industria",28,0.276,0.119,TRUE
+3,"C3","D","D Energia",1,0.01,0.004,FALSE
+3,"C3","D","Desconocido",4,0.039,0.017,FALSE
+3,"C3","E","E Agua y residuos",1,0.01,0.004,FALSE
+3,"C3","F","F Construccion",22,0.217,0.094,TRUE
+3,"C3","G","G Comercio",56,0.551,0.238,TRUE
+3,"C3","H","H Transporte",95,0.935,0.404,TRUE
+3,"C3","I","I Hosteleria",24,0.236,0.102,TRUE
+3,"C3","J","J Informacion",5,0.049,0.021,FALSE
+3,"C3","K","K Finanzas",6,0.059,0.026,FALSE
+3,"C3","L","L Inmobiliarias",7,0.069,0.03,FALSE
+3,"C3","M","M Profesionales",22,0.217,0.094,TRUE
+3,"C3","N","N Administrativas",13,0.128,0.055,FALSE
+3,"C3","O","O Administracion",28,0.276,0.119,TRUE
+3,"C3","P","P Educacion",21,0.207,0.089,TRUE
+3,"C3","Q","Q Sanidad",16,0.158,0.068,FALSE
+3,"C3","R","R Arte y ocio",18,0.177,0.077,FALSE
+3,"C3","S","S Otros servicios",40,0.394,0.17,TRUE
+3,"C3","T","T Hogares",9742,95.905,41.466,TRUE
+4,"C4","A","A Agricultura",4,0.228,0.017,FALSE
+4,"C4","C","C Industria",13,0.741,0.055,FALSE
+4,"C4","D","Desconocido",1,0.057,0.004,FALSE
+4,"C4","E","E Agua y residuos",2,0.114,0.009,FALSE
+4,"C4","F","F Construccion",9,0.513,0.038,FALSE
+4,"C4","G","G Comercio",14,0.798,0.06,FALSE
+4,"C4","H","H Transporte",24,1.368,0.102,TRUE
+4,"C4","I","I Hosteleria",4,0.228,0.017,FALSE
+4,"C4","J","J Informacion",1,0.057,0.004,FALSE
+4,"C4","K","K Finanzas",1,0.057,0.004,FALSE
+4,"C4","M","M Profesionales",15,0.855,0.064,FALSE
+4,"C4","N","N Administrativas",9,0.513,0.038,FALSE
+4,"C4","O","O Administracion",21,1.197,0.089,TRUE
+4,"C4","P","P Educacion",10,0.57,0.043,FALSE
+4,"C4","Q","Q Sanidad",13,0.741,0.055,FALSE
+4,"C4","R","R Arte y ocio",3,0.171,0.013,FALSE
+4,"C4","S","S Otros servicios",11,0.627,0.047,FALSE
+4,"C4","T","T Hogares",1600,91.168,6.81,TRUE
+5,"C5","A","A Agricultura",5,0.568,0.021,FALSE
+5,"C5","C","C Industria",7,0.795,0.03,FALSE
+5,"C5","D","D Energia",1,0.114,0.004,FALSE
+5,"C5","D","Desconocido",3,0.341,0.013,FALSE
+5,"C5","E","E Agua y residuos",3,0.341,0.013,FALSE
+5,"C5","F","F Construccion",15,1.703,0.064,FALSE
+5,"C5","G","G Comercio",23,2.611,0.098,TRUE
+5,"C5","H","H Transporte",24,2.724,0.102,TRUE
+5,"C5","I","I Hosteleria",18,2.043,0.077,FALSE
+5,"C5","J","J Informacion",2,0.227,0.009,FALSE
+5,"C5","L","L Inmobiliarias",1,0.114,0.004,FALSE
+5,"C5","M","M Profesionales",14,1.589,0.06,FALSE
+5,"C5","N","N Administrativas",3,0.341,0.013,FALSE
+5,"C5","O","O Administracion",20,2.27,0.085,TRUE
+5,"C5","P","P Educacion",9,1.022,0.038,FALSE
+5,"C5","Q","Q Sanidad",3,0.341,0.013,FALSE
+5,"C5","R","R Arte y ocio",13,1.476,0.055,FALSE
+5,"C5","S","S Otros servicios",13,1.476,0.055,FALSE
+5,"C5","T","T Hogares",704,79.909,2.997,TRUE
+6,"C6","E","E Agua y residuos",4,0.574,0.017,FALSE
+6,"C6","F","F Construccion",1,0.143,0.004,FALSE
+6,"C6","G","G Comercio",2,0.287,0.009,FALSE
+6,"C6","H","H Transporte",4,0.574,0.017,FALSE
+6,"C6","I","I Hosteleria",3,0.43,0.013,FALSE
+6,"C6","K","K Finanzas",2,0.287,0.009,FALSE
+6,"C6","N","N Administrativas",1,0.143,0.004,FALSE
+6,"C6","O","O Administracion",407,58.393,1.732,TRUE
+6,"C6","P","P Educacion",5,0.717,0.021,FALSE
+6,"C6","R","R Arte y ocio",2,0.287,0.009,FALSE
+6,"C6","S","S Otros servicios",3,0.43,0.013,FALSE
+6,"C6","T","T Hogares",263,37.733,1.119,TRUE
