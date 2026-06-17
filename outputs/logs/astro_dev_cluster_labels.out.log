@@ -1,0 +1,15 @@
+
+> goiener-tfm-dashboard@1.0.0 dev
+> astro dev --host 127.0.0.1 --port 4321
+
+[vite] connected.
+[2m09:41:00[22m [34m[types][39m Generated [2m1ms[22m
+[2m09:41:00[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.4.4[39m [2mready in[22m 1154 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4321/[39m
+[2m09:41:00[22m [32mwatching for file changes...[39m
+[2m09:41:00[22m [34m[200][39m / [2m26ms[22m
+[2m09:41:36[22m [34m[200][39m / [2m4ms[22m
+[2m09:42:17[22m [34m[200][39m / [2m3ms[22m
+[2m09:56:13[22m [34m[200][39m / [2m4ms[22m
+[2m09:56:13[22m [34m[200][39m / [2m1ms[22m

@@ -165,6 +165,7 @@ function renderAll() {
 
 function renderHome() {
   const clusters = clusterRows();
+  const clusterDonutLabels = clusters.map((row) => clusterDescriptiveLabel(row.cluster_label));
   const summary = state.summary[0] || {};
   const climate = climateMap();
   const bestDaily = bestBy(state.forecastDailyLeader, "WAPE");
@@ -195,19 +196,24 @@ function renderHome() {
 
   plot("#home-cluster-donut", [{
     type: "pie",
-    labels: clusters.map((row) => row.cluster_label),
+    labels: clusterDonutLabels,
     values: clusters.map((row) => num(row.n)),
+    customdata: clusters.map((row) => [
+      row.cluster_label,
+      clusterProfile(row.cluster_label),
+      num(row.pct)
+    ]),
     hole: 0.55,
     marker: { colors: PALETTE },
     textinfo: "percent",
     textposition: "inside",
     insidetextorientation: "radial",
     sort: false,
-    hovertemplate: "%{label}<br>%{value:,.0f} usuarios<extra></extra>"
+    hovertemplate: "%{label}<br>%{customdata[1]}<br>%{value:,.0f} usuarios (%{customdata[2]:.1f}%)<extra>%{customdata[0]}</extra>"
   }], {
     showlegend: true,
-    legend: { orientation: "v", x: 1.02, y: 0.5, xanchor: "left", yanchor: "middle" },
-    margin: { t: 12, r: 150, b: 12, l: 10 }
+    legend: { orientation: "v", x: 1.02, y: 0.5, xanchor: "left", yanchor: "middle", font: { size: 10 } },
+    margin: { t: 12, r: 220, b: 12, l: 10 }
   });
 
   scatterClusters("#home-climate-scatter", clusters, null);
@@ -359,7 +365,7 @@ function renderBusinessCard(clusterLabel) {
     <article class="card">
       <div class="card-header">
         <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
-        ${escapeHtml(row.cluster_label)} ${escapeHtml(row.finalidad || "")}
+        ${escapeHtml(clusterDescriptiveLabel(row.cluster_label))}
         <span class="chip ms-2">Prioridad ${escapeHtml(row.prioridad || "n/d")}</span>
       </div>
       <div class="card-body goi-prose">
@@ -829,8 +835,13 @@ function scatterClusters(selector, rows, selected) {
       opacity: options.opacity,
       line: { color: options.lineColor, width: options.lineWidth }
     },
-    customdata: traceRows.map((row) => [row.n, row.mean_daily_kWh]),
-    hovertemplate: "%{text}<br>β_HDD=%{x:.3f}<br>β_CDD=%{y:.3f}<br>n=%{customdata[0]:,.0f}<br>media=%{customdata[1]:.2f} kWh<extra></extra>"
+    customdata: traceRows.map((row) => [
+      clusterDescriptiveLabel(row.cluster_label),
+      clusterProfile(row.cluster_label),
+      row.n,
+      row.mean_daily_kWh
+    ]),
+    hovertemplate: "%{customdata[0]}<br>%{customdata[1]}<br>beta_HDD=%{x:.3f}<br>beta_CDD=%{y:.3f}<br>n=%{customdata[2]:,.0f}<br>media=%{customdata[3]:.2f} kWh<extra></extra>"
   });
 
   const traces = [
@@ -1105,6 +1116,25 @@ function checkedValues(selector) {
 
 function clusterRows() {
   return state.clusters.filter((row) => row.cluster_label);
+}
+
+function clusterBusinessRow(clusterLabel) {
+  return state.clusterBusiness.find((row) => row.cluster_label === clusterLabel) || {};
+}
+
+function clusterDescriptiveLabel(clusterLabel) {
+  const purpose = humanizeUnderscoreLabel(clusterBusinessRow(clusterLabel).finalidad);
+  const base = clusterLabel === "no_habitual" ? "No habitual" : clusterLabel;
+  return purpose ? `${base} - ${purpose}` : base;
+}
+
+function clusterProfile(clusterLabel) {
+  return clusterBusinessRow(clusterLabel).perfil_cluster || "";
+}
+
+function humanizeUnderscoreLabel(value) {
+  const text = String(value || "").replace(/_/g, " ").trim();
+  return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
 }
 
 function climateMap() {
