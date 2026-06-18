@@ -23,6 +23,11 @@
   --goi-radius-lg: 14px;
   --goi-nav-h: 56px;
   --goi-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --goi-ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --goi-dur-fast: 140ms;
+  --goi-dur-base: 240ms;
+  --goi-dur-moderate: 360ms;
+  --goi-dur-entrance: 560ms;
   --goi-font: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --goi-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --goi-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
@@ -210,7 +215,7 @@ a {
   padding: 0.45rem 0.7rem !important;
   height: 44px;
   border-radius: 6px;
-  transition: color 0.2s var(--goi-ease), background 0.2s var(--goi-ease);
+  transition: color 0.2s var(--goi-ease), background 0.2s var(--goi-ease), transform var(--goi-dur-fast) var(--goi-ease);
   white-space: nowrap;
   border: 0;
   background: transparent;
@@ -220,6 +225,19 @@ a {
   gap: 0.35rem;
   line-height: 1;
   vertical-align: middle;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-link:active {
+  transform: scale(0.96);
+}
+
+.navbar-toggler:active,
+.navbar-brand:active,
+.btn:active {
+  transform: scale(0.97);
+  transition: transform var(--goi-dur-fast) var(--goi-ease);
 }
 
 .nav-link i {
@@ -257,6 +275,10 @@ a {
   display: none;
 }
 
+.nav-indicator {
+  display: none;
+}
+
 @media (min-width: 992px) {
   .navbar-collapse {
     display: flex !important;
@@ -267,6 +289,26 @@ a {
     align-items: center;
     gap: 0.15rem;
     margin-bottom: 0 !important;
+    position: relative;
+  }
+
+  .navbar-nav .nav-link.active {
+    background: transparent !important;
+  }
+
+  .nav-indicator {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 44px;
+    border-radius: 6px;
+    background: var(--goi-accent-dim);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: transform 0.32s var(--goi-ease), width 0.32s var(--goi-ease), opacity 0.2s var(--goi-ease);
+    will-change: transform, width;
   }
 }
 
@@ -299,15 +341,16 @@ a {
   border: 1px solid var(--goi-border) !important;
   border-radius: var(--goi-radius-lg) !important;
   box-shadow: none !important;
-  transition: border-color 0.25s var(--goi-ease);
+  transition: border-color 0.25s var(--goi-ease), transform 0.25s var(--goi-ease), box-shadow 0.25s var(--goi-ease);
   overflow: visible;
   margin-bottom: 1rem;
   min-width: 0;
 }
 
 .card:hover {
-  transform: none;
+  transform: translateY(-2px);
   border-color: var(--goi-border-strong) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32) !important;
 }
 
 .card-header {
@@ -403,7 +446,7 @@ a {
 .kpi:hover {
   border-color: rgba(16, 185, 129, 0.35);
   background: var(--goi-card);
-  transform: none;
+  transform: translateY(-2px);
 }
 
 .kpi::before {
@@ -430,6 +473,7 @@ a {
   background: none;
   -webkit-text-fill-color: unset;
   line-height: 1.15;
+  font-variant-numeric: tabular-nums;
 }
 
 .kpi-sub {
@@ -445,11 +489,12 @@ a {
   font-size: 0.95rem;
   color: var(--goi-accent);
   opacity: 0.35;
+  transition: opacity 0.25s var(--goi-ease), transform 0.25s var(--goi-ease);
 }
 
 .kpi:hover .kpi-icon {
   opacity: 0.7;
-  transform: none;
+  transform: scale(1.12);
 }
 
 /* ---------- Hero ---------- */
@@ -465,7 +510,12 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
-  animation: fade-up 0.6s var(--goi-ease);
+  animation: hero-fade 0.45s var(--goi-ease);
+}
+
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (min-width: 768px) {
@@ -503,6 +553,7 @@ a {
   letter-spacing: 0.08em;
   color: var(--goi-accent);
   margin-bottom: 0.6rem;
+  animation: fade-up 0.5s var(--goi-ease) 0.1s backwards;
 }
 
 .hero h1 {
@@ -514,7 +565,7 @@ a {
   background: none;
   -webkit-text-fill-color: unset;
   line-height: 1.15;
-  animation: none;
+  animation: fade-up 0.55s var(--goi-ease) 0.18s backwards;
 }
 
 .hero p.lead {
@@ -522,14 +573,14 @@ a {
   color: var(--goi-text-secondary);
   max-width: 52ch;
   margin: 0 0 1rem;
-  animation: none;
+  animation: fade-up 0.5s var(--goi-ease) 0.28s backwards;
 }
 
 .hero .badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  animation: none;
+  animation: fade-up 0.5s var(--goi-ease) 0.38s backwards;
 }
 
 .hero .badge {
@@ -567,7 +618,13 @@ a {
   min-height: 90px;
   overflow: hidden;
   transition: border-color 0.22s var(--goi-ease), background 0.22s var(--goi-ease), transform 0.22s var(--goi-ease);
+  animation: fade-up 0.5s var(--goi-ease) backwards;
 }
+
+.hero-stat:nth-child(1) { animation-delay: 0.30s; }
+.hero-stat:nth-child(2) { animation-delay: 0.36s; }
+.hero-stat:nth-child(3) { animation-delay: 0.42s; }
+.hero-stat:nth-child(4) { animation-delay: 0.48s; }
 
 .hero-stat:hover {
   border-color: rgba(16, 185, 129, 0.34);
@@ -582,6 +639,12 @@ a {
   color: var(--goi-accent);
   opacity: 0.28;
   font-size: 0.95rem;
+  transition: opacity 0.25s var(--goi-ease), transform 0.25s var(--goi-ease);
+}
+
+.hero-stat:hover > i {
+  opacity: 0.55;
+  transform: scale(1.12);
 }
 
 .hero-stat-value {
@@ -589,6 +652,7 @@ a {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--goi-text);
+  font-variant-numeric: tabular-nums;
 }
 
 .hero-stat-label {
@@ -837,6 +901,16 @@ a {
 
 .js-plotly-plot .plotly .modebar-btn:hover path {
   fill: var(--goi-text) !important;
+}
+
+.plotly-host.js-plotly-plot.chart-ready {
+  animation: chart-in 0.5s var(--goi-ease);
+  transform-origin: center top;
+}
+
+@keyframes chart-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* ---------- Inputs ---------- */

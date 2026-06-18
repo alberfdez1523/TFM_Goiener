@@ -52,11 +52,14 @@ main().catch((error) => {
 
 async function main() {
   initTabs();
+  initNavIndicator();
+  initChartEntrance();
   state = await loadAll();
   await waitForPlotly();
   initControls();
   bindControls();
   renderAll();
+  staggerCards(document.querySelector(".tab-pane.active[data-tab-panel]"));
 }
 
 async function loadAll() {
@@ -98,6 +101,9 @@ function initTabs() {
         top: 0,
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
       });
+      positionNavIndicator();
+      const activePane = document.querySelector(`.tab-pane.active[data-tab-panel="${target}"]`);
+      requestAnimationFrame(() => staggerCards(activePane));
       setTimeout(resizePlots, 40);
     });
   });
@@ -114,6 +120,8 @@ function initTabs() {
         .forEach((panel) => {
           panel.classList.toggle("active", panel.dataset.subtabPanel === target);
         });
+      const subPane = root.querySelector(`[data-subtab-panel="${target}"]`);
+      requestAnimationFrame(() => staggerCards(subPane));
       setTimeout(resizePlots, 40);
     });
   });
@@ -174,10 +182,10 @@ function renderHome() {
   const betaHdd = climate.beta_hdd_mediana;
   const wape = bestDaily?.WAPE;
 
-  setText("#hero-users", formatInt(users));
-  setText("#hero-clusters", formatInt(clusterCount));
-  setText("#hero-beta-hdd", formatFixed(betaHdd, 3));
-  setText("#hero-wape", formatPercent(wape, 2));
+  animateValue("#hero-users", users, formatInt, 1100);
+  animateValue("#hero-clusters", clusterCount, formatInt, 900);
+  animateValue("#hero-beta-hdd", betaHdd, (v) => formatFixed(v, 3), 1000);
+  animateValue("#hero-wape", wape, (v) => formatPercent(v, 2), 1100);
 
   plotDailyForecast("#home-forecast-plot", state.forecastDaily, {
     models: ["xgb", "ensemble"],
@@ -221,10 +229,10 @@ function renderHome() {
 
 function renderEda() {
   const summary = state.summary[0] || {};
-  setText("#eda-kpi-records", formatCompact(summary.dias_usuario_completos));
-  setText("#eda-kpi-users", formatInt(summary.usuarios));
-  setText("#eda-kpi-median", `${formatFixed(summary.mediana_kWh, 1)} kWh`);
-  setText("#eda-kpi-p99", `${formatFixed(summary.p99_kWh, 1)} kWh`);
+  animateValue("#eda-kpi-records", summary.dias_usuario_completos, formatCompact, 1100);
+  animateValue("#eda-kpi-users", summary.usuarios, formatInt, 1000);
+  animateValue("#eda-kpi-median", summary.mediana_kWh, (v) => `${formatFixed(v, 1)} kWh`, 900);
+  animateValue("#eda-kpi-p99", summary.p99_kWh, (v) => `${formatFixed(v, 1)} kWh`, 900);
 
   plot("#eda-monthly-plot", [{
     type: "scatter",
@@ -1152,6 +1160,99 @@ function sum(rows, key) {
 function setText(selector, value) {
   const node = document.querySelector(selector);
   if (node) node.textContent = value ?? "-";
+}
+
+function reducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function animateValue(selector, value, formatter, duration = 900) {
+  const node = document.querySelector(selector);
+  if (!node) return;
+  const target = num(value);
+  if (!Number.isFinite(target)) {
+    node.textContent = "-";
+    return;
+  }
+  if (reducedMotion() || !Number.isFinite(duration) || duration <= 0) {
+    node.textContent = formatter(target);
+    return;
+  }
+  const start = performance.now();
+  const from = 0;
+  function frame(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 4);
+    const current = from + (target - from) * eased;
+    node.textContent = formatter(current);
+    if (t < 1) requestAnimationFrame(frame);
+    else node.textContent = formatter(target);
+  }
+  requestAnimationFrame(frame);
+}
+
+function positionNavIndicator() {
+  const nav = document.querySelector(".app-navbar .navbar-nav");
+  const indicator = nav?.querySelector(".nav-indicator");
+  const active = nav?.querySelector(".nav-link.active");
+  if (!nav || !indicator || !active) return;
+  indicator.style.width = `${active.offsetWidth}px`;
+  indicator.style.transform = `translateX(${active.offsetLeft}px)`;
+  indicator.style.opacity = "1";
+}
+
+function initNavIndicator() {
+  const nav = document.querySelector(".app-navbar .navbar-nav");
+  if (!nav || nav.querySelector(".nav-indicator")) return;
+  const indicator = document.createElement("span");
+  indicator.className = "nav-indicator";
+  indicator.setAttribute("aria-hidden", "true");
+  nav.appendChild(indicator);
+  requestAnimationFrame(() => requestAnimationFrame(positionNavIndicator));
+  window.addEventListener("load", positionNavIndicator);
+  window.addEventListener("resize", debounce(positionNavIndicator, 100));
+}
+
+function staggerCards(container) {
+  if (!container || reducedMotion()) return;
+  const cards = Array.from(container.querySelectorAll(".card")).filter(
+    (el) => el.offsetParent !== null
+  );
+  cards.forEach((card, i) => {
+    if (typeof card.getAnimations === "function") {
+      card.getAnimations().forEach((a) => a.cancel());
+    }
+    card.animate(
+      [
+        { opacity: 0, transform: "translateY(14px)" },
+        { opacity: 1, transform: "none" }
+      ],
+      {
+        duration: 460,
+        delay: Math.min(i, 6) * 65,
+        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+        fill: "backwards"
+      }
+    );
+  });
+}
+
+function initChartEntrance() {
+  if (reducedMotion()) return;
+  const hosts = document.querySelectorAll(".plotly-host");
+  if (!hosts.length || typeof MutationObserver === "undefined") return;
+  const observer = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      const host = m.target;
+      if (
+        host.classList?.contains("js-plotly-plot") &&
+        !host.classList.contains("chart-ready")
+      ) {
+        host.classList.add("chart-ready");
+      }
+    }
+  });
+  hosts.forEach((h) => observer.observe(h, { attributes: true, attributeFilter: ["class"] }));
 }
 
 function empty(host, message = "Sin datos disponibles") {
