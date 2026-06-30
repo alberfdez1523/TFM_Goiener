@@ -505,6 +505,7 @@ function renderForecastHourly() {
     ["MAPE", "MAPE", (v) => formatFixed(v, 3)],
     ["sMAPE", "sMAPE", (v) => formatFixed(v, 3)],
     ["WAPE", "WAPE", (v) => formatFixed(v, 3)],
+    ["€ desvío", "EUR_dev", formatEuro],
     ["MASE", "MASE", (v) => formatFixed(v, 3)]
   ]);
 
@@ -567,6 +568,7 @@ function renderForecastMaster() {
     ["MAE", "MAE", (v) => formatFixed(v, 3)],
     ["RMSE", "RMSE", (v) => formatFixed(v, 3)],
     ["WAPE", "WAPE", (v) => formatFixed(v, 3)],
+    ["€ desvío", "EUR_dev", formatEuro],
     ["MASE", "MASE", (v) => formatFixed(v, 3)]
   ]);
 
@@ -1358,6 +1360,11 @@ function formatFixed(value, digits = 1) {
 function formatPercent(value, digits = 2) {
   const parsed = num(value);
   return Number.isFinite(parsed) ? `${formatFixed(parsed, digits)}%` : "-";
+}
+
+function formatEuro(value) {
+  const parsed = num(value);
+  return Number.isFinite(parsed) ? `${formatInt(parsed)} €` : "-";
 }
 
 function formatFixedEs(value, digits = 1) {
