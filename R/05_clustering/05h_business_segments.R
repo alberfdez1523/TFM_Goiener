@@ -81,9 +81,9 @@ classify <- function(row) {
   if (label %in% c("noise", "anomalias")) {
     return(segment(
       "anomalias_operativas",
-      "Consumos fuera de patron",
-      "Revision individual de contrato, equipo de medida y eventos excepcionales antes de incluir en campanas masivas.",
-      "Cluster marcado como ruido/anomalia por el modelo.",
+      "Consumos fuera de patrón",
+      "Revisión individual de contrato, equipo de medida y eventos excepcionales antes de incluir en campañas masivas.",
+      "Cluster marcado como ruido/anomalía por el modelo.",
       "Muy alta"
     ))
   }
@@ -91,9 +91,9 @@ classify <- function(row) {
   if (label == "no_habitual" || (!is.na(median_kwh) && median_kwh < 1.2 && low_day_rate >= 0.55)) {
     return(segment(
       "vivienda_no_habitual",
-      "Segunda residencia, baja ocupacion o contrato casi inactivo",
-      "Tarifa y potencia minima ajustada; alerta de reactivacion subita y revision de contratos con riesgo social alto.",
-      sprintf("Mediana %.2f kWh/d, dias bajos %s, dias cero %s, riesgo alto %.1f%%.",
+      "Segunda residencia, baja ocupación o contrato casi inactivo",
+      "Tarifa y potencia mínima ajustada; alerta de reactivación súbita y revisión de contratos con riesgo social alto.",
+      sprintf("Mediana %.2f kWh/d, días bajos %s, días cero %s, riesgo alto %.1f%%.",
               median_kwh, pct(low_day_rate), pct(zero_day_rate), pct_high),
       "Alta"
     ))
@@ -103,7 +103,7 @@ classify <- function(row) {
     return(segment(
       "consumo_nocturno_intensivo",
       "Hogares de alto consumo desplazado a valle/noche",
-      "Oferta indexada valle y auditoria de cargas nocturnas: acumuladores, termo, VE o calefaccion; ajustar potencia nocturna y seguimiento de coste.",
+      "Oferta indexada valle y auditoría de cargas nocturnas: acumuladores, termo, VE o calefacción; ajustar potencia nocturna y seguimiento de coste.",
       sprintf("Mediana %.1f kWh/d, valle %s, noche %s, beta_HDD %.2f.",
               median_kwh, pct(valley_share), pct(night_share), beta_hdd),
       "Alta"
@@ -113,8 +113,8 @@ classify <- function(row) {
   if (beta_hdd >= 1.0 && r2_joint >= 0.20 && seasonal_amp >= 0.75) {
     return(segment(
       "climatizacion_invernal",
-      "Residencial con demanda fuertemente explicada por frio",
-      "Campanas preventivas de invierno: asesoramiento de calefaccion electrica, aislamiento, autoconsumo/almacenamiento y forecast sensible a HDD.",
+      "Residencial con demanda fuertemente explicada por frío",
+      "Campañas preventivas de invierno: asesoramiento de calefacción eléctrica, aislamiento, autoconsumo/almacenamiento y forecast sensible a HDD.",
       sprintf("beta_HDD %.2f, R2 clima %.2f, amplitud estacional %.2f, mediana %.1f kWh/d.",
               beta_hdd, r2_joint, seasonal_amp, median_kwh),
       "Alta"
@@ -124,8 +124,8 @@ classify <- function(row) {
   if (peak_share >= 0.42 && valley_share <= 0.30 && ratio_weekend <= 0.70) {
     return(segment(
       "flexibilidad_punta_laboral",
-      "Consumo concentrado en horas punta y dias laborables",
-      "Programa de respuesta a la demanda: desplazar cargas de mediodia/tarde, optimizar potencia contratada y priorizar comunidad energetica/autoconsumo.",
+      "Consumo concentrado en horas punta y días laborables",
+      "Programa de respuesta a la demanda: desplazar cargas de mediodía/tarde, optimizar potencia contratada y priorizar comunidad energética/autoconsumo.",
       sprintf("Punta %s, valle %s, tarde %s, fin_semana/laborable %.2f, P1 mediana %.1f kW.",
               pct(peak_share), pct(valley_share), pct(afternoon_share), ratio_weekend, median_p1),
       "Alta"
@@ -135,9 +135,9 @@ classify <- function(row) {
   if (seasonal_amp >= 0.85 && low_day_rate >= 0.25 && !is.na(median_kwh) && median_kwh < 4) {
     return(segment(
       "uso_estacional_bajo",
-      "Baja ocupacion con estacionalidad acusada",
-      "Segmento de segunda residencia activa: potencia/tarifa ajustada, avisos de consumo fuera de temporada y comunicacion de autoconsumo compartido si es zona costera.",
-      sprintf("Mediana %.1f kWh/d, amplitud %.2f, dias bajos %s, dias cero %s.",
+      "Baja ocupación con estacionalidad acusada",
+      "Segmento de segunda residencia activa: potencia/tarifa ajustada, avisos de consumo fuera de temporada y comunicación de autoconsumo compartido si es zona costera.",
+      sprintf("Mediana %.1f kWh/d, amplitud %.2f, días bajos %s, días cero %s.",
               median_kwh, seasonal_amp, pct(low_day_rate), pct(zero_day_rate)),
       "Media"
     ))
@@ -147,7 +147,7 @@ classify <- function(row) {
     return(segment(
       "residencial_eficiencia_social",
       "Cartera residencial estable de bajo consumo con riesgo social moderado",
-      "Acompanamiento de eficiencia y factura: deteccion de hogares vulnerables, recomendaciones de habitos y oferta 2.0TD sin sobredimensionar potencia.",
+      "Acompañamiento de eficiencia y factura: detección de hogares vulnerables, recomendaciones de hábitos y oferta 2.0TD sin sobredimensionar potencia.",
       sprintf("Mediana %.1f kWh/d, riesgo alto %.1f%%, valle %s, beta_HDD %.2f.",
               median_kwh, pct_high, pct(valley_share), beta_hdd),
       "Media"
@@ -158,7 +158,7 @@ classify <- function(row) {
     return(segment(
       "cartera_residencial_base",
       "Perfil residencial masivo, estable y predecible",
-      "Base para forecasting operativo y campanas generales: tarifa 2.0TD estandar, comunicacion de autoconsumo y control de desviaciones agregadas.",
+      "Base para forecasting operativo y campañas generales: tarifa 2.0TD estándar, comunicación de autoconsumo y control de desviaciones agregadas.",
       sprintf("Representa %.1f%% de la cartera, mediana %.1f kWh/d, noche %s, amplitud %.2f.",
               num(row, "pct", 0), median_kwh, pct(night_share), seasonal_amp),
       "Media"
@@ -167,8 +167,8 @@ classify <- function(row) {
 
   segment(
     "cartera_residencial_mixta",
-    "Perfil mixto sin senal dominante unica",
-    "Forecasting OMIE y oferta estandar 2.0TD; revisar subsegmentos por potencia y sensibilidad climatica antes de campanas especificas.",
+    "Perfil mixto sin señal dominante única",
+    "Forecasting OMIE y oferta estándar 2.0TD; revisar subsegmentos por potencia y sensibilidad climática antes de campañas específicas.",
     sprintf("Media %.1f kWh/d, mediana %.1f kWh/d, pico %s, valle %s, beta_HDD %.2f, beta_CDD %.2f.",
             mean_kwh, median_kwh, pct(peak_share), pct(valley_share), beta_hdd, beta_cdd),
     "Media"
@@ -196,20 +196,20 @@ ref_cycle <- rep(references$referencia, length.out = 6)
 catalog <- data.frame(
   question_id = sprintf("Q%02d", seq_len(6)),
   business_question = c(
-    "Que segmentos sostienen la demanda base?",
-    "Que segmentos concentran riesgo de punta?",
-    "Que segmentos son sensibles al frio?",
-    "Que segmentos muestran baja ocupacion?",
-    "Que segmentos requieren lectura social cautelosa?",
-    "Que segmentos deben entrar en forecasting operativo?"
+    "Qué segmentos sostienen la demanda base?",
+    "Qué segmentos concentran riesgo de punta?",
+    "Qué segmentos son sensibles al frío?",
+    "Qué segmentos muestran baja ocupación?",
+    "Qué segmentos requieren lectura social cautelosa?",
+    "Qué segmentos deben entrar en forecasting operativo?"
   ),
   reference_theme = c("demanda", "punta", "clima", "ocupacion", "privacidad", "forecasting"),
   reference_rows = ref_cycle,
-  reference_basis = "Matriz de referencia metodologica del proyecto.",
+  reference_basis = "Matriz de referencia metodológica del proyecto.",
   repo_evidence = "outputs/tables/cluster_profiles.csv; outputs/tables/cluster_business_mapping.csv",
-  conclusion_rule = "Combinar perfil horario, sensibilidad climatica, tamano y cautela de privacidad.",
+  conclusion_rule = "Combinar perfil horario, sensibilidad climática, tamaño y cautela de privacidad.",
   decision_scope = "Cartera y cluster; no usuario individual.",
-  caveat = "Evidencia agregada, no diagnostico personal.",
+  caveat = "Evidencia agregada, no diagnóstico personal.",
   stringsAsFactors = FALSE
 )
 

@@ -1143,7 +1143,14 @@ function clusterProfile(clusterLabel) {
 }
 
 function humanizeUnderscoreLabel(value) {
-  const text = String(value || "").replace(/_/g, " ").trim();
+  const replacements = {
+    climatizacion: "climatización",
+    ocupacion: "ocupación"
+  };
+  const text = String(value || "")
+    .replace(/_/g, " ")
+    .replace(/\b(climatizacion|ocupacion)\b/g, (match) => replacements[match] || match)
+    .trim();
   return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
 }
 

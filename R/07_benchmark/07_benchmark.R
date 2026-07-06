@@ -185,8 +185,8 @@ message(sprintf("  CPU: %s | RAM fisica: %s GB | cores logicos: %s",
 
 N_ITER <- 5  # Repeticiones por experimento
 cache_context <- paste(
-  "No se vacia la cache del sistema operativo entre iteraciones.",
-  "first_iter_s aproxima la primera ejecucion de la sesion y warm_mediana_s resume iteraciones 2-5.",
+  "No se vacía la caché del sistema operativo entre iteraciones.",
+  "first_iter_s aproxima la primera ejecución de la sesión y warm_mediana_s resume iteraciones 2-5.",
   sprintf("DuckDB object cache configurada: %s.", DUCKDB_ENABLE_OBJECT_CACHE)
 )
 message(sprintf("  Contexto cache: %s", cache_context))
@@ -556,8 +556,8 @@ benchmark_environment <- tibble::tibble(
     as.character(get_process_peak_working_set_mb()),
     "mem_alloc_mb es memoria asignada estimada por bench; process_peak_working_set_mb es el pico del proceso R completo en Windows.",
     "Suficiente para entorno local reproducible en este TFM; no es una comparativa universal contra Spark.",
-    "Si el dataset creciera 100x o se exigiera computo distribuido multiusuario, Spark podria volver a tener sentido.",
-    "Anexo fuerte de arquitectura; no es el centro metodologico del TFM."
+    "Si el dataset creciera 100x o se exigiera cómputo distribuido multiusuario, Spark podría volver a tener sentido.",
+    "Anexo fuerte de arquitectura; no es el centro metodológico del TFM."
   )
 )
 
