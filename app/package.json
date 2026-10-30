@@ -10,7 +10,7 @@
     "sync:data": "node ./scripts/sync-data.mjs"
   },
   "dependencies": {
-    "astro": "^7.2.8",
+    "astro": "^7.3.3",
     "vite": "^8.1.0"
   }
 }
